@@ -51,7 +51,7 @@ description: Recruiting and staffing for students starting out and professionals
         <div class="mt-10 flex items-center gap-4 border-t-2 border-ink pt-6">
           <div class="flex -space-x-3">
             {% for face in ["priya", "sofia", "james", "aisha"] %}
-            <img src="{{ '/assets/images/home/person-{{ face }}.jpg' | url }}" alt="" width="44" height="44" loading="eager"
+            <img src="{{ ('/assets/images/home/person-' + face + '.jpg') | url }}" alt="" width="44" height="44" loading="eager"
                  class="h-11 w-11 border-2 border-ink object-cover">
             {% endfor %}
           </div>
