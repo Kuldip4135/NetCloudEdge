@@ -34,7 +34,18 @@
       "Bash(xargs -0 perl -pi -e 's/\\(href|src\\)=\"\\(\\\\/[^\"]*\\)\"/$1=\"{{ '\"'\"'$2'\"'\"' | url }}\"/g')",
       "Bash(xargs -0 perl -pi -e ' *)",
       "Bash(rm -rf dist)",
-      "Bash(PATH_PREFIX=/yash-thakor-website/ npm run build)"
+      "Bash(PATH_PREFIX=/yash-thakor-website/ npm run build)",
+      "Bash(nohup npx eleventy --serve --port=8080)",
+      "Bash(timeout 30 bash -c 'until curl -sf http://localhost:8080 >/dev/null; do sleep 1; done')",
+      "Bash(curl -sf http://localhost:8080)",
+      "Bash(break)",
+      "Bash(which chromium-cli *)",
+      "Read(//usr/local/bin/**)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(node -e \"console.log\\(require.resolve\\('playwright'\\)\\)\")",
+      "Bash(npm ls *)",
+      "Bash(npx playwright *)",
+      "Bash(node -e ' *)"
     ]
   }
 }

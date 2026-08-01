@@ -7,16 +7,20 @@
   tailwind.config.js so opacity modifiers like bg-brand/10 keep working unchanged).
   A [data-theme] on <html> swaps the palette AND restyles shared components (buttons, cards,
   header) further down, so a variant page changes design language without duplicating partials.
-  Default (no attribute) = the original warm teal palette used by About / Services / Contact.
+
+  Default (no attribute) — "The Console": a live operations dashboard rendered in glass.
+  Cool white paper, cobalt for authority/actions, a cyan signal color for anything "live"
+  or confirmed — frosted, translucent tiles over soft blue light instead of flat corporate
+  navy. Used by Home / About / Services / Contact.
 */
 :root {
-  --color-ink: 26 43 46;
-  --color-paper: 250 248 244;
-  --color-brand: 31 111 92;
-  --color-brand-dark: 23 86 70;
-  --color-accent: 232 132 58;
-  --color-surface: 241 238 230;
-  --color-border: 216 210 196;
+  --color-ink: 16 28 46;
+  --color-paper: 245 248 252;
+  --color-brand: 29 95 214;
+  --color-brand-dark: 20 64 158;
+  --color-accent: 23 182 212;
+  --color-surface: 234 241 251;
+  --color-border: 211 225 245;
 }
 
 /* A — Editorial: warm print-shop palette. Toasted cream stock, soft brown-black ink,
@@ -31,17 +35,18 @@
   --color-border: 215 203 187;
 }
 
-/* B — Human: photography-led. Indigo & peach — cool indigo base carries text and trust,
-   warm peach stays a highlight (orbs, stars, on-dark chips). Peach is deliberately light,
-   so it is NOT used for small text on light backgrounds — see the contrast note below. */
+/* B — Human: "The Callback" — a recruiter who picks up the phone. Wine carries trust and
+   text, warm amber is the "connected" glow (call chips, waveform accents, on-dark highlights).
+   Amber is deliberately light, so it is NOT used for small text on light backgrounds — see
+   the contrast note below. */
 :root[data-theme="human"] {
-  --color-ink: 27 29 46;
-  --color-paper: 253 251 248;
-  --color-brand: 61 69 116;
-  --color-brand-dark: 45 51 88;
-  --color-accent: 232 155 114;
-  --color-surface: 239 239 247;
-  --color-border: 220 220 232;
+  --color-ink: 34 24 30;
+  --color-paper: 253 250 246;
+  --color-brand: 140 59 87;
+  --color-brand-dark: 106 42 65;
+  --color-accent: 227 162 61;
+  --color-surface: 245 237 227;
+  --color-border: 226 214 197;
 }
 
 /* C — Bold: neo-brutalist. Border token IS the ink so thick outlines read as structure. */
@@ -96,7 +101,7 @@
     @apply inline-flex items-center justify-center gap-2 bg-brand text-paper font-medium px-6 py-3.5 rounded-full shadow-glow hover:bg-brand-dark hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 transition-all duration-200;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 bg-paper/60 backdrop-blur text-ink font-medium px-6 py-3.5 rounded-full border border-border hover:border-brand hover:text-brand hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200;
+    @apply inline-flex items-center justify-center gap-2 bg-paper/50 backdrop-blur text-ink font-medium px-6 py-3.5 rounded-full border border-white/60 hover:border-brand hover:text-brand hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200;
   }
   .section-container {
     @apply max-w-content mx-auto px-4 sm:px-6 lg:px-8;
@@ -105,7 +110,8 @@
     @apply font-mono text-xs tracking-widest uppercase text-brand;
   }
 
-  /* Frosted glass surface — the recurring "senior-designer" texture across cards and floating panels. */
+  /* Default "Console" surface — true glassmorphism: frosted, translucent, floating over
+     the soft gradient blobs behind it. Every other theme fully overrides this below. */
   .glass-panel {
     @apply bg-paper/60 backdrop-blur-xl border border-white/60 shadow-glass;
   }
@@ -139,6 +145,17 @@
       stroke-dashoffset: 0;
       transition: none;
     }
+  }
+
+  /* Default "Manifest" signature — a live status board. status-chip marks a candidate's
+     stage (Applied/Interviewing/Placed); manifest-row is one ledger line inside it. Used
+     only by the homepage hero + "why us" board, so it stays unlisted from the theme blocks
+     below rather than gated behind [data-theme]. */
+  .status-chip {
+    @apply inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 font-mono text-[11px] font-semibold tracking-wide;
+  }
+  .manifest-row {
+    @apply grid grid-cols-12 items-center gap-3 border-b border-ink/10 py-3.5 last:border-b-0;
   }
 
   /* ---- Variant overrides: restyle the SHARED components per design language ---- */
@@ -200,6 +217,17 @@
   }
   .blob-b {
     border-radius: 44% 56% 62% 38% / 54% 43% 57% 46%;
+  }
+  /* "The Callback" signature — a call-log chip (Connected · 0:42) and its waveform,
+     the through-line for the human variant's "we actually pick up" promise. */
+  .call-chip {
+    @apply inline-flex items-center gap-2 rounded-full bg-brand/10 px-3 py-1.5 font-mono text-xs font-semibold text-brand;
+  }
+  .waveform {
+    @apply flex h-4 items-end gap-0.5;
+  }
+  .waveform span {
+    @apply w-0.5 rounded-full bg-accent;
   }
 
   /* C — Bold: hard edges, thick ink borders, offset shadows, zero blur. */

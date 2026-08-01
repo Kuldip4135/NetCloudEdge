@@ -7,278 +7,223 @@ description: Recruiting and staffing for students starting out and professionals
 ---
 {% from "partials/icons.njk" import icon %}
 
-{# ---------- 1. Hero: warm split — copy left, blob-masked photo right with floating proof ---------- #}
-<section class="relative overflow-hidden">
+{# ================================================================
+   THE CALLBACK — the whole homepage staged as one phone call: it
+   opens on the incoming ring, spends its middle as a sticky call
+   card next to a scrolling transcript of what actually gets said,
+   and closes by handing the phone to the visitor. Replaces the
+   stacked hero → grid → grid → stats → grid template entirely.
+   ================================================================ #}
+
+{# ---------- 1. Opener: the ring, not a hero banner ---------- #}
+<section class="relative flex min-h-[88vh] flex-col items-center justify-center overflow-hidden px-4 py-20 text-center">
   <span class="orb -left-32 -top-32 h-[30rem] w-[30rem] bg-accent/15" aria-hidden="true"></span>
   <span class="orb -right-24 top-1/3 h-96 w-96 bg-brand/12" aria-hidden="true"></span>
 
-  <div class="section-container relative pb-16 pt-14 sm:pb-24 sm:pt-20">
-    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
+  <p class="call-chip">
+    <span class="relative flex h-2 w-2">
+      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70 motion-reduce:animate-none"></span>
+      <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+    </span>
+    Incoming call
+  </p>
 
-      <div class="lg:col-span-6">
-        <p class="inline-flex items-center gap-2.5 rounded-full bg-surface px-4 py-2 text-sm font-semibold text-brand ring-1 ring-border">
-          <span class="flex -space-x-2">
-            {% for face in ["priya", "james", "aisha"] %}
-            <img src="{{ '/assets/images/home/person-{{ face }}.jpg' | url }}" alt="" width="24" height="24" loading="eager"
-                 class="h-6 w-6 rounded-full object-cover ring-2 ring-surface">
-            {% endfor %}
-          </span>
-          Three of the people we placed this month
-        </p>
-
-        <h1 class="mt-7 font-display text-[2.75rem] font-semibold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-[4.25rem]">
-          A recruiter who actually <span class="text-brand">picks up</span> the phone.
-        </h1>
-
-        <p class="mt-6 max-w-lg text-lg leading-relaxed text-ink/70">
-          Whether it's your first role or your fourth, you get one person who reads your résumé, learns what you want, and stays with you through the offer.
-        </p>
-
-        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-          <a href="{{ '/services/job-placement/' | url }}" class="btn-primary">Find a Job {{ icon("arrow-right", "w-4 h-4") }}</a>
-          <a href="{{ '/services/recruitment-staffing/' | url }}" class="btn-outline">Hire Talent</a>
-        </div>
-
-        <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-border pt-7">
-          {# Deliberately different metrics from the stats band further down the page. #}
-          {% for proof in [{ v: "16 days", l: "median time to offer" }, { v: "1:1", l: "one recruiter, start to finish" }, { v: "90 days", l: "we check in after you start" }] %}
-          <div>
-            <p class="font-display text-2xl font-semibold tracking-tight text-ink">{{ proof.v }}</p>
-            <p class="mt-0.5 text-xs text-ink/55">{{ proof.l }}</p>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="lg:col-span-6">
-        <div class="relative mx-auto max-w-lg lg:max-w-none">
-          <div class="blob-a photo-frame aspect-[5/6] overflow-hidden shadow-glass">
-            <img src="{{ '/assets/images/home/hero-team-meeting.jpg' | url }}" alt="A recruiter talking with two candidates"
-                 width="1400" height="933" fetchpriority="high"
-                 class="h-full w-full object-cover">
-          </div>
-
-          {# Floating placement card #}
-          <div class="glass-panel absolute -left-3 top-8 w-56 rounded-2xl p-4 sm:-left-8">
-            <div class="flex items-center gap-2.5">
-              <img src="{{ '/assets/images/home/person-sofia.jpg' | url }}" alt="" width="36" height="36" loading="lazy"
-                   class="h-9 w-9 rounded-full object-cover">
-              <div class="min-w-0">
-                <p class="truncate text-sm font-semibold text-ink">Sofia R.</p>
-                <p class="truncate text-xs text-ink/55">QA Engineer</p>
-              </div>
-            </div>
-            <div class="mt-3 flex items-center gap-1.5 rounded-lg bg-brand/10 px-2.5 py-1.5 text-xs font-semibold text-brand">
-              {{ icon("check-badge", "w-3.5 h-3.5") }} Placed at Samsung
-            </div>
-          </div>
-
-          {# Floating quote card #}
-          <div class="glass-panel absolute -bottom-6 -right-2 w-60 rounded-2xl p-4 sm:-right-6">
-            <div class="flex items-center gap-1 text-accent">
-              {{ icon("star", "w-3.5 h-3.5") }}{{ icon("star", "w-3.5 h-3.5") }}{{ icon("star", "w-3.5 h-3.5") }}{{ icon("star", "w-3.5 h-3.5") }}{{ icon("star", "w-3.5 h-3.5") }}
-            </div>
-            <p class="mt-2 text-xs leading-relaxed text-ink/75">&ldquo;They called me back the same afternoon. Nobody else did.&rdquo;</p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="relative mt-8 h-32 w-32 sm:h-40 sm:w-40">
+    <span class="absolute inset-0 rounded-full bg-brand/20 motion-reduce:hidden" style="animation: ping 2.2s cubic-bezier(0,0,0.2,1) infinite;" aria-hidden="true"></span>
+    <span class="relative flex h-full w-full items-center justify-center rounded-full bg-brand text-paper shadow-glass">
+      {{ icon("phone", "w-12 h-12 sm:w-14 sm:h-14") }}
+    </span>
   </div>
+
+  <p class="mt-7 font-mono text-xs uppercase tracking-widest text-ink/45">{{ site.shortName }} Recruiting</p>
+  <h1 class="mt-2 max-w-2xl font-display text-4xl font-semibold leading-tight tracking-tight text-ink sm:text-6xl">
+    Somebody's calling about <span class="text-brand">your next role</span>.
+  </h1>
+  <p class="mt-5 max-w-md text-lg leading-relaxed text-ink/65">
+    Or your next hire. Either way, a person picks up — not a portal, not an autoresponder.
+  </p>
+
+  <p class="mt-8 font-mono text-3xl font-semibold tracking-tight text-ink" data-call-timer>00:00</p>
+
+  <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+    <a href="{{ '/services/job-placement/' | url }}" class="btn-primary">{{ icon("arrow-right", "w-4 h-4") }} Answer as a job seeker</a>
+    <a href="{{ '/services/recruitment-staffing/' | url }}" class="btn-outline">{{ icon("arrow-right", "w-4 h-4") }} Answer as an employer</a>
+  </div>
+
+  <p class="mt-12 font-mono text-xs uppercase tracking-widest text-ink/35">Stay on the line ↓</p>
 </section>
 
-{# ---------- 2. Employer wall ---------- #}
-{% set placedAtLayout = "marquee" %}
-{% set placedAtTitle = "Candidates placed in" %}
-{% set placedAtLead = "People we placed work here now." %}
-{% include "partials/placed-at.njk" %}
-
-{# ---------- 3. Why us — the differentiator block this variant was missing.
-     (Replaced a faces wall that duplicated the placement-feed cards below.) ---------- #}
+{# ---------- 2. The call: a sticky call card beside a scrolling transcript ---------- #}
 <section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      <div class="relative order-2 lg:order-1">
-        <div class="blob-a photo-frame aspect-[4/5] overflow-hidden shadow-glass">
-          <img src="{{ '/assets/images/home/workspace-open-office.jpg' | url }}" alt="Recruiters working in an open office"
-               width="1400" height="1750" loading="lazy" class="h-full w-full object-cover">
-        </div>
-        <div class="glass-panel absolute -bottom-6 -left-2 rounded-2xl px-5 py-4 sm:-left-6">
-          <p class="text-xs text-ink/55">Résumés read by a person</p>
-          <p class="mt-1 font-display text-2xl font-semibold tracking-tight text-brand">100%</p>
-        </div>
-      </div>
+  <div class="section-container lg:grid lg:grid-cols-12 lg:items-start lg:gap-12">
 
-      <div class="order-1 lg:order-2">
-        <p class="eyebrow">Why people choose us</p>
-        <h2 class="mt-2 font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">
-          A job board can't do any of this.
-        </h2>
-        <p class="mt-5 leading-relaxed text-ink/70">
-          You're not entering a database. You get one recruiter who owns your search from the first call to the ninety-day check-in.
-        </p>
+    {# Sticky call card — proof, live, always in frame while the transcript scrolls. #}
+    <div class="lg:sticky lg:top-24 lg:col-span-4">
+      <div class="soft-card p-6">
+        <div class="flex items-center gap-3">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-paper">
+            {{ icon("phone", "w-5 h-5") }}
+          </span>
+          <div class="min-w-0 flex-1">
+            <p class="truncate font-display font-semibold text-ink">On the line</p>
+            <p class="truncate text-xs text-ink/55">Your recruiter, live</p>
+          </div>
+          <span class="call-chip shrink-0"><span data-call-timer>00:00</span></span>
+        </div>
 
-        <dl class="mt-9 space-y-7">
-          {% set humanWhy = [
-            { icon: "target", t: "Matched by a person, not a filter", d: "Every résumé is read. No keyword screen has ever understood a career change." },
-            { icon: "shield", t: "Employers we've actually vetted", d: "We've placed people at each partner before. You're not a test case for a company we just met." },
-            { icon: "bolt", t: "Honest about the odds", d: "If we don't think you'll get the role, we say so on the first call rather than after four rounds." },
-            { icon: "support", t: "We stay after the offer", d: "Negotiation help, a first-week check-in, and another at ninety days. Most of our work comes back to us." }
-          ] %}
-          {% for why in humanWhy %}
-          <div class="flex gap-4">
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-brand/10 text-brand">
-              {{ icon(why.icon, "w-5 h-5") }}
-            </span>
-            <div>
-              <dt class="font-display text-lg font-semibold tracking-tight text-ink">{{ why.t }}</dt>
-              <dd class="mt-1.5 text-sm leading-relaxed text-ink/65">{{ why.d }}</dd>
-            </div>
+        <div class="waveform mt-6 h-9 justify-center gap-1" aria-hidden="true">
+          <span class="h-3 animate-pulse" style="animation-delay:0ms"></span>
+          <span class="h-6 animate-pulse" style="animation-delay:100ms"></span>
+          <span class="h-4 animate-pulse" style="animation-delay:200ms"></span>
+          <span class="h-9 animate-pulse" style="animation-delay:60ms"></span>
+          <span class="h-5 animate-pulse" style="animation-delay:260ms"></span>
+          <span class="h-7 animate-pulse" style="animation-delay:160ms"></span>
+          <span class="h-3 animate-pulse" style="animation-delay:320ms"></span>
+        </div>
+
+        <dl class="mt-6 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-border pt-5">
+          {% for stat in stats.list %}
+          <div>
+            <dt class="text-xs text-ink/50">{{ stat.label }}</dt>
+            <dd class="font-display text-xl font-semibold tracking-tight text-brand" data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
           </div>
           {% endfor %}
         </dl>
       </div>
     </div>
+
+    {# Transcript — everything the call actually covers. #}
+    <div class="mt-14 space-y-16 lg:col-span-8 lg:mt-0">
+
+      {# Why us #}
+      <div>
+        <p class="eyebrow">Why people choose us</p>
+        <h2 class="mt-2 font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">A job board can't call you back.</h2>
+        <p class="mt-4 leading-relaxed text-ink/65">You're not entering a database. You get one recruiter who owns your search from the first call to the ninety-day check-in.</p>
+        <div class="mt-6 space-y-3">
+          {% set humanWhy = [
+            { icon: "target", t: "Matched by a person, not a filter", d: "Every résumé is read. No keyword screen has ever understood a career change.", time: "0:04" },
+            { icon: "shield", t: "Employers we've actually vetted", d: "We've placed people at each partner before. You're not a test case.", time: "0:11" },
+            { icon: "bolt", t: "Honest about the odds", d: "If we don't think you'll get the role, we say so on the first call.", time: "0:19" },
+            { icon: "support", t: "We stay after the offer", d: "Negotiation help, a first-week check-in, and another at ninety days.", time: "0:27" }
+          ] %}
+          {% for why in humanWhy %}
+          <div class="soft-card flex gap-4 p-5">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand/10 text-brand">{{ icon(why.icon, "w-4 h-4") }}</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-baseline justify-between gap-3">
+                <p class="font-display font-semibold tracking-tight text-ink">{{ why.t }}</p>
+                <span class="shrink-0 font-mono text-[11px] text-ink/35">{{ why.time }}</span>
+              </div>
+              <p class="mt-1 text-sm leading-relaxed text-ink/65">{{ why.d }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# Who's on the call #}
+      <div>
+        <p class="eyebrow">Who's on this call</p>
+        <h2 class="mt-2 font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">Two conversations, same recruiter.</h2>
+        <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div class="soft-card p-6">
+            <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand text-paper">{{ icon("users", "w-5 h-5") }}</span>
+            <h3 class="mt-4 font-display text-lg font-semibold tracking-tight text-ink">Job seekers</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/65">You've sent the applications. Send one conversation instead — we'll take it from there.</p>
+            <a href="{{ '/services/job-placement/' | url }}" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">Explore job placement {{ icon("arrow-right", "w-4 h-4") }}</a>
+          </div>
+          <div class="soft-card p-6">
+            <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent text-ink">{{ icon("briefcase", "w-5 h-5") }}</span>
+            <h3 class="mt-4 font-display text-lg font-semibold tracking-tight text-ink">Employers</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/65">Fewer résumés, better ones. We read the brief and send the three people who fit it.</p>
+            <a href="{{ '/services/recruitment-staffing/' | url }}" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">Explore hiring services {{ icon("arrow-right", "w-4 h-4") }}</a>
+          </div>
+        </div>
+      </div>
+
+      {# What we help with — a topic list, not a card grid #}
+      <div>
+        <p class="eyebrow">What we help with</p>
+        <h2 class="mt-2 font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">Five services, one pipeline.</h2>
+        <div class="mt-6 divide-y divide-border overflow-hidden rounded-2xl border border-border">
+          {% for service in services.list %}
+          <a href="{{ service.url | url }}" class="group flex items-center gap-4 bg-paper p-5 transition-colors hover:bg-surface sm:p-6">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-paper">
+              {{ icon(service.icon, "w-5 h-5") }}
+            </span>
+            <div class="min-w-0 flex-1">
+              <p class="font-display font-semibold tracking-tight text-ink">{{ service.title }}</p>
+              <p class="mt-0.5 text-sm text-ink/60">{{ service.shortDescription }}</p>
+            </div>
+            <span class="shrink-0 text-ink/30 transition-all group-hover:translate-x-1 group-hover:text-brand">{{ icon("arrow-right", "w-4 h-4") }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# Voicemails — testimonials reframed as messages left after the call #}
+      <div>
+        <p class="eyebrow">What people say after they hang up</p>
+        <h2 class="mt-2 font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">A few voicemails.</h2>
+        <div class="mt-6 space-y-4">
+          {% set featuredVoicemails = testimonials.list | rejectattr("slug", "equalto", "priya") %}
+          {% for testimonial in featuredVoicemails %}
+            {% if loop.index <= 3 %}
+            <div class="soft-card flex flex-col gap-4 p-6 sm:flex-row sm:items-center">
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-paper" aria-hidden="true">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </span>
+              <div class="min-w-0 flex-1">
+                <p class="leading-relaxed text-ink/80">&ldquo;{{ testimonial.quote }}&rdquo;</p>
+                <p class="mt-2 text-sm text-ink/55">{{ testimonial.name }} · {{ testimonial.role }}, {{ testimonial.company }}</p>
+              </div>
+              <span class="waveform h-6 shrink-0 gap-0.5 self-center" aria-hidden="true">
+                <span class="h-2 animate-pulse" style="animation-delay:0ms"></span>
+                <span class="h-4 animate-pulse" style="animation-delay:150ms"></span>
+                <span class="h-3 animate-pulse" style="animation-delay:300ms"></span>
+                <span class="h-5 animate-pulse" style="animation-delay:80ms"></span>
+              </span>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {# How the call goes — process, as an inline sequence #}
+      <div>
+        <p class="eyebrow">How the call goes</p>
+        <h2 class="mt-2 font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">Four steps, no mystery.</h2>
+        <ol class="mt-6 space-y-1">
+          {% set humanSteps = [
+            { label: "Say hello", description: "Ten minutes on the phone. Where you are, where you want to be." },
+            { label: "We match", description: "Roles and employers that fit the brief — not everything on the board." },
+            { label: "You interview", description: "Prep and coaching before every conversation that matters." },
+            { label: "You're placed", description: "Offer support, negotiation help, and a check-in at ninety days." }
+          ] %}
+          {% for step in humanSteps %}
+          <li class="flex items-start gap-4 py-4 {% if not loop.last %}border-b border-border{% endif %}">
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand font-mono text-xs font-semibold text-paper">{{ loop.index }}</span>
+            <div class="min-w-0">
+              <p class="font-display font-semibold tracking-tight text-ink">{{ step.label }}</p>
+              <p class="mt-0.5 text-sm leading-relaxed text-ink/65">{{ step.description }}</p>
+            </div>
+          </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
   </div>
 </section>
 
-{# ---------- 4. Dual path: warm photo cards ---------- #}
+{# ---------- 3. Full-width interlude: who answered before ---------- #}
+{% set placedAtLayout = "marquee" %}
+{% set placedAtTitle = "Candidates placed in" %}
+{% set placedAtLead = "People we placed work here now." %}
+{% include "partials/placed-at.njk" %}
+
+{# ---------- 4. The signature moment: a call worth recording ---------- #}
 <section class="bg-surface py-16 sm:py-24">
-  <div class="section-container">
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-
-      <div class="soft-card flex flex-col">
-        <div class="photo-frame aspect-[16/9]">
-          <img src="{{ '/assets/images/home/team-at-desk.jpg' | url }}" alt="Two colleagues working together at a desk"
-               width="1400" height="787" loading="lazy" class="h-full w-full object-cover">
-        </div>
-        <div class="flex flex-1 flex-col p-7 sm:p-8">
-          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-paper">{{ icon("users", "w-6 h-6") }}</span>
-          <h2 class="mt-5 font-display text-2xl font-semibold tracking-tight text-ink">For job seekers</h2>
-          <p class="mt-3 leading-relaxed text-ink/65">
-            You've sent the applications. Send one conversation instead — we'll take it from there.
-          </p>
-          <ul class="mt-5 space-y-2.5">
-            {% for point in ["A profile built around what you actually want", "Introductions to employers who are hiring now", "Coaching before every interview", "Help closing and negotiating the offer"] %}
-            <li class="flex items-start gap-2.5 text-sm text-ink/70">
-              <span class="mt-0.5 shrink-0 text-brand">{{ icon("check", "w-4 h-4") }}</span> {{ point }}
-            </li>
-            {% endfor %}
-          </ul>
-          <a href="{{ '/services/job-placement/' | url }}" class="mt-auto inline-flex items-center gap-2 pt-7 font-semibold text-brand transition-all hover:gap-3">
-            Explore job placement {{ icon("arrow-right", "w-4 h-4") }}
-          </a>
-        </div>
-      </div>
-
-      <div class="soft-card flex flex-col">
-        <div class="photo-frame aspect-[16/9]">
-          <img src="{{ '/assets/images/home/office-collaboration.jpg' | url }}" alt="A hiring team in conversation"
-               width="1400" height="787" loading="lazy" class="h-full w-full object-cover">
-        </div>
-        <div class="flex flex-1 flex-col p-7 sm:p-8">
-          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-ink">{{ icon("briefcase", "w-6 h-6") }}</span>
-          <h2 class="mt-5 font-display text-2xl font-semibold tracking-tight text-ink">For employers</h2>
-          <p class="mt-3 leading-relaxed text-ink/65">
-            Fewer résumés, better ones. We read the brief and send the three people who fit it.
-          </p>
-          <ul class="mt-5 space-y-2.5">
-            {% for point in ["A brief taken by the person who'll own it", "Shortlists, never résumé dumps", "Background checks handled in-house", "Median time-to-fill under four weeks"] %}
-            <li class="flex items-start gap-2.5 text-sm text-ink/70">
-              <span class="mt-0.5 shrink-0 text-brand">{{ icon("check", "w-4 h-4") }}</span> {{ point }}
-            </li>
-            {% endfor %}
-          </ul>
-          <a href="{{ '/services/recruitment-staffing/' | url }}" class="mt-auto inline-flex items-center gap-2 pt-7 font-semibold text-brand transition-all hover:gap-3">
-            Explore hiring services {{ icon("arrow-right", "w-4 h-4") }}
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ---------- 5. Services ---------- #}
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="max-w-2xl">
-      <p class="eyebrow">What we do</p>
-      <h2 class="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Five services, one pipeline</h2>
-      <p class="mt-4 leading-relaxed text-ink/65">
-        Source, vet, place, verify, upskill — the same team handles all five, so nothing gets dropped between them.
-      </p>
-    </div>
-
-    <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {% for service in services.list %}
-      <a href="{{ service.url | url }}" class="soft-card group flex flex-col p-7">
-        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-paper">
-          {{ icon(service.icon, "w-6 h-6") }}
-        </span>
-        <h3 class="mt-5 font-display text-xl font-semibold tracking-tight text-ink">{{ service.title }}</h3>
-        <p class="mt-2 flex-1 text-sm leading-relaxed text-ink/65">{{ service.shortDescription }}</p>
-        <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all group-hover:gap-3">
-          Learn more {{ icon("arrow-right", "w-4 h-4") }}
-        </span>
-      </a>
-      {% endfor %}
-
-      <div class="soft-card flex flex-col justify-center bg-brand p-7 ring-brand">
-        <h3 class="font-display text-2xl font-semibold leading-tight tracking-tight text-paper">
-          Not sure which one you need?
-        </h3>
-        <p class="mt-3 text-sm leading-relaxed text-paper/75">
-          Tell us the situation in a sentence. We'll point you at the right one — free, no pitch.
-        </p>
-        <a href="{{ '/contact/' | url }}" class="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition-transform hover:-translate-y-0.5">
-          Book a call {{ icon("arrow-right", "w-4 h-4") }}
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ---------- 5b. Industries ---------- #}
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="max-w-2xl">
-      <p class="eyebrow">Where our people land</p>
-      <h2 class="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-        Six sectors we know properly
-      </h2>
-      <p class="mt-4 leading-relaxed text-ink/65">
-        Share of placements over the last twelve months. We turn down briefs in sectors we don't know — a recruiter who claims all of them knows none of them.
-      </p>
-    </div>
-
-    <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {% for industry in industries.list %}
-      <div class="soft-card p-6">
-        <div class="flex items-start justify-between gap-3">
-          <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/10 text-brand">
-            {{ icon(industry.icon, "w-5 h-5") }}
-          </span>
-          <span class="font-display text-2xl font-semibold tracking-tight text-ink/25">{{ industry.share }}</span>
-        </div>
-        <h3 class="mt-5 font-display text-lg font-semibold tracking-tight text-ink">{{ industry.name }}</h3>
-        <p class="mt-1.5 text-sm text-ink/60">{{ industry.roles }}</p>
-        {# Share bar — visual weight matched to the number above it. #}
-        <div class="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-surface">
-          <div class="h-full rounded-full bg-accent" style="width: {{ industry.share }}"></div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-{# ---------- 6. Live placement feed ---------- #}
-{% set feedLayout = "cards" %}
-<div class="bg-surface">
-  {% include "partials/placement-feed.njk" %}
-</div>
-
-{# ---------- 7. Story / case study ---------- #}
-<section class="py-16 sm:py-24">
   <div class="section-container">
     <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <div class="relative">
@@ -286,6 +231,9 @@ description: Recruiting and staffing for students starting out and professionals
           <img src="{{ '/assets/images/home/interview-conversation.jpg' | url }}" alt="A candidate meeting a hiring manager"
                width="1400" height="1750" loading="lazy" class="h-full w-full object-cover">
         </div>
+        <button type="button" class="glass-panel absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-brand" aria-hidden="true" tabindex="-1">
+          <svg class="h-6 w-6 translate-x-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
         <div class="glass-panel absolute -bottom-5 -right-2 rounded-2xl px-5 py-4 sm:-right-6">
           <p class="font-display text-3xl font-semibold tracking-tight text-brand">16 days</p>
           <p class="mt-0.5 text-xs text-ink/55">résumé to signed offer</p>
@@ -293,9 +241,9 @@ description: Recruiting and staffing for students starting out and professionals
       </div>
 
       <div>
-        <p class="eyebrow">Priya's story</p>
+        <p class="eyebrow">The call worth recording</p>
         <h2 class="mt-3 font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">
-          Forty applications, no replies. Then two weeks.
+          Forty applications, no replies. Then a phone rang.
         </h2>
         <p class="mt-5 leading-relaxed text-ink/70">
           Priya had a strong analytics background and a résumé that buried it on page two. We rebuilt the profile around the work she actually wanted, introduced her to three employers who needed exactly that, and prepped her for every conversation.
@@ -316,158 +264,44 @@ description: Recruiting and staffing for students starting out and professionals
   </div>
 </section>
 
-{# ---------- 7b. Training → placement pipeline ---------- #}
-<section class="bg-surface py-16 sm:py-24">
-  <div class="section-container">
-    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
-      <div class="lg:col-span-6">
-        <p class="eyebrow">No experience yet?</p>
-        <h2 class="mt-2 font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">
-          Most courses hand you a certificate. We hand you the interview.
-        </h2>
-        <p class="mt-5 leading-relaxed text-ink/70">
-          Our IT Training tracks end where every other course stops. Graduates go straight into the same placement pipeline as everyone else on this page — same recruiters, same employers, no separate queue.
-        </p>
-
-        <div class="mt-8 flex flex-wrap gap-2.5">
-          {% for track in ["Web Development", "QA & Testing", "Cloud / DevOps", "Data Foundations"] %}
-          <span class="rounded-full bg-paper px-4 py-2 text-sm font-medium text-ink/75 ring-1 ring-border">{{ track }}</span>
-          {% endfor %}
-        </div>
-
-        <a href="{{ '/services/it-training/' | url }}" class="mt-8 inline-flex items-center gap-2 font-semibold text-brand transition-all hover:gap-3">
-          See the training tracks {{ icon("arrow-right", "w-4 h-4") }}
-        </a>
-      </div>
-
-      <div class="lg:col-span-5 lg:col-start-8">
-        <div class="soft-card p-7">
-          <ol class="space-y-1">
-            {% for stage in ["Enrol", "Learn", "Build a project", "Certify", "Get placed"] %}
-            <li class="flex items-center gap-4 py-2.5 {% if not loop.last %}border-b border-border{% endif %}">
-              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-mono text-xs font-semibold {% if loop.last %}bg-accent text-ink{% else %}bg-brand/10 text-brand{% endif %}">
-                {{ loop.index }}
-              </span>
-              <span class="font-display text-lg font-semibold tracking-tight {% if loop.last %}text-accent{% else %}text-ink{% endif %}">{{ stage }}</span>
-            </li>
-            {% endfor %}
-          </ol>
-
-          <div class="mt-6 rounded-2xl bg-surface p-5">
-            <p class="font-display text-2xl font-semibold tracking-tight text-brand">19 <span class="text-ink/30">/ 24</span></p>
-            <p class="mt-1.5 text-xs leading-relaxed text-ink/60">
-              Last cohort placed within 90 days of certifying.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ---------- 8. Stats band ---------- #}
-<section class="relative overflow-hidden bg-brand py-16 sm:py-20">
-  <span class="orb -left-20 -top-24 h-72 w-72 bg-accent/25 animate-float" aria-hidden="true"></span>
-  <span class="orb -bottom-24 -right-16 h-80 w-80 bg-paper/10 animate-float-delayed" aria-hidden="true"></span>
-  <div class="section-container relative">
-    <div class="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
-      {% for stat in stats.list %}
-      <div>
-        <p class="font-display text-4xl font-semibold tracking-tight text-paper sm:text-5xl"
-           data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</p>
-        <p class="mt-2 text-sm text-paper/70">{{ stat.label }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-{# ---------- 9. Testimonials ---------- #}
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="max-w-2xl">
-      <p class="eyebrow">In their words</p>
-      <h2 class="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Placed, hired, and heard from</h2>
-    </div>
-
-    {# Priya is the story section above; Daniel's "still checks in" point is already made
-       by the "We stay after the offer" differentiator. Excluding both leaves a clean six. #}
-    {% set saidElsewhere = ["priya", "daniel"] %}
-    <div class="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {% for testimonial in testimonials.list %}
-        {% if testimonial.slug not in saidElsewhere %}
-        <figure class="soft-card flex flex-col p-7">
-          <div class="flex items-center gap-1 text-accent">
-            {{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}
-          </div>
-          <blockquote class="mt-4 flex-1 leading-relaxed text-ink/75">&ldquo;{{ testimonial.quote }}&rdquo;</blockquote>
-          <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-5">
-            <img src="{{ testimonial.photo | url }}" alt="" width="44" height="44" loading="lazy"
-                 class="h-11 w-11 rounded-full object-cover">
-            <span>
-              <span class="block text-sm font-semibold text-ink">{{ testimonial.name }}</span>
-              <span class="block text-xs text-ink/55">{{ testimonial.role }} · {{ testimonial.company }}</span>
-            </span>
-          </figcaption>
-        </figure>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-{# ---------- 10. Process ---------- #}
-<section class="bg-surface py-16 sm:py-24">
-  <div class="section-container">
-    <div class="max-w-2xl">
-      <p class="eyebrow">How it works</p>
-      <h2 class="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Four steps, no mystery</h2>
-    </div>
-
-    <ol class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {% set humanSteps = [
-        { label: "Say hello", description: "Ten minutes on the phone. Where you are, where you want to be." },
-        { label: "We match", description: "Roles and employers that fit the brief — not everything on the board." },
-        { label: "You interview", description: "Prep and coaching before every conversation that matters." },
-        { label: "You're placed", description: "Offer support, negotiation help, and a check-in at ninety days." }
-      ] %}
-      {% for step in humanSteps %}
-      <li class="soft-card p-7">
-        <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand font-mono text-sm font-semibold text-paper">
-          {{ "0" if loop.index < 10 }}{{ loop.index }}
-        </span>
-        <h3 class="mt-5 font-display text-xl font-semibold tracking-tight text-ink">{{ step.label }}</h3>
-        <p class="mt-2 text-sm leading-relaxed text-ink/65">{{ step.description }}</p>
-      </li>
-      {% endfor %}
-    </ol>
-  </div>
-</section>
-
-{# ---------- 11. CTA ---------- #}
-<section class="relative overflow-hidden py-20 sm:py-28">
+{# ---------- 5. Closer: hand over the phone (bookends the opener) ---------- #}
+<section class="relative flex flex-col items-center overflow-hidden px-4 py-20 text-center sm:py-28">
   <span class="orb -left-24 top-0 h-96 w-96 bg-accent/15" aria-hidden="true"></span>
   <span class="orb -right-24 bottom-0 h-96 w-96 bg-brand/12" aria-hidden="true"></span>
 
-  <div class="section-container relative text-center">
-    <div class="mx-auto flex w-fit -space-x-3">
-      {% for face in ["priya", "marcus", "sofia", "james", "aisha", "daniel"] %}
-      <img src="{{ '/assets/images/home/person-{{ face }}.jpg' | url }}" alt="" width="48" height="48" loading="lazy"
-           class="h-12 w-12 rounded-full object-cover ring-4 ring-paper">
-      {% endfor %}
-    </div>
+  <p class="call-chip">
+    <span class="relative flex h-2 w-2">
+      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70 motion-reduce:animate-none"></span>
+      <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+    </span>
+    Your turn to call
+  </p>
 
-    <h2 class="mx-auto mt-8 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
-      Ready to find your footing?
-    </h2>
-    <p class="mx-auto mt-5 max-w-lg leading-relaxed text-ink/65">
-      Whether you're job hunting or hiring, the first conversation is free — and it's with a person, not a form.
-    </p>
-    <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-      <a href="{{ '/contact/' | url }}" class="btn-primary">Get Started {{ icon("arrow-right", "w-4 h-4") }}</a>
-      <a href="{{ site.phoneHref }}" class="btn-outline">{{ icon("phone", "w-4 h-4") }} {{ site.phone }}</a>
-    </div>
+  <h2 class="mx-auto mt-6 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
+    Ready to find your footing?
+  </h2>
+  <p class="mx-auto mt-5 max-w-lg leading-relaxed text-ink/65">
+    Whether you're job hunting or hiring, the first conversation is free — and it's with a person, not a form.
+  </p>
+  <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+    <a href="{{ '/contact/' | url }}" class="btn-primary">Get Started {{ icon("arrow-right", "w-4 h-4") }}</a>
+    <a href="{{ site.phoneHref }}" class="btn-outline">{{ icon("phone", "w-4 h-4") }} {{ site.phone }}</a>
   </div>
 </section>
 
 {% include "partials/variant-switcher.njk" %}
+
+<script>
+(function () {
+  var timers = document.querySelectorAll("[data-call-timer]");
+  if (!timers.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var seconds = 0;
+  setInterval(function () {
+    seconds++;
+    var m = Math.floor(seconds / 60);
+    var s = seconds % 60;
+    var text = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    timers.forEach(function (el) { el.textContent = text; });
+  }, 1000);
+})();
+</script>
