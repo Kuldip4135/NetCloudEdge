@@ -1,0 +1,44 @@
+{
+  "list": [
+    {
+      "slug": "job-placement",
+      "url": "/services/job-placement/",
+      "title": "Job Placement",
+      "icon": "briefcase",
+      "shortDescription": "We match you to roles worth taking, then help you close the offer.",
+      "description": "Hands-on support from resume to signed offer — matching, coaching, and negotiation help for candidates who want a job placed, not just applications sent."
+    },
+    {
+      "slug": "recruitment-staffing",
+      "url": "/services/recruitment-staffing/",
+      "title": "Recruitment & Staffing",
+      "icon": "users",
+      "shortDescription": "Sourced, screened, and ready candidates for contract or full-time roles.",
+      "description": "Full-cycle staffing for employers — sourcing, screening, and delivering vetted candidates across contract, temp, and permanent roles."
+    },
+    {
+      "slug": "talent-acquisition",
+      "url": "/services/talent-acquisition/",
+      "title": "Talent Acquisition",
+      "icon": "target",
+      "shortDescription": "Strategic search for specialized and leadership hires.",
+      "description": "A higher-touch search practice for roles where volume hiring won't work — specialized, senior, or hard-to-fill positions."
+    },
+    {
+      "slug": "background-verification",
+      "url": "/services/background-verification/",
+      "title": "Background Verification",
+      "icon": "shield",
+      "shortDescription": "Thorough, compliant checks before an offer becomes a hire.",
+      "description": "Employment history, education, and reference verification handled quickly and correctly, so an offer becomes a hire with confidence."
+    },
+    {
+      "slug": "it-training",
+      "url": "/services/it-training/",
+      "title": "IT Training",
+      "icon": "code",
+      "shortDescription": "Skill-building tracks that feed directly into our placement pipeline.",
+      "description": "Structured programs in web development, QA, cloud, and data — built for graduates who want training that leads somewhere specific: a job."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{# Reusable stat band, fed from _data/stats.json — reused identically on Home and About. #}
+<section class="relative bg-gradient-to-br from-brand via-brand to-brand-dark py-20 sm:py-28 overflow-hidden">
+  <span class="orb w-72 h-72 -top-24 -left-16 bg-accent/30 animate-float" aria-hidden="true"></span>
+  <span class="orb w-80 h-80 -bottom-28 -right-20 bg-paper/10 animate-float-delayed" aria-hidden="true"></span>
+  <svg class="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full h-16 hidden sm:block" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
+    <path data-path-draw d="M20 30 C 200 -10, 300 70, 500 30 S 800 -10, 980 30" fill="none" style="stroke: rgb(var(--color-paper))" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <div class="relative max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
+      {% for stat in stats.list %}
+      <div class="glass-panel-dark rounded-2xl p-6 sm:p-7 text-center">
+        <p class="font-mono font-semibold text-3xl sm:text-4xl lg:text-5xl text-paper" data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</p>
+        <p class="mt-2 text-xs sm:text-sm text-paper/75">{{ stat.label }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

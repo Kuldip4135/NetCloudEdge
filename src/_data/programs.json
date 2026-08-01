@@ -1,0 +1,8 @@
+{
+  "list": [
+    { "title": "Web Development", "duration": "12 weeks", "icon": "code", "description": "Front-end and back-end fundamentals through a portfolio-ready capstone project." },
+    { "title": "QA / Testing", "duration": "8 weeks", "icon": "check", "description": "Manual and automated testing practices used in real release pipelines." },
+    { "title": "Cloud / DevOps", "duration": "10 weeks", "icon": "cloud", "description": "Core cloud infrastructure, CI/CD, and deployment fundamentals on AWS." },
+    { "title": "Data Basics", "duration": "8 weeks", "icon": "chart", "description": "SQL, spreadsheets, and data analysis fundamentals for non-technical starters." }
+  ]
+}

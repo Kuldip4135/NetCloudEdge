@@ -1,0 +1,41 @@
+{
+  "note": "Sectors we recruit into. Keep this honest — only list sectors with real placement history.",
+  "list": [
+    {
+      "name": "Technology & Software",
+      "icon": "code",
+      "roles": "Engineers, QA, DevOps, Data",
+      "share": "38%"
+    },
+    {
+      "name": "Finance & Fintech",
+      "icon": "chart",
+      "roles": "Analysts, Risk, Compliance",
+      "share": "21%"
+    },
+    {
+      "name": "Healthcare & Life Sciences",
+      "icon": "heart",
+      "roles": "Clinical ops, Informatics",
+      "share": "14%"
+    },
+    {
+      "name": "Manufacturing & Logistics",
+      "icon": "bolt",
+      "roles": "Supply chain, Ops, Planning",
+      "share": "12%"
+    },
+    {
+      "name": "Retail & E-commerce",
+      "icon": "target",
+      "roles": "Merchandising, Growth, CX",
+      "share": "9%"
+    },
+    {
+      "name": "Professional Services",
+      "icon": "users",
+      "roles": "Consulting, Accounting, HR",
+      "share": "6%"
+    }
+  ]
+}

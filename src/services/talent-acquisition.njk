@@ -1,0 +1,93 @@
+---
+layout: layouts/page.njk
+title: Talent Acquisition
+description: A higher-touch search practice for roles where volume hiring won't work — specialized, senior, or hard-to-fill positions.
+extraScripts:
+  - /assets/js/faq-accordion.js
+---
+{% from "partials/icons.njk" import icon %}
+
+<section class="bg-surface py-14 sm:py-20">
+  <div class="section-container flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
+    <div class="lg:w-1/2">
+      {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Talent Acquisition" }] %}
+      {% include "partials/breadcrumb.njk" %}
+      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4 leading-tight">Precision Hiring for Roles That Matter</h1>
+      <p class="mt-5 text-lg text-ink/65 leading-relaxed">A strategic search practice for leadership and specialized roles — built on quality of match, not speed of fill.</p>
+      <a href="{{ '/contact/' | url }}" class="btn-primary inline-block mt-7">Start a Search</a>
+    </div>
+    <div class="lg:w-1/2">
+      <div class="aspect-[4/3] rounded-3xl bg-paper flex items-center justify-center">
+        <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-surface text-brand">{{ icon("target", "w-9 h-9") }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24">
+  <div class="section-container">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow">How this differs from staffing</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Not the same as Recruitment & Staffing</h2>
+    </div>
+    <div class="bg-surface rounded-2xl p-8 sm:p-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="flex gap-3">
+        <span class="text-brand shrink-0 mt-0.5">{{ icon("check", "w-5 h-5") }}</span>
+        <p class="text-ink/75 leading-relaxed">Recruitment & Staffing fills from an existing candidate pool, fast.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-brand shrink-0 mt-0.5">{{ icon("check", "w-5 h-5") }}</span>
+        <p class="text-ink/75 leading-relaxed">Talent Acquisition builds a pipeline from scratch for roles that don't have one yet.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-brand shrink-0 mt-0.5">{{ icon("check", "w-5 h-5") }}</span>
+        <p class="text-ink/75 leading-relaxed">Best suited for leadership, specialized, or highly competitive roles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 bg-surface">
+  <div class="section-container">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow">What's included</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">A higher-touch search</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% set included = [
+        { icon: "target", title: "Executive & Specialized Search", text: "Dedicated search for leadership and niche technical roles." },
+        { icon: "users", title: "Talent Pipelining", text: "We build a candidate bench before you need to fill the role again." },
+        { icon: "chart", title: "Market Mapping", text: "A clear view of where the right candidates sit today, and what it takes to reach them." },
+        { icon: "support", title: "Long-Term Partnership Model", text: "A dedicated search partner, not a transactional vendor relationship." }
+      ] %}
+      {% for item in included %}
+      <div class="bg-paper rounded-2xl p-6">
+        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
+        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ item.title }}</h3>
+        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ item.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% set steps = [
+  { label: "Discovery", description: "Understand the role, the team, and what success looks like a year in." },
+  { label: "Market Mapping", description: "Identify where qualified candidates actually are." },
+  { label: "Outreach", description: "Direct, confidential approach to passive candidates." },
+  { label: "Shortlist", description: "A small, vetted slate — not a wide net." },
+  { label: "Placement", description: "Offer support and a 6-month replacement guarantee." }
+] %}
+{% set sectionEyebrow = "The process" %}
+{% set sectionTitle = "A search built around the role" %}
+{% include "partials/process-timeline.njk" %}
+
+{% set faqKey = "talent-acquisition" %}
+{% include "partials/faq-accordion.njk" %}
+
+{% set ctaHeadline = "Have a role that's hard to fill?" %}
+{% set ctaSubtext = "Let's talk about what a dedicated search would look like." %}
+{% set ctaLabel = "Start a Conversation" %}
+{% set ctaHref = "/contact/" %}
+{% set ctaVariant = "brand" %}
+{% include "partials/cta-section.njk" %}

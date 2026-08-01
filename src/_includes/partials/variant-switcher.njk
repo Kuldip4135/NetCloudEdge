@@ -1,0 +1,15 @@
+{# Exploration-only: jump between the candidate home page designs. Delete once one is chosen. #}
+{% set variants = [
+  { url: "/", label: "Current" },
+  { url: "/explore/editorial/", label: "A · Editorial" },
+  { url: "/explore/human/", label: "B · Human" },
+  { url: "/explore/bold/", label: "C · Bold" }
+] %}
+<div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-1 rounded-full border-2 border-ink bg-paper p-1.5 shadow-brut">
+  {% for variant in variants %}
+  <a href="{{ variant.url | url }}"
+     class="rounded-full px-3.5 py-2 text-xs font-body font-semibold whitespace-nowrap transition-colors {% if page.url == variant.url %}bg-ink text-paper{% else %}text-ink/60 hover:text-ink{% endif %}">
+    {{ variant.label }}
+  </a>
+  {% endfor %}
+</div>

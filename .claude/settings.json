@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(chromium-cli --help)",
+      "Bash(node -e \"require.resolve\\('playwright'\\)\")",
+      "Bash(npx --yes playwright --version)",
+      "Bash(npx --yes playwright install chromium --with-deps)",
+      "Bash(npm init *)",
+      "Bash(mkdir -p screenshots)",
+      "Bash(node shots.js)",
+      "Bash(node interact.js)",
+      "Bash(lsof -ti:8080 -sTCP:LISTEN)",
+      "Bash(xargs -r kill)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8080/)",
+      "Bash(python3 -c ' *)",
+      "Bash(sips -g pixelWidth -g pixelHeight screenshots/competitor-full.png)",
+      "Bash(sips -c 1200 1440 competitor-full.png --out competitor-top.png)",
+      "Bash(python3 -c \"import sys; print\\(sys.version\\)\")",
+      "Bash(pip3 list *)",
+      "Bash(node home-shot.js)",
+      "Bash(pkill -f \"eleventy --serve\")",
+      "Bash(rm -f src/assets/js/theme-switcher.js dist/assets/js/theme-switcher.js)",
+      "Bash(awk '{print $5}')",
+      "Read(//private/tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"unsplash:%{http_code}\\\\n\" --max-time 12 \"https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400\")",
+      "Bash(curl -s -o /dev/null -w \"pexels:%{http_code}\\\\n\" --max-time 12 \"https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?w=400\")",
+      "Bash(file *.jpg)",
+      "Bash(curl -s -o /dev/null -w \"  /explore/human/ %{http_code}\\\\n\" http://localhost:8734/explore/human/)",
+      "Bash(echo \"--- exit: $? ---\")",
+      "Bash(python3 /private/tmp/claude-501/-Users-kuldipthakkar-Desktop-Kuldip-Projects-Web-Yash-Thakor-Website/aa561e32-2ebc-4c8f-baf8-8e55513871c8/scratchpad/audit.py)",
+      "Bash(xargs -0 perl -pi -e 's/\\(href|src\\)=\"\\(\\\\/[^\"]*\\)\"/$1=\"{{ '\"'\"'$2'\"'\"' | url }}\"/g')",
+      "Bash(xargs -0 perl -pi -e ' *)",
+      "Bash(rm -rf dist)",
+      "Bash(PATH_PREFIX=/yash-thakor-website/ npm run build)"
+    ]
+  }
+}

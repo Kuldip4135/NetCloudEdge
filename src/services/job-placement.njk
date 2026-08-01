@@ -1,0 +1,94 @@
+---
+layout: layouts/page.njk
+title: Job Placement
+description: Hands-on support from resume to signed offer — matching, coaching, and negotiation help for candidates who want a job placed, not just applications sent.
+extraScripts:
+  - /assets/js/faq-accordion.js
+---
+{% from "partials/icons.njk" import icon %}
+
+<section class="py-14 sm:py-20">
+  <div class="section-container flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
+    <div class="lg:w-1/2">
+      {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Job Placement" }] %}
+      {% include "partials/breadcrumb.njk" %}
+      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4 leading-tight">Get Placed, Not Just Applied</h1>
+      <p class="mt-5 text-lg text-ink/65 leading-relaxed">Full support from resume to signed offer — because a job search shouldn't be something you do alone.</p>
+      <a href="{{ '/contact/' | url }}" class="btn-primary inline-block mt-7">Start Your Job Search</a>
+    </div>
+    <div class="lg:w-1/2">
+      <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center">
+        <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-paper text-brand">{{ icon("briefcase", "w-9 h-9") }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 bg-surface">
+  <div class="section-container">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow">What's included</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Support at every stage</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% set included = [
+        { icon: "target", title: "Resume & Profile Optimization", text: "We rebuild your resume and profile around what actually gets noticed." },
+        { icon: "users", title: "Interview Coaching", text: "Mock interviews and real feedback before it counts." },
+        { icon: "briefcase", title: "Employer Matching", text: "We only put you in front of roles that fit your background and goals." },
+        { icon: "bolt", title: "Offer Negotiation Support", text: "We help you evaluate and negotiate before you sign anything." },
+        { icon: "support", title: "Post-Placement Check-In", text: "We follow up at 30 and 90 days to make sure it's working out." },
+        { icon: "check", title: "Application Tracking", text: "One recruiter, one thread — no chasing status across job boards." }
+      ] %}
+      {% for item in included %}
+      <div class="bg-paper rounded-2xl p-6">
+        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
+        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ item.title }}</h3>
+        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ item.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% set steps = [
+  { label: "Consultation", description: "A conversation about where you are and where you want to go." },
+  { label: "Profile Build", description: "Resume, profile, and positioning built around your target roles." },
+  { label: "Matching", description: "Introductions only to employers that fit — no mass applications." },
+  { label: "Interviews", description: "Coaching before every conversation that matters." },
+  { label: "Offer", description: "Negotiation support and a check-in once you've started." }
+] %}
+{% set sectionEyebrow = "The process" %}
+{% set sectionTitle = "Five steps to an offer" %}
+{% include "partials/process-timeline.njk" %}
+
+<section class="py-16 sm:py-24">
+  <div class="section-container">
+    <div class="max-w-2xl mb-10">
+      <p class="eyebrow">Success story</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Real placement, real timeline</h2>
+    </div>
+    <div class="bg-surface rounded-3xl p-8 sm:p-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <div>
+        <p class="eyebrow">Situation</p>
+        <p class="mt-2 text-ink/70 leading-relaxed">Sofia had six months of unanswered applications for QA roles after a bootcamp.</p>
+      </div>
+      <div>
+        <p class="eyebrow">Approach</p>
+        <p class="mt-2 text-ink/70 leading-relaxed">We rebuilt her profile around testing frameworks employers were actually hiring for, and matched her to two fintech teams.</p>
+      </div>
+      <div>
+        <p class="eyebrow">Result</p>
+        <p class="mt-2 text-ink/70 leading-relaxed">Offer in hand four days after her first interview, at 15% above her target salary.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set faqKey = "job-placement" %}
+{% include "partials/faq-accordion.njk" %}
+
+{% set ctaHeadline = "Start your job search today." %}
+{% set ctaLabel = "Get Started" %}
+{% set ctaHref = "/contact/" %}
+{% set ctaVariant = "brand" %}
+{% include "partials/cta-section.njk" %}

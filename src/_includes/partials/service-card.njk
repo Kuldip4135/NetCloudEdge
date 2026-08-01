@@ -1,0 +1,14 @@
+{% from "partials/icons.njk" import icon %}
+{# Params: service {url, icon, title, shortDescription}, tint (optional) {card, iconBg, iconColor} — defaults to the neutral surface treatment #}
+{% set tint = tint or { card: "bg-surface", iconBg: "bg-paper", iconColor: "text-brand" } %}
+<a href="{{ service.url | url }}" class="group relative block {{ tint.card }} glass-panel rounded-[1.75rem] p-7 card-lift overflow-hidden">
+  <span class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-brand/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true"></span>
+  <span class="relative flex items-center justify-center w-12 h-12 rounded-2xl {{ tint.iconBg }} {{ tint.iconColor }} shadow-glow group-hover:scale-110 transition-transform duration-300">
+    {{ icon(service.icon, "w-6 h-6") }}
+  </span>
+  <h3 class="relative font-display text-xl font-semibold text-ink mt-5">{{ service.title }}</h3>
+  <p class="relative mt-2 text-sm text-ink/65 leading-relaxed">{{ service.shortDescription }}</p>
+  <span class="relative inline-flex items-center gap-1.5 mt-4 text-sm font-medium text-brand group-hover:gap-2.5 group-hover:text-accent transition-all">
+    Learn more {{ icon("arrow-right", "w-4 h-4") }}
+  </span>
+</a>

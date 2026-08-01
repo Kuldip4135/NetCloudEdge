@@ -1,0 +1,24 @@
+{# Params: faqKey — looks up faqs.json[faqKey] #}
+<section class="py-16 sm:py-24">
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <p class="font-mono text-xs tracking-widest uppercase text-brand">FAQ</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2 mb-8">Common questions</h2>
+      <div class="divide-y divide-border border-t border-b border-border">
+        {% for item in faqs[faqKey] %}
+        <div data-accordion-item class="py-1">
+          <button type="button" data-accordion-trigger class="w-full flex items-center justify-between gap-4 py-4 text-left" aria-expanded="false">
+            <span class="font-medium text-ink">{{ item.q }}</span>
+            <span class="shrink-0 text-brand transition-transform" data-accordion-icon>
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div data-accordion-panel class="hidden pb-4 text-ink/70 text-sm sm:text-base leading-relaxed">
+            {{ item.a }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>

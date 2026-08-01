@@ -1,0 +1,249 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design themes as CSS variables (R G B triplets, consumed via rgb(var(--x) / <alpha>) in
+  tailwind.config.js so opacity modifiers like bg-brand/10 keep working unchanged).
+  A [data-theme] on <html> swaps the palette AND restyles shared components (buttons, cards,
+  header) further down, so a variant page changes design language without duplicating partials.
+  Default (no attribute) = the original warm teal palette used by About / Services / Contact.
+*/
+:root {
+  --color-ink: 26 43 46;
+  --color-paper: 250 248 244;
+  --color-brand: 31 111 92;
+  --color-brand-dark: 23 86 70;
+  --color-accent: 232 132 58;
+  --color-surface: 241 238 230;
+  --color-border: 216 210 196;
+}
+
+/* A — Editorial: warm print-shop palette. Toasted cream stock, soft brown-black ink,
+   terracotta accent, forest secondary — human and tactile rather than cold newsprint. */
+:root[data-theme="editorial"] {
+  --color-ink: 40 33 27;
+  --color-paper: 247 242 234;
+  --color-brand: 45 92 78;
+  --color-brand-dark: 32 68 57;
+  --color-accent: 197 85 58;
+  --color-surface: 238 230 218;
+  --color-border: 215 203 187;
+}
+
+/* B — Human: photography-led. Indigo & peach — cool indigo base carries text and trust,
+   warm peach stays a highlight (orbs, stars, on-dark chips). Peach is deliberately light,
+   so it is NOT used for small text on light backgrounds — see the contrast note below. */
+:root[data-theme="human"] {
+  --color-ink: 27 29 46;
+  --color-paper: 253 251 248;
+  --color-brand: 61 69 116;
+  --color-brand-dark: 45 51 88;
+  --color-accent: 232 155 114;
+  --color-surface: 239 239 247;
+  --color-border: 220 220 232;
+}
+
+/* C — Bold: neo-brutalist. Border token IS the ink so thick outlines read as structure. */
+:root[data-theme="bold"] {
+  --color-ink: 16 16 16;
+  --color-paper: 255 248 231;
+  --color-brand: 43 76 255;
+  --color-brand-dark: 28 55 214;
+  --color-accent: 255 77 45;
+  --color-surface: 255 224 102;
+  --color-border: 16 16 16;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-accent));
+    outline-offset: 2px;
+  }
+
+  /* Subtle tactile grain over the warm paper background — fixed, decorative, never intercepts input. */
+  body {
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-brand text-paper font-medium px-6 py-3.5 rounded-full shadow-glow hover:bg-brand-dark hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 transition-all duration-200;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 bg-paper/60 backdrop-blur text-ink font-medium px-6 py-3.5 rounded-full border border-border hover:border-brand hover:text-brand hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200;
+  }
+  .section-container {
+    @apply max-w-content mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  .eyebrow {
+    @apply font-mono text-xs tracking-widest uppercase text-brand;
+  }
+
+  /* Frosted glass surface — the recurring "senior-designer" texture across cards and floating panels. */
+  .glass-panel {
+    @apply bg-paper/60 backdrop-blur-xl border border-white/60 shadow-glass;
+  }
+  .glass-panel-dark {
+    @apply bg-paper/10 backdrop-blur-xl border border-paper/20;
+  }
+  .card-lift {
+    @apply transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass;
+  }
+  .orb {
+    @apply absolute rounded-full blur-3xl pointer-events-none;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  [data-header].is-scrolled {
+    @apply border-border;
+  }
+
+  [data-path-draw] {
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+    transition: stroke-dashoffset 1.4s ease-out;
+  }
+  [data-path-draw].is-drawn {
+    stroke-dashoffset: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-path-draw] {
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+  }
+
+  /* ---- Variant overrides: restyle the SHARED components per design language ---- */
+
+  /* A — Editorial: squared off, no glow, no blur. Rules instead of cards. */
+  [data-theme="editorial"] .btn-primary {
+    @apply rounded-none shadow-none bg-ink hover:bg-accent hover:translate-y-0 hover:shadow-none;
+  }
+  [data-theme="editorial"] .btn-outline {
+    @apply rounded-none bg-transparent backdrop-blur-none border-ink hover:bg-ink hover:text-paper hover:border-ink hover:translate-y-0;
+  }
+  [data-theme="editorial"] .glass-panel {
+    @apply bg-transparent backdrop-blur-none border-0 shadow-none;
+  }
+  [data-theme="editorial"] .card-lift:hover {
+    @apply translate-y-0 shadow-none;
+  }
+  [data-theme="editorial"] .eyebrow {
+    @apply text-ink/50;
+  }
+  [data-theme="editorial"] body::before {
+    opacity: 0.55;
+  }
+  /* Editorial index row: hairline rules, ink flood on hover. */
+  .ed-row {
+    @apply relative grid grid-cols-12 items-baseline gap-4 border-t border-ink/15 py-7 transition-colors duration-300;
+  }
+  .ed-row:hover {
+    @apply border-ink/40;
+  }
+
+  /* B — Human: soft, rounded, warm. Photography carries the page; chrome stays quiet. */
+  [data-theme="human"] .btn-primary {
+    @apply rounded-full shadow-none hover:shadow-glow;
+  }
+  [data-theme="human"] .btn-outline {
+    @apply rounded-full bg-paper backdrop-blur-none;
+  }
+  [data-theme="human"] .glass-panel {
+    @apply rounded-3xl border-border bg-paper/85 shadow-glass;
+  }
+  /* Indigo, not peach: peach on paper is ~2.2:1 and fails WCAG AA for small text. */
+  [data-theme="human"] .eyebrow {
+    @apply font-body font-semibold normal-case tracking-normal text-brand;
+  }
+  [data-theme="human"] body::before {
+    opacity: 0.25;
+  }
+  /* Warm card used across the human variant — soft edge, no hard border. */
+  .soft-card {
+    @apply relative overflow-hidden rounded-[1.75rem] bg-paper ring-1 ring-border transition-all duration-300;
+  }
+  .soft-card:hover {
+    @apply -translate-y-1.5 shadow-glass ring-brand/25;
+  }
+  /* Organic blob mask for portrait photography — reads hand-made, not stock-grid. */
+  .blob-a {
+    border-radius: 58% 42% 47% 53% / 45% 51% 49% 55%;
+  }
+  .blob-b {
+    border-radius: 44% 56% 62% 38% / 54% 43% 57% 46%;
+  }
+
+  /* C — Bold: hard edges, thick ink borders, offset shadows, zero blur. */
+  [data-theme="bold"] .btn-primary {
+    @apply rounded-none border-2 border-ink shadow-brut font-bold uppercase tracking-wide hover:bg-accent hover:text-ink hover:-translate-y-0 hover:shadow-brut-lg;
+  }
+  [data-theme="bold"] .btn-outline {
+    @apply rounded-none border-2 border-ink bg-paper backdrop-blur-none shadow-brut font-bold uppercase tracking-wide hover:bg-surface hover:text-ink hover:translate-y-0 hover:shadow-brut-lg;
+  }
+  [data-theme="bold"] .glass-panel {
+    @apply bg-paper backdrop-blur-none border-2 border-ink shadow-brut rounded-none;
+  }
+  [data-theme="bold"] .card-lift:hover {
+    @apply -translate-x-1 -translate-y-1 shadow-brut-lg;
+  }
+  [data-theme="bold"] body::before {
+    display: none;
+  }
+  .brut-box {
+    @apply border-2 border-ink shadow-brut transition-all duration-200;
+  }
+  .brut-box-lift:hover {
+    @apply -translate-x-1 -translate-y-1 shadow-brut-lg;
+  }
+  /* Shared employer-wall / placement-feed rows pick up the brutalist weight. */
+  [data-theme="bold"] .logo-cell,
+  [data-theme="bold"] .feed-row {
+    border-width: 0 2px 2px 0;
+  }
+  [data-theme="bold"] .logo-cell span {
+    @apply font-black uppercase tracking-tight;
+  }
+
+  /* Duotone photo treatment — warms stock photography toward the brand instead of
+     leaving it looking bought. Used on the editorial + human variants. */
+  .photo-warm {
+    filter: saturate(0.85) contrast(1.04) sepia(0.12);
+  }
+  .photo-frame {
+    @apply relative overflow-hidden bg-surface;
+  }
+  .photo-frame::after {
+    content: "";
+    @apply pointer-events-none absolute inset-0;
+    background: linear-gradient(to top, rgb(var(--color-ink) / 0.28), transparent 55%);
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "job-placement": [
+    { "q": "Does this cost anything as a candidate?", "a": "No — our fee is paid by the hiring employer, never by the candidate. There's no cost to you at any stage." },
+    { "q": "How long does placement usually take?", "a": "Most candidates interview within 2–3 weeks of onboarding and receive an offer within 4–8 weeks, depending on role and industry." },
+    { "q": "What if the placement doesn't work out?", "a": "We stay involved for 90 days post-placement. If a role isn't the right fit in that window, we re-open your search at no additional cost." },
+    { "q": "What industries do you cover?", "a": "Technology, finance, healthcare administration, and professional services, with new industries added as employer demand grows." }
+  ],
+  "recruitment-staffing": [
+    { "q": "What's your pricing model?", "a": "Contingency-based for permanent placements, and a flat markup on hourly billing for contract and temp staffing — no retainer required to get started." },
+    { "q": "Is there a minimum engagement?", "a": "No minimum for one-off roles. Ongoing staffing partnerships get a dedicated account structure once volume picks up." },
+    { "q": "Which industries do you staff for?", "a": "Technology, finance, healthcare, and light-industrial roles, with sourcing networks built specifically for each." },
+    { "q": "What's your average time-to-fill?", "a": "18 days for contract roles, 34 days for permanent placements — both tracked and reported per engagement." }
+  ],
+  "talent-acquisition": [
+    { "q": "How is this different from staffing?", "a": "Staffing fills a role quickly from an existing pool. Talent acquisition builds a candidate pipeline specifically for a role that doesn't have one yet — usually senior or highly specialized." },
+    { "q": "What roles is this best suited for?", "a": "Leadership, specialized technical, and niche functional roles where the right candidate isn't actively job-searching." },
+    { "q": "How long does a search typically take?", "a": "6–10 weeks on average, depending on how narrow the specification is and how competitive the market is for that role." },
+    { "q": "Do you offer a replacement guarantee?", "a": "Yes — a 6-month replacement guarantee is standard on every retained search." }
+  ],
+  "background-verification": [
+    { "q": "How long does a check take?", "a": "Most standard reports are delivered within 3–5 business days of candidate consent." },
+    { "q": "What does a standard check include?", "a": "Employment history, education verification, reference checks, and criminal record screening where legally permitted." },
+    { "q": "How is candidate data handled?", "a": "Consent is collected before any check begins, data is encrypted in transit and at rest, and reports are retained only as long as required by law." },
+    { "q": "Can checks be customized per role?", "a": "Yes — scope can be adjusted for role sensitivity, from a basic employment check to a full compliance-grade report." }
+  ],
+  "contact": [
+    { "q": "How soon will I hear back?", "a": "Within one business day — most inquiries get a reply the same day they're submitted." },
+    { "q": "Do I need to pick a service before reaching out?", "a": "No — tell us your situation in the message and we'll point you to the right service, or a combination of them." },
+    { "q": "Is there a cost to reach out?", "a": "No — the first conversation is always free, for candidates and employers alike." }
+  ],
+  "it-training": [
+    { "q": "How long is each program?", "a": "Tracks run 8–14 weeks depending on subject, with both full-time and evening/weekend formats available." },
+    { "q": "Is training online, in-person, or both?", "a": "Both — live online cohorts run continuously, with in-person sessions at our Chicago location for select tracks." },
+    { "q": "What does it cost?", "a": "Pricing varies by track; payment plans are available, and a placement-linked deferral option applies to select programs." },
+    { "q": "Do I need prior experience?", "a": "No prior industry experience required. Each track starts from fundamentals and builds to a portfolio-ready project." },
+    { "q": "Is placement guaranteed after graduation?", "a": "Graduates get direct, priority access to our Job Placement pipeline — not a guarantee, but a real head start over an open application." }
+  ]
+}

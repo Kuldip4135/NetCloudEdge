@@ -1,0 +1,15 @@
+{# Params: crumbs [{label, url}] — last item has no url #}
+<nav aria-label="Breadcrumb" class="text-sm">
+  <ol class="flex items-center flex-wrap gap-1.5 text-ink/60">
+    {% for crumb in crumbs %}
+    <li class="flex items-center gap-1.5">
+      {% if not loop.first %}<span aria-hidden="true">/</span>{% endif %}
+      {% if crumb.url %}
+        <a href="{{ crumb.url | url }}" class="hover:text-brand transition-colors">{{ crumb.label }}</a>
+      {% else %}
+        <span class="text-ink">{{ crumb.label }}</span>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</nav>

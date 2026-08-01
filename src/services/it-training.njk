@@ -1,0 +1,73 @@
+---
+layout: layouts/page.njk
+title: IT Training
+description: Structured programs in web development, QA, cloud, and data — built for graduates who want training that leads somewhere specific — a job.
+extraScripts:
+  - /assets/js/faq-accordion.js
+---
+{% from "partials/icons.njk" import icon %}
+
+<section class="py-14 sm:py-20">
+  <div class="section-container flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
+    <div class="lg:w-1/2">
+      {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "IT Training" }] %}
+      {% include "partials/breadcrumb.njk" %}
+      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4 leading-tight">Train. Certify. Get Placed.</h1>
+      <p class="mt-5 text-lg text-ink/65 leading-relaxed">Structured programs that build real skills — and feed straight into our placement pipeline when you're done.</p>
+      <a href="{{ '/contact/' | url }}" class="inline-block mt-7 bg-accent text-paper font-medium px-6 py-3 rounded-full hover:opacity-90 transition-opacity">Book a Free Demo Class</a>
+    </div>
+    <div class="lg:w-1/2">
+      <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center">
+        <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-paper text-brand">{{ icon("code", "w-9 h-9") }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 bg-surface">
+  <div class="section-container">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow">Programs</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Tracks offered</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for program in programs.list %}
+      <div class="bg-paper rounded-2xl p-6">
+        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(program.icon, "w-5 h-5") }}</span>
+        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ program.title }}</h3>
+        <p class="mt-1 font-mono text-xs text-brand">{{ program.duration }}</p>
+        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ program.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24">
+  <div class="section-container max-w-2xl">
+    <p class="eyebrow">Why train with us</p>
+    <p class="font-display text-2xl sm:text-3xl text-ink mt-3 leading-snug">
+      Graduates get direct access to our <a href="{{ '/services/job-placement/' | url }}" class="text-accent underline decoration-2 underline-offset-4">placement pipeline</a> — the strongest differentiator versus a generic training vendor.
+    </p>
+  </div>
+</section>
+
+{% set steps = [
+  { label: "Enroll", description: "Pick a track and a format — online, in-person, or both." },
+  { label: "Learn", description: "Structured curriculum built around real job requirements." },
+  { label: "Practice", description: "A portfolio-ready project you can show employers." },
+  { label: "Certification", description: "A credential that signals real, tested skill." },
+  { label: "Placement Support", description: "Direct handoff into our Job Placement pipeline." }
+] %}
+{% set sectionEyebrow = "Curriculum" %}
+{% set sectionTitle = "From enrollment to placement" %}
+{% include "partials/process-timeline.njk" %}
+
+{% set faqKey = "it-training" %}
+{% include "partials/faq-accordion.njk" %}
+
+{% set ctaHeadline = "Ready to build a new skill set?" %}
+{% set ctaLabel = "Enroll Now" %}
+{% set ctaHref = "/contact/" %}
+{% set ctaVariant = "accent" %}
+{% include "partials/cta-section.njk" %}

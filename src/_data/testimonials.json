@@ -1,0 +1,79 @@
+{
+  "note": "`photo` fields are STOCK PLACEHOLDERS, not the people quoted — see assets/images/home/CREDITS.md. Replace with real consented photos or remove the field to fall back to initials avatars. `slug` lets a page exclude whoever it already features as a case study or pull quote, so the same story is never told twice on one page.",
+  "list": [
+    {
+      "slug": "priya",
+      "name": "Priya Nandakumar",
+      "role": "Data Analyst",
+      "company": "Amazon",
+      "initials": "PN",
+      "photo": "/assets/images/home/person-priya.jpg",
+      "quote": "I'd sent out forty applications with nothing back. My recruiter had me in front of a hiring manager within two weeks — and the role fit better than anything I'd found on my own."
+    },
+    {
+      "slug": "marcus",
+      "name": "Marcus Devereux",
+      "role": "Hiring Manager",
+      "company": "Fintech scale-up",
+      "initials": "MD",
+      "photo": "/assets/images/home/person-marcus.jpg",
+      "quote": "We stopped sifting through hundreds of resumes. Every candidate they send has already been screened for the role we actually described, not a generic version of it.",
+      "employer": true
+    },
+    {
+      "slug": "sofia",
+      "name": "Sofia Reyes",
+      "role": "QA Engineer",
+      "company": "Samsung",
+      "initials": "SR",
+      "photo": "/assets/images/home/person-sofia.jpg",
+      "quote": "The interview coaching alone was worth it. I walked in knowing exactly what they'd ask and why — and I had an offer four days later."
+    },
+    {
+      "slug": "james",
+      "name": "James Okafor",
+      "role": "Junior Developer",
+      "company": "Accenture",
+      "initials": "JO",
+      "photo": "/assets/images/home/person-james.jpg",
+      "quote": "I came in through the IT Training track with no industry experience. Six weeks after certification, I had a placement lined up."
+    },
+    {
+      "slug": "aisha",
+      "name": "Aisha Karim",
+      "role": "Cloud Engineer",
+      "company": "Microsoft",
+      "initials": "AK",
+      "photo": "/assets/images/home/person-aisha.jpg",
+      "quote": "They talked me out of two roles I'd have taken in a heartbeat. Both were wrong for me, and they knew it before I did. That's when I understood what I'd actually hired them for."
+    },
+    {
+      "slug": "daniel",
+      "name": "Daniel Osei",
+      "role": "Business Analyst",
+      "company": "Capital One",
+      "initials": "DO",
+      "photo": "/assets/images/home/person-daniel.jpg",
+      "quote": "Nine months in and my recruiter still checks in. I didn't expect the relationship to outlast the placement, but it has."
+    },
+    {
+      "slug": "lena",
+      "name": "Lena Toma",
+      "role": "DevOps Engineer",
+      "company": "Nvidia",
+      "initials": "LT",
+      "photo": "/assets/images/home/person-lena.jpg",
+      "quote": "I was switching fields at thirty-four and every recruiter treated that as a problem to explain away. These ones treated it as the story."
+    },
+    {
+      "slug": "omar",
+      "name": "Omar Haddad",
+      "role": "Talent Director",
+      "company": "Logistics group",
+      "initials": "OH",
+      "photo": "/assets/images/home/person-omar.jpg",
+      "quote": "Time-to-fill went from eleven weeks to under four. The difference is they actually read the brief instead of keyword-matching it.",
+      "employer": true
+    }
+  ]
+}

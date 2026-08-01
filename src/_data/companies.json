@@ -1,0 +1,21 @@
+{
+  "note": "Employers where our candidates have been placed. Displayed as wordmarks, not logo files — swap in official SVG logos only with each company's brand-usage permission.",
+  "list": [
+    { "name": "Google" },
+    { "name": "Amazon" },
+    { "name": "Samsung" },
+    { "name": "Microsoft" },
+    { "name": "Meta" },
+    { "name": "Nvidia" },
+    { "name": "Accenture" },
+    { "name": "Deloitte" },
+    { "name": "JPMorgan Chase" },
+    { "name": "Capital One" },
+    { "name": "PayPal" },
+    { "name": "Intel" },
+    { "name": "Salesforce" },
+    { "name": "Cisco" },
+    { "name": "IBM" },
+    { "name": "Qualcomm" }
+  ]
+}

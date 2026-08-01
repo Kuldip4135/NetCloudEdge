@@ -1,0 +1,189 @@
+---
+layout: layouts/page.njk
+title: Home
+description: Recruiting and staffing for students starting out and professionals moving on — plus the employers who hire both.
+---
+{% from "partials/icons.njk" import icon %}
+
+<section class="relative overflow-hidden bg-paper">
+  <span class="orb w-[28rem] h-[28rem] -top-40 -left-32 bg-brand/15 animate-float" aria-hidden="true"></span>
+  <span class="orb w-96 h-96 top-1/3 -right-24 bg-accent/15 animate-float-delayed" aria-hidden="true"></span>
+
+  <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path data-path-draw d="M-50 600 C 150 500, 250 700, 450 550 S 700 350, 900 420 S 1100 200, 1250 120" fill="none" style="stroke: rgb(var(--color-accent))" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+
+  <div class="relative section-container pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-32 lg:pb-36">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:gap-16">
+      <div class="lg:w-1/2">
+        <p class="inline-flex items-center gap-2 rounded-full glass-panel px-4 py-1.5 eyebrow">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand"></span> Recruiting, done human
+        </p>
+        <h1 class="font-display text-[2.75rem] sm:text-6xl lg:text-[4.25rem] font-semibold text-ink leading-[1.03] tracking-tight mt-6 text-balance">
+          Where careers find their
+          <span class="relative inline-block text-brand">
+            footing
+            <svg class="absolute left-0 -bottom-1 w-full h-3 text-accent" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9 C 50 2, 150 2, 198 9" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+          </span>.
+        </h1>
+        <p class="mt-6 text-lg text-ink/70 max-w-lg leading-relaxed">
+          Whether you're applying for your first role or your next one, we match people to work worth doing — and employers to talent worth hiring.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 mt-9">
+          <a href="{{ '/services/job-placement/' | url }}" class="btn-primary text-center">Find a Job {{ icon("arrow-right", "w-4 h-4") }}</a>
+          <a href="{{ '/services/recruitment-staffing/' | url }}" class="btn-outline text-center">Hire Talent</a>
+        </div>
+        <div class="flex items-center gap-6 mt-10 pt-8 border-t border-border/70 max-w-md">
+          <div>
+            <p class="font-mono font-semibold text-2xl text-ink">2,400+</p>
+            <p class="text-xs text-ink/55 mt-0.5">Candidates placed</p>
+          </div>
+          <div class="w-px h-8 bg-border"></div>
+          <div>
+            <p class="font-mono font-semibold text-2xl text-ink">180+</p>
+            <p class="text-xs text-ink/55 mt-0.5">Partner companies</p>
+          </div>
+          <div class="w-px h-8 bg-border"></div>
+          <div>
+            <p class="font-mono font-semibold text-2xl text-ink">94%</p>
+            <p class="text-xs text-ink/55 mt-0.5">Success rate</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:w-1/2 mt-16 lg:mt-0">
+        <div class="relative">
+          <div class="aspect-[4/3] rounded-[2rem] glass-panel flex items-center justify-center overflow-hidden">
+            <span class="absolute w-56 h-56 rounded-full bg-gradient-to-br from-brand/25 to-accent/20 blur-2xl" aria-hidden="true"></span>
+            <div class="relative flex items-center -space-x-5">
+              {% set cluster = [
+                { initials: "PN", size: "w-20 h-20 sm:w-24 sm:h-24", z: "z-10" },
+                { initials: "JO", size: "w-24 h-24 sm:w-28 sm:h-28", z: "z-20" },
+                { initials: "SR", size: "w-20 h-20 sm:w-24 sm:h-24", z: "z-10" }
+              ] %}
+              {% for person in cluster %}
+              <span class="{{ person.size }} {{ person.z }} rounded-full bg-ink text-paper font-mono font-semibold text-lg sm:text-xl flex items-center justify-center ring-4 ring-paper shadow-glow">{{ person.initials }}</span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="absolute -top-6 -right-4 sm:-right-8 w-52 sm:w-60 glass-panel rounded-2xl p-4 -rotate-3">
+            <div class="flex items-center gap-1 text-accent">
+              {{ icon("star", "w-3.5 h-3.5") }}{{ icon("star", "w-3.5 h-3.5") }}{{ icon("star", "w-3.5 h-3.5") }}{{ icon("star", "w-3.5 h-3.5") }}{{ icon("star", "w-3.5 h-3.5") }}
+            </div>
+            <p class="text-xs text-ink/70 mt-1.5 leading-snug">&ldquo;Offer in hand four days after my first interview.&rdquo;</p>
+            <div class="flex items-center gap-1.5 mt-2 text-[11px] font-medium text-brand">
+              {{ icon("check-badge", "w-3.5 h-3.5") }} Sofia R. · Verified placement
+            </div>
+          </div>
+
+          <div class="absolute -bottom-6 -left-4 sm:-left-8 bg-brand text-paper rounded-2xl shadow-glow px-5 py-3.5 rotate-2">
+            <p class="font-mono font-semibold text-xl leading-none">94%</p>
+            <p class="text-[11px] text-paper/80 mt-1">Placement success</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24">
+  <div class="section-container">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="group relative overflow-hidden bg-brand/[0.06] glass-panel rounded-[1.75rem] p-8 sm:p-10 card-lift">
+        <span class="orb w-40 h-40 -top-10 -right-10 bg-brand/20 group-hover:bg-brand/30 transition-colors" aria-hidden="true"></span>
+        <span class="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-brand text-paper shadow-glow">{{ icon("users", "w-6 h-6") }}</span>
+        <h2 class="relative font-display text-2xl font-semibold text-ink mt-6">For Job Seekers</h2>
+        <p class="relative mt-3 text-ink/65 leading-relaxed">Personal matching, interview coaching, and offer support — from your first role to your next move.</p>
+        <a href="{{ '/services/job-placement/' | url }}" class="relative inline-flex items-center gap-1.5 mt-6 text-brand font-medium group-hover:gap-2.5 transition-all">Explore job placement {{ icon("arrow-right", "w-4 h-4") }}</a>
+      </div>
+      <div class="group relative overflow-hidden bg-accent/[0.06] glass-panel rounded-[1.75rem] p-8 sm:p-10 card-lift">
+        <span class="orb w-40 h-40 -top-10 -right-10 bg-accent/20 group-hover:bg-accent/30 transition-colors" aria-hidden="true"></span>
+        <span class="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-accent text-paper shadow-glow-accent">{{ icon("briefcase", "w-6 h-6") }}</span>
+        <h2 class="relative font-display text-2xl font-semibold text-ink mt-6">For Employers</h2>
+        <p class="relative mt-3 text-ink/65 leading-relaxed">Sourced, screened, and verified candidates — delivered faster than a job board could ever manage.</p>
+        <a href="{{ '/services/recruitment-staffing/' | url }}" class="relative inline-flex items-center gap-1.5 mt-6 text-accent font-medium group-hover:gap-2.5 transition-all">Explore hiring services {{ icon("arrow-right", "w-4 h-4") }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24">
+  <div class="section-container">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow">What we do</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Five services, one pipeline</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {% set tints = [
+        { card: "bg-brand/10", iconBg: "bg-brand", iconColor: "text-paper" },
+        { card: "bg-accent/12", iconBg: "bg-accent", iconColor: "text-paper" },
+        { card: "bg-gradient-to-br from-ink/5 to-brand/10", iconBg: "bg-ink", iconColor: "text-paper" },
+        { card: "bg-surface", iconBg: "bg-brand-dark", iconColor: "text-paper" },
+        { card: "bg-gradient-to-br from-accent/12 to-brand/12", iconBg: "bg-accent", iconColor: "text-paper" }
+      ] %}
+      {% for service in services.list %}
+      {% set tint = tints[loop.index0 % tints.length] %}
+      {% include "partials/service-card.njk" %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="relative py-16 sm:py-24 bg-surface overflow-hidden">
+  <span class="orb w-96 h-96 top-0 left-1/2 -translate-x-1/2 bg-brand/5" aria-hidden="true"></span>
+  <div class="relative section-container">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow">Why us</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2 text-balance">What makes it different</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {% set differentiators = [
+        { icon: "target", title: "Personalized Matching", text: "Every match is made by a recruiter who's actually read your resume, not a keyword filter.", iconBg: "bg-brand" },
+        { icon: "shield", title: "Verified Employers", text: "Every partner company is vetted before a candidate is ever introduced.", iconBg: "bg-accent" },
+        { icon: "bolt", title: "Fast Turnaround", text: "Most candidates interview within two to three weeks of onboarding.", iconBg: "bg-ink" },
+        { icon: "support", title: "End-to-End Support", text: "We stay involved through the offer, the negotiation, and the first 90 days.", iconBg: "bg-brand-dark" }
+      ] %}
+      {% for item in differentiators %}
+      <div class="glass-panel rounded-2xl p-6 card-lift">
+        <span class="flex items-center justify-center w-11 h-11 rounded-xl {{ item.iconBg }} text-paper shadow-glow">{{ icon(item.icon, "w-5 h-5") }}</span>
+        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ item.title }}</h3>
+        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ item.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% include "partials/stat-counter.njk" %}
+
+<section class="py-16 sm:py-24">
+  <div class="section-container">
+    <div class="max-w-2xl mb-10">
+      <p class="eyebrow">In their words</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Placed, hired, and heard from</h2>
+    </div>
+  </div>
+  <div class="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4 px-4 sm:px-6 lg:px-8 lg:grid lg:grid-cols-4 lg:overflow-visible lg:max-w-content lg:mx-auto">
+    {% for testimonial in testimonials.list %}
+    {% include "partials/testimonial-card.njk" %}
+    {% endfor %}
+  </div>
+</section>
+
+{% set steps = [
+  { label: "Apply", description: "Tell us where you are and where you want to be — takes ten minutes." },
+  { label: "Match", description: "We connect you with roles and employers that actually fit the brief." },
+  { label: "Interview", description: "Coaching and prep before every conversation that matters." },
+  { label: "Placement", description: "An offer, a negotiation assist, and a check-in 90 days in." }
+] %}
+{% include "partials/process-timeline.njk" %}
+
+{% set ctaHeadline = "Ready to find your footing?" %}
+{% set ctaSubtext = "Whether you're job hunting or hiring, the first conversation is free." %}
+{% set ctaLabel = "Get Started" %}
+{% set ctaHref = "/contact/" %}
+{% set ctaVariant = "brand" %}
+{% include "partials/cta-section.njk" %}
+
+{% include "partials/variant-switcher.njk" %}

@@ -1,0 +1,11 @@
+{
+  "note": "Recent placement activity. PLACEHOLDER DATA — replace with real, consented placements before launch. Photos are stock stand-ins, not the people named. Deliberately a different set of people from _data/testimonials.json so the roster does not look like six recycled names.",
+  "list": [
+    { "name": "Nikhil A.", "role": "Software Engineer", "company": "Google", "status": "Placed", "detail": "Offer accepted", "when": "2 days ago", "photo": "/assets/images/home/person-nikhil.jpg" },
+    { "name": "Sneha P.", "role": "Data Analyst", "company": "Amazon", "status": "Placed", "detail": "Offer accepted", "when": "4 days ago", "photo": "/assets/images/home/person-sneha.jpg" },
+    { "name": "Rahul M.", "role": "QA Engineer", "company": "Samsung", "status": "Final round", "detail": "Interview scheduled", "when": "5 days ago", "photo": "/assets/images/home/person-rahul.jpg" },
+    { "name": "Tomas B.", "role": "Cloud Engineer", "company": "Microsoft", "status": "Placed", "detail": "Offer accepted", "when": "1 week ago", "photo": "/assets/images/home/person-tomas.jpg" },
+    { "name": "Mei L.", "role": "Business Analyst", "company": "Capital One", "status": "Negotiation", "detail": "Reviewing offer", "when": "1 week ago", "photo": "/assets/images/home/person-mei.jpg" },
+    { "name": "Arjun S.", "role": "DevOps Engineer", "company": "Nvidia", "status": "Placed", "detail": "Offer accepted", "when": "2 weeks ago", "photo": "/assets/images/home/person-arjun.jpg" }
+  ]
+}

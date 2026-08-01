@@ -1,0 +1,19 @@
+{
+  "companyName": "Net Cloud Edge",
+  "shortName": "Net Cloud Edge",
+  "tagline": "Where careers find their footing.",
+  "description": "Recruiting and staffing for students starting out and professionals moving on — plus the employers who hire both.",
+  "phone": "+1 (312) 555-0148",
+  "phoneHref": "tel:+13125550148",
+  "email": "hello@netcloudedge.com",
+  "address": {
+    "line1": "212 Wabash Ave, Suite 500",
+    "line2": "Chicago, IL 60601"
+  },
+  "hours": "Mon–Fri, 9:00am–6:00pm CT",
+  "social": [
+    { "label": "LinkedIn", "url": "https://linkedin.com" },
+    { "label": "Instagram", "url": "https://instagram.com" },
+    { "label": "X", "url": "https://x.com" }
+  ]
+}

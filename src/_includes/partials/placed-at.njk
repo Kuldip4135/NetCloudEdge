@@ -1,0 +1,79 @@
+{#
+  "Candidates placed in" employer wall, fed from _data/companies.json.
+  Wordmarks not logo files — see the note in that data file before swapping in real logos.
+
+  Params:
+    placedAtLayout — "grid" (default: rigid bordered matrix) | "marquee" (two drifting rows of pills)
+    placedAtTitle, placedAtLead — optional copy overrides
+#}
+
+{% if placedAtLayout == "marquee" %}
+{# ---- Marquee layout: softer, always-moving. Used by the photography-led variant. ---- #}
+<section class="overflow-hidden bg-surface py-14 sm:py-20">
+  <div class="section-container text-center">
+    <p class="eyebrow">{{ placedAtTitle or "Candidates placed in" }}</p>
+    <h2 class="mx-auto mt-2 max-w-xl font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+      {{ placedAtLead or "Our people work here now." }}
+    </h2>
+  </div>
+
+  {% set half = (companies.list.length / 2) | round(0, "ceil") %}
+  {% set rows = [
+    { items: companies.list.slice(0, half), anim: "animate-marquee-slow" },
+    { items: companies.list.slice(half), anim: "animate-marquee-reverse" }
+  ] %}
+
+  <div class="relative mt-10 space-y-4">
+    {# Edge fades so pills dissolve rather than clip at the viewport edge. #}
+    <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-surface to-transparent sm:w-32" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-surface to-transparent sm:w-32" aria-hidden="true"></div>
+
+    {% for row in rows %}
+    <div class="flex w-max {{ row.anim }} motion-reduce:animate-none">
+      {# Track duplicated so the 50% translate loops seamlessly; the copy is aria-hidden. #}
+      {% for pass in [1, 2] %}
+      <div class="flex shrink-0 items-center gap-4 pr-4" {% if pass == 2 %}aria-hidden="true"{% endif %}>
+        {% for company in row.items %}
+        <span class="whitespace-nowrap rounded-full bg-paper px-6 py-3 font-display text-lg font-semibold tracking-tight text-ink/70 ring-1 ring-border sm:text-xl">
+          {{ company.name }}
+        </span>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <p class="section-container mt-10 text-center text-sm text-ink/55">
+    A sample of the employers who have hired candidates we placed.
+  </p>
+</section>
+
+{% else %}
+{# ---- Grid layout (default): rigid bordered matrix. ---- #}
+<section class="border-y border-border bg-surface py-14 sm:py-20">
+  <div class="section-container">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="eyebrow">{{ placedAtTitle or "Candidates placed in" }}</p>
+        <h2 class="mt-2 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+          {{ placedAtLead or "Our people work here now." }}
+        </h2>
+      </div>
+      <p class="max-w-xs text-sm leading-relaxed text-ink/55">
+        A sample of the employers who have hired candidates we placed.
+      </p>
+    </div>
+
+    <ul class="mt-10 grid grid-cols-2 border-l border-t border-border sm:grid-cols-3 lg:grid-cols-4">
+      {% for company in companies.list %}
+      <li class="logo-cell group flex items-center justify-center border-b border-r border-border px-4 py-7 transition-colors hover:bg-paper">
+        <span class="text-center font-display text-lg font-semibold tracking-tight text-ink/45 transition-colors group-hover:text-ink sm:text-xl">
+          {{ company.name }}
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}

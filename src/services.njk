@@ -1,0 +1,91 @@
+---
+layout: layouts/page.njk
+title: Services
+description: Five services, one connected pipeline — from sourcing candidates to verifying them to placing them.
+---
+{% from "partials/icons.njk" import icon %}
+
+<section class="bg-surface py-14 sm:py-20 relative overflow-hidden">
+  <svg class="hidden sm:block absolute inset-x-0 bottom-4 w-full h-10" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+    <path data-path-draw d="M20 20 C 300 -10, 500 50, 750 20 S 1000 -10, 1180 20" fill="none" style="stroke: rgb(var(--color-accent))" stroke-opacity="0.4" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <div class="section-container relative">
+    {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services" }] %}
+    {% include "partials/breadcrumb.njk" %}
+    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4">Our Services</h1>
+    <p class="mt-3 text-lg text-ink/65 max-w-2xl">Source, vet, place, verify, upskill — five services that work as one connected pipeline, whichever end you're starting from.</p>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24">
+  <div class="section-container flex flex-col gap-16 sm:gap-20">
+    {% for service in services.list %}
+    <div class="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-16 {% if loop.index0 is even %}lg:flex-row{% else %}lg:flex-row-reverse{% endif %}">
+      <div class="lg:w-1/2">
+        <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center">
+          <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-paper text-brand">{{ icon(service.icon, "w-9 h-9") }}</span>
+        </div>
+      </div>
+      <div class="lg:w-1/2">
+        <p class="eyebrow">0{{ loop.index }}</p>
+        <h2 class="font-display text-2xl sm:text-3xl font-semibold text-ink mt-2">{{ service.title }}</h2>
+        <p class="mt-4 text-ink/65 leading-relaxed">{{ service.description }}</p>
+        <a href="{{ service.url | url }}" class="inline-flex items-center gap-1.5 mt-6 text-brand font-medium">Explore {{ service.title }} {{ icon("arrow-right", "w-4 h-4") }}</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 bg-surface">
+  <div class="section-container">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow">Who it's for</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Which service fits you?</h2>
+    </div>
+
+    <div class="hidden md:grid grid-cols-4 gap-4 text-sm">
+      <div></div>
+      <div class="font-medium text-ink text-center">Students</div>
+      <div class="font-medium text-ink text-center">Professionals</div>
+      <div class="font-medium text-ink text-center">Employers</div>
+
+      {% set matrix = [
+        { label: "Job Placement", students: true, pros: true, employers: false },
+        { label: "Recruitment & Staffing", students: false, pros: false, employers: true },
+        { label: "Talent Acquisition", students: false, pros: false, employers: true },
+        { label: "Background Verification", students: true, pros: true, employers: true },
+        { label: "IT Training", students: true, pros: false, employers: false }
+      ] %}
+      {% for row in matrix %}
+      <div class="py-3 border-t border-border font-medium text-ink">{{ row.label }}</div>
+      <div class="py-3 border-t border-border text-center">{% if row.students %}{{ icon("check", "w-5 h-5 text-brand inline") }}{% else %}—{% endif %}</div>
+      <div class="py-3 border-t border-border text-center">{% if row.pros %}{{ icon("check", "w-5 h-5 text-brand inline") }}{% else %}—{% endif %}</div>
+      <div class="py-3 border-t border-border text-center">{% if row.employers %}{{ icon("check", "w-5 h-5 text-brand inline") }}{% else %}—{% endif %}</div>
+      {% endfor %}
+    </div>
+
+    <div class="md:hidden flex flex-col gap-4">
+      {% set matrix = [
+        { label: "Job Placement", tags: ["Students", "Professionals"] },
+        { label: "Recruitment & Staffing", tags: ["Employers"] },
+        { label: "Talent Acquisition", tags: ["Employers"] },
+        { label: "Background Verification", tags: ["Students", "Professionals", "Employers"] },
+        { label: "IT Training", tags: ["Students"] }
+      ] %}
+      {% for row in matrix %}
+      <div class="bg-paper rounded-xl p-4">
+        <p class="font-medium text-ink">{{ row.label }}</p>
+        <p class="mt-1 text-sm text-brand">{{ row.tags | join(" · ") }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% set ctaHeadline = "Not sure which service fits?" %}
+{% set ctaSubtext = "Book a free consultation and we'll point you the right way." %}
+{% set ctaLabel = "Book a Consultation" %}
+{% set ctaHref = "/contact/" %}
+{% set ctaVariant = "brand" %}
+{% include "partials/cta-section.njk" %}

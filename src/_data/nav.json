@@ -1,0 +1,18 @@
+{
+  "links": [
+    { "label": "Home", "url": "/" },
+    { "label": "About", "url": "/about/" },
+    {
+      "label": "Services",
+      "url": "/services/",
+      "children": [
+        { "label": "Job Placement", "url": "/services/job-placement/", "icon": "briefcase" },
+        { "label": "Recruitment & Staffing", "url": "/services/recruitment-staffing/", "icon": "users" },
+        { "label": "Talent Acquisition", "url": "/services/talent-acquisition/", "icon": "target" },
+        { "label": "Background Verification", "url": "/services/background-verification/", "icon": "shield" },
+        { "label": "IT Training", "url": "/services/it-training/", "icon": "code" }
+      ]
+    },
+    { "label": "Contact", "url": "/contact/" }
+  ]
+}

@@ -1,0 +1,117 @@
+{#
+  Recent placement activity, fed from _data/placements.json — the "this is a living
+  business" signal. PLACEHOLDER DATA: see the note in that file re: consent before launch.
+
+  Params:
+    feedLayout — "rows" (default: dense ledger list) | "cards" (swipeable people cards)
+#}
+
+{% if feedLayout == "cards" %}
+{# ---- Card layout: faces first, swipeable. Used by the photography-led variant. ---- #}
+<section class="py-16 sm:py-24">
+  <div class="section-container">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="eyebrow flex items-center gap-2">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70 motion-reduce:animate-none"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+          </span>
+          Happening right now
+        </p>
+        <h2 class="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+          Six people, the last two weeks
+        </h2>
+      </div>
+      <a href="{{ '/contact/' | url }}" class="inline-flex items-center gap-2 font-semibold text-brand transition-all hover:gap-3">
+        Start your search →
+      </a>
+    </div>
+  </div>
+
+  <div class="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:px-6 lg:mx-auto lg:max-w-content lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-8">
+    {% for placement in placements.list %}
+    <article class="soft-card flex w-[78vw] shrink-0 snap-start flex-col p-6 sm:w-[340px] lg:w-auto">
+      <div class="flex items-center gap-3.5">
+        <img src="{{ placement.photo | url }}" alt="" width="56" height="56" loading="lazy"
+             class="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-border">
+        <div class="min-w-0">
+          <p class="truncate font-display text-lg font-semibold tracking-tight text-ink">{{ placement.name }}</p>
+          <p class="truncate text-sm text-ink/55">{{ placement.role }}</p>
+        </div>
+      </div>
+
+      <div class="mt-5 flex items-center justify-between gap-3 border-t border-border pt-5">
+        <div class="min-w-0">
+          <p class="text-xs text-ink/45">{{ placement.status == "Placed" and "Placed at" or "In progress at" }}</p>
+          <p class="truncate font-display text-xl font-semibold tracking-tight text-brand">{{ placement.company }}</p>
+        </div>
+        <span class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold {% if placement.status == 'Placed' %}bg-brand/10 text-brand{% else %}bg-accent/20 text-ink{% endif %}">
+          {{ placement.status }}
+        </span>
+      </div>
+
+      <p class="mt-4 text-xs text-ink/45">{{ placement.detail }} · {{ placement.when }}</p>
+    </article>
+    {% endfor %}
+  </div>
+
+  <p class="section-container mt-5 text-xs leading-relaxed text-ink/45">
+    Names shortened at candidates' request. Employers shared with written permission.
+  </p>
+</section>
+
+{% else %}
+{# ---- Row layout (default): dense ledger. ---- #}
+<section class="py-16 sm:py-24">
+  <div class="section-container">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="eyebrow flex items-center gap-2">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70 motion-reduce:animate-none"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+          </span>
+          Recent activity
+        </p>
+        <h2 class="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+          Placements this month
+        </h2>
+      </div>
+      <a href="{{ '/contact/' | url }}" class="inline-flex items-center gap-2 font-medium text-brand transition-all hover:gap-3">
+        Start your search →
+      </a>
+    </div>
+
+    <ul class="mt-10 divide-y divide-border border-y border-border">
+      {% for placement in placements.list %}
+      <li class="feed-row grid grid-cols-12 items-center gap-3 py-5 transition-colors hover:bg-surface">
+        <div class="col-span-7 sm:col-span-4">
+          <p class="font-medium text-ink">{{ placement.name }}</p>
+          <p class="mt-0.5 text-sm text-ink/55">{{ placement.role }}</p>
+        </div>
+
+        <div class="col-span-5 sm:col-span-3">
+          <p class="font-display text-lg font-semibold tracking-tight text-ink">{{ placement.company }}</p>
+        </div>
+
+        <div class="col-span-7 sm:col-span-3">
+          <span class="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-ink/70">
+            <span class="h-1.5 w-1.5 rounded-full {% if placement.status == 'Placed' %}bg-brand{% else %}bg-accent{% endif %}"></span>
+            {{ placement.status }}
+          </span>
+        </div>
+
+        <div class="col-span-5 text-right sm:col-span-2">
+          <p class="font-mono text-xs text-ink/45">{{ placement.when }}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <p class="mt-5 text-xs leading-relaxed text-ink/45">
+      Names shortened at candidates' request. Figures and employers shared with written permission.
+    </p>
+  </div>
+</section>
+{% endif %}

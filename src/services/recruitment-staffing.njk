@@ -1,0 +1,92 @@
+---
+layout: layouts/page.njk
+title: Recruitment & Staffing
+description: Full-cycle staffing for employers — sourcing, screening, and delivering vetted candidates across contract, temp, and permanent roles.
+extraScripts:
+  - /assets/js/faq-accordion.js
+---
+{% from "partials/icons.njk" import icon %}
+
+<section class="py-14 sm:py-20">
+  <div class="section-container flex flex-col lg:flex-row-reverse lg:items-center gap-10 lg:gap-16">
+    <div class="lg:w-1/2">
+      {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Recruitment & Staffing" }] %}
+      {% include "partials/breadcrumb.njk" %}
+      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4 leading-tight">Hire Faster, Hire Right</h1>
+      <p class="mt-5 text-lg text-ink/65 leading-relaxed">Vetted candidates for contract, temp, or full-time roles — delivered faster than sifting through a job board yourself.</p>
+      <a href="{{ '/contact/' | url }}" class="btn-primary inline-block mt-7">Tell Us Your Hiring Need</a>
+    </div>
+    <div class="lg:w-1/2">
+      <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center">
+        <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-paper text-brand">{{ icon("users", "w-9 h-9") }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 sm:py-24 bg-surface">
+  <div class="section-container">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow">What's included</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Built for how you hire</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% set included = [
+        { icon: "target", title: "Candidate Sourcing", text: "Active and passive candidate networks built specifically for your role, not a job-board repost." },
+        { icon: "shield", title: "Screening & Vetting", text: "Skills, references, and fit assessed before a candidate ever reaches your inbox." },
+        { icon: "briefcase", title: "Staffing Models", text: "Contract, temp-to-hire, or permanent — whichever structure fits the role." },
+        { icon: "code", title: "Industry Specializations", text: "Dedicated sourcing pipelines in technology, finance, healthcare, and more." }
+      ] %}
+      {% for item in included %}
+      <div class="bg-paper rounded-2xl p-6">
+        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
+        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ item.title }}</h3>
+        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ item.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% set steps = [
+  { label: "Requirement Analysis", description: "We start with the role, the team, and what 'right' actually looks like." },
+  { label: "Sourcing", description: "Active outreach across our network, not a passive posting." },
+  { label: "Screening", description: "Skills and reference checks before you see a single resume." },
+  { label: "Client Interviews", description: "A shortlist you can actually choose from." },
+  { label: "Onboarding", description: "Support through the offer and the first day." }
+] %}
+{% set sectionEyebrow = "The process" %}
+{% set sectionTitle = "From requirement to onboarding" %}
+{% include "partials/process-timeline.njk" %}
+
+<section class="relative overflow-hidden bg-brand py-16 sm:py-20">
+  <div class="section-container">
+    <div class="max-w-2xl mb-10">
+      <p class="font-mono text-xs tracking-widest uppercase text-paper/70">Why employers choose us</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-paper mt-2">Results, not resumes</h2>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 text-center sm:text-left">
+      <div>
+        <p class="font-mono font-semibold text-3xl sm:text-4xl text-paper">94%</p>
+        <p class="mt-2 text-sm text-paper/80">Placement Success</p>
+      </div>
+      <div>
+        <p class="font-mono font-semibold text-3xl sm:text-4xl text-paper">18 days</p>
+        <p class="mt-2 text-sm text-paper/80">Average Time-to-Fill (Contract)</p>
+      </div>
+      <div>
+        <p class="font-mono font-semibold text-3xl sm:text-4xl text-paper">20+</p>
+        <p class="mt-2 text-sm text-paper/80">Industries Served</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set faqKey = "recruitment-staffing" %}
+{% include "partials/faq-accordion.njk" %}
+
+{% set ctaHeadline = "Tell us your hiring need" %}
+{% set ctaLabel = "Talk to Our Team" %}
+{% set ctaHref = "/contact/" %}
+{% set ctaVariant = "brand" %}
+{% include "partials/cta-section.njk" %}
