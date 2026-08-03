@@ -1,0 +1,321 @@
+---
+layout: layouts/page.njk
+title: Home — Dossier
+theme: dossier
+permalink: /explore/dossier/
+description: Recruiting and staffing for students starting out and professionals moving on — plus the employers who hire both.
+---
+{% from "partials/icons.njk" import icon %}
+
+{# ================================================================
+   THE DOSSIER — a case-file browser, not a scrolling brochure. A
+   compact intake header, then a persistent left tab-rail next to a
+   single narrower document column the rail jumps to by anchor. The
+   two full-bleed interludes (employer wall, activity log) are the
+   only sections that break out to full width — everything else
+   stays inside the file. This is deliberately NOT a stack of equal
+   full-width hero→grid→grid→cta sections.
+   ================================================================ #}
+
+{% set rail = [
+  { id: "overview", label: "Overview", n: "00" },
+  { id: "services", label: "Services on file", n: "A" },
+  { id: "sectors", label: "Sector coverage", n: "B" },
+  { id: "case-study", label: "Case study", n: "C" },
+  { id: "training", label: "Training track", n: "D" },
+  { id: "policy", label: "Standing policies", n: "E" },
+  { id: "procedure", label: "Procedure", n: "F" },
+  { id: "statements", label: "Signed statements", n: "G" }
+] %}
+
+{# ---------- 1. Intake header (the file's cover sheet) ----------
+   Two columns. Previously this was one left-aligned column capped at max-w-2xl, which
+   left ~45% of the band empty at desktop and made the only non-gridded section on the
+   page read as a hole. The right column is the file's first exhibit: a mounted print
+   with a stamp across the corner. #}
+<section class="border-b border-border bg-surface">
+  <div class="section-container py-10 sm:py-14">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center lg:gap-12">
+
+      <div class="lg:col-span-7">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} Intake open</span>
+          <span class="font-mono text-xs uppercase tracking-widest text-ink/65">Case No. 2026–014 · {{ site.address.line2 }}</span>
+        </div>
+        <h1 class="mt-6 font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+          Every candidate arrives with a file, not a guess.
+        </h1>
+        <p class="mt-4 max-w-lg leading-relaxed text-ink/65">
+          We open a case the day you call. Employers hire what's already been verified — candidates get placed on the strength of a file, not a keyword match.
+        </p>
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+          <a href="{{ '/services/job-placement/' | url }}" class="btn-primary">{{ icon("arrow-right", "w-4 h-4") }} Open a candidate file</a>
+          <a href="{{ '/services/recruitment-staffing/' | url }}" class="btn-outline">{{ icon("arrow-right", "w-4 h-4") }} Open a hiring brief</a>
+        </div>
+      </div>
+
+      {# Exhibit A — a print mounted in the folder, stamp across the lower corner. The
+         stamp keeps a paper fill rather than sitting bare on the photograph: vermilion
+         ink over an unpredictable image cannot be relied on to stay legible.
+         Stock photograph, not a real client — see assets/images/home/CREDITS.md. #}
+      <figure class="folder-card p-3 lg:col-span-5">
+        <div class="relative">
+          <img src="{{ '/assets/images/home/hero-team-meeting.jpg' | url }}"
+               alt="A recruiter and two candidates in conversation"
+               width="1400" height="933" fetchpriority="high"
+               class="aspect-[4/3] w-full object-cover">
+          <span class="stamp absolute bottom-3 left-3 bg-paper">{{ icon("check-badge", "w-3.5 h-3.5") }} Verified</span>
+        </div>
+        <figcaption class="px-1.5 pb-1 pt-3 font-mono text-[10px] uppercase tracking-widest text-ink/65">
+          Exhibit A · Intake interview
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+{# ---------- 2. Referenced employers (full-bleed interlude) ---------- #}
+{% set placedAtTitle = "Referenced employers" %}
+{% set placedAtLead = "Case files closed with these companies." %}
+{% include "partials/placed-at.njk" %}
+
+{# ---------- 3. The file itself: sticky rail + document column ---------- #}
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    <nav class="hidden lg:col-span-3 lg:block" aria-label="Case file sections">
+      <div class="sticky top-28 folder-card p-2">
+        {% for item in rail %}
+        <a href="#{{ item.id }}" class="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-ink/65 transition-colors hover:bg-surface hover:text-ink">
+          <span class="font-mono text-[10px] text-ink/65">{{ item.n }}</span>{{ item.label }}
+        </a>
+        {% endfor %}
+        <div class="mt-1 border-t border-dashed border-border px-3 pt-4">
+          <dl class="grid grid-cols-2 gap-y-4">
+            {% for stat in stats.list %}
+            <div>
+              <dt class="font-mono text-[9px] uppercase tracking-widest text-ink/65">{{ stat.label }}</dt>
+              <dd class="mt-1 font-display text-lg font-semibold tracking-tight text-ink"
+                  data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
+            </div>
+            {% endfor %}
+          </dl>
+        </div>
+      </div>
+    </nav>
+
+    <div class="lg:col-span-9">
+
+      {# 3a. Overview — two folders side by side ---------- #}
+      <div id="overview" class="scroll-mt-28">
+        <p class="eyebrow">00 — Overview</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Opened the same way, read differently.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div class="folder-card p-6">
+            <div class="flex items-start justify-between">
+              <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-brand text-paper">{{ icon("users", "w-5 h-5") }}</span>
+              <span class="font-mono text-[11px] uppercase tracking-widest text-ink/65">File · JS</span>
+            </div>
+            <h3 class="mt-4 font-display text-lg font-semibold tracking-tight text-ink">Job seeker</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/65">Your history, goals, and constraints — matched against every open brief that fits.</p>
+            <a href="{{ '/services/job-placement/' | url }}" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">Open a file {{ icon("arrow-right", "w-4 h-4") }}</a>
+          </div>
+          <div class="folder-card p-6">
+            <div class="flex items-start justify-between">
+              <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-accent text-paper">{{ icon("briefcase", "w-5 h-5") }}</span>
+              <span class="font-mono text-[11px] uppercase tracking-widest text-ink/65">File · EMP</span>
+            </div>
+            <h3 class="mt-4 font-display text-lg font-semibold tracking-tight text-ink">Employer</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/65">Your role and timeline — logged once, used to screen out everyone who doesn't fit.</p>
+            <a href="{{ '/services/recruitment-staffing/' | url }}" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">Open a brief {{ icon("arrow-right", "w-4 h-4") }}</a>
+          </div>
+        </div>
+      </div>
+
+      {# 3b. Services ---------- #}
+      <div id="services" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">A — Services on file</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Five services, five folders.
+        </h2>
+        <div class="mt-6">
+          {% for service in services.list %}
+          <a href="{{ service.url | url }}" class="docket-row group">
+            <span class="col-span-2 flex h-9 w-9 items-center justify-center rounded-sm bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-paper sm:col-span-1">
+              {{ icon(service.icon, "w-4 h-4") }}
+            </span>
+            <p class="col-span-10 font-display font-semibold tracking-tight text-ink sm:col-span-3">{{ service.title }}</p>
+            <p class="col-span-12 text-sm text-ink/60 sm:col-span-6">{{ service.shortDescription }}</p>
+            <span class="col-span-12 flex justify-end text-ink/30 transition-all group-hover:translate-x-1 group-hover:text-brand sm:col-span-2">{{ icon("arrow-right", "w-4 h-4") }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# 3c. Sectors ---------- #}
+      <div id="sectors" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">B — Sector coverage</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Where the closed files sit.
+        </h2>
+        <div class="mt-6">
+          {% for industry in industries.list %}
+          <div class="docket-row group">
+            <span class="col-span-1 flex h-9 w-9 items-center justify-center rounded-sm bg-surface text-ink/60 transition-colors group-hover:bg-brand group-hover:text-paper">
+              {{ icon(industry.icon, "w-4 h-4") }}
+            </span>
+            <p class="col-span-7 font-display font-semibold tracking-tight text-ink sm:col-span-6">{{ industry.name }}</p>
+            <p class="col-span-12 text-sm text-ink/65 sm:col-span-3">{{ industry.roles }}</p>
+            <p class="col-span-4 text-right font-mono text-sm text-ink/70 sm:col-span-2">{{ industry.share }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# 3d. Case study ---------- #}
+      <div id="case-study" class="mt-14 scroll-mt-28">
+        <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} File closed</span>
+        <h2 class="mt-4 font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Forty applications, no replies. Then a file, and 16 days.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-5 sm:items-center">
+          <div class="folder-card overflow-hidden sm:col-span-2">
+            <img src="{{ '/assets/images/home/interview-conversation.jpg' | url }}" alt="A candidate meeting a hiring manager"
+                 width="1400" height="1050" loading="lazy" class="aspect-[4/3] w-full object-cover">
+          </div>
+          <div class="sm:col-span-3">
+            <p class="leading-relaxed text-ink/70">
+              Priya had a strong analytics background and a résumé that buried it on page two. We rebuilt the file around the work she actually wanted and closed the case in sixteen days.
+            </p>
+            <dl class="mt-5 grid grid-cols-3 gap-4 border-t border-dashed border-border pt-5">
+              {% for fact in [{ k: "To offer", v: "16 days" }, { k: "Interviews", v: "3" }, { k: "Placed at", v: "Amazon" }] %}
+              <div>
+                <dt class="font-mono text-[9px] uppercase tracking-widest text-ink/65">{{ fact.k }}</dt>
+                <dd class="mt-1 font-display text-base font-semibold tracking-tight text-ink">{{ fact.v }}</dd>
+              </div>
+              {% endfor %}
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      {# 3e. Training ---------- #}
+      <div id="training" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">D — Training track</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          No file yet? We help you build one.
+        </h2>
+        <p class="mt-4 max-w-lg leading-relaxed text-ink/65">
+          Our IT Training tracks end where a certificate usually would — graduates go straight into intake, file opened on day one.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          {% for stage in ["Enrol", "Learn", "Build a project", "Certify", "File opened"] %}
+          <span class="inline-flex items-center gap-2 rounded-sm border border-border bg-surface px-3 py-1.5 font-mono text-xs text-ink/70">
+            <span class="font-semibold {% if loop.last %}text-accent{% endif %}">{{ loop.index }}</span> {{ stage }}
+          </span>
+          {% endfor %}
+        </div>
+        <a href="{{ '/services/it-training/' | url }}" class="mt-5 inline-flex items-center gap-2 font-semibold text-brand transition-all hover:gap-3">
+          See the training tracks {{ icon("arrow-right", "w-4 h-4") }}
+        </a>
+      </div>
+
+      {# 3f. Policies ---------- #}
+      <div id="policy" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">E — Standing policies</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Four things every file follows.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {% set policies = [
+            { n: "01", t: "Careers, not jobs", d: "We'll talk you out of a role that pays more and leads nowhere." },
+            { n: "02", t: "A person reads it", d: "No keyword filter closes a file. A recruiter reads every résumé." },
+            { n: "03", t: "Deadlines are deadlines", d: "If we say Thursday, it's Thursday." },
+            { n: "04", t: "Files stay open", d: "We check in at ninety days, and again when you're ready to reopen one." }
+          ] %}
+          {% for policy in policies %}
+          <div class="folder-card p-5">
+            <span class="font-mono text-xs text-accent">{{ policy.n }}</span>
+            <h3 class="mt-3 font-display font-semibold tracking-tight text-ink">{{ policy.t }}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/65">{{ policy.d }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# 3g. Procedure ---------- #}
+      <div id="procedure" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">F — Procedure</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          How a file moves.
+        </h2>
+        <ol class="mt-6">
+          {% set steps = [
+            { label: "Apply", description: "Tell us where you are and where you want to be." },
+            { label: "Match", description: "The file is matched against every brief that fits." },
+            { label: "Interview", description: "Coaching and prep before it counts." },
+            { label: "Placement", description: "An offer, negotiation help, a check-in at ninety days." }
+          ] %}
+          {% for step in steps %}
+          <li class="docket-row">
+            <span class="col-span-2 flex h-8 w-8 items-center justify-center rounded-sm bg-ink font-mono text-xs font-semibold text-paper sm:col-span-1">{{ loop.index }}</span>
+            <p class="col-span-10 font-display font-semibold tracking-tight text-ink sm:col-span-3">{{ step.label }}</p>
+            <p class="col-span-12 text-sm leading-relaxed text-ink/65 sm:col-span-8">{{ step.description }}</p>
+          </li>
+          {% endfor %}
+        </ol>
+      </div>
+
+      {# 3h. Statements ---------- #}
+      <div id="statements" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">G — Signed statements</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          On record, from the file.
+        </h2>
+        {% set excludedHere = ["priya"] %}
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {% for testimonial in testimonials.list %}
+            {% if testimonial.slug not in excludedHere and loop.index <= 4 %}
+            <figure class="folder-card p-5">
+              <blockquote class="text-sm leading-relaxed text-ink/75">&ldquo;{{ testimonial.quote }}&rdquo;</blockquote>
+              <figcaption class="mt-4 flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
+                <span>
+                  <span class="block text-sm font-semibold text-ink">{{ testimonial.name }}</span>
+                  <span class="block text-xs text-ink/65">{{ testimonial.role }} · {{ testimonial.company }}</span>
+                </span>
+                <span class="font-mono text-[10px] uppercase tracking-widest text-ink/65">Sworn</span>
+              </figcaption>
+            </figure>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ---------- 4. Case log (full-bleed interlude) ---------- #}
+<div id="activity" class="scroll-mt-28 border-t border-border">
+  {% include "partials/placement-feed.njk" %}
+</div>
+
+{# ---------- 5. Close the case ---------- #}
+<section class="bg-ink py-20 sm:py-28">
+  <div class="section-container text-center">
+    <span class="stamp !border-paper !text-paper">{{ icon("check-badge", "w-3.5 h-3.5") }} Ready to open</span>
+    <h2 class="mx-auto mt-6 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight text-paper sm:text-5xl">
+      Ready to open your file?
+    </h2>
+    <p class="mx-auto mt-5 max-w-lg leading-relaxed text-paper/65">
+      Whether you're job hunting or hiring, the intake call is free — and it starts the file.
+    </p>
+    <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+      <a href="{{ '/contact/' | url }}" class="inline-flex items-center justify-center gap-2 rounded-sm bg-paper px-6 py-3.5 font-medium text-ink transition-colors hover:bg-surface">Get Started {{ icon("arrow-right", "w-4 h-4") }}</a>
+      <a href="{{ site.phoneHref }}" class="inline-flex items-center justify-center gap-2 rounded-sm border border-paper/40 px-6 py-3.5 font-medium text-paper transition-colors hover:border-paper">{{ icon("phone", "w-4 h-4") }} {{ site.phone }}</a>
+    </div>
+  </div>
+</section>
+
+{% include "partials/variant-switcher.njk" %}

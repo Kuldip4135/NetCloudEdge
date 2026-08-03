@@ -19,6 +19,7 @@
   --color-brand: 29 95 214;
   --color-brand-dark: 20 64 158;
   --color-accent: 23 182 212;
+  --color-accent-deep: 12 116 137;
   --color-surface: 234 241 251;
   --color-border: 211 225 245;
 }
@@ -35,29 +36,98 @@
   --color-border: 215 203 187;
 }
 
-/* B — Human: "The Callback" — a recruiter who picks up the phone. Wine carries trust and
-   text, warm amber is the "connected" glow (call chips, waveform accents, on-dark highlights).
-   Amber is deliberately light, so it is NOT used for small text on light backgrounds — see
-   the contrast note below. */
-:root[data-theme="human"] {
-  --color-ink: 34 24 30;
-  --color-paper: 253 250 246;
-  --color-brand: 140 59 87;
-  --color-brand-dark: 106 42 65;
-  --color-accent: 227 162 61;
-  --color-surface: 245 237 227;
-  --color-border: 226 214 197;
-}
+/* C — Bold: neo-brutalist. Border token IS the ink so thick outlines read as structure.
+   Default colourway: "Highlighter" — cream stock, electric blue, vermilion, school yellow.
 
-/* C — Bold: neo-brutalist. Border token IS the ink so thick outlines read as structure. */
+   Bold's tokens are load-bearing in ways the other themes' are not, so any alternate
+   colourway has to hold the same contract or the page breaks:
+     ink     near-black; it is also every 2px outline and the brut shadow
+     border  MUST equal ink
+     brand   dark enough to carry text-paper (the "For Job Seekers" tile)
+     accent  light enough to carry text-ink (the "For Employers" tile, marquee, stamps)
+     surface pale enough to carry text-ink (icon chips, the wall behind the tiles)
+   Alternates live below as [data-palette]; layout and markup are untouched. */
 :root[data-theme="bold"] {
   --color-ink: 16 16 16;
   --color-paper: 255 248 231;
   --color-brand: 43 76 255;
   --color-brand-dark: 28 55 214;
   --color-accent: 255 77 45;
+  --color-accent-deep: 194 52 15;
   --color-surface: 255 224 102;
   --color-border: 16 16 16;
+}
+
+/* Riso — duplicator inks: bottle green against fluorescent pink on periwinkle stock.
+   The two colours fight in exactly the way two riso passes do when they overprint. */
+:root[data-theme="bold"][data-palette="riso"] {
+  --color-ink: 16 16 26;
+  --color-paper: 243 241 250;
+  --color-brand: 0 113 63;
+  --color-brand-dark: 0 84 47;
+  --color-accent: 255 72 176;
+  --color-accent-deep: 179 0 110;
+  --color-surface: 255 217 236;
+  --color-border: 16 16 26;
+}
+
+/* Press — a two-plate print run: crimson and cyan on bone, no third hue anywhere.
+   The most restrained of the four; the tiles carry it rather than the palette. */
+:root[data-theme="bold"][data-palette="press"] {
+  --color-ink: 18 16 16;
+  --color-paper: 248 245 239;
+  --color-brand: 176 27 46;
+  --color-brand-dark: 138 20 36;
+  --color-accent: 77 217 232;
+  --color-accent-deep: 10 110 122;
+  --color-surface: 207 243 247;
+  --color-border: 18 16 16;
+}
+
+/* Site — safety-vest hi-vis lime against deep navy on concrete. "Where careers find
+   their footing" read literally: wayfinding and site signage. */
+:root[data-theme="bold"][data-palette="site"] {
+  --color-ink: 20 22 26;
+  --color-paper: 236 236 231;
+  --color-brand: 22 37 94;
+  --color-brand-dark: 14 25 68;
+  --color-accent: 200 243 29;
+  --color-accent-deep: 90 112 0;
+  --color-surface: 232 245 200;
+  --color-border: 20 22 26;
+}
+
+/* D — Dossier: a case file, not a brochure. Palette taken from the materials the motif
+   is actually made of — archival slate stock (never warm/cream: the folder-and-stamp
+   idea should read as verification, not nostalgia), blue-black registrar's ink, and
+   aniline violet, which is the colour real stamp pads and indelible copying pencils
+   put on a document. Vermilion is reserved strictly for stamps and file numbers.
+   The old teal is gone deliberately: it sat a few degrees from Editorial's brand green
+   and made two variants look like one design language wearing different layouts. */
+:root[data-theme="dossier"] {
+  --color-ink: 27 31 46;
+  --color-paper: 238 239 244;
+  --color-brand: 74 63 143;
+  --color-brand-dark: 55 46 110;
+  --color-accent: 184 48 31;
+  --color-surface: 226 228 236;
+  --color-border: 199 202 216;
+}
+
+/* E — Signal: a control room, not a terminal and not a dashboard in daylight.
+   A deep petrol field with real coloured light pooled behind it, and every panel is
+   a sheet of frosted glass sitting at a measurable depth above that light — which is
+   the whole point of glass: it needs something worth blurring. Two functional states
+   carry all the colour: signal-green means settled/confirmed, amber means actively
+   moving through a stage. Neither is ever used decoratively. */
+:root[data-theme="signal"] {
+  --color-ink: 230 242 236;
+  --color-paper: 7 23 27;
+  --color-brand: 47 217 160;
+  --color-brand-dark: 22 169 122;
+  --color-accent: 242 169 59;
+  --color-surface: 20 51 58;
+  --color-border: 47 87 94;
 }
 
 @layer base {
@@ -187,49 +257,6 @@
     @apply border-ink/40;
   }
 
-  /* B — Human: soft, rounded, warm. Photography carries the page; chrome stays quiet. */
-  [data-theme="human"] .btn-primary {
-    @apply rounded-full shadow-none hover:shadow-glow;
-  }
-  [data-theme="human"] .btn-outline {
-    @apply rounded-full bg-paper backdrop-blur-none;
-  }
-  [data-theme="human"] .glass-panel {
-    @apply rounded-3xl border-border bg-paper/85 shadow-glass;
-  }
-  /* Indigo, not peach: peach on paper is ~2.2:1 and fails WCAG AA for small text. */
-  [data-theme="human"] .eyebrow {
-    @apply font-body font-semibold normal-case tracking-normal text-brand;
-  }
-  [data-theme="human"] body::before {
-    opacity: 0.25;
-  }
-  /* Warm card used across the human variant — soft edge, no hard border. */
-  .soft-card {
-    @apply relative overflow-hidden rounded-[1.75rem] bg-paper ring-1 ring-border transition-all duration-300;
-  }
-  .soft-card:hover {
-    @apply -translate-y-1.5 shadow-glass ring-brand/25;
-  }
-  /* Organic blob mask for portrait photography — reads hand-made, not stock-grid. */
-  .blob-a {
-    border-radius: 58% 42% 47% 53% / 45% 51% 49% 55%;
-  }
-  .blob-b {
-    border-radius: 44% 56% 62% 38% / 54% 43% 57% 46%;
-  }
-  /* "The Callback" signature — a call-log chip (Connected · 0:42) and its waveform,
-     the through-line for the human variant's "we actually pick up" promise. */
-  .call-chip {
-    @apply inline-flex items-center gap-2 rounded-full bg-brand/10 px-3 py-1.5 font-mono text-xs font-semibold text-brand;
-  }
-  .waveform {
-    @apply flex h-4 items-end gap-0.5;
-  }
-  .waveform span {
-    @apply w-0.5 rounded-full bg-accent;
-  }
-
   /* C — Bold: hard edges, thick ink borders, offset shadows, zero blur. */
   [data-theme="bold"] .btn-primary {
     @apply rounded-none border-2 border-ink shadow-brut font-bold uppercase tracking-wide hover:bg-accent hover:text-ink hover:-translate-y-0 hover:shadow-brut-lg;
@@ -261,8 +288,173 @@
     @apply font-black uppercase tracking-tight;
   }
 
+  /* D — Dossier: folders, not cards. Flat, faintly bureaucratic, a tab of color along
+     the top edge standing in for a manila folder tab without borrowing manila's hue. */
+  [data-theme="dossier"] .btn-primary {
+    @apply rounded-sm shadow-none hover:shadow-none hover:translate-y-0 hover:bg-brand-dark;
+  }
+  [data-theme="dossier"] .btn-outline {
+    @apply rounded-sm border-dashed bg-paper backdrop-blur-none hover:translate-y-0 hover:border-solid;
+  }
+  [data-theme="dossier"] .glass-panel {
+    @apply rounded-sm border-border bg-paper shadow-none;
+  }
+  [data-theme="dossier"] .card-lift:hover {
+    @apply translate-y-0 shadow-none;
+  }
+  /* Section labels are filing marks, not headlines — they go quiet so the vermilion
+     stays exclusive to stamps and file numbers. /65 rather than /45 keeps 12px mono
+     above 4.5:1 on the slate stock. */
+  [data-theme="dossier"] .eyebrow {
+    @apply text-ink/65;
+  }
+  [data-theme="dossier"] body::before {
+    opacity: 0.2;
+  }
+  /* A folder with a colored tab along the top edge — the recurring "case file" unit. */
+  .folder-card {
+    @apply relative overflow-hidden rounded-sm border border-border bg-paper pt-5 before:absolute before:inset-x-0 before:top-0 before:h-1.5 before:bg-brand;
+  }
+  /* A rotated ink-stamp badge — "VERIFIED", "OPEN", etc. */
+  .stamp {
+    @apply inline-flex -rotate-2 items-center gap-1.5 rounded-sm border-2 border-accent px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-widest text-accent;
+  }
+  /* Dashed-rule row for exhibit/docket lists — echoes ed-row but never solidifies into a card. */
+  .docket-row {
+    @apply grid grid-cols-12 items-center gap-3 border-b border-dashed border-border py-4 last:border-b-0;
+  }
+
+  /* ---- E — Signal: control-room glass ---- */
+
+  /* The light behind the glass. Three slow pools of colour fixed to the viewport and
+     sitting on z-index -1, so panels have something to actually frost and the field
+     shifts as you scroll past it. Decorative, never interactive. */
+  [data-theme="signal"] body::after {
+    content: "";
+    position: fixed;
+    inset: -25%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(38rem 38rem at 16% 10%, rgb(var(--color-brand) / 0.20), transparent 64%),
+      radial-gradient(32rem 32rem at 86% 4%, rgb(var(--color-accent) / 0.13), transparent 60%),
+      radial-gradient(46rem 46rem at 62% 74%, rgb(38 132 214 / 0.20), transparent 66%);
+    animation: drift 32s ease-in-out infinite alternate;
+  }
+  [data-theme="signal"] body::before {
+    opacity: 0.5;
+  }
+  /* Header becomes another sheet of glass rather than an opaque bar. */
+  [data-theme="signal"] [data-header] {
+    background-color: rgb(var(--color-paper) / 0.55);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+  }
+  [data-theme="signal"] [data-header].is-scrolled {
+    border-color: rgb(255 255 255 / 0.10);
+  }
+
+  [data-theme="signal"] .btn-primary {
+    @apply rounded-full font-mono text-sm tracking-tight shadow-none hover:translate-y-0 hover:bg-brand-dark hover:shadow-none;
+  }
+  [data-theme="signal"] .btn-outline {
+    @apply rounded-full border-white/15 bg-white/[0.06] font-mono text-sm tracking-tight text-ink backdrop-blur-xl hover:translate-y-0 hover:border-white/30 hover:bg-white/[0.12] hover:text-ink;
+  }
+  [data-theme="signal"] .eyebrow {
+    @apply font-mono tracking-[0.2em] text-brand;
+  }
+  /* A status board has no business setting a serif. Signal swaps the display face for
+     Space Grotesk — mechanical, tight, and at home sitting next to mono numerals.
+     Already in the font request, so this costs nothing. */
+  [data-theme="signal"] .font-display {
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  }
+  [data-theme="signal"] .glass-panel {
+    @apply rounded-2xl border-white/10 bg-white/[0.05] shadow-none backdrop-blur-2xl;
+  }
+
+  /* The recurring unit: a frosted sheet with a lit top edge, as if light is grazing
+     across it. The ::before hairline is what sells the depth — without it a
+     translucent box just reads as a faded card. */
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] backdrop-blur-2xl;
+    box-shadow: 0 30px 60px -32px rgb(0 0 0 / 0.85);
+  }
+  .glass-card::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.30), transparent);
+  }
+  /* Label strip along the top of a panel. Says what the panel is monitoring — no
+     window chrome, no traffic-light dots. */
+  .glass-head {
+    @apply flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/55;
+  }
+  .glass-row {
+    @apply border-b border-white/[0.07] last:border-b-0;
+  }
+  .glass-hover {
+    @apply transition-colors duration-200 hover:bg-white/[0.05];
+  }
+
+  /* Status pill. `data-state` is load-bearing: live = settled and confirmed,
+     moving = still travelling through a stage. */
+  .sig-chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 font-mono text-[11px] tracking-wide text-ink/70 backdrop-blur;
+  }
+  .sig-chip[data-state="live"] {
+    @apply border-brand/30 bg-brand/10 text-brand;
+  }
+  .sig-chip[data-state="moving"] {
+    @apply border-accent/30 bg-accent/10 text-accent;
+  }
+
+  /* SIGNATURE — the funnel rail. Four glass segments across one track, each sized by
+     flex-grow to the real headcount at that stage, so the funnel narrows in front of
+     you instead of being described in a caption. A light sweep travels it on a loop. */
+  .rail {
+    @apply relative flex flex-col gap-1.5 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.055] p-1.5 backdrop-blur-2xl sm:flex-row;
+    box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.9);
+  }
+  .rail::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 z-10 h-px;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.35), transparent);
+  }
+  .rail::after {
+    content: "";
+    @apply pointer-events-none absolute inset-y-0 left-0 z-10 w-1/4;
+    background: linear-gradient(90deg, transparent, rgb(var(--color-brand) / 0.16), transparent);
+    animation: sweep 9s ease-in-out 1s infinite;
+  }
+  .rail-seg {
+    @apply relative flex flex-row items-baseline justify-between gap-3 rounded-[1.35rem] border border-white/[0.06] bg-white/[0.03] px-5 py-3.5;
+    @apply sm:basis-0 sm:min-w-[8.5rem] sm:flex-col sm:items-start sm:justify-center sm:gap-1 sm:py-6;
+  }
+  .rail-seg[data-state="live"] {
+    @apply border-brand/25 bg-brand/[0.14];
+  }
+  .rail-seg[data-state="moving"] {
+    @apply border-accent/20 bg-accent/[0.08];
+  }
+
+  /* The employer band. Signal needs it to read as a distinct plate, otherwise the
+     rail and metrics strip appear to overlap nothing at all. */
+  [data-theme="signal"] .network-band {
+    @apply border-y border-white/10;
+  }
+
+  /* Share meter for the sector board — a bar in a groove, not a progress widget. */
+  .meter {
+    @apply h-1 flex-1 overflow-hidden rounded-full bg-white/[0.08];
+  }
+  .meter > span {
+    @apply block h-full rounded-full;
+    background: linear-gradient(90deg, rgb(var(--color-brand-dark)), rgb(var(--color-brand)));
+  }
+
   /* Duotone photo treatment — warms stock photography toward the brand instead of
-     leaving it looking bought. Used on the editorial + human variants. */
+     leaving it looking bought. Used on the editorial variant. */
   .photo-warm {
     filter: saturate(0.85) contrast(1.04) sepia(0.12);
   }
@@ -274,4 +466,17 @@
     @apply pointer-events-none absolute inset-0;
     background: linear-gradient(to top, rgb(var(--color-ink) / 0.28), transparent 55%);
   }
+}
+
+/* Signal-only motion. Declared raw rather than in tailwind.config because both are
+   driven from CSS rules on pseudo-elements, not from utility classes in the markup.
+   The reduced-motion block in @layer base neutralises both. */
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-3%, 4%, 0) scale(1.12); }
+}
+@keyframes sweep {
+  0%       { transform: translateX(-100%); opacity: 0; }
+  12%, 62% { opacity: 1; }
+  75%, 100% { transform: translateX(420%); opacity: 0; }
 }

@@ -1,6 +1,8 @@
 <!doctype html>
 {# `theme` front-matter swaps the whole design language (palette + component styling) — see input.css. #}
-<html lang="en"{% if theme %} data-theme="{{ theme }}"{% endif %}>
+{# `palette` picks an alternate colourway within a theme (Bold ships four). Optional —
+   omit it for the theme's default. Can also be set at runtime, see palette-switcher.njk. #}
+<html lang="en"{% if theme %} data-theme="{{ theme }}"{% endif %}{% if palette %} data-palette="{{ palette }}"{% endif %}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">

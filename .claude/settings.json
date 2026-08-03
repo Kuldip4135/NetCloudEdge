@@ -49,7 +49,24 @@
       "Bash(gh --version)",
       "Bash(gh auth *)",
       "Bash(git commit *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(s['slug'], s['icon'], s['title']\\) for s in d['list']]\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(i['name'], i['icon'], i['share']\\) for i in d['list']]\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(t['slug'], t['name'], t['role'], t['company']\\) for t in d['list']]\")",
+      "Bash(cd \"/Users/kuldipthakkar/Desktop/Kuldip/Projects/Web/Yash Thakor Website\" && ls node_modules | grep -i playwright; ls node_modules | grep -i puppeteer; which chromium chrome 2>/dev/null; ls /Applications | grep -i chrom)",
+      "Read(//Applications/**)",
+      "Bash(cp /tmp/shot.js \"/Users/kuldipthakkar/Desktop/Kuldip/Projects/Web/Yash Thakor Website/shot.js\")",
+      "Bash(node shot.js)",
+      "Bash(pkill -f \"http.server 8098\")",
+      "Bash(pkill -f \"http.server 809\")",
+      "Bash(rm -f /tmp/shot.js /tmp/httpserver*.log)",
+      "Bash(python3 -)",
+      "Bash(node shot.mjs)",
+      "Bash(npm i *)",
+      "Bash(node shotm.mjs)",
+      "Bash(pkill -f \"http.server 8899\")",
+      "Bash(node dos.mjs)",
+      "Bash(node regress.mjs)"
     ]
   }
 }

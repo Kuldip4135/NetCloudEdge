@@ -7,14 +7,19 @@ description: Recruiting and staffing for students starting out and professionals
 ---
 {% from "partials/icons.njk" import icon %}
 
+{# ================================================================
+   BOLD — a corkboard, not a stack of alternating color bands. After
+   the marquee + hero, almost everything lives on one continuous
+   paper "wall": a dense tile grid of pinned index cards, a couple
+   nudged off-axis, instead of full-bleed hero→grid→grid→cta
+   sections that just swap background color each time.
+   ================================================================ #}
+
 {# ---------- 1. Marquee ticker ---------- #}
 <div class="overflow-hidden border-y-2 border-ink bg-accent py-2.5">
   <div class="flex w-max animate-marquee motion-reduce:animate-none">
-    {# Track duplicated so the -50% translate loops seamlessly; copy is aria-hidden. #}
     {% for pass in [1, 2] %}
     <div class="flex shrink-0 items-center" {% if pass == 2 %}aria-hidden="true"{% endif %}>
-      {# Attitude, not numbers — the canonical stats live in the band below and the
-         employer names live in the wall. Restating either here made the page repeat itself. #}
       {% for word in ["Placing Since 2013", "Chicago Built", "No Keyword Filters", "A Person Reads It", "Careers Not Job Boards"] %}
       <span class="flex items-center whitespace-nowrap px-6 font-body text-sm font-extrabold uppercase tracking-wider text-ink">
         {{ word }} <span class="ml-6 text-lg leading-none">✦</span>
@@ -47,18 +52,6 @@ description: Recruiting and staffing for students starting out and professionals
           <a href="{{ '/services/job-placement/' | url }}" class="btn-primary">Find a Job</a>
           <a href="{{ '/services/recruitment-staffing/' | url }}" class="btn-outline">Hire Talent</a>
         </div>
-
-        <div class="mt-10 flex items-center gap-4 border-t-2 border-ink pt-6">
-          <div class="flex -space-x-3">
-            {% for face in ["priya", "sofia", "james", "aisha"] %}
-            <img src="{{ ('/assets/images/home/person-' + face + '.jpg') | url }}" alt="" width="44" height="44" loading="eager"
-                 class="h-11 w-11 border-2 border-ink object-cover">
-            {% endfor %}
-          </div>
-          <p class="font-body text-xs font-extrabold uppercase leading-tight tracking-wide text-ink">
-            Recently placed<br><span class="text-ink/55">this month</span>
-          </p>
-        </div>
       </div>
 
       <div class="lg:col-span-7">
@@ -72,44 +65,32 @@ description: Recruiting and staffing for students starting out and professionals
   </div>
 </section>
 
-{# ---------- 3. Employer wall ---------- #}
-{% set placedAtLead = "Our people work here now." %}
-{% include "partials/placed-at.njk" %}
-
-{# ---------- 4. Stats band ---------- #}
-<section class="border-b-2 border-ink bg-surface">
-  <div class="grid grid-cols-2 lg:grid-cols-4">
-    {% for stat in stats.list %}
-    <div class="border-ink p-7 text-center sm:p-9 {% if not loop.last %}border-r-2{% endif %} {% if loop.index <= 2 %}border-b-2 lg:border-b-0{% endif %} {% if loop.index == 2 %}border-r-0 lg:border-r-2{% endif %}">
-      <p class="font-display text-4xl font-black tracking-tight text-ink sm:text-6xl"
-         data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</p>
-      <p class="mt-2 font-body text-[11px] font-extrabold uppercase tracking-widest text-ink/70">{{ stat.label }}</p>
-    </div>
-    {% endfor %}
-  </div>
-</section>
-
-{# ---------- 5. Dual path: heavy blocks with photos ---------- #}
-<section class="py-16 sm:py-24">
+{# ---------- 3. The wall: a dense grid of pinned tiles ---------- #}
+<section class="bg-surface py-14 sm:py-20">
   <div class="section-container">
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
 
+    {# Stat cards — pinned index cards, alternating tilt #}
+    <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {% for stat in stats.list %}
+      <div class="brut-box bg-paper p-5 text-center {% if loop.index is odd %}-rotate-1{% else %}rotate-1{% endif %}">
+        <p class="font-display text-3xl font-black tracking-tight text-ink sm:text-4xl"
+           data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</p>
+        <p class="mt-1.5 font-body text-[10px] font-extrabold uppercase tracking-widest text-ink/70">{{ stat.label }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Dual path — two large tiles #}
+    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
       <div class="brut-box brut-box-lift flex flex-col bg-brand">
         <img src="{{ '/assets/images/home/team-at-desk.jpg' | url }}" alt="Two colleagues working at a shared desk"
              width="1400" height="787" loading="lazy"
              class="aspect-[16/9] w-full border-b-2 border-ink object-cover contrast-[1.08]">
-        <div class="flex flex-1 flex-col p-8 sm:p-10">
-          <span class="flex h-14 w-14 items-center justify-center border-2 border-ink bg-paper text-ink">{{ icon("users", "w-7 h-7") }}</span>
-          <h2 class="mt-6 font-display text-3xl font-black uppercase leading-none tracking-tight text-paper sm:text-4xl">For Job<br>Seekers</h2>
-          <p class="mt-4 leading-relaxed text-paper/85">Personal matching, interview coaching, and offer support — from your first role to your next move.</p>
-          <ul class="mt-6 space-y-2.5">
-            {% for point in ["Profile built around what you want", "Intros to employers hiring now", "Coaching before every interview", "Negotiation help on the offer"] %}
-            <li class="flex items-start gap-2.5 text-sm font-medium text-paper/90">
-              <span class="mt-0.5 shrink-0">{{ icon("check", "w-4 h-4") }}</span> {{ point }}
-            </li>
-            {% endfor %}
-          </ul>
-          <a href="{{ '/services/job-placement/' | url }}" class="mt-auto inline-flex w-fit items-center gap-2 border-2 border-ink bg-paper px-5 py-2.5 font-body text-sm font-extrabold uppercase tracking-wide text-ink shadow-brut transition-all hover:bg-accent">
+        <div class="flex flex-1 flex-col p-7">
+          <span class="flex h-12 w-12 items-center justify-center border-2 border-ink bg-paper text-ink">{{ icon("users", "w-6 h-6") }}</span>
+          <h2 class="mt-5 font-display text-2xl font-black uppercase leading-none tracking-tight text-paper">For Job Seekers</h2>
+          <p class="mt-3 text-sm leading-relaxed text-paper/85">Personal matching, interview coaching, and offer support — from your first role to your next move.</p>
+          <a href="{{ '/services/job-placement/' | url }}" class="mt-auto inline-flex w-fit items-center gap-2 border-2 border-ink bg-paper px-4 py-2 font-body text-xs font-extrabold uppercase tracking-wide text-ink shadow-brut transition-all hover:bg-accent mt-5">
             Explore {{ icon("arrow-right", "w-4 h-4") }}
           </a>
         </div>
@@ -119,272 +100,132 @@ description: Recruiting and staffing for students starting out and professionals
         <img src="{{ '/assets/images/home/office-collaboration.jpg' | url }}" alt="A hiring team meeting in an open office"
              width="1400" height="787" loading="lazy"
              class="aspect-[16/9] w-full border-b-2 border-ink object-cover contrast-[1.08]">
-        <div class="flex flex-1 flex-col p-8 sm:p-10">
-          <span class="flex h-14 w-14 items-center justify-center border-2 border-ink bg-paper text-ink">{{ icon("briefcase", "w-7 h-7") }}</span>
-          <h2 class="mt-6 font-display text-3xl font-black uppercase leading-none tracking-tight text-ink sm:text-4xl">For<br>Employers</h2>
-          <p class="mt-4 leading-relaxed text-ink/80">Sourced, screened, and verified candidates — delivered faster than a job board could ever manage.</p>
-          <ul class="mt-6 space-y-2.5">
-            {% for point in ["Brief taken by the person who owns it", "Shortlists, never résumé dumps", "Background checks handled in-house", "Median time-to-fill under 4 weeks"] %}
-            <li class="flex items-start gap-2.5 text-sm font-medium text-ink/85">
-              <span class="mt-0.5 shrink-0">{{ icon("check", "w-4 h-4") }}</span> {{ point }}
-            </li>
-            {% endfor %}
-          </ul>
-          <a href="{{ '/services/recruitment-staffing/' | url }}" class="mt-auto inline-flex w-fit items-center gap-2 border-2 border-ink bg-paper px-5 py-2.5 font-body text-sm font-extrabold uppercase tracking-wide text-ink shadow-brut transition-all hover:bg-surface">
+        <div class="flex flex-1 flex-col p-7">
+          <span class="flex h-12 w-12 items-center justify-center border-2 border-ink bg-paper text-ink">{{ icon("briefcase", "w-6 h-6") }}</span>
+          <h2 class="mt-5 font-display text-2xl font-black uppercase leading-none tracking-tight text-ink">For Employers</h2>
+          <p class="mt-3 text-sm leading-relaxed text-ink/80">Sourced, screened, and verified candidates — delivered faster than a job board could ever manage.</p>
+          <a href="{{ '/services/recruitment-staffing/' | url }}" class="mt-auto inline-flex w-fit items-center gap-2 border-2 border-ink bg-paper px-4 py-2 font-body text-xs font-extrabold uppercase tracking-wide text-ink shadow-brut transition-all hover:bg-surface mt-5">
             Explore {{ icon("arrow-right", "w-4 h-4") }}
           </a>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-{# ---------- 6. Services grid ---------- #}
-<section class="border-y-2 border-ink bg-surface py-16 sm:py-24">
-  <div class="section-container">
-    <h2 class="max-w-3xl font-display text-4xl font-black uppercase leading-[0.9] tracking-tight text-ink sm:text-6xl">
-      Five services.<br>One pipeline.
-    </h2>
-
-    <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {% for service in services.list %}
-      <a href="{{ service.url | url }}" class="brut-box brut-box-lift group flex flex-col bg-paper p-7 hover:bg-ink">
-        <div class="flex items-start justify-between">
-          <span class="flex h-12 w-12 items-center justify-center border-2 border-ink bg-surface text-ink group-hover:bg-accent">
-            {{ icon(service.icon, "w-6 h-6") }}
-          </span>
-          <span class="font-mono text-2xl font-bold text-ink/25 group-hover:text-paper/40">
-            {{ "0" if loop.index < 10 }}{{ loop.index }}
-          </span>
+    {# Services + case study, mixed row #}
+    <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-12">
+      <div class="brut-box bg-paper p-6 lg:col-span-7">
+        <p class="font-body text-xs font-extrabold uppercase tracking-widest text-accent-deep">Case study</p>
+        <h2 class="mt-3 font-display text-2xl font-black uppercase leading-[0.95] tracking-tight text-ink sm:text-3xl">
+          40 applications. Zero replies. Then 16 days.
+        </h2>
+        <p class="mt-4 text-sm leading-relaxed text-ink/75">
+          Priya had a strong analytics background and a résumé that buried it on page two. We rebuilt the profile, introduced her to three employers who needed exactly that, and prepped her for every conversation.
+        </p>
+        <div class="mt-5 flex items-center gap-3">
+          <img src="{{ '/assets/images/home/person-priya.jpg' | url }}" alt="" width="40" height="40" loading="lazy"
+               class="h-10 w-10 border-2 border-ink object-cover">
+          <p class="font-body text-xs font-extrabold uppercase tracking-wide text-ink">Priya Nandakumar <span class="font-normal normal-case text-ink/55">— Amazon, 16 days</span></p>
         </div>
-        <h3 class="mt-6 font-display text-2xl font-black uppercase leading-none tracking-tight text-ink group-hover:text-paper">
-          {{ service.title }}
-        </h3>
-        <p class="mt-3 flex-1 text-sm leading-relaxed text-ink/70 group-hover:text-paper/70">{{ service.shortDescription }}</p>
-        <span class="mt-6 inline-flex items-center gap-2 font-body text-xs font-extrabold uppercase tracking-widest text-ink group-hover:text-accent">
-          Learn more {{ icon("arrow-right", "w-4 h-4") }}
-        </span>
+      </div>
+      <div class="brut-box brut-box-lift rotate-1 bg-ink p-6 lg:col-span-5">
+        <div class="flex items-center gap-1 text-accent">{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}</div>
+        <blockquote class="mt-3 font-display text-lg font-semibold leading-snug text-paper">&ldquo;These ones treated my career change as the story, not a problem to explain away.&rdquo;</blockquote>
+        <p class="mt-4 font-body text-xs font-extrabold uppercase tracking-wide text-paper/60">Lena Toma — Nvidia</p>
+      </div>
+    </div>
+
+    {# Services grid #}
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {% for service in services.list %}
+      <a href="{{ service.url | url }}" class="brut-box brut-box-lift group flex flex-col bg-paper p-6 hover:bg-ink">
+        <div class="flex items-start justify-between">
+          <span class="flex h-11 w-11 items-center justify-center border-2 border-ink bg-surface text-ink group-hover:bg-accent">
+            {{ icon(service.icon, "w-5 h-5") }}
+          </span>
+          <span class="font-mono text-xl font-bold text-ink/25 group-hover:text-paper/40">{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
+        </div>
+        <h3 class="mt-5 font-display text-xl font-black uppercase leading-none tracking-tight text-ink group-hover:text-paper">{{ service.title }}</h3>
+        <p class="mt-2.5 flex-1 text-sm leading-relaxed text-ink/70 group-hover:text-paper/70">{{ service.shortDescription }}</p>
       </a>
       {% endfor %}
-
-      <div class="brut-box hidden bg-brand p-7 lg:flex lg:flex-col lg:justify-center">
-        <p class="font-display text-3xl font-black uppercase leading-none tracking-tight text-paper">
-          Not sure<br>which one?
-        </p>
-        <a href="{{ '/contact/' | url }}" class="mt-6 inline-flex w-fit items-center gap-2 border-2 border-ink bg-paper px-5 py-2.5 font-body text-xs font-extrabold uppercase tracking-widest text-ink shadow-brut transition-colors hover:bg-accent">
+      <div class="brut-box hidden -rotate-1 bg-brand p-6 lg:flex lg:flex-col lg:justify-center">
+        <p class="font-display text-2xl font-black uppercase leading-none tracking-tight text-paper">Not sure which one?</p>
+        <a href="{{ '/contact/' | url }}" class="mt-5 inline-flex w-fit items-center gap-2 border-2 border-ink bg-paper px-4 py-2 font-body text-xs font-extrabold uppercase tracking-widest text-ink shadow-brut transition-colors hover:bg-accent">
           Book a call {{ icon("arrow-right", "w-4 h-4") }}
         </a>
       </div>
     </div>
-  </div>
-</section>
 
-{# ---------- 6b. Industries ---------- #}
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
-      <div class="lg:col-span-5">
-        <h2 class="font-display text-4xl font-black uppercase leading-[0.9] tracking-tight text-ink sm:text-6xl">
-          Where our<br>people land.
-        </h2>
-        <p class="mt-6 max-w-md leading-relaxed text-ink/70">
-          Share of placements over the last twelve months. We turn down briefs in sectors we don't know — a recruiter who claims all of them knows none of them.
-        </p>
+    {# Industries — one wide tile #}
+    <div class="brut-box mt-4 bg-paper p-6">
+      <div class="flex flex-wrap items-baseline justify-between gap-3">
+        <h2 class="font-display text-2xl font-black uppercase leading-none tracking-tight text-ink sm:text-3xl">Where our people land</h2>
+        <p class="max-w-sm text-sm text-ink/65">Share of placements, last 12 months. We turn down briefs outside sectors we know.</p>
       </div>
-
-      <ul class="lg:col-span-7">
+      <ul class="mt-5 grid grid-cols-1 divide-y-2 divide-ink border-t-2 border-ink sm:grid-cols-2 sm:divide-y-0">
         {% for industry in industries.list %}
-        <li class="group flex items-center gap-5 border-t-2 border-ink py-5 {% if loop.last %}border-b-2{% endif %}">
-          <span class="flex h-12 w-12 shrink-0 items-center justify-center border-2 border-ink bg-surface text-ink transition-colors group-hover:bg-accent">
-            {{ icon(industry.icon, "w-5 h-5") }}
+        <li class="group flex items-center gap-4 border-ink py-3.5 sm:border-b-2 sm:px-4 {% if loop.index is odd %}sm:border-r-2{% endif %}">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center border-2 border-ink bg-surface text-ink transition-colors group-hover:bg-accent">
+            {{ icon(industry.icon, "w-4 h-4") }}
           </span>
-          <div class="min-w-0 flex-1">
-            <h3 class="font-display text-xl font-black uppercase leading-none tracking-tight text-ink">{{ industry.name }}</h3>
-            <p class="mt-1.5 text-sm text-ink/60">{{ industry.roles }}</p>
-          </div>
-          <span class="shrink-0 font-mono text-2xl font-bold text-ink">{{ industry.share }}</span>
+          <span class="min-w-0 flex-1 truncate font-display text-base font-black uppercase leading-none tracking-tight text-ink">{{ industry.name }}</span>
+          <span class="shrink-0 font-mono text-lg font-bold text-ink">{{ industry.share }}</span>
         </li>
         {% endfor %}
       </ul>
     </div>
-  </div>
-</section>
 
-{# ---------- 7. Case study ---------- #}
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
-      <div class="brut-box bg-paper p-2">
-        <img src="{{ '/assets/images/home/interview-conversation.jpg' | url }}" alt="A candidate meeting a hiring manager"
-             width="1400" height="1050" loading="lazy"
-             class="aspect-[4/3] w-full object-cover contrast-[1.08]">
-      </div>
-
-      <div>
-        <span class="inline-block border-2 border-ink bg-accent px-3 py-1 font-body text-[11px] font-extrabold uppercase tracking-widest text-ink shadow-brut">
-          Case study
-        </span>
-        <h2 class="mt-6 font-display text-4xl font-black uppercase leading-[0.9] tracking-tight text-ink sm:text-5xl">
-          40 applications.<br>Zero replies.<br>Then 16 days.
-        </h2>
-        <p class="mt-6 leading-relaxed text-ink/75">
-          Priya had a strong analytics background and a résumé that buried it on page two. We rebuilt the profile around the work she actually wanted, introduced her to three employers who needed exactly that, and prepped her for every conversation.
-        </p>
-
-        <div class="mt-8 grid grid-cols-3 gap-4">
-          {% for fact in [{ k: "To offer", v: "16d" }, { k: "Interviews", v: "3" }, { k: "Placed at", v: "Amazon" }] %}
-          <div class="brut-box bg-surface p-4">
-            <p class="font-display text-xl font-black uppercase tracking-tight text-ink">{{ fact.v }}</p>
-            <p class="mt-1 font-body text-[10px] font-extrabold uppercase tracking-widest text-ink/60">{{ fact.k }}</p>
-          </div>
+    {# Training pipeline — one wide accent tile #}
+    <div class="brut-box mt-4 bg-accent p-7 sm:p-10">
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-7">
+          <span class="inline-block border-2 border-ink bg-paper px-3 py-1 font-body text-[11px] font-extrabold uppercase tracking-widest text-ink shadow-brut">No experience yet?</span>
+          <h2 class="mt-5 font-display text-3xl font-black uppercase leading-[0.9] tracking-tight text-ink sm:text-4xl">
+            Others hand you a certificate.<br><span class="inline-block border-2 border-ink bg-paper px-3 shadow-brut">We hand you the interview.</span>
+          </h2>
+          <a href="{{ '/services/it-training/' | url }}" class="mt-6 inline-flex items-center gap-2 border-2 border-ink bg-ink px-5 py-2.5 font-body text-sm font-extrabold uppercase tracking-widest text-paper shadow-brut transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-brut-lg">
+            See the tracks {{ icon("arrow-right", "w-4 h-4") }}
+          </a>
+        </div>
+        <ol class="lg:col-span-5">
+          {% for stage in ["Enrol", "Learn", "Build a project", "Certify", "Get placed"] %}
+          <li class="flex items-center gap-4 border-b-2 border-ink py-2.5 last:border-b-0">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center border-2 border-ink font-mono text-xs font-bold {% if loop.last %}bg-ink text-paper{% else %}bg-paper text-ink{% endif %}">{{ loop.index }}</span>
+            <span class="font-display text-base font-black uppercase leading-none tracking-tight text-ink">{{ stage }}</span>
+          </li>
           {% endfor %}
-        </div>
-
-        <div class="mt-8 flex items-center gap-3">
-          <img src="{{ '/assets/images/home/person-priya.jpg' | url }}" alt="" width="48" height="48" loading="lazy"
-               class="h-12 w-12 border-2 border-ink object-cover">
-          <div>
-            <p class="font-body text-sm font-extrabold uppercase tracking-wide text-ink">Priya Nandakumar</p>
-            <p class="text-xs text-ink/60">Data Analyst, Amazon</p>
-          </div>
-        </div>
+        </ol>
       </div>
     </div>
-  </div>
-</section>
 
-{# ---------- 7b. Training → placement pipeline ---------- #}
-<section class="border-y-2 border-ink bg-accent py-16 sm:py-24">
-  <div class="section-container">
-    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
-      <div class="lg:col-span-7">
-        <span class="inline-block border-2 border-ink bg-paper px-3 py-1 font-body text-[11px] font-extrabold uppercase tracking-widest text-ink shadow-brut">
-          No experience yet?
-        </span>
-        <h2 class="mt-6 font-display text-4xl font-black uppercase leading-[0.9] tracking-tight text-ink sm:text-6xl">
-          Others hand you<br>a certificate.<br>
-          <span class="inline-block border-2 border-ink bg-paper px-3 shadow-brut">We hand you<br>the interview.</span>
-        </h2>
-        <p class="mt-8 max-w-lg font-medium leading-relaxed text-ink/80">
-          Our IT Training tracks end where every other course stops. Graduates go straight into the same placement pipeline as everyone else on this page — same recruiters, same employers, no separate queue.
-        </p>
-        <div class="mt-7 flex flex-wrap gap-3">
-          {% for track in ["Web Development", "QA & Testing", "Cloud / DevOps", "Data Foundations"] %}
-          <span class="border-2 border-ink bg-paper px-4 py-2 font-body text-xs font-extrabold uppercase tracking-wide text-ink">{{ track }}</span>
-          {% endfor %}
-        </div>
-        <a href="{{ '/services/it-training/' | url }}" class="mt-8 inline-flex items-center gap-2 border-2 border-ink bg-ink px-6 py-3 font-body text-sm font-extrabold uppercase tracking-widest text-paper shadow-brut transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-brut-lg">
-          See the tracks {{ icon("arrow-right", "w-4 h-4") }}
-        </a>
-      </div>
-
-      <div class="lg:col-span-5">
-        <div class="brut-box bg-paper p-7">
-          <ol>
-            {% for stage in ["Enrol", "Learn", "Build a project", "Certify", "Get placed"] %}
-            <li class="flex items-center gap-4 py-3 {% if not loop.last %}border-b-2 border-ink{% endif %}">
-              <span class="flex h-9 w-9 shrink-0 items-center justify-center border-2 border-ink font-mono text-sm font-bold {% if loop.last %}bg-accent text-ink{% else %}bg-paper text-ink{% endif %}">
-                {{ loop.index }}
-              </span>
-              <span class="font-display text-lg font-black uppercase leading-none tracking-tight text-ink">{{ stage }}</span>
-            </li>
-            {% endfor %}
-          </ol>
-
-          <div class="mt-6 border-2 border-ink bg-surface p-5">
-            <p class="font-display text-3xl font-black tracking-tight text-ink">19 <span class="text-ink/35">/ 24</span></p>
-            <p class="mt-1.5 font-body text-[11px] font-extrabold uppercase leading-relaxed tracking-wide text-ink/65">
-              Last cohort placed within 90 days of certifying
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ---------- 8. Live placement feed ---------- #}
-<div class="border-y-2 border-ink bg-paper">
-  {% include "partials/placement-feed.njk" %}
-</div>
-
-{# ---------- 9. What we won't budge on ---------- #}
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <h2 class="max-w-3xl font-display text-4xl font-black uppercase leading-[0.9] tracking-tight text-ink sm:text-6xl">
-      Four things we<br>won't budge on.
-    </h2>
-
-    <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {# Beliefs — four small tiles #}
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {% set boldBeliefs = [
-        { n: "01", t: "Careers, not jobs", d: "We'll talk you out of a role that pays more and leads nowhere.", bg: "bg-paper" },
-        { n: "02", t: "A person reads it", d: "No keyword filter ever understood a career change. A recruiter reads every résumé.", bg: "bg-surface" },
-        { n: "03", t: "Deadlines are deadlines", d: "If we say Thursday, it's Thursday. People plan around us.", bg: "bg-paper" },
-        { n: "04", t: "We stay after", d: "We check in at ninety days, and again when you're ready to move.", bg: "bg-surface" }
+        { n: "01", t: "Careers, not jobs", d: "We'll talk you out of a role that pays more and leads nowhere." },
+        { n: "02", t: "A person reads it", d: "No keyword filter ever understood a career change." },
+        { n: "03", t: "Deadlines are deadlines", d: "If we say Thursday, it's Thursday." },
+        { n: "04", t: "We stay after", d: "We check in at ninety days, and again when you're ready to move." }
       ] %}
       {% for belief in boldBeliefs %}
-      <div class="brut-box brut-box-lift {{ belief.bg }} p-7">
-        <span class="font-mono text-2xl font-bold text-accent">{{ belief.n }}</span>
-        <h3 class="mt-4 font-display text-xl font-black uppercase leading-none tracking-tight text-ink">{{ belief.t }}</h3>
-        <p class="mt-3 text-sm leading-relaxed text-ink/70">{{ belief.d }}</p>
+      <div class="brut-box brut-box-lift bg-paper p-6">
+        <span class="font-mono text-xl font-bold text-accent-deep">{{ belief.n }}</span>
+        <h3 class="mt-3 font-display text-lg font-black uppercase leading-none tracking-tight text-ink">{{ belief.t }}</h3>
+        <p class="mt-2.5 text-sm leading-relaxed text-ink/70">{{ belief.d }}</p>
       </div>
       {% endfor %}
     </div>
-  </div>
-</section>
 
-{# ---------- 10. Process ---------- #}
-<section class="border-y-2 border-ink bg-surface py-16 sm:py-24">
-  <div class="section-container">
-    <h2 class="max-w-3xl font-display text-4xl font-black uppercase leading-[0.9] tracking-tight text-ink sm:text-6xl">
-      How it goes.
-    </h2>
-
-    <ol class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {% set boldSteps = [
-        { label: "Apply", description: "Tell us where you are and where you want to be — takes ten minutes." },
-        { label: "Match", description: "We connect you with roles and employers that actually fit the brief." },
-        { label: "Interview", description: "Coaching and prep before every conversation that matters." },
-        { label: "Placement", description: "An offer, a negotiation assist, and a check-in 90 days in." }
-      ] %}
-      {% for step in boldSteps %}
-      <li class="brut-box brut-box-lift bg-paper p-7">
-        <span class="inline-flex h-12 w-12 items-center justify-center border-2 border-ink bg-ink font-mono text-lg font-bold text-paper">
-          {{ loop.index }}
-        </span>
-        <h3 class="mt-5 font-display text-2xl font-black uppercase leading-none tracking-tight text-ink">{{ step.label }}</h3>
-        <p class="mt-3 text-sm leading-relaxed text-ink/70">{{ step.description }}</p>
-      </li>
-      {% endfor %}
-    </ol>
-  </div>
-</section>
-
-{# ---------- 11. Testimonials ---------- #}
-<section class="border-b-2 border-ink bg-brand py-16 sm:py-24">
-  <div class="section-container">
-    <h2 class="font-display text-4xl font-black uppercase leading-[0.9] tracking-tight text-paper sm:text-6xl">
-      Heard from.
-    </h2>
-
-    {# Priya is the case study above; Daniel's "still checks in" point is already made by
-       belief 04. Excluding both leaves a clean six and stops the page repeating itself. #}
-    {% set saidElsewhere = ["priya", "daniel"] %}
-    <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {# Testimonials — three tiles, one nudged #}
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {% set saidElsewhere = ["priya", "lena", "daniel"] %}
       {% for testimonial in testimonials.list %}
         {% if testimonial.slug not in saidElsewhere %}
-        <figure class="brut-box brut-box-lift flex flex-col bg-paper p-7">
-          <div class="flex items-center gap-1 text-ink">
-            {{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}{{ icon("star", "w-4 h-4") }}
-          </div>
-          <blockquote class="mt-4 flex-1 font-display text-lg font-semibold leading-snug text-ink">
-            &ldquo;{{ testimonial.quote }}&rdquo;
-          </blockquote>
-          <figcaption class="mt-6 flex items-center gap-3 border-t-2 border-ink pt-5">
-            <img src="{{ testimonial.photo | url }}" alt="" width="44" height="44" loading="lazy"
-                 class="h-11 w-11 border-2 border-ink object-cover">
+        <figure class="brut-box brut-box-lift flex flex-col bg-paper p-6 {% if loop.index == 2 %}rotate-1{% endif %}">
+          <blockquote class="flex-1 font-display text-base font-semibold leading-snug text-ink">&ldquo;{{ testimonial.quote }}&rdquo;</blockquote>
+          <figcaption class="mt-5 flex items-center gap-3 border-t-2 border-ink pt-4">
+            <img src="{{ testimonial.photo | url }}" alt="" width="40" height="40" loading="lazy" class="h-10 w-10 border-2 border-ink object-cover">
             <span>
-              <span class="block font-body text-sm font-extrabold uppercase tracking-wide text-ink">{{ testimonial.name }}</span>
+              <span class="block font-body text-xs font-extrabold uppercase tracking-wide text-ink">{{ testimonial.name }}</span>
               <span class="block text-xs text-ink/60">{{ testimonial.role }} · {{ testimonial.company }}</span>
             </span>
           </figcaption>
@@ -395,7 +236,12 @@ description: Recruiting and staffing for students starting out and professionals
   </div>
 </section>
 
-{# ---------- 12. CTA ---------- #}
+{# ---------- 4. Live placement feed (the one full-bleed interlude) ---------- #}
+<div class="border-y-2 border-ink bg-paper">
+  {% include "partials/placement-feed.njk" %}
+</div>
+
+{# ---------- 5. CTA ---------- #}
 <section class="bg-ink py-20 sm:py-28">
   <div class="section-container text-center">
     <h2 class="mx-auto max-w-4xl font-display text-4xl font-black uppercase leading-[0.9] tracking-tight text-paper sm:text-7xl">
@@ -414,5 +260,15 @@ description: Recruiting and staffing for students starting out and professionals
     </div>
   </div>
 </section>
+
+{# Colourway options. Layout and markup above are untouched — every one of these is
+   purely a token swap in input.css. Swatch shows brand over accent. #}
+{% set paletteOptions = [
+  { id: "",      label: "Highlighter", swatch: "linear-gradient(135deg, #2B4CFF 50%, #FF4D2D 50%)" },
+  { id: "riso",  label: "Riso",        swatch: "linear-gradient(135deg, #00713F 50%, #FF48B0 50%)" },
+  { id: "press", label: "Press",       swatch: "linear-gradient(135deg, #B01B2E 50%, #4DD9E8 50%)" },
+  { id: "site",  label: "Site",        swatch: "linear-gradient(135deg, #16255E 50%, #C8F31D 50%)" }
+] %}
+{% include "partials/palette-switcher.njk" %}
 
 {% include "partials/variant-switcher.njk" %}

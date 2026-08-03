@@ -1,0 +1,312 @@
+---
+layout: layouts/page.njk
+title: Home — Signal
+theme: signal
+permalink: /explore/signal/
+description: Recruiting and staffing for students starting out and professionals moving on — plus the employers who hire both.
+---
+{% from "partials/icons.njk" import icon %}
+
+{# ================================================================
+   THE SIGNAL — a control room rendered in glass.
+
+   Two ideas drive the layout, and neither survives a plain bento grid:
+
+   1. Depth. Glass is only worth using when there is something behind it, so the
+      page has a lit field running the full height and panels float above it at
+      three deliberate overlaps — the funnel rail straddles hero/network, the
+      metrics strip straddles network/board, and nothing else breaks its row.
+   2. Asymmetry. The board is a sticky index column beside one scrolling stack of
+      panels of varying width, not a matrix of equal tiles. What you can always
+      reach (services, numbers) stays put; what you read through moves.
+
+   Colour is a two-state system throughout: brand green = settled and confirmed,
+   amber accent = still moving through a stage.
+   ================================================================ #}
+
+{% set stages = [
+  { name: "Sourced",      count: 412, weight: 412, state: "moving", note: "Profile in the system, matching against open briefs." },
+  { name: "Screened",     count: 196, weight: 196, state: "moving", note: "Interviewed by us, shortlisted against a real brief." },
+  { name: "Interviewing", count: 58,  weight: 58,  state: "moving", note: "In conversation with an employer, prep included." },
+  { name: "Placed",       count: 24,  weight: 24,  state: "live",   note: "Offer signed. We check in again at ninety days." }
+] %}
+
+{# ---------- 1. Hero: the board, live ---------- #}
+<section class="relative">
+  <div class="section-container pb-10 pt-14 sm:pb-28 sm:pt-20 lg:pt-24">
+    <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-10">
+
+      <div class="lg:col-span-7">
+        <p class="sig-chip" data-state="live">
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-70 motion-reduce:animate-none"></span>
+            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand"></span>
+          </span>
+          Pipeline online
+        </p>
+
+        <h1 class="mt-7 font-display text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-ink sm:text-6xl lg:text-[4.25rem]">
+          686 people are moving
+          <span class="text-brand">through the pipeline</span>
+          right now.
+        </h1>
+
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink/60">
+          Not a database of résumés — a live system. Every candidate and every brief
+          carries a status, and you can watch it change.
+        </p>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+          <a href="{{ '/services/job-placement/' | url }}" class="btn-primary">{{ icon("arrow-right", "w-4 h-4") }} Enter the pipeline</a>
+          <a href="{{ '/services/recruitment-staffing/' | url }}" class="btn-outline">{{ icon("arrow-right", "w-4 h-4") }} Submit a brief</a>
+        </div>
+      </div>
+
+      {# The hero's proof: not a stat block, but the last five things that actually
+         happened. Nothing argues "live" like names with timestamps. #}
+      <div class="glass-card lg:col-span-5">
+        <div class="glass-head">
+          <span>Latest activity</span>
+          <span class="sig-chip" data-state="live">
+            <span class="h-1.5 w-1.5 rounded-full bg-brand"></span> Streaming
+          </span>
+        </div>
+        <div>
+          {% for placement in placements.list %}
+          {% if loop.index <= 5 %}
+          <div class="glass-row flex items-center gap-3 px-5 py-3.5">
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-sm font-medium text-ink">{{ placement.name }}</p>
+              <p class="truncate font-mono text-[11px] text-ink/55">{{ placement.role }} · {{ placement.company }}</p>
+            </div>
+            <span class="sig-chip shrink-0" data-state="{% if placement.status == 'Placed' %}live{% else %}moving{% endif %}">{{ placement.status }}</span>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <div class="px-5 py-3.5">
+          <a href="{{ '/contact/' | url }}" class="inline-flex items-center gap-1.5 font-mono text-xs text-brand transition-all hover:gap-2.5">
+            Add yourself to the feed {{ icon("arrow-right", "w-3.5 h-3.5") }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# --- SIGNATURE: the funnel rail. Segment widths are the real headcounts, so the
+     shape of the funnel is the data rather than an illustration of it. It straddles
+     the boundary into the network section — the first of three deliberate overlaps. --- #}
+  <div class="section-container relative z-20 pb-4 sm:absolute sm:inset-x-0 sm:bottom-0 sm:pb-0 sm:translate-y-1/2">
+    <div class="rail">
+      {% for stage in stages %}
+      <div class="rail-seg" data-state="{{ stage.state }}" style="flex-grow: {{ stage.weight }};">
+        <span class="font-mono text-2xl font-semibold leading-none tracking-tight {% if stage.state == 'live' %}text-brand{% else %}text-ink{% endif %} sm:text-3xl">{{ stage.count }}</span>
+        <span class="font-mono text-[10px] uppercase leading-tight tracking-[0.16em] text-ink/55">{{ stage.name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ---------- 2. Employer network ---------- #}
+<div class="relative sm:[&>section]:pt-28">
+  {% set placedAtLayout = "marquee" %}
+  {% set placedAtTitle = "Network" %}
+  {% set placedAtLead = "Employers currently receiving candidates." %}
+  {% include "partials/placed-at.njk" %}
+</div>
+
+{# ---------- 3. The board ---------- #}
+<section class="relative pb-20 sm:pb-28">
+
+  {# Second overlap: the numbers ride up over the network section's lower edge. #}
+  <div class="section-container relative z-20 -mt-10 sm:-mt-12">
+    <div class="glass-card grid grid-cols-2 gap-px overflow-hidden lg:grid-cols-4">
+      {% for stat in stats.list %}
+      <div class="bg-white/[0.02] px-5 py-6 sm:px-7 sm:py-7">
+        <p class="font-mono text-3xl font-semibold tracking-tight text-brand sm:text-4xl"
+           data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</p>
+        <p class="mt-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-ink/55">{{ stat.label }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="section-container mt-16 sm:mt-20">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
+
+      {# --- Sticky index. Everything you might want to jump to, always in reach. --- #}
+      <aside class="lg:col-span-4">
+        <div class="lg:sticky lg:top-28 space-y-6">
+          <div class="glass-card">
+            <div class="glass-head"><span>Services</span></div>
+            <div>
+              {% for service in services.list %}
+              <a href="{{ service.url | url }}" class="glass-row glass-hover group flex items-center gap-3 px-5 py-4">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06] text-brand transition-colors group-hover:border-brand/40 group-hover:bg-brand/15">
+                  {{ icon(service.icon, "w-4 h-4") }}
+                </span>
+                <span class="min-w-0 flex-1 truncate font-display text-sm font-semibold tracking-tight text-ink">{{ service.title }}</span>
+                <span class="shrink-0 text-ink/25 transition-all group-hover:translate-x-0.5 group-hover:text-brand">{{ icon("arrow-right", "w-4 h-4") }}</span>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="glass-head"><span>What each stage means</span></div>
+            <div>
+              {% for stage in stages %}
+              <div class="glass-row flex items-start gap-3 px-5 py-3.5">
+                <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full {% if stage.state == 'live' %}bg-brand{% else %}bg-accent{% endif %}"></span>
+                <div class="min-w-0">
+                  <p class="font-mono text-[11px] uppercase tracking-[0.16em] {% if stage.state == 'live' %}text-brand{% else %}text-accent{% endif %}">{{ stage.name }}</p>
+                  <p class="mt-1 text-xs leading-relaxed text-ink/60">{{ stage.note }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {# --- The stack. Panels vary in width and read top to bottom. --- #}
+      <div class="space-y-6 lg:col-span-8">
+
+        {# Who the pipeline is for — two doors, side by side. #}
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div class="glass-card px-5 py-6">
+            <span class="flex h-11 w-11 items-center justify-center rounded-xl border border-brand/25 bg-brand/15 text-brand">{{ icon("users", "w-5 h-5") }}</span>
+            <h3 class="mt-5 font-display text-xl font-semibold tracking-tight text-ink">Job seekers</h3>
+            <p class="mt-2.5 text-sm leading-relaxed text-ink/60">
+              Submit once. From then on you are matched against every open brief that
+              fits, and you can see where you stand at each stage.
+            </p>
+            <a href="{{ '/services/job-placement/' | url }}" class="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-brand transition-all hover:gap-2.5">
+              Enter the pipeline {{ icon("arrow-right", "w-3.5 h-3.5") }}
+            </a>
+          </div>
+
+          <div class="glass-card px-5 py-6">
+            <span class="flex h-11 w-11 items-center justify-center rounded-xl border border-accent/25 bg-accent/15 text-accent">{{ icon("briefcase", "w-5 h-5") }}</span>
+            <h3 class="mt-5 font-display text-xl font-semibold tracking-tight text-ink">Employers</h3>
+            <p class="mt-2.5 text-sm leading-relaxed text-ink/60">
+              Post a brief and get a shortlist that has already been screened against
+              it — not a folder of résumés for you to sort.
+            </p>
+            <a href="{{ '/services/recruitment-staffing/' | url }}" class="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-accent transition-all hover:gap-2.5">
+              Submit a brief {{ icon("arrow-right", "w-3.5 h-3.5") }}
+            </a>
+          </div>
+        </div>
+
+        {# One candidate's full trace — the funnel rail, but for a single person. The
+           stage names deliberately match the rail above so the connection is legible. #}
+        <div class="glass-card">
+          <div class="glass-head">
+            <span>Trace · Priya N.</span>
+            <span class="sig-chip" data-state="live">Placed in 16 days</span>
+          </div>
+          <ol>
+            {% set trace = [
+              { t: "Day 0",  label: "Sourced",      state: "moving", d: "Forty applications out, zero replies back. Profile submitted to the pipeline." },
+              { t: "Day 1",  label: "Screened",     state: "moving", d: "Résumé rebuilt around the analytics work she actually wanted to be doing." },
+              { t: "Day 6",  label: "Interviewing", state: "moving", d: "Matched to three employers. Two conversations scheduled, both prepped." },
+              { t: "Day 16", label: "Placed",       state: "live",   d: "Offer signed at Amazon as a Data Analyst." }
+            ] %}
+            {% for step in trace %}
+            <li class="glass-row flex items-start gap-4 px-5 py-4">
+              <span class="mt-1 w-12 shrink-0 font-mono text-[11px] tracking-tight text-ink/50">{{ step.t }}</span>
+              <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full {% if step.state == 'live' %}bg-brand{% else %}bg-accent{% endif %}"></span>
+              <div class="min-w-0">
+                <p class="font-mono text-[11px] uppercase tracking-[0.16em] {% if step.state == 'live' %}text-brand{% else %}text-accent{% endif %}">{{ step.label }}</p>
+                <p class="mt-1 text-sm leading-relaxed text-ink/70">{{ step.d }}</p>
+              </div>
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
+
+        {# The on-ramp, for anyone with no history to trace yet. #}
+        <div class="glass-card flex flex-col gap-5 px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+          <div class="max-w-lg">
+            <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/55">No history yet?</p>
+            <h3 class="mt-2 font-display text-xl font-semibold leading-snug tracking-tight text-ink">Start at the head of the rail.</h3>
+            <p class="mt-2.5 text-sm leading-relaxed text-ink/60">
+              Our IT Training tracks are the on-ramp. Finish one and you enter the pipeline
+              already sourced, with a portfolio behind you.
+            </p>
+          </div>
+          <a href="{{ '/services/it-training/' | url }}" class="btn-outline shrink-0">See the tracks {{ icon("arrow-right", "w-4 h-4") }}</a>
+        </div>
+
+        {# Where the placements land. Bars, because the comparison is the content. #}
+        <div class="glass-card">
+          <div class="glass-head">
+            <span>Sectors</span>
+            <span class="normal-case tracking-normal">share of placements</span>
+          </div>
+          <div class="space-y-4 px-5 py-6">
+            {% for industry in industries.list %}
+            <div class="flex items-center gap-4">
+              <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.05] text-ink/50">{{ icon(industry.icon, "w-3.5 h-3.5") }}</span>
+              <span class="w-36 shrink-0 truncate text-sm text-ink/80 sm:w-48">{{ industry.name }}</span>
+              <span class="meter"><span style="width: {{ industry.share }};"></span></span>
+              <span class="w-10 shrink-0 text-right font-mono text-xs text-ink/60">{{ industry.share }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        {# What people said after they came out the other side. #}
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {% set excludedHere = ["priya"] %}
+          {% for testimonial in testimonials.list %}
+            {% if testimonial.slug not in excludedHere and loop.index <= 3 %}
+            <div class="glass-card px-5 py-6">
+              <p class="text-sm leading-relaxed text-ink/75">&ldquo;{{ testimonial.quote }}&rdquo;</p>
+              <p class="mt-4 font-mono text-[11px] tracking-tight text-ink/55">
+                {{ testimonial.name }} · {{ testimonial.role }}, {{ testimonial.company }}
+              </p>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ---------- 4. Daylight. The board resolves into an unfrosted, fully lit block —
+   the palette inverts because you have come out the other side of the pipeline. ---------- #}
+<section class="bg-ink py-20 sm:py-28">
+  <div class="section-container max-w-3xl text-center">
+    <p class="inline-flex items-center gap-2 rounded-full border border-paper/15 bg-paper/5 px-3 py-1 font-mono text-[11px] tracking-wide text-paper/70">
+      <span class="relative flex h-1.5 w-1.5">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-dark opacity-70 motion-reduce:animate-none"></span>
+        <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-dark"></span>
+      </span>
+      Ready when you are
+    </p>
+
+    <h2 class="mt-7 font-display text-3xl font-bold leading-[1.1] tracking-[-0.03em] text-paper sm:text-5xl">
+      Your first status update starts with one conversation.
+    </h2>
+    <p class="mx-auto mt-5 max-w-lg leading-relaxed text-paper/60">
+      Ten minutes on the phone, whether you are job hunting or hiring. We will tell you
+      honestly where you would enter the rail.
+    </p>
+
+    <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+      <a href="{{ '/contact/' | url }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-paper px-6 py-3.5 font-mono text-sm text-ink transition-colors hover:bg-brand-dark hover:text-paper">
+        Get started {{ icon("arrow-right", "w-4 h-4") }}
+      </a>
+      <a href="{{ site.phoneHref }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-paper/25 px-6 py-3.5 font-mono text-sm text-paper transition-colors hover:border-paper/60">
+        {{ icon("phone", "w-4 h-4") }} {{ site.phone }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% include "partials/variant-switcher.njk" %}

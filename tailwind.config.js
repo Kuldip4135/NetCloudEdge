@@ -20,7 +20,11 @@ module.exports = {
           DEFAULT: withOpacity("--color-brand"),
           dark: withOpacity("--color-brand-dark"),
         },
-        accent: withOpacity("--color-accent"),
+        accent: {
+          DEFAULT: withOpacity("--color-accent"),
+          // Text-safe darkening of accent; see the note in input.css.
+          deep: withOpacity("--color-accent-deep"),
+        },
         surface: withOpacity("--color-surface"),
         border: withOpacity("--color-border"),
       },

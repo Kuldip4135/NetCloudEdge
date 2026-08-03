@@ -9,7 +9,7 @@
 
 {% if placedAtLayout == "marquee" %}
 {# ---- Marquee layout: softer, always-moving. Used by the photography-led variant. ---- #}
-<section class="overflow-hidden bg-surface py-14 sm:py-20">
+<section class="network-band overflow-hidden bg-surface py-14 sm:py-20">
   <div class="section-container text-center">
     <p class="eyebrow">{{ placedAtTitle or "Candidates placed in" }}</p>
     <h2 class="mx-auto mt-2 max-w-xl font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
@@ -51,7 +51,7 @@
 
 {% else %}
 {# ---- Grid layout (default): rigid bordered matrix. ---- #}
-<section class="border-y border-border bg-surface py-14 sm:py-20">
+<section class="network-band border-y border-border bg-surface py-14 sm:py-20">
   <div class="section-container">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>

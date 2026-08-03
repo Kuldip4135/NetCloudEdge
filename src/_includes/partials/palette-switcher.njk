@@ -1,0 +1,64 @@
+{#
+  Exploration-only: swap colourways within a theme without leaving the page, so the
+  options can be compared against real content rather than as swatches. Delete once a
+  colourway is chosen — bake the winner in as `palette:` front matter (see base.njk),
+  or fold its values into the theme's own :root block and drop the alternates.
+
+  Params:
+    paletteOptions — list of { id, label, swatch } ; `id` "" means the theme default.
+#}
+{% set paletteOptions = paletteOptions or [] %}
+
+{# Applied before the body paints so reloading does not flash the default colourway. #}
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem("explore-palette");
+      if (saved) document.documentElement.setAttribute("data-palette", saved);
+    } catch (e) {}
+  })();
+</script>
+
+<div class="fixed bottom-[4.75rem] left-1/2 z-[60] -translate-x-1/2 rounded-full border-2 border-ink bg-paper p-1.5 shadow-brut"
+     data-palette-switcher>
+  <div class="flex items-center gap-1" role="group" aria-label="Colourway">
+    <span class="px-2 font-body text-[10px] font-bold uppercase tracking-widest text-ink/60">Colour</span>
+    {% for option in paletteOptions %}
+    <button type="button" data-palette-option="{{ option.id }}" aria-pressed="false"
+            class="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 font-body text-xs font-semibold text-ink/60 transition-colors hover:text-ink aria-pressed:bg-ink aria-pressed:text-paper">
+      <span class="h-2.5 w-2.5 shrink-0 rounded-full border border-ink" style="background: {{ option.swatch }};" aria-hidden="true"></span>
+      {{ option.label }}
+    </button>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = Array.prototype.slice.call(document.querySelectorAll("[data-palette-option]"));
+
+    function sync() {
+      var current = root.getAttribute("data-palette") || "";
+      buttons.forEach(function (button) {
+        var mine = button.getAttribute("data-palette-option");
+        button.setAttribute("aria-pressed", String(mine === current));
+      });
+    }
+
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var id = button.getAttribute("data-palette-option");
+        if (id) {
+          root.setAttribute("data-palette", id);
+        } else {
+          root.removeAttribute("data-palette");
+        }
+        try { localStorage.setItem("explore-palette", id); } catch (e) {}
+        sync();
+      });
+    });
+
+    sync();
+  })();
+</script>

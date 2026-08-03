@@ -1,9 +1,9 @@
 {# Exploration-only: jump between the candidate home page designs. Delete once one is chosen. #}
 {% set variants = [
-  { url: "/", label: "Current" },
   { url: "/explore/editorial/", label: "A · Editorial" },
-  { url: "/explore/human/", label: "B · Human" },
-  { url: "/explore/bold/", label: "C · Bold" }
+  { url: "/explore/bold/", label: "C · Bold" },
+  { url: "/explore/dossier/", label: "D · Dossier" },
+  { url: "/explore/signal/", label: "E · Signal" }
 ] %}
 <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-1 rounded-full border-2 border-ink bg-paper p-1.5 shadow-brut">
   {% for variant in variants %}
