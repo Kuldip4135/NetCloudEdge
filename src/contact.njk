@@ -8,62 +8,91 @@ extraScripts:
 ---
 {% from "partials/icons.njk" import icon %}
 
-<section class="bg-surface py-14 sm:py-20">
-  <div class="section-container">
+{#
+  Short page, so it drops the sticky rail — the form is the whole point and there is
+  nothing to navigate between. No CTA band either: the form IS the call to action.
+#}
+
+<section class="file-band">
+  <div class="section-container py-10 sm:py-14">
     {% set crumbs = [{ label: "Home", url: "/" }, { label: "Contact" }] %}
     {% include "partials/breadcrumb.njk" %}
-    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4">Contact Us</h1>
-    <p class="mt-3 text-lg text-ink/65 max-w-xl">Whether you're looking for a job or looking to hire, we're here to help.</p>
+
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} Intake open</span>
+      <span class="font-mono text-xs uppercase tracking-widest text-ink/65">
+        Case No. {{ site.caseNumber }} · {{ site.address.line2 }}
+      </span>
+    </div>
+    <h1 class="mt-6 max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+      Contact us.
+    </h1>
+    <p class="mt-4 max-w-xl text-lg leading-relaxed text-ink/75">
+      Whether you're looking for a job or looking to hire, we're here to help.
+    </p>
   </div>
 </section>
 
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="flex flex-col lg:flex-row gap-10 lg:gap-12">
+<section class="section-container py-14 sm:py-20">
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
 
-      <div class="lg:w-3/5">
-        <form data-contact-form class="bg-paper" novalidate>
-          <fieldset class="mb-8">
-            <legend class="font-display text-lg font-semibold text-ink mb-3">I am a…</legend>
-            <div class="flex flex-wrap gap-3">
+    {# ---- The intake form ---- #}
+    <div class="lg:col-span-7">
+      <div class="file-panel p-6 sm:p-8">
+        <form data-contact-form novalidate>
+
+          {# The router. Shared fields stay at name/email/message — every extra field
+             costs submissions — and each choice swaps in only what it needs. #}
+          <fieldset>
+            <legend class="meta">I am a…</legend>
+            <div class="mt-3 flex flex-wrap gap-3">
               {% set roles = [
                 { value: "job-seeker", label: "Job Seeker" },
                 { value: "employer", label: "Employer" },
-                { value: "training-applicant", label: "Training Applicant" }
+                { value: "training", label: "Training Applicant" }
               ] %}
               {% for role in roles %}
               <label class="cursor-pointer">
                 <input type="radio" name="role" value="{{ role.value }}" data-role-option class="peer sr-only" {% if loop.first %}checked{% endif %} required>
-                <span class="inline-block px-5 py-2.5 rounded-full border-2 border-border text-sm font-medium text-ink/70 peer-checked:border-brand peer-checked:bg-brand peer-checked:text-paper peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-accent peer-focus-visible:outline-offset-2 transition-colors">{{ role.label }}</span>
+                <span class="inline-block rounded-sm border border-dashed border-border px-5 py-2.5 text-sm font-medium text-ink/70 transition-colors peer-checked:border-solid peer-checked:border-brand peer-checked:bg-brand peer-checked:text-paper peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent">
+                  {{ role.label }}
+                </span>
               </label>
               {% endfor %}
             </div>
           </fieldset>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
-              <label for="name" class="block text-sm font-medium text-ink mb-1.5">Full name</label>
-              <input type="text" id="name" name="name" required class="w-full rounded-lg border border-border bg-paper px-4 py-2.5 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">
+              <label for="name" class="field-label">Full name</label>
+              <input type="text" id="name" name="name" class="field" required autocomplete="name">
             </div>
             <div>
-              <label for="email" class="block text-sm font-medium text-ink mb-1.5">Email</label>
-              <input type="email" id="email" name="email" required class="w-full rounded-lg border border-border bg-paper px-4 py-2.5 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">
+              <label for="email" class="field-label">Email</label>
+              <input type="email" id="email" name="email" class="field" required autocomplete="email">
             </div>
           </div>
 
-          <div class="mt-5" data-role-field="employer">
-            <label for="company" class="block text-sm font-medium text-ink mb-1.5">Company name</label>
-            <input type="text" id="company" name="company" class="w-full rounded-lg border border-border bg-paper px-4 py-2.5 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">
+          <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2" data-role-field="employer">
+            <div>
+              <label for="company" class="field-label">Company name</label>
+              <input type="text" id="company" name="company" class="field" autocomplete="organization">
+            </div>
+            <div>
+              <label for="hiring-for" class="field-label">Role you're hiring for</label>
+              <input type="text" id="hiring-for" name="hiring-for" class="field">
+            </div>
           </div>
 
           <div class="mt-5" data-role-field="job-seeker">
-            <label for="resume" class="block text-sm font-medium text-ink mb-1.5">Resume upload</label>
-            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" class="w-full rounded-lg border border-border bg-paper px-4 py-2.5 text-ink text-sm file:mr-4 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:bg-surface file:text-ink file:text-sm">
+            <label for="resume" class="field-label">Resume upload <span class="normal-case tracking-normal">(PDF or Word)</span></label>
+            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx"
+                   class="field file:mr-4 file:rounded-sm file:border-0 file:bg-surface file:px-3 file:py-1.5 file:font-mono file:text-xs file:text-ink">
           </div>
 
-          <div class="mt-5" data-role-field="training-applicant">
-            <label for="track" class="block text-sm font-medium text-ink mb-1.5">Which track interests you?</label>
-            <select id="track" name="track" class="w-full rounded-lg border border-border bg-paper px-4 py-2.5 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">
+          <div class="mt-5" data-role-field="training">
+            <label for="track" class="field-label">Which track interests you?</label>
+            <select id="track" name="track" class="field">
               {% for program in programs.list %}
               <option>{{ program.title }}</option>
               {% endfor %}
@@ -71,62 +100,81 @@ extraScripts:
           </div>
 
           <div class="mt-5">
-            <label for="message" class="block text-sm font-medium text-ink mb-1.5">Message</label>
-            <textarea id="message" name="message" rows="4" required class="w-full rounded-lg border border-border bg-paper px-4 py-2.5 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"></textarea>
+            <label for="message" class="field-label">Message</label>
+            <textarea id="message" name="message" rows="5" class="field" required></textarea>
           </div>
 
-          <button type="submit" class="btn-primary mt-6">Send Message</button>
+          <div class="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <button type="submit" class="btn-primary">Send Message</button>
+            <p class="meta">We reply within one business day.</p>
+          </div>
+
+          <p class="mt-6 border-t border-dashed border-border pt-5 body-copy">
+            We use your details only to respond to this enquiry. Resumes are shared with employers only with your say-so, and we never sell your data.
+          </p>
         </form>
       </div>
+    </div>
 
-      <div class="lg:w-2/5">
-        <div class="bg-surface rounded-2xl p-8 flex flex-col gap-6">
+    {# ---- The file's contact record ---- #}
+    <div class="lg:col-span-5">
+      <div class="folder-card p-6">
+        <p class="meta">Registry</p>
+        <dl class="mt-4 space-y-5">
           <div class="flex items-start gap-3">
-            <span class="text-brand shrink-0 mt-0.5">{{ icon("map-pin", "w-5 h-5") }}</span>
+            <span class="mt-0.5 shrink-0 text-brand">{{ icon("map-pin", "w-5 h-5") }}</span>
             <div>
-              <p class="font-medium text-ink text-sm">Office</p>
-              <p class="text-ink/65 text-sm mt-0.5">{{ site.address.line1 }}<br>{{ site.address.line2 }}</p>
+              <dt class="meta">Office</dt>
+              <dd class="mt-1 text-sm text-ink/75">{{ site.address.line1 }}<br>{{ site.address.line2 }}</dd>
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-brand shrink-0 mt-0.5">{{ icon("phone", "w-5 h-5") }}</span>
+            <span class="mt-0.5 shrink-0 text-brand">{{ icon("phone", "w-5 h-5") }}</span>
             <div>
-              <p class="font-medium text-ink text-sm">Phone</p>
-              <a href="{{ site.phoneHref }}" class="text-ink/65 text-sm mt-0.5 hover:text-brand transition-colors">{{ site.phone }}</a>
+              <dt class="meta">Phone</dt>
+              <dd class="mt-1 text-sm"><a href="{{ site.phoneHref }}" class="text-ink/75 transition-colors hover:text-brand">{{ site.phone }}</a></dd>
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-brand shrink-0 mt-0.5">{{ icon("mail", "w-5 h-5") }}</span>
+            <span class="mt-0.5 shrink-0 text-brand">{{ icon("mail", "w-5 h-5") }}</span>
             <div>
-              <p class="font-medium text-ink text-sm">Email</p>
-              <a href="mailto:{{ site.email }}" class="text-ink/65 text-sm mt-0.5 hover:text-brand transition-colors">{{ site.email }}</a>
+              <dt class="meta">Email</dt>
+              <dd class="mt-1 text-sm"><a href="mailto:{{ site.email }}" class="text-ink/75 transition-colors hover:text-brand">{{ site.email }}</a></dd>
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-brand shrink-0 mt-0.5">{{ icon("clock", "w-5 h-5") }}</span>
+            <span class="mt-0.5 shrink-0 text-brand">{{ icon("clock", "w-5 h-5") }}</span>
             <div>
-              <p class="font-medium text-ink text-sm">Hours</p>
-              <p class="text-ink/65 text-sm mt-0.5">{{ site.hours }}</p>
+              <dt class="meta">Hours</dt>
+              <dd class="mt-1 text-sm text-ink/75">{{ site.hours }}</dd>
             </div>
           </div>
+        </dl>
 
-          <div class="aspect-video rounded-xl bg-paper flex items-center justify-center border border-border">
-            <div class="text-center px-4">
-              <span class="inline-flex text-brand">{{ icon("map-pin", "w-6 h-6") }}</span>
-              <p class="mt-1.5 text-xs text-ink/50">{{ site.address.line1 }}, {{ site.address.line2 }}</p>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-4 pt-2 border-t border-border">
-            {% for s in site.social %}
-            <a href="{{ s.url | url }}" class="text-ink hover:text-brand transition-colors text-sm">{{ s.label }}</a>
-            {% endfor %}
-          </div>
+        <div class="mt-6 flex items-center gap-4 border-t border-dashed border-border pt-5">
+          {% for s in site.social %}
+          <a href="{{ s.url }}" class="meta transition-colors hover:text-brand">{{ s.label }}</a>
+          {% endfor %}
         </div>
+      </div>
+
+      {# The map block is deliberately absent until the Chicago office is confirmed as
+         real and visitable (CONTENT.md verification list, item 15). Showing a
+         city-centre pin we don't occupy is worse than showing nothing. #}
+
+      <div class="mt-5 file-inset">
+        <p class="meta">Prefer not to use the form?</p>
+        <p class="mt-2 body-copy">
+          Call <a href="{{ site.phoneHref }}" class="font-medium text-brand hover:underline">{{ site.phone }}</a>
+          or email <a href="mailto:{{ site.email }}" class="font-medium text-brand hover:underline">{{ site.email }}</a>.
+          Either reaches the same team.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
 {% set faqKey = "contact" %}
+{% set faqEyebrow = "Before you write" %}
+{% set faqTitle = "Three quick answers." %}
 {% include "partials/faq-accordion.njk" %}

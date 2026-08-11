@@ -13,6 +13,20 @@ All photos sourced from [Unsplash](https://unsplash.com) under the Unsplash Lice
 | `team-at-desk.jpg` | `1522071820081-009f0129c71c` |
 | `workspace-open-office.jpg` | `1497032628192-86f99bcd76bc` |
 
+These five back the Home, About, and Services-overview covers. They used to back the
+five service detail pages too — four photos across five pages, one of them used twice.
+
+## Service-page photos — not in this folder
+
+Service imagery now lives in [`src/_data/images.json`](../../../_data/images.json) and is
+loaded straight from the Unsplash CDN rather than committed here. Photo IDs, alt text,
+and captions are all recorded in that file, one entry per slot.
+
+Because they render from an external host, a photo withdrawn from Unsplash becomes a
+broken image with no build-time warning. If that matters more than the convenience,
+download each `url`, put the files under `src/assets/images/services/<page>/`, and change
+`url` to the local path — the cover-sheet partial already accepts either form.
+
 ## Portrait photos — REPLACE BEFORE LAUNCH
 
 `person-*.jpg` are stock portraits standing in for candidate testimonials.

@@ -1,18 +1,33 @@
-{# Reusable stat band, fed from _data/stats.json — reused identically on Home and About. #}
-<section class="relative bg-gradient-to-br from-brand via-brand to-brand-dark py-20 sm:py-28 overflow-hidden">
-  <span class="orb w-72 h-72 -top-24 -left-16 bg-accent/30 animate-float" aria-hidden="true"></span>
-  <span class="orb w-80 h-80 -bottom-28 -right-20 bg-paper/10 animate-float-delayed" aria-hidden="true"></span>
-  <svg class="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full h-16 hidden sm:block" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
-    <path data-path-draw d="M20 30 C 200 -10, 300 70, 500 30 S 800 -10, 980 30" fill="none" style="stroke: rgb(var(--color-paper))" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"/>
-  </svg>
-  <div class="relative max-w-content mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
+{#
+  Stat band, fed from _data/stats.json so Home and About can never disagree.
+  Figures are set in the mono face — placement results are bookkeeping, not marketing.
+  Requires /assets/js/count-up.js in the page's extraScripts.
+
+  Params: statsTitle, statsEyebrow, statsNote (all optional).
+#}
+<section class="file-band py-14 sm:py-20">
+  <div class="section-container">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="eyebrow">{{ statsEyebrow or "Running totals" }}</p>
+        <h2 class="mt-2 font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          {{ statsTitle or "What the ledger says" }}
+        </h2>
+      </div>
+      <p class="max-w-xs meta leading-relaxed">
+        {{ statsNote or "Figures under review · updated quarterly" }}
+      </p>
+    </div>
+
+    <dl class="mt-8 grid grid-cols-2 gap-px border border-border bg-border md:grid-cols-4">
       {% for stat in stats.list %}
-      <div class="glass-panel-dark rounded-2xl p-6 sm:p-7 text-center">
-        <p class="font-mono font-semibold text-3xl sm:text-4xl lg:text-5xl text-paper" data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</p>
-        <p class="mt-2 text-xs sm:text-sm text-paper/75">{{ stat.label }}</p>
+      {# flex-col-reverse: the figure reads first, but dt still precedes dd in the DOM. #}
+      <div class="flex flex-col-reverse bg-paper px-5 py-7">
+        <dt class="mt-2 meta">{{ stat.label }}</dt>
+        <dd class="font-mono text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
+            data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
       </div>
       {% endfor %}
-    </div>
+    </dl>
   </div>
 </section>

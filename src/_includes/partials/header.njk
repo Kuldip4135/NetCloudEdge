@@ -1,24 +1,30 @@
 {% from "partials/icons.njk" import icon %}
-<header data-header class="sticky top-0 z-50 bg-paper/95 backdrop-blur border-b border-transparent transition-colors">
-  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16 lg:h-20">
-      <a href="{{ '/' | url }}" class="font-display text-xl lg:text-2xl font-semibold text-ink shrink-0">
-        {{ site.shortName }}
+{#
+  The file's cover: a flat bar on the paper stock that picks up a hairline bottom border
+  once scrolled (header-scroll.js), never a shadow. The services dropdown opens on hover
+  AND on keyboard focus — group-focus-within is what makes it keyboard-reachable.
+#}
+<header data-header class="sticky top-0 z-50 border-b border-transparent bg-paper transition-colors">
+  <div class="section-container">
+    <div class="flex h-16 items-center justify-between lg:h-20">
+      <a href="{{ '/' | url }}" class="flex shrink-0 items-baseline gap-2.5">
+        <span class="font-display text-xl font-semibold tracking-tight text-ink lg:text-2xl">{{ site.shortName }}</span>
+        <span class="hidden meta sm:inline">Case No. {{ site.caseNumber }}</span>
       </a>
 
-      <nav class="hidden lg:flex items-center gap-1" aria-label="Primary">
+      <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
         {% for link in nav.links %}
           {% if link.children %}
-          <div class="relative group" data-dropdown>
-            <button type="button" class="flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium text-ink hover:text-brand transition-colors" aria-expanded="false" aria-haspopup="true">
+          <div class="group relative">
+            <a href="{{ link.url | url }}" class="flex items-center gap-1 rounded-sm px-4 py-2 text-sm font-medium text-ink transition-colors hover:text-brand" aria-haspopup="true">
               {{ link.label }}
               {{ icon("chevron-down", "w-4 h-4") }}
-            </button>
-            <div class="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[420px] opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 transition-all duration-150">
-              <div class="bg-paper border border-border rounded-2xl shadow-lg shadow-ink/5 p-3 grid grid-cols-2 gap-1">
+            </a>
+            <div class="invisible absolute left-1/2 top-full w-[420px] -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              <div class="grid grid-cols-2 gap-1 rounded-sm border border-border bg-paper p-3">
                 {% for child in link.children %}
-                <a href="{{ child.url | url }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-ink hover:bg-surface transition-colors">
-                  <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-surface text-brand shrink-0">{{ icon(child.icon, "w-4 h-4") }}</span>
+                <a href="{{ child.url | url }}" class="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-ink transition-colors hover:bg-surface">
+                  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-surface text-brand">{{ icon(child.icon, "w-4 h-4") }}</span>
                   {{ child.label }}
                 </a>
                 {% endfor %}
@@ -26,18 +32,19 @@
             </div>
           </div>
           {% else %}
-          <a href="{{ link.url | url }}" class="px-4 py-2 rounded-full text-sm font-medium text-ink hover:text-brand transition-colors">{{ link.label }}</a>
+          <a href="{{ link.url | url }}" class="rounded-sm px-4 py-2 text-sm font-medium text-ink transition-colors hover:text-brand">{{ link.label }}</a>
           {% endif %}
         {% endfor %}
       </nav>
 
-      <div class="hidden lg:block shrink-0">
+      <div class="hidden shrink-0 lg:block">
         <a href="{{ '/contact/' | url }}" class="btn-primary">Get Started</a>
       </div>
 
+      {# On mobile the header CTA becomes a click-to-call link. #}
       <div class="flex items-center gap-3 lg:hidden">
         <a href="{{ site.phoneHref }}" class="text-ink" aria-label="Call {{ site.companyName }}">{{ icon("phone", "w-5 h-5") }}</a>
-        <button type="button" data-mobile-menu-toggle aria-expanded="false" aria-controls="mobile-menu" class="p-2 -mr-2 text-ink">
+        <button type="button" data-mobile-menu-toggle aria-expanded="false" aria-controls="mobile-menu" class="-mr-2 p-2 text-ink">
           {{ icon("menu", "w-6 h-6") }}
           <span class="sr-only">Open menu</span>
         </button>
@@ -46,28 +53,28 @@
   </div>
 </header>
 
-<div id="mobile-menu" data-mobile-menu class="hidden lg:hidden fixed inset-0 top-16 z-40 bg-paper overflow-y-auto">
-  <nav class="px-4 py-6 flex flex-col gap-1" aria-label="Mobile">
+<div id="mobile-menu" data-mobile-menu class="fixed inset-0 top-16 z-40 hidden overflow-y-auto bg-paper lg:hidden">
+  <nav class="flex flex-col gap-1 px-4 py-6" aria-label="Mobile">
     {% for link in nav.links %}
       {% if link.children %}
       <div data-mobile-accordion>
-        <button type="button" data-mobile-accordion-trigger class="w-full flex items-center justify-between px-3 py-3 text-base font-medium text-ink" aria-expanded="false">
+        <button type="button" data-mobile-accordion-trigger class="flex w-full items-center justify-between border-b border-dashed border-border px-3 py-3 text-base font-medium text-ink" aria-expanded="false">
           {{ link.label }}
           {{ icon("chevron-down", "w-5 h-5 transition-transform") }}
         </button>
-        <div data-mobile-accordion-panel class="hidden pl-3 pb-2 flex flex-col gap-1">
+        <div data-mobile-accordion-panel class="hidden flex-col gap-1 pb-2 pl-3">
           {% for child in link.children %}
-          <a href="{{ child.url | url }}" class="flex items-center gap-3 px-3 py-2.5 text-sm text-ink/80 rounded-lg hover:bg-surface">
-            <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface text-brand shrink-0">{{ icon(child.icon, "w-3.5 h-3.5") }}</span>
+          <a href="{{ child.url | url }}" class="flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-ink/75 hover:bg-surface">
+            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-surface text-brand">{{ icon(child.icon, "w-3.5 h-3.5") }}</span>
             {{ child.label }}
           </a>
           {% endfor %}
         </div>
       </div>
       {% else %}
-      <a href="{{ link.url | url }}" class="px-3 py-3 text-base font-medium text-ink">{{ link.label }}</a>
+      <a href="{{ link.url | url }}" class="border-b border-dashed border-border px-3 py-3 text-base font-medium text-ink">{{ link.label }}</a>
       {% endif %}
     {% endfor %}
-    <a href="{{ '/contact/' | url }}" class="btn-primary w-full text-center mt-4">Get Started</a>
+    <a href="{{ '/contact/' | url }}" class="btn-primary mt-5 w-full">Get Started</a>
   </nav>
 </div>

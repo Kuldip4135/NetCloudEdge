@@ -66,7 +66,34 @@
       "Bash(node shotm.mjs)",
       "Bash(pkill -f \"http.server 8899\")",
       "Bash(node dos.mjs)",
-      "Bash(node regress.mjs)"
+      "Bash(node regress.mjs)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 Chrome/120 Safari/537.36\" \"https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap\")",
+      "Bash(grep -o '\\\\.pane[,{ ]' dist/assets/css/style.css)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(sed -i '' 's|require\\('\\\\''playwright'\\\\''\\)|require\\('\\\\''__TRACKED_VAR__/node_modules/playwright'\\\\''\\)|' /private/tmp/claude-501/-Users-kuldipthakkar-Desktop-Kuldip-Projects-Web-Yash-Thakor-Website/9e894479-00fd-4bae-a1ca-916ca0fdfa53/scratchpad/shot.js)",
+      "Bash(node /private/tmp/claude-501/-Users-kuldipthakkar-Desktop-Kuldip-Projects-Web-Yash-Thakor-Website/9e894479-00fd-4bae-a1ca-916ca0fdfa53/scratchpad/shot.js)",
+      "Bash(node /private/tmp/claude-501/-Users-kuldipthakkar-Desktop-Kuldip-Projects-Web-Yash-Thakor-Website/9e894479-00fd-4bae-a1ca-916ca0fdfa53/scratchpad/shot2.js 1440 v3)",
+      "Bash(node /private/tmp/claude-501/-Users-kuldipthakkar-Desktop-Kuldip-Projects-Web-Yash-Thakor-Website/9e894479-00fd-4bae-a1ca-916ca0fdfa53/scratchpad/mob.js m5)",
+      "Bash(node /private/tmp/claude-501/-Users-kuldipthakkar-Desktop-Kuldip-Projects-Web-Yash-Thakor-Website/9e894479-00fd-4bae-a1ca-916ca0fdfa53/scratchpad/shot3.js)",
+      "WebFetch(domain:insightglobal.com)",
+      "WebFetch(domain:www.roberthalf.com)",
+      "WebFetch(domain:www.hays.com)",
+      "Bash(cd \"/Users/kuldipthakkar/Desktop/Kuldip/Projects/Web/Yash Thakor Website\" && rm -rf src/explore src/_includes/partials/variant-switcher.njk src/_includes/partials/palette-switcher.njk src/assets/js/pane-reveal.js && ls src src/_includes/partials src/assets/js)",
+      "Bash(command -v shot-scraper chromium \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\")",
+      "Bash(pkill -f \"http-server dist\")",
+      "Bash(rm src/_includes/partials/service-card.njk)",
+      "Bash(node -e \"const f=require\\('./src/_data/faqs.json'\\);for\\(const k in f\\)console.log\\(k,f[k].length\\)\")",
+      "Bash(node -e \"const i=require\\('./src/_data/industries.json'\\);console.log\\(JSON.stringify\\(i\\).slice\\(0,600\\)\\)\")",
+      "Bash(node -e \"const p=require\\('./src/_data/programs.json'\\);console.log\\(JSON.stringify\\(p,null,1\\).slice\\(0,900\\)\\)\")",
+      "Bash(xargs -0 sed -i '' -e 's/font-mono text-\\\\[9px\\\\] uppercase tracking-widest text-ink\\\\/65/meta/g' -e 's/font-mono text-\\\\[10px\\\\] uppercase tracking-widest text-ink\\\\/65/meta/g' -e 's/font-mono text-\\\\[11px\\\\] uppercase tracking-widest text-ink\\\\/65/meta/g' -e 's/font-mono text-\\\\[10px\\\\] uppercase tracking-widest text-paper\\\\/65/meta text-paper\\\\/65/g' -e 's/font-mono text-\\\\[11px\\\\] uppercase tracking-widest text-paper\\\\/65/meta text-paper\\\\/65/g' -e 's/font-mono text-\\\\[10px\\\\] uppercase tracking-widest text-accent/meta text-accent/g' -e 's/font-mono text-\\\\[11px\\\\] uppercase tracking-widest text-accent/meta text-accent/g' -e 's/font-mono text-\\\\[10px\\\\] uppercase leading-relaxed tracking-widest text-ink\\\\/65/meta leading-relaxed/g' -e 's/font-mono text-\\\\[11px\\\\] uppercase leading-relaxed tracking-widest text-ink\\\\/65/meta leading-relaxed/g' -e 's/font-mono text-\\\\[10px\\\\] font-normal uppercase tracking-widest text-ink\\\\/65/meta font-normal/g' -e 's/font-mono text-\\\\[10px\\\\] text-ink\\\\/65/font-mono text-[11px] text-ink\\\\/65/g' -e 's/text-sm leading-relaxed text-ink\\\\/65/body-copy/g' -e 's/text-sm leading-relaxed text-ink\\\\/75/body-copy/g' -e 's/text-sm leading-relaxed text-paper\\\\/65/body-copy text-paper\\\\/75/g')",
+      "Bash(xargs -0 sed -i '' -e 's/font-display text-lg font-semibold tracking-tight text-ink/font-display text-xl font-semibold tracking-tight text-ink/g' -e 's/max-w-lg leading-relaxed text-ink\\\\/65/max-w-xl text-lg leading-relaxed text-ink\\\\/75/g')",
+      "Bash(xargs -0 sed -i '' 's/font-display text-xl font-semibold tracking-tight text-ink\\\\/65 transition-colors group-hover:text-ink sm:text-xl/font-display text-xl font-semibold tracking-tight text-ink\\\\/65 transition-colors group-hover:text-ink sm:text-2xl/g')",
+      "Bash(node -e \"console.log\\(require\\('./package.json'\\).scripts\\)\")",
+      "Bash(curl -s http://localhost:8080/services/job-placement/)",
+      "Bash(curl -s http://localhost:8080/assets/css/style.css)"
+    ],
+    "additionalDirectories": [
+      "/Users/kuldipthakkar/Desktop/Kuldip/Projects/Web/Yash Thakor Website/src/explore"
     ]
   }
 }

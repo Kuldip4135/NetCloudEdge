@@ -1,0 +1,74 @@
+{#
+  The cover sheet that opens every page: stamp + case line, H1, lead, two buttons, and
+  the file's first exhibit. Two columns on desktop, stacked on mobile — never one column
+  against dead space.
+
+  Params:
+    crumbs          — optional [{label, url}] breadcrumb, printed above the stamp
+    coverStamp      — stamp wording ("Intake open", "On file", …)
+    coverMeta       — the mono case line beside the stamp; defaults to case no. + city
+    coverTitle      — H1, a plain declarative sentence
+    coverLead       — lead paragraph
+    coverNote       — optional small print under the buttons (e.g. the fee model)
+    coverPrimary    — { label, href }
+    coverSecondary  — optional { label, href }
+    coverImage      — { src, alt, caption, width, height } — the exhibit
+    coverEager      — true on the homepage only, to fetch the exhibit at high priority
+#}
+{% from "partials/icons.njk" import icon %}
+<section class="file-band">
+  <div class="section-container py-10 sm:py-14">
+    {% if crumbs %}
+      {% include "partials/breadcrumb.njk" %}
+    {% endif %}
+
+    <div class="grid grid-cols-1 gap-8 {% if crumbs %}mt-6{% endif %} lg:grid-cols-12 lg:items-center lg:gap-12">
+      <div class="lg:col-span-7">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} {{ coverStamp }}</span>
+          <span class="font-mono text-xs uppercase tracking-widest text-ink/65">
+            {{ coverMeta or ("Case No. " + site.caseNumber + " · " + site.address.line2) }}
+          </span>
+        </div>
+
+        <h1 class="mt-6 font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+          {{ coverTitle }}
+        </h1>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-ink/75">{{ coverLead }}</p>
+
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+          <a href="{{ coverPrimary.href | url }}" class="btn-primary">{{ icon("arrow-right", "w-4 h-4") }} {{ coverPrimary.label }}</a>
+          {% if coverSecondary %}
+          <a href="{{ coverSecondary.href | url }}" class="btn-outline">{{ icon("arrow-right", "w-4 h-4") }} {{ coverSecondary.label }}</a>
+          {% endif %}
+        </div>
+
+        {% if coverNote %}
+        <p class="mt-5 meta leading-relaxed">{{ coverNote }}</p>
+        {% endif %}
+      </div>
+
+      {# The exhibit: a mounted print with a stamp across the corner. The stamp keeps a
+         paper fill — vermilion over an unpredictable photograph cannot be relied on to
+         stay legible. Stock photography, not real clients: see images/home/CREDITS.md.
+
+         Two source forms. `src` is a repo-local path and takes the `url` filter so the
+         path prefix is applied; `url` is an absolute Unsplash CDN address from
+         _data/images.json and must be printed raw — running the filter over it would
+         prepend the prefix and break the request. #}
+      {% set coverSrc = coverImage.url if coverImage.url else (coverImage.src | url) %}
+      <figure class="folder-card p-3 lg:col-span-5">
+        <div class="relative">
+          <img src="{{ coverSrc }}" alt="{{ coverImage.alt }}"
+               width="{{ coverImage.width or 1400 }}" height="{{ coverImage.height or 933 }}"
+               {% if coverEager %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+               class="aspect-[4/3] w-full object-cover">
+          <span class="stamp absolute bottom-3 left-3 bg-paper">{{ icon("check-badge", "w-3.5 h-3.5") }} Verified</span>
+        </div>
+        <figcaption class="px-1.5 pb-1 pt-3 meta">
+          {{ coverImage.caption }}
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>

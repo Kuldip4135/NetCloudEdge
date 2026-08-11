@@ -4,90 +4,154 @@ title: Talent Acquisition
 description: A higher-touch search practice for roles where volume hiring won't work — specialized, senior, or hard-to-fill positions.
 extraScripts:
   - /assets/js/faq-accordion.js
+  - /assets/js/rail-active.js
 ---
 {% from "partials/icons.njk" import icon %}
 
-<section class="bg-surface py-14 sm:py-20">
-  <div class="section-container flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
-    <div class="lg:w-1/2">
-      {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Talent Acquisition" }] %}
-      {% include "partials/breadcrumb.njk" %}
-      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4 leading-tight">Precision Hiring for Roles That Matter</h1>
-      <p class="mt-5 text-lg text-ink/65 leading-relaxed">A strategic search practice for leadership and specialized roles — built on quality of match, not speed of fill.</p>
-      <a href="{{ '/contact/' | url }}" class="btn-primary inline-block mt-7">Start a Search</a>
-    </div>
-    <div class="lg:w-1/2">
-      <div class="aspect-[4/3] rounded-3xl bg-paper flex items-center justify-center">
-        <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-surface text-brand">{{ icon("target", "w-9 h-9") }}</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="max-w-2xl mb-8">
-      <p class="eyebrow">How this differs from staffing</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Not the same as Recruitment & Staffing</h2>
-    </div>
-    <div class="bg-surface rounded-2xl p-8 sm:p-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div class="flex gap-3">
-        <span class="text-brand shrink-0 mt-0.5">{{ icon("check", "w-5 h-5") }}</span>
-        <p class="text-ink/75 leading-relaxed">Recruitment & Staffing fills from an existing candidate pool, fast.</p>
-      </div>
-      <div class="flex gap-3">
-        <span class="text-brand shrink-0 mt-0.5">{{ icon("check", "w-5 h-5") }}</span>
-        <p class="text-ink/75 leading-relaxed">Talent Acquisition builds a pipeline from scratch for roles that don't have one yet.</p>
-      </div>
-      <div class="flex gap-3">
-        <span class="text-brand shrink-0 mt-0.5">{{ icon("check", "w-5 h-5") }}</span>
-        <p class="text-ink/75 leading-relaxed">Best suited for leadership, specialized, or highly competitive roles.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="py-16 sm:py-24 bg-surface">
-  <div class="section-container">
-    <div class="max-w-2xl mb-12">
-      <p class="eyebrow">What's included</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">A higher-touch search</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {% set included = [
-        { icon: "target", title: "Executive & Specialized Search", text: "Dedicated search for leadership and niche technical roles." },
-        { icon: "users", title: "Talent Pipelining", text: "We build a candidate bench before you need to fill the role again." },
-        { icon: "chart", title: "Market Mapping", text: "A clear view of where the right candidates sit today, and what it takes to reach them." },
-        { icon: "support", title: "Long-Term Partnership Model", text: "A dedicated search partner, not a transactional vendor relationship." }
-      ] %}
-      {% for item in included %}
-      <div class="bg-paper rounded-2xl p-6">
-        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
-        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ item.title }}</h3>
-        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ item.text }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-{% set steps = [
-  { label: "Discovery", description: "Understand the role, the team, and what success looks like a year in." },
-  { label: "Market Mapping", description: "Identify where qualified candidates actually are." },
-  { label: "Outreach", description: "Direct, confidential approach to passive candidates." },
-  { label: "Shortlist", description: "A small, vetted slate — not a wide net." },
-  { label: "Placement", description: "Offer support and a 6-month replacement guarantee." }
+{% set rail = [
+  { id: "difference", label: "Not the same as staffing", n: "00" },
+  { id: "included",   label: "What's included", n: "A" },
+  { id: "map",        label: "Market mapping",  n: "B" },
+  { id: "procedure",  label: "The process",     n: "C" },
+  { id: "faq",        label: "Questions",       n: "D" }
 ] %}
-{% set sectionEyebrow = "The process" %}
-{% set sectionTitle = "A search built around the role" %}
-{% include "partials/process-timeline.njk" %}
+
+{% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Talent Acquisition" }] %}
+{% set coverStamp = "File · 03" %}
+{% set coverTitle = "Precision hiring for roles that matter." %}
+{% set coverLead = "A strategic search practice for leadership and specialized roles — built on quality of match, not speed of fill." %}
+{% set coverPrimary = { label: "Start a Search", href: "/contact/?role=employer" } %}
+{% set coverSecondary = { label: "Compare with staffing", href: "/services/recruitment-staffing/" } %}
+{% set coverImage = images.services["talent-acquisition"].cover %}
+{% include "partials/cover-sheet.njk" %}
+
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    {% include "partials/section-rail.njk" %}
+
+    {# The narrowest measure and the largest gaps of the five service pages. This page
+       sells a retained engagement to a senior reader; space is what signals that it
+       costs more than the Staffing page. Do not fill it in.  #}
+    <div class="lg:col-span-9 lg:max-w-2xl">
+
+      {# ---- 00 The distinction. The most important block on the page: if a visitor
+             can't tell the two services apart in five seconds, both pages fail. It
+             therefore goes first, above everything else. ---- #}
+      <div id="difference" class="scroll-mt-28">
+        <p class="eyebrow">00 — How this differs from staffing</p>
+        {# The distinction *is* the heading. An assertion and an H2 restating each other
+           was two display lines saying one thing. #}
+        <h2 class="assertion mt-2 sm:text-3xl">
+          Staffing fills a role you have. Search finds the person who was never going to apply.
+        </h2>
+        <div class="mt-6 overflow-x-auto">
+          <table class="ledger min-w-[40rem]">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Recruitment &amp; Staffing</th>
+                <th scope="col">Talent Acquisition</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set comparison = [
+                { k: "What it does", a: "Fills a defined role from an existing pool", b: "Builds a pipeline for a role that doesn't have one" },
+                { k: "Timeline", a: "Days to weeks", b: "6–10 weeks" },
+                { k: "Candidates", a: "Actively looking", b: "Usually not looking" },
+                { k: "Best for", a: "Volume, contract, defined roles", b: "Leadership, specialized, competitive roles" },
+                { k: "Terms", a: "Contingency", b: "Retained" }
+              ] %}
+              {% for row in comparison %}
+              <tr>
+                <th scope="row">{{ row.k }}</th>
+                <td class="pr-6">{{ row.a }}</td>
+                <td class="font-medium text-ink">{{ row.b }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 meta leading-relaxed">
+          Filling a defined role quickly? <a href="{{ '/services/recruitment-staffing/' | url }}" class="text-brand hover:underline">Recruitment &amp; Staffing</a> is the faster route.
+        </p>
+      </div>
+
+      {# ---- A What's included ---- #}
+      <div id="included" class="mt-20 scroll-mt-28">
+        <p class="eyebrow">A — What's included</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          A higher-touch search.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {% set included = [
+            { icon: "target", t: "Executive & specialized search", d: "Dedicated search for leadership and niche technical roles." },
+            { icon: "users", t: "Talent pipelining", d: "We build a candidate bench before you need to fill the role again." },
+            { icon: "chart", t: "Market mapping", d: "A clear view of where the right candidates sit today, and what it takes to reach them." },
+            { icon: "support", t: "Long-term partnership model", d: "A dedicated search partner, not a transactional vendor relationship." }
+          ] %}
+          {% for item in included %}
+          <div class="folder-card p-5">
+            <span class="flex h-9 w-9 items-center justify-center rounded-sm bg-brand/10 text-brand">{{ icon(item.icon, "w-4 h-4") }}</span>
+            <h3 class="mt-3 font-display font-semibold tracking-tight text-ink">{{ item.t }}</h3>
+            <p class="mt-2 body-copy">{{ item.d }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# ---- B Market mapping. The deliverable that justifies the premium framing, so
+             it gets described concretely rather than named in a tile. ---- #}
+      <div id="map" class="mt-20 scroll-mt-28">
+        <p class="eyebrow">B — The deliverable</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          What a market map gives you.
+        </h2>
+        <div class="mt-6 folder-card folder-card-accent p-6">
+          <p class="leading-relaxed text-ink/75">
+            Who's doing this job today and where, what they're paid, which companies are the realistic feeder pool, and how long a move from each typically takes.
+          </p>
+          <p class="mt-4 border-t border-dashed border-border pt-4 meta leading-relaxed">
+            You keep it whether or not you hire through us.
+          </p>
+        </div>
+      </div>
+
+      {# The plate. One image on the page, placed where the reader has just finished the
+         deliverable section and is deciding whether we are serious. #}
+      {% set plate = images.services["talent-acquisition"].plate %}
+      <figure class="exhibit-band mt-20">
+        <img src="{{ plate.url }}" alt="{{ plate.alt }}" width="{{ plate.width }}" height="{{ plate.height }}"
+             loading="lazy" class="aspect-[21/9]">
+        <figcaption class="border-t border-border px-4 py-3 meta">{{ plate.caption }}</figcaption>
+      </figure>
+
+      {# ---- C The process ---- #}
+      <div class="mt-20">
+        {% set steps = [
+          { label: "Discovery", description: "Understand the role, the team, and what success looks like a year in." },
+          { label: "Market mapping", description: "Identify where qualified candidates actually are." },
+          { label: "Outreach", description: "Direct, confidential approach to passive candidates." },
+          { label: "Shortlist", description: "A small, vetted slate — not a wide net." },
+          { label: "Placement", description: "Offer support and a 6-month replacement guarantee." }
+        ] %}
+        {% set sectionId = "procedure" %}
+        {% set sectionEyebrow = "C — The process" %}
+        {% set sectionTitle = "A search built around the role." %}
+        {% include "partials/process-timeline.njk" %}
+      </div>
+    </div>
+  </div>
+</section>
 
 {% set faqKey = "talent-acquisition" %}
+{% set faqEyebrow = "D — Standing questions" %}
+{% set faqTitle = "Before you commission a search." %}
 {% include "partials/faq-accordion.njk" %}
 
+{% set ctaStamp = "Ready to open" %}
 {% set ctaHeadline = "Have a role that's hard to fill?" %}
 {% set ctaSubtext = "Let's talk about what a dedicated search would look like." %}
 {% set ctaLabel = "Start a Conversation" %}
-{% set ctaHref = "/contact/" %}
-{% set ctaVariant = "brand" %}
+{% set ctaHref = "/contact/?role=employer" %}
 {% include "partials/cta-section.njk" %}

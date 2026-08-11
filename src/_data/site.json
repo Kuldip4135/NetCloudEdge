@@ -1,6 +1,7 @@
 {
   "companyName": "Net Cloud Edge",
   "shortName": "Net Cloud Edge",
+  "url": "https://netcloudedge.com",
   "tagline": "Where careers find their footing.",
   "description": "Recruiting and staffing for students starting out and professionals moving on — plus the employers who hire both.",
   "phone": "+1 (312) 555-0148",
@@ -11,6 +12,10 @@
     "line2": "Chicago, IL 60601"
   },
   "hours": "Mon–Fri, 9:00am–6:00pm CT",
+  "caseNumber": "2026–014",
+  "note": "legalEntity, founded and registration are shown in the About page's Company Facts block. PLACEHOLDERS — confirm before launch (CONTENT.md verification list, item 13).",
+  "legalEntity": "Net Cloud Edge LLC",
+  "founded": "2014",
   "social": [
     { "label": "LinkedIn", "url": "https://linkedin.com" },
     { "label": "Instagram", "url": "https://instagram.com" },

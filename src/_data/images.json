@@ -1,0 +1,111 @@
+{
+  "note": "Service-page imagery, loaded directly from the Unsplash CDN rather than committed to the repo. Every URL below was checked for a 200 and looked at, so the subject matches the caption — do not add an entry you have not opened. Sizing is baked into the query string (auto=format serves WebP/AVIF where supported); if a slot changes size, change w/h here, not in the template. Unsplash License: free for commercial use, no attribution required. `credit` is courtesy and is what you search to find the photo again. TRADEOFF: these render from an external host, so a removed photo becomes a broken slot with no build-time warning. To move to local files, download each url, drop it in src/assets/images/services/<page>/, and rewrite `url` to the local path — nothing else changes.",
+  "services": {
+    "job-placement": {
+      "cover": {
+        "url": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1400&h=1050&q=75",
+        "alt": "Two people in conversation across a desk during an interview",
+        "caption": "Exhibit A · Interview prep",
+        "credit": "unsplash photo-1600880292203-757bb62b4baf",
+        "width": 1400,
+        "height": 1050
+      },
+      "bands": [
+        {
+          "url": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&h=800&q=75",
+          "alt": "Hands annotating a notebook beside two open laptops",
+          "caption": "Exhibit B · Profile build",
+          "credit": "unsplash photo-1454165804606-c3d57bc86b40",
+          "width": 1800,
+          "height": 800
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1800&h=800&q=75",
+          "alt": "A person signing a document at a desk",
+          "caption": "Exhibit C · Offer signed",
+          "credit": "unsplash photo-1450101499163-c8848c66ca85",
+          "width": 1800,
+          "height": 800
+        }
+      ]
+    },
+    "recruitment-staffing": {
+      "cover": {
+        "url": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&h=1050&q=75",
+        "alt": "A hiring team taking notes around a meeting table",
+        "caption": "Exhibit A · Requirement intake",
+        "credit": "unsplash photo-1517048676732-d65bc937f952",
+        "width": 1400,
+        "height": 1050
+      }
+    },
+    "talent-acquisition": {
+      "cover": {
+        "url": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&h=1050&q=75",
+        "alt": "An empty glass-walled office corridor",
+        "caption": "Exhibit A · Search brief",
+        "credit": "unsplash photo-1497366754035-f200968a6e72",
+        "width": 1400,
+        "height": 1050
+      },
+      "plate": {
+        "url": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1800&h=800&q=75",
+        "alt": "A quiet, empty meeting lounge",
+        "caption": "Exhibit B · Confidential engagement",
+        "credit": "unsplash photo-1524758631624-e2822e304c36",
+        "width": 1800,
+        "height": 800
+      }
+    },
+    "background-verification": {
+      "cover": {
+        "url": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&h=1050&q=75",
+        "alt": "Printed forms and paperwork laid out on a desk",
+        "caption": "Exhibit A · Documents on file",
+        "credit": "unsplash photo-1554224155-6726b3ff858f",
+        "width": 1400,
+        "height": 1050
+      }
+    },
+    "it-training": {
+      "cover": {
+        "url": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1400&h=1050&q=75",
+        "alt": "A class seated in front of a presenter and projected screen",
+        "caption": "Exhibit A · Cohort in session",
+        "credit": "unsplash photo-1524178232363-1fb2b075b655",
+        "width": 1400,
+        "height": 1050
+      },
+      "tracks": {
+        "Web Development": {
+          "url": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1000&h=640&q=75",
+          "alt": "Source code on a monitor",
+          "credit": "unsplash photo-1461749280684-dccba630e2f6",
+          "width": 1000,
+          "height": 640
+        },
+        "QA / Testing": {
+          "url": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&h=640&q=75",
+          "alt": "Two people reviewing something on a laptop screen",
+          "credit": "unsplash photo-1516321318423-f06f85e504b3",
+          "width": 1000,
+          "height": 640
+        },
+        "Cloud / DevOps": {
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1000&h=640&q=75",
+          "alt": "Network cabling in a server rack",
+          "credit": "unsplash photo-1558494949-ef010cbdcc31",
+          "width": 1000,
+          "height": 640
+        },
+        "Data Basics": {
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&h=640&q=75",
+          "alt": "An analytics dashboard of charts on a screen",
+          "credit": "unsplash photo-1551288049-bebda4e38f71",
+          "width": 1000,
+          "height": 640
+        }
+      }
+    }
+  }
+}

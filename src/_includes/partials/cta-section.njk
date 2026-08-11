@@ -1,14 +1,29 @@
 {#
-  Params: ctaHeadline, ctaSubtext (optional), ctaLabel, ctaHref, ctaVariant ("brand" | "accent")
+  "Close the case" — the dark band that ends every page except Contact. Identical
+  everywhere; only the wording changes.
+
+  Params: ctaHeadline, ctaSubtext (optional), ctaLabel, ctaHref.
+
+  On ink the tokens invert: text is paper / paper-65, the button is paper-filled, and the
+  stamp needs !border-paper !text-paper because vermilion on ink fails contrast.
 #}
-<section class="relative {% if ctaVariant == 'accent' %}bg-gradient-to-br from-accent via-accent to-[#c96b28]{% else %}bg-gradient-to-br from-brand via-brand to-brand-dark{% endif %} py-20 sm:py-24 overflow-hidden">
-  <span class="orb w-96 h-96 -top-32 left-1/4 bg-paper/10 animate-float" aria-hidden="true"></span>
-  <span class="orb w-72 h-72 -bottom-24 right-10 bg-paper/10 animate-float-delayed" aria-hidden="true"></span>
-  <div class="relative max-w-content mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-paper max-w-2xl mx-auto text-balance">{{ ctaHeadline }}</h2>
+{% from "partials/icons.njk" import icon %}
+<section class="bg-ink py-20 sm:py-28">
+  <div class="section-container text-center">
+    <span class="stamp !border-paper !text-paper">{{ icon("check-badge", "w-3.5 h-3.5") }} {{ ctaStamp or "Ready to open" }}</span>
+    <h2 class="mx-auto mt-6 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight text-paper sm:text-5xl">
+      {{ ctaHeadline }}
+    </h2>
     {% if ctaSubtext %}
-    <p class="mt-3 text-paper/85 max-w-xl mx-auto">{{ ctaSubtext }}</p>
+    <p class="mx-auto mt-5 max-w-lg leading-relaxed text-paper/65">{{ ctaSubtext }}</p>
     {% endif %}
-    <a href="{{ ctaHref | url }}" class="inline-block mt-8 bg-paper text-ink font-medium px-8 py-3.5 rounded-full shadow-glass hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200">{{ ctaLabel }}</a>
+    <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+      <a href="{{ ctaHref | url }}" class="inline-flex items-center justify-center gap-2 rounded-sm bg-paper px-6 py-3.5 font-medium text-ink transition-colors hover:bg-surface">
+        {{ ctaLabel }} {{ icon("arrow-right", "w-4 h-4") }}
+      </a>
+      <a href="{{ site.phoneHref }}" class="inline-flex items-center justify-center gap-2 rounded-sm border border-paper/40 px-6 py-3.5 font-medium text-paper transition-colors hover:border-paper">
+        {{ icon("phone", "w-4 h-4") }} {{ site.phone }}
+      </a>
+    </div>
   </div>
 </section>

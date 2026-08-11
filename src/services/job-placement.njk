@@ -4,91 +4,158 @@ title: Job Placement
 description: Hands-on support from resume to signed offer — matching, coaching, and negotiation help for candidates who want a job placed, not just applications sent.
 extraScripts:
   - /assets/js/faq-accordion.js
+  - /assets/js/rail-active.js
 ---
 {% from "partials/icons.njk" import icon %}
 
-<section class="py-14 sm:py-20">
-  <div class="section-container flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
-    <div class="lg:w-1/2">
-      {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Job Placement" }] %}
-      {% include "partials/breadcrumb.njk" %}
-      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4 leading-tight">Get Placed, Not Just Applied</h1>
-      <p class="mt-5 text-lg text-ink/65 leading-relaxed">Full support from resume to signed offer — because a job search shouldn't be something you do alone.</p>
-      <a href="{{ '/contact/' | url }}" class="btn-primary inline-block mt-7">Start Your Job Search</a>
-    </div>
-    <div class="lg:w-1/2">
-      <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center">
-        <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-paper text-brand">{{ icon("briefcase", "w-9 h-9") }}</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="py-16 sm:py-24 bg-surface">
-  <div class="section-container">
-    <div class="max-w-2xl mb-12">
-      <p class="eyebrow">What's included</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Support at every stage</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {% set included = [
-        { icon: "target", title: "Resume & Profile Optimization", text: "We rebuild your resume and profile around what actually gets noticed." },
-        { icon: "users", title: "Interview Coaching", text: "Mock interviews and real feedback before it counts." },
-        { icon: "briefcase", title: "Employer Matching", text: "We only put you in front of roles that fit your background and goals." },
-        { icon: "bolt", title: "Offer Negotiation Support", text: "We help you evaluate and negotiate before you sign anything." },
-        { icon: "support", title: "Post-Placement Check-In", text: "We follow up at 30 and 90 days to make sure it's working out." },
-        { icon: "check", title: "Application Tracking", text: "One recruiter, one thread — no chasing status across job boards." }
-      ] %}
-      {% for item in included %}
-      <div class="bg-paper rounded-2xl p-6">
-        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
-        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ item.title }}</h3>
-        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ item.text }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-{% set steps = [
-  { label: "Consultation", description: "A conversation about where you are and where you want to go." },
-  { label: "Profile Build", description: "Resume, profile, and positioning built around your target roles." },
-  { label: "Matching", description: "Introductions only to employers that fit — no mass applications." },
-  { label: "Interviews", description: "Coaching before every conversation that matters." },
-  { label: "Offer", description: "Negotiation support and a check-in once you've started." }
+{% set rail = [
+  { id: "included",  label: "What's included", n: "00" },
+  { id: "changes",   label: "What changes",    n: "A"  },
+  { id: "procedure", label: "The process",     n: "B"  },
+  { id: "story",     label: "Success story",   n: "C"  },
+  { id: "faq",       label: "Questions",       n: "D"  }
 ] %}
-{% set sectionEyebrow = "The process" %}
-{% set sectionTitle = "Five steps to an offer" %}
-{% include "partials/process-timeline.njk" %}
 
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="max-w-2xl mb-10">
-      <p class="eyebrow">Success story</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Real placement, real timeline</h2>
-    </div>
-    <div class="bg-surface rounded-3xl p-8 sm:p-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
-      <div>
-        <p class="eyebrow">Situation</p>
-        <p class="mt-2 text-ink/70 leading-relaxed">Sofia had six months of unanswered applications for QA roles after a bootcamp.</p>
+{% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Job Placement" }] %}
+{% set coverStamp = "File · 01" %}
+{% set coverTitle = "Get placed, not just applied." %}
+{% set coverLead = "Full support from resume to signed offer — because a job search shouldn't be something you do alone." %}
+{% set coverNote = "Free for candidates. Our fee is paid by the hiring employer, never by you." %}
+{% set coverPrimary = { label: "Start Your Job Search", href: "/contact/" } %}
+{% set coverSecondary = { label: "See all services", href: "/services/" } %}
+{% set coverImage = images.services["job-placement"].cover %}
+{% include "partials/cover-sheet.njk" %}
+
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    {% include "partials/section-rail.njk" %}
+
+    {# The doc column runs a narrower measure than the employer pages: this one is
+       read top to bottom, not scanned, and photo bands break the run rather than
+       another grid of cards. #}
+    <div class="lg:col-span-9 lg:max-w-3xl">
+
+      {# ---- 00 What's included ---- #}
+      <div id="included" class="scroll-mt-28">
+        <p class="eyebrow">00 — What's included</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Support at every stage.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {% set included = [
+            { icon: "check", t: "Resume & profile optimization", d: "We rebuild your resume and profile around what actually gets noticed." },
+            { icon: "users", t: "Interview coaching", d: "Mock interviews and real feedback before it counts." },
+            { icon: "target", t: "Employer matching", d: "We only put you in front of roles that fit your background and goals." },
+            { icon: "chart", t: "Offer negotiation support", d: "We help you evaluate and negotiate before you sign anything." },
+            { icon: "clock", t: "Post-placement check-in", d: "We follow up at 30 and 90 days to make sure it's working out." },
+            { icon: "briefcase", t: "Application tracking", d: "One recruiter, one thread — no chasing status across job boards." }
+          ] %}
+          {% for item in included %}
+          <div class="folder-card p-5">
+            <span class="flex h-9 w-9 items-center justify-center rounded-sm bg-brand/10 text-brand">{{ icon(item.icon, "w-4 h-4") }}</span>
+            <h3 class="mt-3 font-display font-semibold tracking-tight text-ink">{{ item.t }}</h3>
+            <p class="mt-2 body-copy">{{ item.d }}</p>
+          </div>
+          {% endfor %}
+        </div>
       </div>
-      <div>
-        <p class="eyebrow">Approach</p>
-        <p class="mt-2 text-ink/70 leading-relaxed">We rebuilt her profile around testing frameworks employers were actually hiring for, and matched her to two fintech teams.</p>
+
+      {# Exhibit band — breaks the run of text between sections. #}
+      {% set band = images.services["job-placement"].bands[0] %}
+      <figure class="exhibit-band mt-14">
+        <img src="{{ band.url }}" alt="{{ band.alt }}" width="{{ band.width }}" height="{{ band.height }}"
+             loading="lazy" class="aspect-[21/9]">
+        <figcaption class="border-t border-border px-4 py-3 meta">{{ band.caption }}</figcaption>
+      </figure>
+
+      {# ---- A What changes. Qualitative only: no salary figures, no timelines here. ---- #}
+      <div id="changes" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">A — The difference</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          What actually changes.
+        </h2>
+        <div class="mt-6 overflow-x-auto">
+          <table class="ledger min-w-[34rem]">
+            <thead>
+              <tr>
+                <th scope="col">On your own</th>
+                <th scope="col">With us</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set contrasts = [
+                { a: "Applications into a void, no reply", b: "A named recruiter who tells you where each one stands" },
+                { a: "No idea why you were passed over", b: "Feedback after every interview" },
+                { a: "Competing with hundreds of applicants", b: "Introduced to employers already expecting your resume" },
+                { a: "Guessing what the interview will cover", b: "Prepped for the specific team you're meeting" }
+              ] %}
+              {% for row in contrasts %}
+              <tr>
+                <td class="w-1/2 pr-6">{{ row.a }}</td>
+                <td class="w-1/2 font-medium text-ink">{{ row.b }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div>
-        <p class="eyebrow">Result</p>
-        <p class="mt-2 text-ink/70 leading-relaxed">Offer in hand four days after her first interview, at 15% above her target salary.</p>
+
+      {# ---- B The process ---- #}
+      <div class="mt-14">
+        {% set steps = [
+          { label: "Consultation", duration: "30 minutes", description: "A conversation about where you are and where you want to go." },
+          { label: "Profile build", duration: "3–5 days", description: "Resume, profile, and positioning built around your target roles." },
+          { label: "Matching", duration: "Ongoing", description: "Introductions only to employers that fit — no mass applications." },
+          { label: "Interviews", description: "Coaching before every conversation that matters." },
+          { label: "Offer", description: "Negotiation support and a check-in once you've started." }
+        ] %}
+        {% set sectionId = "procedure" %}
+        {% set sectionEyebrow = "B — The process" %}
+        {% set sectionTitle = "Five steps to an offer." %}
+        {% include "partials/process-timeline.njk" %}
+      </div>
+
+      {# Exhibit band — the offer, before the case study that describes one. #}
+      {% set band2 = images.services["job-placement"].bands[1] %}
+      <figure class="exhibit-band mt-14">
+        <img src="{{ band2.url }}" alt="{{ band2.alt }}" width="{{ band2.width }}" height="{{ band2.height }}"
+             loading="lazy" class="aspect-[21/9]">
+        <figcaption class="border-t border-border px-4 py-3 meta">{{ band2.caption }}</figcaption>
+      </figure>
+
+      {# ---- C Success story. Needs a real, consented candidate before launch. ---- #}
+      <div id="story" class="mt-14 scroll-mt-28">
+        <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} File closed</span>
+        <h2 class="mt-4 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Real placement, real timeline.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          {% set story = [
+            { k: "Situation", v: "Sofia had six months of unanswered applications for QA roles after a bootcamp." },
+            { k: "Approach", v: "We rebuilt her profile around testing frameworks employers were actually hiring for, and matched her to two fintech teams." },
+            { k: "Result", v: "Offer in hand four days after her first interview." }
+          ] %}
+          {% for part in story %}
+          <div class="folder-card p-5">
+            <p class="meta">{{ part.k }}</p>
+            <p class="mt-2 body-copy">{{ part.v }}</p>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 {% set faqKey = "job-placement" %}
+{% set faqEyebrow = "D — Standing questions" %}
+{% set faqTitle = "Before you open a file." %}
 {% include "partials/faq-accordion.njk" %}
 
+{% set ctaStamp = "Ready to open" %}
 {% set ctaHeadline = "Start your job search today." %}
+{% set ctaSubtext = "The first conversation is free, and there's no cost to you at any stage." %}
 {% set ctaLabel = "Get Started" %}
 {% set ctaHref = "/contact/" %}
-{% set ctaVariant = "brand" %}
 {% include "partials/cta-section.njk" %}

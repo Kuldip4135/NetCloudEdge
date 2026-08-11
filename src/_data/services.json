@@ -1,44 +1,60 @@
 {
+  "note": "`audience` drives both the 'For' line on the home service docket and the 'Which service fits you?' matrix on the services index — keep the three keys on every entry. `notFor` is the redirect line that prevents wrong-service enquiries. `ref` is the file number the docket lists print in the right-hand column.",
   "list": [
     {
       "slug": "job-placement",
       "url": "/services/job-placement/",
+      "ref": "01",
       "title": "Job Placement",
       "icon": "briefcase",
       "shortDescription": "We match you to roles worth taking, then help you close the offer.",
-      "description": "Hands-on support from resume to signed offer — matching, coaching, and negotiation help for candidates who want a job placed, not just applications sent."
+      "description": "Hands-on support from resume to signed offer — matching, coaching, and negotiation help for candidates who want a job placed, not just applications sent.",
+      "notFor": "Not for employers hiring — start with Recruitment & Staffing.",
+      "audience": { "students": true, "professionals": true, "employers": false }
     },
     {
       "slug": "recruitment-staffing",
       "url": "/services/recruitment-staffing/",
+      "ref": "02",
       "title": "Recruitment & Staffing",
       "icon": "users",
       "shortDescription": "Sourced, screened, and ready candidates for contract or full-time roles.",
-      "description": "Full-cycle staffing for employers — sourcing, screening, and delivering vetted candidates across contract, temp, and permanent roles."
+      "description": "Full-cycle staffing for employers — sourcing, screening, and delivering vetted candidates across contract, temp, and permanent roles.",
+      "notFor": "Hiring one senior or specialized role instead? See Talent Acquisition.",
+      "audience": { "students": false, "professionals": false, "employers": true }
     },
     {
       "slug": "talent-acquisition",
       "url": "/services/talent-acquisition/",
+      "ref": "03",
       "title": "Talent Acquisition",
       "icon": "target",
       "shortDescription": "Strategic search for specialized and leadership hires.",
-      "description": "A higher-touch search practice for roles where volume hiring won't work — specialized, senior, or hard-to-fill positions."
+      "description": "A higher-touch search practice for roles where volume hiring won't work — specialized, senior, or hard-to-fill positions.",
+      "notFor": "Filling a defined role quickly? Recruitment & Staffing is the faster route.",
+      "audience": { "students": false, "professionals": false, "employers": true }
     },
     {
       "slug": "background-verification",
       "url": "/services/background-verification/",
+      "ref": "04",
       "title": "Background Verification",
       "icon": "shield",
       "shortDescription": "Thorough, compliant checks before an offer becomes a hire.",
-      "description": "Employment history, education, and reference verification handled quickly and correctly, so an offer becomes a hire with confidence."
+      "description": "Employment history, education, and reference verification handled quickly and correctly, so an offer becomes a hire with confidence.",
+      "notFor": "Available standalone, or bundled with any placement.",
+      "audience": { "students": true, "professionals": true, "employers": true }
     },
     {
       "slug": "it-training",
       "url": "/services/it-training/",
+      "ref": "05",
       "title": "IT Training",
       "icon": "code",
       "shortDescription": "Skill-building tracks that feed directly into our placement pipeline.",
-      "description": "Structured programs in web development, QA, cloud, and data — built for graduates who want training that leads somewhere specific: a job."
+      "description": "Structured programs in web development, QA, cloud, and data — built for graduates who want training that leads somewhere specific: a job.",
+      "notFor": "Already have the skills? Go straight to Job Placement.",
+      "audience": { "students": true, "professionals": false, "employers": false }
     }
   ]
 }

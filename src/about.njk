@@ -1,97 +1,163 @@
 ---
 layout: layouts/page.njk
-title: About
+title: About Us
 description: Why Net Cloud Edge exists, and who we've built it for.
+extraScripts:
+  - /assets/js/count-up.js
+  - /assets/js/rail-active.js
 ---
 {% from "partials/icons.njk" import icon %}
 
-<section class="bg-surface py-14 sm:py-20">
-  <div class="section-container">
-    {% set crumbs = [{ label: "Home", url: "/" }, { label: "About" }] %}
-    {% include "partials/breadcrumb.njk" %}
-    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4">About Us</h1>
-    <p class="mt-3 text-lg text-ink/65 max-w-xl">Recruiting built around people, not pipelines.</p>
-  </div>
-</section>
+{% set rail = [
+  { id: "story",  label: "Our story",   n: "00" },
+  { id: "values", label: "Mission & values", n: "A" },
+  { id: "trust",  label: "Why we're trusted", n: "B" },
+  { id: "facts",  label: "Company facts", n: "C" }
+] %}
 
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
-      <div class="lg:w-1/2">
-        <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center overflow-hidden">
-          <svg class="w-1/2 h-1/2 text-brand/25" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="30" y="30" width="140" height="140" rx="24"/>
-            <path d="M60 100h80M100 60v80" stroke-linecap="round"/>
-          </svg>
+{% set crumbs = [{ label: "Home", url: "/" }, { label: "About" }] %}
+{% set coverStamp = "On file" %}
+{% set coverTitle = "Recruiting built around people, not pipelines." %}
+{% set coverLead = "We work both sides of the same gap — helping students and professionals land roles that fit, and helping employers hire people who'll stay." %}
+{% set coverPrimary = { label: "Talk to us", href: "/contact/" } %}
+{% set coverSecondary = { label: "See the services", href: "/services/" } %}
+{% set coverImage = {
+  src: "/assets/images/home/office-collaboration.jpg",
+  alt: "Two colleagues working through a shortlist together",
+  caption: "Exhibit A · The office, Chicago",
+  width: 1400, height: 933
+} %}
+{% include "partials/cover-sheet.njk" %}
+
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    {% set railStats = true %}
+    {% include "partials/section-rail.njk" %}
+
+    <div class="lg:col-span-9">
+
+      {# ---- 00 Our story ---- #}
+      <div id="story" class="scroll-mt-28">
+        <p class="eyebrow">00 — Our story</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Started from a bad job search.
+        </h2>
+        {# Zig-zag split: the exhibit stacks above the text on mobile, and sits to the
+           right of it from sm up — hence the order swap. #}
+        <div class="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-5 sm:items-center">
+          <figure class="folder-card overflow-hidden sm:order-2 sm:col-span-2">
+            <img src="{{ '/assets/images/home/workspace-open-office.jpg' | url }}"
+                 alt="The open-plan office where the firm works"
+                 width="1400" height="933" loading="lazy" class="aspect-[4/3] w-full object-cover">
+            <figcaption class="px-4 pb-4 pt-3 meta">
+              Exhibit B · Where the files live
+            </figcaption>
+          </figure>
+          <div class="sm:order-1 sm:col-span-3">
+            <p class="leading-relaxed text-ink/75">
+              We started this firm after watching too many good candidates lose good opportunities to slow processes, vague feedback, and job boards that treat people like line items. At the same time, we watched employers struggle to fill roles with anyone but the loudest applicant, not the right one.
+            </p>
+            <p class="statement mt-6">A placement should feel like a match, not a transaction.</p>
+            <p class="mt-6 leading-relaxed text-ink/75">
+              Today we work both sides of that gap — helping students and professionals land roles that fit, and helping employers hire people who'll stay.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="lg:w-1/2">
-        <p class="eyebrow">Our story</p>
-        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Started from a bad job search</h2>
-        <p class="mt-5 text-ink/70 leading-relaxed">
-          We started this firm after watching too many good candidates lose good opportunities to slow processes, vague feedback, and job boards that treat people like line items. At the same time, we watched employers struggle to fill roles with anyone but the loudest applicant, not the right one.
-        </p>
-        <p class="mt-4 font-display text-xl text-ink border-l-4 border-accent pl-5 italic">
-          "A placement should feel like a match, not a transaction."
-        </p>
-        <p class="mt-4 text-ink/70 leading-relaxed">
-          Today we work both sides of that gap — helping students and professionals land roles that fit, and helping employers hire people who'll stay.
-        </p>
+
+      {# ---- A Mission & values ---- #}
+      <div id="values" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">A — What we stand for</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Mission &amp; values.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {% set values = [
+            { n: "01", t: "Integrity", d: "We tell candidates and employers the truth, even when it's not the easy answer." },
+            { n: "02", t: "Candidate-first", d: "Our fee comes from employers, so our advice to you isn't for sale." },
+            { n: "03", t: "Speed", d: "Good process shouldn't be slow — we move quickly without cutting corners." },
+            { n: "04", t: "Long-term partnerships", d: "We measure success by who's still placed a year later, not just the offer." }
+          ] %}
+          {% for value in values %}
+          <div class="folder-card p-5">
+            <span class="font-mono text-xs text-accent">{{ value.n }}</span>
+            <h3 class="mt-3 font-display font-semibold tracking-tight text-ink">{{ value.t }}</h3>
+            <p class="mt-2 body-copy">{{ value.d }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# ---- Meet the team: deliberately absent. PRD §2.5 — this section only ships with
+             real photos, real names, real roles. Stock headshots would undermine the
+             exact trust this page exists to build. Add it when they exist. ---- #}
+
+      {# ---- B Trust ---- #}
+      <div id="trust" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">B — Trust</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Why students &amp; professionals trust us.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div class="folder-card p-6">
+            <div class="flex items-start justify-between">
+              <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-brand text-paper">{{ icon("users", "w-5 h-5") }}</span>
+              <span class="meta">File · JS</span>
+            </div>
+            <h3 class="mt-4 font-display text-xl font-semibold tracking-tight text-ink">If you're starting out</h3>
+            <p class="mt-2 body-copy">
+              Most of the people we place are figuring out their first move — we've built the process around that, not around senior hires who already know the drill.
+            </p>
+          </div>
+          <div class="folder-card p-6">
+            <div class="flex items-start justify-between">
+              <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-brand text-paper">{{ icon("briefcase", "w-5 h-5") }}</span>
+              <span class="meta">File · EMP</span>
+            </div>
+            <h3 class="mt-4 font-display text-xl font-semibold tracking-tight text-ink">If you're switching or hiring</h3>
+            <p class="mt-2 body-copy">
+              Whether you're moving on from a role or trying to fill one, we work from the same playbook: understand the fit before we make the match.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {# ---- C Company facts. Cheap credibility almost no competitor bothers with. ---- #}
+      <div id="facts" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">C — Company facts</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          The registered particulars.
+        </h2>
+        <div class="mt-6 file-inset">
+          <dl class="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
+            {% set facts = [
+              { k: "Trading as", v: site.companyName },
+              { k: "Registered as", v: site.legalEntity },
+              { k: "Founded", v: site.founded },
+              { k: "Office", v: site.address.line2 }
+            ] %}
+            {% for fact in facts %}
+            <div class="flex flex-col-reverse">
+              <dt class="mt-1 meta">{{ fact.k }}</dt>
+              <dd class="font-display text-base font-semibold tracking-tight text-ink">{{ fact.v }}</dd>
+            </div>
+            {% endfor %}
+          </dl>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="py-16 sm:py-24 bg-surface">
-  <div class="section-container">
-    <div class="max-w-2xl mb-12">
-      <p class="eyebrow">What we stand for</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Mission & values</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {% set values = [
-        { icon: "shield", title: "Integrity", text: "We tell candidates and employers the truth, even when it's not the easy answer." },
-        { icon: "heart", title: "Candidate-First", text: "A placement is only good if it's good for the person taking it." },
-        { icon: "bolt", title: "Speed", text: "Good process shouldn't be slow — we move quickly without cutting corners." },
-        { icon: "users", title: "Long-Term Partnerships", text: "We measure success by who's still placed a year later, not just the offer." }
-      ] %}
-      {% for value in values %}
-      <div class="bg-paper rounded-2xl p-6">
-        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(value.icon, "w-5 h-5") }}</span>
-        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ value.title }}</h3>
-        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ value.text }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
+{# The same four figures as Home, from the same source — they can never disagree. #}
+{% set statsEyebrow = "Running totals" %}
+{% set statsTitle = "What the ledger says." %}
 {% include "partials/stat-counter.njk" %}
 
-<section class="py-16 sm:py-24">
-  <div class="section-container">
-    <div class="max-w-2xl mb-12">
-      <p class="eyebrow">Trust</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Why students & professionals trust us</h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-surface rounded-2xl p-8 sm:p-10">
-        <span class="flex items-center justify-center w-12 h-12 rounded-xl bg-paper text-brand">{{ icon("users", "w-6 h-6") }}</span>
-        <h3 class="font-display text-2xl font-semibold text-ink mt-6">If you're starting out</h3>
-        <p class="mt-3 text-ink/65 leading-relaxed">We've placed thousands of first-time candidates who didn't know where to start — and treated every one like the placement mattered.</p>
-      </div>
-      <div class="bg-surface rounded-2xl p-8 sm:p-10">
-        <span class="flex items-center justify-center w-12 h-12 rounded-xl bg-paper text-brand">{{ icon("briefcase", "w-6 h-6") }}</span>
-        <h3 class="font-display text-2xl font-semibold text-ink mt-6">If you're switching or hiring</h3>
-        <p class="mt-3 text-ink/65 leading-relaxed">Whether you're moving on from a role or trying to fill one, we work from the same playbook: understand the fit before we make the match.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
+{% set ctaStamp = "Ready to open" %}
 {% set ctaHeadline = "Want to know more?" %}
 {% set ctaSubtext = "Let's talk about where you're headed, or who you're hiring for." %}
 {% set ctaLabel = "Let's Talk" %}
 {% set ctaHref = "/contact/" %}
-{% set ctaVariant = "brand" %}
 {% include "partials/cta-section.njk" %}

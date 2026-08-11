@@ -4,76 +4,132 @@ title: Background Verification
 description: Employment history, education, and reference verification handled quickly and correctly, so an offer becomes a hire with confidence.
 extraScripts:
   - /assets/js/faq-accordion.js
+  - /assets/js/rail-active.js
 ---
 {% from "partials/icons.njk" import icon %}
 
-<section class="py-14 sm:py-20">
-  <div class="section-container flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
-    <div class="lg:w-1/2">
-      {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Background Verification" }] %}
-      {% include "partials/breadcrumb.njk" %}
-      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4 leading-tight">Confidence Before the Hire</h1>
-      <p class="mt-5 text-lg text-ink/65 leading-relaxed">Thorough, compliant verification so an offer becomes a hire without second-guessing.</p>
-      <a href="{{ '/contact/' | url }}" class="btn-primary inline-block mt-7">Request a Verification</a>
-    </div>
-    <div class="lg:w-1/2">
-      <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center">
-        <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-paper text-brand">{{ icon("shield", "w-9 h-9") }}</span>
-      </div>
-    </div>
-  </div>
-</section>
+{#
+  The most legally sensitive page on the site. Written conservatively: the qualifiers
+  are not optional. Never add compliance badges, "100% accurate", "instant results",
+  sample report contents, a real candidate example, or advice on an employer's legal
+  obligations. See CONTENT.md §7.
+#}
 
-<section class="py-16 sm:py-24 bg-surface">
-  <div class="section-container">
-    <div class="max-w-2xl mb-12">
-      <p class="eyebrow">What we verify</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">A complete picture, checked</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {% set included = [
-        { icon: "briefcase", title: "Employment History", text: "Confirmed dates, titles, and roles directly with past employers." },
-        { icon: "code", title: "Education Verification", text: "Degrees and certifications confirmed at the source." },
-        { icon: "shield", title: "Criminal Record Check", text: "Conducted where legally permitted, scoped to the role." },
-        { icon: "users", title: "Reference Checks", text: "Structured conversations with the people who worked with the candidate directly." },
-        { icon: "check", title: "Identity Verification", text: "Confirms the candidate is who their application says they are." }
-      ] %}
-      {% for item in included %}
-      <div class="bg-paper rounded-2xl p-6">
-        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
-        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ item.title }}</h3>
-        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ item.text }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<section class="py-16 sm:py-24">
-  <div class="section-container max-w-3xl">
-    <p class="eyebrow">Compliance</p>
-    <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2 mb-5">Handled correctly, every time</h2>
-    <p class="text-ink/70 leading-relaxed">
-      Every check begins with documented candidate consent, and every report is scoped to what's legally permitted for the role and jurisdiction. Data is encrypted in transit and at rest, accessible only to the parties directly involved in the hiring decision, and retained only as long as required by applicable law. We don't display third-party compliance badges we haven't earned — if you have specific regulatory requirements for a role, tell us and we'll confirm in writing what our process covers.
-    </p>
-  </div>
-</section>
-
-{% set steps = [
-  { label: "Request", description: "Tell us which candidate and which checks the role requires." },
-  { label: "Consent Collection", description: "We collect documented consent directly from the candidate." },
-  { label: "Verification", description: "Employment, education, and reference checks run in parallel." },
-  { label: "Report Delivery", description: "A clear, scoped report delivered within days, not weeks." }
+{% set rail = [
+  { id: "checks",     label: "What we verify", n: "00" },
+  { id: "compliance", label: "Compliance",     n: "A"  },
+  { id: "procedure",  label: "The process",    n: "B"  },
+  { id: "faq",        label: "Questions",      n: "C"  }
 ] %}
-{% set sectionEyebrow = "The process" %}
-{% set sectionTitle = "From request to report" %}
-{% include "partials/process-timeline.njk" %}
+
+{% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Background Verification" }] %}
+{% set coverStamp = "File · 04" %}
+{% set coverTitle = "Confidence before the hire." %}
+{% set coverLead = "Thorough, compliant verification so an offer becomes a hire without second-guessing." %}
+{% set coverPrimary = { label: "Request a Verification", href: "/contact/?role=employer" } %}
+{% set coverSecondary = { label: "See all services", href: "/services/" } %}
+{% set coverImage = images.services["background-verification"].cover %}
+{% include "partials/cover-sheet.njk" %}
+
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    {% include "partials/section-rail.njk" %}
+
+    {# The document column is set as a form: every section is a `.form-row` — a fixed
+       mono label block beside its content. A verification page should look like the
+       thing it describes, and a filled-in form carries more authority here than a
+       marketing layout would. #}
+    <div class="lg:col-span-9">
+
+      {# ---- 00 What we verify ---- #}
+      <div id="checks" class="form-row !border-t-0 !pt-0 scroll-mt-28">
+        <div class="form-row-label">
+          <p class="eyebrow">00</p>
+          <p class="meta mt-2">What we verify</p>
+        </div>
+        <div>
+          <h2 class="font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+            A complete picture, checked.
+          </h2>
+          <dl class="mt-6">
+            {% set checks = [
+              { t: "Employment history", d: "Confirmed dates, titles, and roles directly with past employers." },
+              { t: "Education verification", d: "Degrees and certifications confirmed at the source." },
+              { t: "Criminal record check", d: "Conducted where legally permitted, scoped to the role." },
+              { t: "Reference checks", d: "Structured conversations with the people who worked with the candidate directly." },
+              { t: "Identity verification", d: "Confirms the candidate is who their application says they are." }
+            ] %}
+            {% for item in checks %}
+            <div class="grid gap-1 border-b border-dashed border-border py-4 first:pt-0 last:border-b-0 sm:grid-cols-12 sm:gap-6">
+              <dt class="font-display text-lg font-semibold tracking-tight text-ink sm:col-span-5">{{ item.t }}</dt>
+              <dd class="body-copy sm:col-span-7">{{ item.d }}</dd>
+            </div>
+            {% endfor %}
+          </dl>
+        </div>
+      </div>
+
+      {# ---- A Compliance. Plain text, no badge iconography — the refusal to show
+             unearned badges is the point. Leave this wording exactly as written. ---- #}
+      <div id="compliance" class="form-row mt-14 scroll-mt-28">
+        <div class="form-row-label">
+          <p class="eyebrow">A</p>
+          <p class="meta mt-2">Compliance</p>
+        </div>
+        <div>
+          <h2 class="font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+            Handled correctly, every time.
+          </h2>
+          <div class="mt-6 file-inset">
+            <p class="leading-relaxed text-ink/75">
+              Every check begins with documented candidate consent, and every report is scoped to what's legally permitted for the role and jurisdiction. Data is encrypted in transit and at rest, accessible only to the parties directly involved in the hiring decision, and retained only as long as required by applicable law. We don't display third-party compliance badges we haven't earned — if you have specific regulatory requirements for a role, tell us and we'll confirm in writing what our process covers.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {# ---- B The process ---- #}
+      <div id="procedure" class="form-row mt-14 scroll-mt-28">
+        <div class="form-row-label">
+          <p class="eyebrow">B</p>
+          <p class="meta mt-2">The process</p>
+        </div>
+        <div>
+          <h2 class="font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+            From request to report.
+          </h2>
+          <ol class="mt-6">
+            {% set steps = [
+              { label: "Request", description: "Tell us which candidate and which checks the role requires." },
+              { label: "Consent collection", description: "We collect documented consent directly from the candidate." },
+              { label: "Verification", description: "Employment, education, and reference checks run in parallel." },
+              { label: "Report delivery", description: "A clear, scoped report delivered within days, not weeks." }
+            ] %}
+            {% for step in steps %}
+            <li class="grid gap-1 border-b border-dashed border-border py-4 first:pt-0 last:border-b-0 sm:grid-cols-12 sm:gap-6">
+              <div class="flex items-baseline gap-3 sm:col-span-5">
+                <span class="meta text-accent">0{{ loop.index }}</span>
+                <span class="font-display text-lg font-semibold tracking-tight text-ink">{{ step.label }}</span>
+              </div>
+              <p class="body-copy sm:col-span-7">{{ step.description }}</p>
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% set faqKey = "background-verification" %}
+{% set faqEyebrow = "C — Standing questions" %}
+{% set faqTitle = "Before you request a check." %}
 {% include "partials/faq-accordion.njk" %}
 
+{% set ctaStamp = "Ready to open" %}
 {% set ctaHeadline = "Ready to verify a candidate?" %}
+{% set ctaSubtext = "Tell us the role and we'll scope the checks it actually needs." %}
 {% set ctaLabel = "Request a Check" %}
-{% set ctaHref = "/contact/" %}
-{% set ctaVariant = "brand" %}
+{% set ctaHref = "/contact/?role=employer" %}
 {% include "partials/cta-section.njk" %}

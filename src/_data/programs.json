@@ -1,8 +1,37 @@
 {
+  "note": "IT Training tracks. PLACEHOLDER curricula — durations, formats and prerequisites must be confirmed before launch (CONTENT.md verification list, item 10). If the tracks are not real yet, the IT Training page ships its waitlist variant instead: set `tracksConfirmed: false` in that page's front matter.",
   "list": [
-    { "title": "Web Development", "duration": "12 weeks", "icon": "code", "description": "Front-end and back-end fundamentals through a portfolio-ready capstone project." },
-    { "title": "QA / Testing", "duration": "8 weeks", "icon": "check", "description": "Manual and automated testing practices used in real release pipelines." },
-    { "title": "Cloud / DevOps", "duration": "10 weeks", "icon": "cloud", "description": "Core cloud infrastructure, CI/CD, and deployment fundamentals on AWS." },
-    { "title": "Data Basics", "duration": "8 weeks", "icon": "chart", "description": "SQL, spreadsheets, and data analysis fundamentals for non-technical starters." }
+    {
+      "title": "Web Development",
+      "duration": "12 weeks",
+      "icon": "code",
+      "format": "Live online · In-person (Chicago)",
+      "prerequisites": "None",
+      "description": "Front-end and back-end fundamentals through a portfolio-ready capstone project."
+    },
+    {
+      "title": "QA / Testing",
+      "duration": "8 weeks",
+      "icon": "check",
+      "format": "Live online",
+      "prerequisites": "None",
+      "description": "Manual and automated testing practices used in real release pipelines."
+    },
+    {
+      "title": "Cloud / DevOps",
+      "duration": "10 weeks",
+      "icon": "cloud",
+      "format": "Live online",
+      "prerequisites": "Basic command line helps",
+      "description": "Core cloud infrastructure, CI/CD, and deployment fundamentals on AWS."
+    },
+    {
+      "title": "Data Basics",
+      "duration": "8 weeks",
+      "icon": "chart",
+      "format": "Live online",
+      "prerequisites": "None",
+      "description": "SQL, spreadsheets, and data analysis fundamentals for non-technical starters."
+    }
   ]
 }

@@ -3,131 +3,27 @@
 @tailwind utilities;
 
 /*
-  Design themes as CSS variables (R G B triplets, consumed via rgb(var(--x) / <alpha>) in
-  tailwind.config.js so opacity modifiers like bg-brand/10 keep working unchanged).
-  A [data-theme] on <html> swaps the palette AND restyles shared components (buttons, cards,
-  header) further down, so a variant page changes design language without duplicating partials.
+  DOSSIER — the site theme. A case file, not a brochure.
 
-  Default (no attribute) — "The Console": a live operations dashboard rendered in glass.
-  Cool white paper, cobalt for authority/actions, a cyan signal color for anything "live"
-  or confirmed — frosted, translucent tiles over soft blue light instead of flat corporate
-  navy. Used by Home / About / Services / Contact.
+  Colours are R G B triplets consumed via rgb(var(--x) / <alpha>) in tailwind.config.js,
+  so opacity modifiers (bg-brand/10, text-ink/65) keep working unchanged.
+
+  The palette is taken from the materials the motif is actually made of: archival slate
+  stock (never warm/cream — the folder-and-stamp idea should read as verification, not
+  nostalgia), blue-black registrar's ink, and aniline violet, which is the colour real
+  stamp pads and indelible copying pencils put on a document. Vermilion is reserved
+  strictly for stamps and file numbers — see the non-negotiables in
+  claude_helper/WEBSITE-THEME.md §9.
 */
 :root {
-  --color-ink: 16 28 46;
-  --color-paper: 245 248 252;
-  --color-brand: 29 95 214;
-  --color-brand-dark: 20 64 158;
-  --color-accent: 23 182 212;
-  --color-accent-deep: 12 116 137;
-  --color-surface: 234 241 251;
-  --color-border: 211 225 245;
-}
-
-/* A — Editorial: warm print-shop palette. Toasted cream stock, soft brown-black ink,
-   terracotta accent, forest secondary — human and tactile rather than cold newsprint. */
-:root[data-theme="editorial"] {
-  --color-ink: 40 33 27;
-  --color-paper: 247 242 234;
-  --color-brand: 45 92 78;
-  --color-brand-dark: 32 68 57;
-  --color-accent: 197 85 58;
-  --color-surface: 238 230 218;
-  --color-border: 215 203 187;
-}
-
-/* C — Bold: neo-brutalist. Border token IS the ink so thick outlines read as structure.
-   Default colourway: "Highlighter" — cream stock, electric blue, vermilion, school yellow.
-
-   Bold's tokens are load-bearing in ways the other themes' are not, so any alternate
-   colourway has to hold the same contract or the page breaks:
-     ink     near-black; it is also every 2px outline and the brut shadow
-     border  MUST equal ink
-     brand   dark enough to carry text-paper (the "For Job Seekers" tile)
-     accent  light enough to carry text-ink (the "For Employers" tile, marquee, stamps)
-     surface pale enough to carry text-ink (icon chips, the wall behind the tiles)
-   Alternates live below as [data-palette]; layout and markup are untouched. */
-:root[data-theme="bold"] {
-  --color-ink: 16 16 16;
-  --color-paper: 255 248 231;
-  --color-brand: 43 76 255;
-  --color-brand-dark: 28 55 214;
-  --color-accent: 255 77 45;
-  --color-accent-deep: 194 52 15;
-  --color-surface: 255 224 102;
-  --color-border: 16 16 16;
-}
-
-/* Riso — duplicator inks: bottle green against fluorescent pink on periwinkle stock.
-   The two colours fight in exactly the way two riso passes do when they overprint. */
-:root[data-theme="bold"][data-palette="riso"] {
-  --color-ink: 16 16 26;
-  --color-paper: 243 241 250;
-  --color-brand: 0 113 63;
-  --color-brand-dark: 0 84 47;
-  --color-accent: 255 72 176;
-  --color-accent-deep: 179 0 110;
-  --color-surface: 255 217 236;
-  --color-border: 16 16 26;
-}
-
-/* Press — a two-plate print run: crimson and cyan on bone, no third hue anywhere.
-   The most restrained of the four; the tiles carry it rather than the palette. */
-:root[data-theme="bold"][data-palette="press"] {
-  --color-ink: 18 16 16;
-  --color-paper: 248 245 239;
-  --color-brand: 176 27 46;
-  --color-brand-dark: 138 20 36;
-  --color-accent: 77 217 232;
-  --color-accent-deep: 10 110 122;
-  --color-surface: 207 243 247;
-  --color-border: 18 16 16;
-}
-
-/* Site — safety-vest hi-vis lime against deep navy on concrete. "Where careers find
-   their footing" read literally: wayfinding and site signage. */
-:root[data-theme="bold"][data-palette="site"] {
-  --color-ink: 20 22 26;
-  --color-paper: 236 236 231;
-  --color-brand: 22 37 94;
-  --color-brand-dark: 14 25 68;
-  --color-accent: 200 243 29;
-  --color-accent-deep: 90 112 0;
-  --color-surface: 232 245 200;
-  --color-border: 20 22 26;
-}
-
-/* D — Dossier: a case file, not a brochure. Palette taken from the materials the motif
-   is actually made of — archival slate stock (never warm/cream: the folder-and-stamp
-   idea should read as verification, not nostalgia), blue-black registrar's ink, and
-   aniline violet, which is the colour real stamp pads and indelible copying pencils
-   put on a document. Vermilion is reserved strictly for stamps and file numbers.
-   The old teal is gone deliberately: it sat a few degrees from Editorial's brand green
-   and made two variants look like one design language wearing different layouts. */
-:root[data-theme="dossier"] {
   --color-ink: 27 31 46;
   --color-paper: 238 239 244;
   --color-brand: 74 63 143;
   --color-brand-dark: 55 46 110;
   --color-accent: 184 48 31;
+  --color-accent-deep: 138 34 21;
   --color-surface: 226 228 236;
   --color-border: 199 202 216;
-}
-
-/* E — Signal: a control room, not a terminal and not a dashboard in daylight.
-   A deep petrol field with real coloured light pooled behind it, and every panel is
-   a sheet of frosted glass sitting at a measurable depth above that light — which is
-   the whole point of glass: it needs something worth blurring. Two functional states
-   carry all the colour: signal-green means settled/confirmed, amber means actively
-   moving through a stage. Neither is ever used decoratively. */
-:root[data-theme="signal"] {
-  --color-ink: 230 242 236;
-  --color-paper: 7 23 27;
-  --color-brand: 47 217 160;
-  --color-brand-dark: 22 169 122;
-  --color-accent: 242 169 59;
-  --color-surface: 20 51 58;
-  --color-border: 47 87 94;
 }
 
 @layer base {
@@ -150,7 +46,8 @@
     outline-offset: 2px;
   }
 
-  /* Subtle tactile grain over the warm paper background — fixed, decorative, never intercepts input. */
+  /* Paper grain over the slate stock — fixed, decorative, never intercepts input.
+     Kept faint: this is archival stock, not a texture effect. */
   body {
     position: relative;
   }
@@ -160,323 +57,220 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.35;
+    opacity: 0.2;
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-brand text-paper font-medium px-6 py-3.5 rounded-full shadow-glow hover:bg-brand-dark hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 transition-all duration-200;
-  }
-  .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 bg-paper/50 backdrop-blur text-ink font-medium px-6 py-3.5 rounded-full border border-white/60 hover:border-brand hover:text-brand hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200;
-  }
+
+  /* ---- Shell ---- */
+
   .section-container {
     @apply max-w-content mx-auto px-4 sm:px-6 lg:px-8;
   }
+  /* Section labels are filing marks, not headlines — they stay quiet so vermilion
+     remains exclusive to stamps. /65 keeps 12px mono above 4.5:1 on the slate stock. */
   .eyebrow {
-    @apply font-mono text-xs tracking-widest uppercase text-brand;
+    @apply font-mono text-xs uppercase tracking-widest text-ink/65;
   }
 
-  /* Default "Console" surface — true glassmorphism: frosted, translucent, floating over
-     the soft gradient blobs behind it. Every other theme fully overrides this below. */
-  .glass-panel {
-    @apply bg-paper/60 backdrop-blur-xl border border-white/60 shadow-glass;
+  /* ---- Reading tiers ----
+
+     Two classes carry every piece of text meant to be *read* rather than *scanned*.
+     They exist because the alternative — a size utility repeated on 100+ elements —
+     is how the site ended up with three near-identical mono tiers (9/10/11px) and
+     descriptive prose sitting at 14px, a UI size doing a reading job.
+
+     Body copy is 16px: card bodies, table cells, anything a visitor reads a sentence
+     of. The 14px `text-sm` utility stays, but only for genuine UI — nav links,
+     buttons, form fields.
+
+     Metadata is 11px mono and is the floor for the whole site. Nothing goes smaller;
+     the old 9px and 10px tiers are gone. On a dark band, follow with `text-paper/75`
+     — a utility outranks a component class, so the override needs no variant here. */
+  .body-copy {
+    @apply text-base leading-relaxed text-ink/75;
   }
-  .glass-panel-dark {
-    @apply bg-paper/10 backdrop-blur-xl border border-paper/20;
-  }
-  .card-lift {
-    @apply transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass;
-  }
-  .orb {
-    @apply absolute rounded-full blur-3xl pointer-events-none;
+  .meta {
+    @apply font-mono text-[11px] uppercase tracking-widest text-ink/65;
   }
   .text-balance {
     text-wrap: balance;
   }
-
   [data-header].is-scrolled {
     @apply border-border;
   }
 
-  [data-path-draw] {
-    stroke-dasharray: 1400;
-    stroke-dashoffset: 1400;
-    transition: stroke-dashoffset 1.4s ease-out;
+  /* ---- Buttons. Squared, flat: no lift, no glow, no shadow. ---- */
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-brand px-6 py-3.5
+           font-medium text-paper transition-colors duration-200 hover:bg-brand-dark;
   }
-  [data-path-draw].is-drawn {
-    stroke-dashoffset: 0;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    [data-path-draw] {
-      stroke-dashoffset: 0;
-      transition: none;
-    }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm border border-dashed
+           border-border bg-paper px-6 py-3.5 font-medium text-ink transition-colors
+           duration-200 hover:border-solid hover:border-brand hover:text-brand;
   }
 
-  /* Default "Manifest" signature — a live status board. status-chip marks a candidate's
-     stage (Applied/Interviewing/Placed); manifest-row is one ledger line inside it. Used
-     only by the homepage hero + "why us" board, so it stays unlisted from the theme blocks
-     below rather than gated behind [data-theme]. */
-  .status-chip {
-    @apply inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 font-mono text-[11px] font-semibold tracking-wide;
-  }
-  .manifest-row {
-    @apply grid grid-cols-12 items-center gap-3 border-b border-ink/10 py-3.5 last:border-b-0;
-  }
+  /* ---- The three signature units ---- */
 
-  /* ---- Variant overrides: restyle the SHARED components per design language ---- */
-
-  /* A — Editorial: squared off, no glow, no blur. Rules instead of cards. */
-  [data-theme="editorial"] .btn-primary {
-    @apply rounded-none shadow-none bg-ink hover:bg-accent hover:translate-y-0 hover:shadow-none;
-  }
-  [data-theme="editorial"] .btn-outline {
-    @apply rounded-none bg-transparent backdrop-blur-none border-ink hover:bg-ink hover:text-paper hover:border-ink hover:translate-y-0;
-  }
-  [data-theme="editorial"] .glass-panel {
-    @apply bg-transparent backdrop-blur-none border-0 shadow-none;
-  }
-  [data-theme="editorial"] .card-lift:hover {
-    @apply translate-y-0 shadow-none;
-  }
-  [data-theme="editorial"] .eyebrow {
-    @apply text-ink/50;
-  }
-  [data-theme="editorial"] body::before {
-    opacity: 0.55;
-  }
-  /* Editorial index row: hairline rules, ink flood on hover. */
-  .ed-row {
-    @apply relative grid grid-cols-12 items-baseline gap-4 border-t border-ink/15 py-7 transition-colors duration-300;
-  }
-  .ed-row:hover {
-    @apply border-ink/40;
-  }
-
-  /* C — Bold: hard edges, thick ink borders, offset shadows, zero blur. */
-  [data-theme="bold"] .btn-primary {
-    @apply rounded-none border-2 border-ink shadow-brut font-bold uppercase tracking-wide hover:bg-accent hover:text-ink hover:-translate-y-0 hover:shadow-brut-lg;
-  }
-  [data-theme="bold"] .btn-outline {
-    @apply rounded-none border-2 border-ink bg-paper backdrop-blur-none shadow-brut font-bold uppercase tracking-wide hover:bg-surface hover:text-ink hover:translate-y-0 hover:shadow-brut-lg;
-  }
-  [data-theme="bold"] .glass-panel {
-    @apply bg-paper backdrop-blur-none border-2 border-ink shadow-brut rounded-none;
-  }
-  [data-theme="bold"] .card-lift:hover {
-    @apply -translate-x-1 -translate-y-1 shadow-brut-lg;
-  }
-  [data-theme="bold"] body::before {
-    display: none;
-  }
-  .brut-box {
-    @apply border-2 border-ink shadow-brut transition-all duration-200;
-  }
-  .brut-box-lift:hover {
-    @apply -translate-x-1 -translate-y-1 shadow-brut-lg;
-  }
-  /* Shared employer-wall / placement-feed rows pick up the brutalist weight. */
-  [data-theme="bold"] .logo-cell,
-  [data-theme="bold"] .feed-row {
-    border-width: 0 2px 2px 0;
-  }
-  [data-theme="bold"] .logo-cell span {
-    @apply font-black uppercase tracking-tight;
-  }
-
-  /* D — Dossier: folders, not cards. Flat, faintly bureaucratic, a tab of color along
-     the top edge standing in for a manila folder tab without borrowing manila's hue. */
-  [data-theme="dossier"] .btn-primary {
-    @apply rounded-sm shadow-none hover:shadow-none hover:translate-y-0 hover:bg-brand-dark;
-  }
-  [data-theme="dossier"] .btn-outline {
-    @apply rounded-sm border-dashed bg-paper backdrop-blur-none hover:translate-y-0 hover:border-solid;
-  }
-  [data-theme="dossier"] .glass-panel {
-    @apply rounded-sm border-border bg-paper shadow-none;
-  }
-  [data-theme="dossier"] .card-lift:hover {
-    @apply translate-y-0 shadow-none;
-  }
-  /* Section labels are filing marks, not headlines — they go quiet so the vermilion
-     stays exclusive to stamps and file numbers. /65 rather than /45 keeps 12px mono
-     above 4.5:1 on the slate stock. */
-  [data-theme="dossier"] .eyebrow {
-    @apply text-ink/65;
-  }
-  [data-theme="dossier"] body::before {
-    opacity: 0.2;
-  }
-  /* A folder with a colored tab along the top edge — the recurring "case file" unit. */
+  /* A folder with a coloured tab along the top edge — the recurring "case file" unit. */
   .folder-card {
-    @apply relative overflow-hidden rounded-sm border border-border bg-paper pt-5 before:absolute before:inset-x-0 before:top-0 before:h-1.5 before:bg-brand;
+    @apply relative overflow-hidden rounded-sm border border-border bg-paper pt-5
+           before:absolute before:inset-x-0 before:top-0 before:h-1.5 before:bg-brand;
   }
-  /* A rotated ink-stamp badge — "VERIFIED", "OPEN", etc. */
+  /* A folder whose tab is vermilion — a page's single most important card. One per page. */
+  .folder-card-accent {
+    @apply before:bg-accent;
+  }
+
+  /* A rotated ink-stamp badge — "VERIFIED", "OPEN", "FILE CLOSED". */
   .stamp {
-    @apply inline-flex -rotate-2 items-center gap-1.5 rounded-sm border-2 border-accent px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-widest text-accent;
+    @apply inline-flex -rotate-2 items-center gap-1.5 rounded-sm border-2 border-accent
+           px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-widest text-accent;
   }
-  /* Dashed-rule row for exhibit/docket lists — echoes ed-row but never solidifies into a card. */
+
+  /* Dashed-rule row for exhibit/docket lists — never solidifies into a card. */
   .docket-row {
-    @apply grid grid-cols-12 items-center gap-3 border-b border-dashed border-border py-4 last:border-b-0;
+    @apply grid grid-cols-12 items-center gap-3 border-b border-dashed border-border
+           py-4 last:border-b-0;
+  }
+  /* Column heading for docket lists — the printed header above a ledger. */
+  .docket-head {
+    @apply grid grid-cols-12 items-center gap-3 border-b border-border pb-2
+           font-mono text-[11px] uppercase tracking-widest text-ink/65;
   }
 
-  /* ---- E — Signal: control-room glass ---- */
+  /* ---- Containers ---- */
 
-  /* The light behind the glass. Three slow pools of colour fixed to the viewport and
-     sitting on z-index -1, so panels have something to actually frost and the field
-     shifts as you scroll past it. Decorative, never interactive. */
-  [data-theme="signal"] body::after {
-    content: "";
-    position: fixed;
-    inset: -25%;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(38rem 38rem at 16% 10%, rgb(var(--color-brand) / 0.20), transparent 64%),
-      radial-gradient(32rem 32rem at 86% 4%, rgb(var(--color-accent) / 0.13), transparent 60%),
-      radial-gradient(46rem 46rem at 62% 74%, rgb(38 132 214 / 0.20), transparent 66%);
-    animation: drift 32s ease-in-out infinite alternate;
+  /* A folder with no tab — neutral containers (maps, form wells, sidebars). */
+  .file-panel {
+    @apply rounded-sm border border-border bg-paper;
   }
-  [data-theme="signal"] body::before {
-    opacity: 0.5;
+  /* An inset strip: the typed insert clipped inside a file. Callouts, small print. */
+  .file-inset {
+    @apply rounded-sm border border-dashed border-border bg-surface px-5 py-4;
   }
-  /* Header becomes another sheet of glass rather than an opaque bar. */
-  [data-theme="signal"] [data-header] {
-    background-color: rgb(var(--color-paper) / 0.55);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
+  /* Metadata chip — sector, duration, location. Never a button, never clickable. */
+  .file-tag {
+    @apply inline-flex items-center gap-2 rounded-sm border border-border bg-surface
+           px-3 py-1.5 font-mono text-xs text-ink/70;
   }
-  [data-theme="signal"] [data-header].is-scrolled {
-    border-color: rgb(255 255 255 / 0.10);
+  /* Full-width band on the slate stock — alternates against the paper sections. */
+  .file-band {
+    @apply border-y border-border bg-surface;
   }
 
-  [data-theme="signal"] .btn-primary {
-    @apply rounded-full font-mono text-sm tracking-tight shadow-none hover:translate-y-0 hover:bg-brand-dark hover:shadow-none;
+  /* ---- Forms. Squared, dashed until focused — a blank on a form, not a chat input. ---- */
+
+  .field-label {
+    @apply block font-mono text-[11px] uppercase tracking-widest text-ink/65;
   }
-  [data-theme="signal"] .btn-outline {
-    @apply rounded-full border-white/15 bg-white/[0.06] font-mono text-sm tracking-tight text-ink backdrop-blur-xl hover:translate-y-0 hover:border-white/30 hover:bg-white/[0.12] hover:text-ink;
+  .field {
+    @apply mt-1.5 w-full rounded-sm border border-dashed border-border bg-paper px-3.5 py-2.5
+           text-base text-ink placeholder:text-ink/40
+           focus:border-solid focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
   }
-  [data-theme="signal"] .eyebrow {
-    @apply font-mono tracking-[0.2em] text-brand;
-  }
-  /* A status board has no business setting a serif. Signal swaps the display face for
-     Space Grotesk — mechanical, tight, and at home sitting next to mono numerals.
-     Already in the font request, so this costs nothing. */
-  [data-theme="signal"] .font-display {
-    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  }
-  [data-theme="signal"] .glass-panel {
-    @apply rounded-2xl border-white/10 bg-white/[0.05] shadow-none backdrop-blur-2xl;
+  .field-error {
+    @apply mt-1.5 font-mono text-[11px] uppercase tracking-widest text-accent;
   }
 
-  /* The recurring unit: a frosted sheet with a lit top edge, as if light is grazing
-     across it. The ::before hairline is what sells the depth — without it a
-     translucent box just reads as a faded card. */
-  .glass-card {
-    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] backdrop-blur-2xl;
-    box-shadow: 0 30px 60px -32px rgb(0 0 0 / 0.85);
+  /* ---- Disclosure, navigation, quotes, tables ---- */
+
+  /* FAQ / accordion row — a dashed docket line that opens. */
+  .docket-disclosure {
+    @apply border-b border-dashed border-border last:border-b-0;
   }
-  .glass-card::before {
-    content: "";
-    @apply pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl;
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.30), transparent);
-  }
-  /* Label strip along the top of a panel. Says what the panel is monitoring — no
-     window chrome, no traffic-light dots. */
-  .glass-head {
-    @apply flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/55;
-  }
-  .glass-row {
-    @apply border-b border-white/[0.07] last:border-b-0;
-  }
-  .glass-hover {
-    @apply transition-colors duration-200 hover:bg-white/[0.05];
+  .docket-disclosure summary,
+  .docket-disclosure [data-accordion-trigger] {
+    @apply flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left
+           font-display font-semibold tracking-tight text-ink marker:content-none
+           hover:text-brand;
   }
 
-  /* Status pill. `data-state` is load-bearing: live = settled and confirmed,
-     moving = still travelling through a stage. */
-  .sig-chip {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 font-mono text-[11px] tracking-wide text-ink/70 backdrop-blur;
+  /* Breadcrumb — a file path, so it is set in mono and separated by a slash. */
+  .filepath {
+    @apply flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase
+           tracking-widest text-ink/65;
   }
-  .sig-chip[data-state="live"] {
-    @apply border-brand/30 bg-brand/10 text-brand;
-  }
-  .sig-chip[data-state="moving"] {
-    @apply border-accent/30 bg-accent/10 text-accent;
+  .filepath a {
+    @apply hover:text-brand;
   }
 
-  /* SIGNATURE — the funnel rail. Four glass segments across one track, each sized by
-     flex-grow to the real headcount at that stage, so the funnel narrows in front of
-     you instead of being described in a caption. A light sweep travels it on a loop. */
-  .rail {
-    @apply relative flex flex-col gap-1.5 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.055] p-1.5 backdrop-blur-2xl sm:flex-row;
-    box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.9);
-  }
-  .rail::before {
-    content: "";
-    @apply pointer-events-none absolute inset-x-0 top-0 z-10 h-px;
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.35), transparent);
-  }
-  .rail::after {
-    content: "";
-    @apply pointer-events-none absolute inset-y-0 left-0 z-10 w-1/4;
-    background: linear-gradient(90deg, transparent, rgb(var(--color-brand) / 0.16), transparent);
-    animation: sweep 9s ease-in-out 1s infinite;
-  }
-  .rail-seg {
-    @apply relative flex flex-row items-baseline justify-between gap-3 rounded-[1.35rem] border border-white/[0.06] bg-white/[0.03] px-5 py-3.5;
-    @apply sm:basis-0 sm:min-w-[8.5rem] sm:flex-col sm:items-start sm:justify-center sm:gap-1 sm:py-6;
-  }
-  .rail-seg[data-state="live"] {
-    @apply border-brand/25 bg-brand/[0.14];
-  }
-  .rail-seg[data-state="moving"] {
-    @apply border-accent/20 bg-accent/[0.08];
+  /* Pull quote / sworn statement. The vertical brand rule replaces quote marks. */
+  .statement {
+    @apply border-l-2 border-brand pl-5 font-display text-xl leading-relaxed
+           tracking-tight text-ink/75 sm:text-2xl;
   }
 
-  /* The employer band. Signal needs it to read as a distinct plate, otherwise the
-     rail and metrics strip appear to overlap nothing at all. */
-  [data-theme="signal"] .network-band {
-    @apply border-y border-white/10;
+  /* Data table — ledger, not zebra stripes. */
+  .ledger {
+    @apply w-full border-collapse text-base;
+  }
+  .ledger thead th {
+    @apply border-b border-border pb-2 text-left font-mono text-[11px] font-normal
+           uppercase tracking-widest text-ink/65;
+  }
+  /* A row header is a printed label by default — "Timeline", "Terms". */
+  .ledger tbody th {
+    @apply border-b border-dashed border-border py-3.5 pr-6 text-left align-top font-mono
+           text-[11px] font-normal uppercase tracking-widest text-ink/65;
+  }
+  /* …unless it carries content rather than a label, such as a service name. Set as an
+     attribute so it outranks .ledger tbody th without an !important on every cell. */
+  .ledger tbody th[data-rowhead] {
+    @apply align-middle font-display text-lg font-semibold normal-case tracking-tight text-ink;
+  }
+  .ledger td {
+    @apply border-b border-dashed border-border py-3.5 text-ink/75;
+  }
+  .ledger tr:last-child td,
+  .ledger tbody tr:last-child th {
+    @apply border-b-0;
   }
 
-  /* Share meter for the sector board — a bar in a groove, not a progress widget. */
-  .meter {
-    @apply h-1 flex-1 overflow-hidden rounded-full bg-white/[0.08];
+  /* Sticky section rail (the page shell's left column). */
+  .rail-link {
+    @apply flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-ink/65
+           transition-colors hover:bg-surface hover:text-ink;
   }
-  .meter > span {
-    @apply block h-full rounded-full;
-    background: linear-gradient(90deg, rgb(var(--color-brand-dark)), rgb(var(--color-brand)));
+  .rail-link.is-active {
+    @apply bg-surface text-ink;
   }
 
-  /* Duotone photo treatment — warms stock photography toward the brand instead of
-     leaving it looking bought. Used on the editorial variant. */
-  .photo-warm {
-    filter: saturate(0.85) contrast(1.04) sepia(0.12);
-  }
-  .photo-frame {
-    @apply relative overflow-hidden bg-surface;
-  }
-  .photo-frame::after {
-    content: "";
-    @apply pointer-events-none absolute inset-0;
-    background: linear-gradient(to top, rgb(var(--color-ink) / 0.28), transparent 55%);
-  }
-}
+  /* ---- Document types ----
 
-/* Signal-only motion. Declared raw rather than in tailwind.config because both are
-   driven from CSS rules on pseudo-elements, not from utility classes in the markup.
-   The reduced-motion block in @layer base neutralises both. */
-@keyframes drift {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to   { transform: translate3d(-3%, 4%, 0) scale(1.12); }
-}
-@keyframes sweep {
-  0%       { transform: translateX(-100%); opacity: 0; }
-  12%, 62% { opacity: 1; }
-  75%, 100% { transform: translateX(420%); opacity: 0; }
+     Every service page keeps the same shell — cover sheet, rail, doc column, FAQ, CTA.
+     What differs is the kind of document filling the column, because a job seeker
+     reading top-to-bottom and an employer scanning for terms want different pages.
+     These are the units that make that difference. Each is used by one or two pages;
+     that is deliberate, not duplication waiting to be factored out. */
+
+  /* A form row — fixed mono label block beside its content. Background Verification is
+     set entirely in these, so the page reads as a filled-in form rather than a pitch. */
+  .form-row {
+    @apply grid gap-4 border-t border-dashed border-border pt-8 md:grid-cols-[8rem_1fr] md:gap-10;
+  }
+  .form-row-label {
+    @apply md:sticky md:top-28 md:self-start;
+  }
+
+  /* A wide plate across the document column — the exhibit that breaks a run of text.
+     Job Placement uses these as bands between sections; Talent Acquisition uses one. */
+  .exhibit-band {
+    @apply overflow-hidden rounded-sm border border-border bg-surface;
+  }
+  .exhibit-band img {
+    @apply w-full object-cover;
+  }
+
+  /* A lead-in line at display weight, no quote rule — carries the sparse pages
+     (Talent Acquisition) where there is deliberately little else on screen. Distinct
+     from `.statement` above, which is a quotation and keeps its brand rule. */
+  .assertion {
+    @apply font-display text-xl font-semibold leading-snug tracking-tight text-ink sm:text-2xl;
+  }
 }

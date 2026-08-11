@@ -1,73 +1,172 @@
 ---
 layout: layouts/page.njk
 title: IT Training
-description: Structured programs in web development, QA, cloud, and data — built for graduates who want training that leads somewhere specific — a job.
+description: "Structured programs in web development, QA, cloud, and data — built for graduates who want training that leads somewhere specific: a job."
 extraScripts:
   - /assets/js/faq-accordion.js
+  - /assets/js/rail-active.js
 ---
 {% from "partials/icons.njk" import icon %}
 
-<section class="py-14 sm:py-20">
-  <div class="section-container flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
-    <div class="lg:w-1/2">
-      {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "IT Training" }] %}
-      {% include "partials/breadcrumb.njk" %}
-      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4 leading-tight">Train. Certify. Get Placed.</h1>
-      <p class="mt-5 text-lg text-ink/65 leading-relaxed">Structured programs that build real skills — and feed straight into our placement pipeline when you're done.</p>
-      <a href="{{ '/contact/' | url }}" class="inline-block mt-7 bg-accent text-paper font-medium px-6 py-3 rounded-full hover:opacity-90 transition-opacity">Book a Free Demo Class</a>
-    </div>
-    <div class="lg:w-1/2">
-      <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center">
-        <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-paper text-brand">{{ icon("code", "w-9 h-9") }}</span>
-      </div>
-    </div>
-  </div>
-</section>
+{#
+  This page assumes the four tracks in _data/programs.json are real, with real curricula
+  and instructors. If they are not, it ships the waitlist version instead — no durations,
+  no prices, no curriculum until they exist. See CONTENT.md §8.
 
-<section class="py-16 sm:py-24 bg-surface">
-  <div class="section-container">
-    <div class="max-w-2xl mb-12">
-      <p class="eyebrow">Programs</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Tracks offered</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {% for program in programs.list %}
-      <div class="bg-paper rounded-2xl p-6">
-        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface text-brand">{{ icon(program.icon, "w-5 h-5") }}</span>
-        <h3 class="font-display text-lg font-semibold text-ink mt-4">{{ program.title }}</h3>
-        <p class="mt-1 font-mono text-xs text-brand">{{ program.duration }}</p>
-        <p class="mt-2 text-sm text-ink/65 leading-relaxed">{{ program.description }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+  Never "guaranteed placement" anywhere on this page. Always "direct" or "priority
+  access" to the placement pipeline.
+#}
 
-<section class="py-16 sm:py-24">
-  <div class="section-container max-w-2xl">
-    <p class="eyebrow">Why train with us</p>
-    <p class="font-display text-2xl sm:text-3xl text-ink mt-3 leading-snug">
-      Graduates get direct access to our <a href="{{ '/services/job-placement/' | url }}" class="text-accent underline decoration-2 underline-offset-4">placement pipeline</a> — the strongest differentiator versus a generic training vendor.
-    </p>
-  </div>
-</section>
-
-{% set steps = [
-  { label: "Enroll", description: "Pick a track and a format — online, in-person, or both." },
-  { label: "Learn", description: "Structured curriculum built around real job requirements." },
-  { label: "Practice", description: "A portfolio-ready project you can show employers." },
-  { label: "Certification", description: "A credential that signals real, tested skill." },
-  { label: "Placement Support", description: "Direct handoff into our Job Placement pipeline." }
+{% set rail = [
+  { id: "programs",   label: "Tracks offered", n: "00" },
+  { id: "why",        label: "Why train here", n: "A"  },
+  { id: "credential", label: "What you get",   n: "B"  },
+  { id: "pricing",    label: "Pricing",        n: "C"  },
+  { id: "procedure",  label: "Curriculum",     n: "D"  },
+  { id: "faq",        label: "Questions",      n: "E"  }
 ] %}
-{% set sectionEyebrow = "Curriculum" %}
-{% set sectionTitle = "From enrollment to placement" %}
-{% include "partials/process-timeline.njk" %}
+
+{% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "IT Training" }] %}
+{% set coverStamp = "File · 05" %}
+{% set coverTitle = "Train. Certify. Get placed." %}
+{% set coverLead = "Structured programs that build real skills — and feed straight into our placement pipeline when you're done." %}
+{% set coverPrimary = { label: "Book a Free Demo Class", href: "/contact/?role=training" } %}
+{% set coverSecondary = { label: "See job placement", href: "/services/job-placement/" } %}
+{% set coverImage = images.services["it-training"].cover %}
+{% include "partials/cover-sheet.njk" %}
+
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    {% include "partials/section-rail.njk" %}
+
+    <div class="lg:col-span-9">
+
+      {# ---- 00 Tracks. Duration, format and prerequisites are the three things a
+             learner filters on first, so they are on the card, not in the FAQ. ---- #}
+      <div id="programs" class="scroll-mt-28">
+        <p class="eyebrow">00 — Programs</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Tracks offered.
+        </h2>
+        {# Each track is a full panel rather than a card in a grid: a learner comparing
+           programs wants curriculum, format and prerequisites side by side, and four
+           cramped tiles cannot carry that. Images alternate side to keep the run from
+           reading as a list. #}
+        <div class="mt-6 space-y-5">
+          {% for program in programs.list %}
+          {% set shot = images.services["it-training"].tracks[program.title] %}
+          {# !pt-0 because folder-card's top padding would otherwise print a strip of
+             paper above the image; the text cell carries its own padding instead. #}
+          <article class="folder-card overflow-hidden !pt-0 md:grid md:grid-cols-12">
+            {% if shot %}
+            <img src="{{ shot.url }}" alt="{{ shot.alt }}" width="{{ shot.width }}" height="{{ shot.height }}"
+                 loading="lazy"
+                 class="h-44 w-full object-cover md:col-span-4 md:h-full {% if loop.index is even %}md:order-last{% endif %}">
+            {% endif %}
+            <div class="p-5 {% if shot %}md:col-span-8{% else %}md:col-span-12{% endif %}">
+              <div class="flex items-start justify-between gap-3">
+                <span class="flex h-9 w-9 items-center justify-center rounded-sm bg-brand/10 text-brand">{{ icon(program.icon, "w-4 h-4") }}</span>
+                {# A duration is metadata, not a file number — so it stays in ink, not vermilion. #}
+                <span class="meta">{{ program.duration }}</span>
+              </div>
+              <h3 class="mt-3 font-display text-xl font-semibold tracking-tight text-ink">{{ program.title }}</h3>
+              <p class="mt-2 body-copy">{{ program.description }}</p>
+              <dl class="mt-4 grid grid-cols-2 gap-4 border-t border-dashed border-border pt-4">
+                <div class="flex flex-col-reverse">
+                  <dt class="mt-1 meta">Format</dt>
+                  <dd class="text-sm font-medium text-ink">{{ program.format }}</dd>
+                </div>
+                <div class="flex flex-col-reverse">
+                  <dt class="mt-1 meta">Prerequisites</dt>
+                  <dd class="text-sm font-medium text-ink">{{ program.prerequisites }}</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# ---- A The differentiator against a generic training vendor. ---- #}
+      <div id="why" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">A — Why train with us</p>
+        <p class="statement mt-4 !text-ink sm:!text-2xl">
+          Graduates get <span class="text-brand">direct access to our placement pipeline</span> — the file is already open on the day you certify.
+        </p>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink/75">
+          That's priority access, not a guarantee. It's the difference between an open application and a recruiter who already knows your work.
+        </p>
+      </div>
+
+      {# ---- B What certification actually means. Vague certification claims are the
+             most common complaint about training providers. ---- #}
+      <div id="credential" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">B — At the end</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          What you get at the end.
+        </h2>
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          {% set outcomes = [
+            { icon: "check-badge", t: "A completion certificate", d: "Issued by " + site.companyName + ", naming the track and the hours behind it." },
+            { icon: "code", t: "A portfolio project", d: "Something you can show an employer, not a printable PDF." },
+            { icon: "briefcase", t: "A handoff to placement", d: "A direct introduction into our Job Placement pipeline." }
+          ] %}
+          {% for item in outcomes %}
+          <div class="folder-card p-5">
+            <span class="flex h-9 w-9 items-center justify-center rounded-sm bg-brand/10 text-brand">{{ icon(item.icon, "w-4 h-4") }}</span>
+            <h3 class="mt-3 font-display font-semibold tracking-tight text-ink">{{ item.t }}</h3>
+            <p class="mt-2 body-copy">{{ item.d }}</p>
+          </div>
+          {% endfor %}
+        </div>
+        <p class="mt-5 file-inset meta leading-relaxed">
+          Where a track prepares you for a vendor exam, we say which one and whether the exam fee is included — ask us for the track you're considering.
+        </p>
+      </div>
+
+      {# ---- C Pricing. A page with no price signal loses price-sensitive readers
+             entirely, so at minimum state that plans exist and how to get figures. ---- #}
+      <div id="pricing" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">C — Pricing</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          What it costs.
+        </h2>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-ink/75">
+          Program fees vary by track and format. Payment plans are available, and select tracks offer a placement-linked deferral.
+        </p>
+        <a href="{{ '/contact/?role=training' | url }}" class="mt-5 inline-flex items-center gap-2 font-semibold text-brand transition-all hover:gap-3">
+          Tell us your track and we'll send exact pricing {{ icon("arrow-right", "w-4 h-4") }}
+        </a>
+      </div>
+
+      {# ---- D Curriculum. The clearest literal run of the pipeline: it ends at the
+             same Job Placement file. ---- #}
+      <div class="mt-14">
+        {% set steps = [
+          { label: "Enroll", description: "Pick a track and a format — online, in-person, or both." },
+          { label: "Learn", description: "Structured curriculum built around real job requirements." },
+          { label: "Practice", description: "A portfolio-ready project you can show employers." },
+          { label: "Certification", description: "A credential that signals real, tested skill." },
+          { label: "Placement support", description: "Direct handoff into our Job Placement pipeline." }
+        ] %}
+        {% set sectionId = "procedure" %}
+        {% set sectionEyebrow = "D — Curriculum" %}
+        {% set sectionTitle = "From enrollment to placement." %}
+        {% include "partials/process-timeline.njk" %}
+      </div>
+    </div>
+  </div>
+</section>
 
 {% set faqKey = "it-training" %}
+{% set faqEyebrow = "E — Standing questions" %}
+{% set faqTitle = "Before you enroll." %}
 {% include "partials/faq-accordion.njk" %}
 
+{% set ctaStamp = "Ready to open" %}
 {% set ctaHeadline = "Ready to build a new skill set?" %}
+{% set ctaSubtext = "Sit in on a demo class first — there's no cost and no commitment." %}
 {% set ctaLabel = "Enroll Now" %}
-{% set ctaHref = "/contact/" %}
-{% set ctaVariant = "accent" %}
+{% set ctaHref = "/contact/?role=training" %}
 {% include "partials/cta-section.njk" %}

@@ -2,90 +2,159 @@
 layout: layouts/page.njk
 title: Services
 description: Five services, one connected pipeline — from sourcing candidates to verifying them to placing them.
+extraScripts:
+  - /assets/js/rail-active.js
 ---
 {% from "partials/icons.njk" import icon %}
 
-<section class="bg-surface py-14 sm:py-20 relative overflow-hidden">
-  <svg class="hidden sm:block absolute inset-x-0 bottom-4 w-full h-10" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
-    <path data-path-draw d="M20 20 C 300 -10, 500 50, 750 20 S 1000 -10, 1180 20" fill="none" style="stroke: rgb(var(--color-accent))" stroke-opacity="0.4" stroke-width="2" stroke-linecap="round"/>
-  </svg>
-  <div class="section-container relative">
-    {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services" }] %}
-    {% include "partials/breadcrumb.njk" %}
-    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mt-4">Our Services</h1>
-    <p class="mt-3 text-lg text-ink/65 max-w-2xl">Source, vet, place, verify, upskill — five services that work as one connected pipeline, whichever end you're starting from.</p>
-  </div>
-</section>
+{% set rail = [
+  { id: "router",   label: "Which service fits", n: "00" },
+  { id: "index",    label: "The five files",     n: "A"  },
+  { id: "pipeline", label: "One pipeline",       n: "B"  }
+] %}
 
-<section class="py-16 sm:py-24">
-  <div class="section-container flex flex-col gap-16 sm:gap-20">
-    {% for service in services.list %}
-    <div class="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-16 {% if loop.index0 is even %}lg:flex-row{% else %}lg:flex-row-reverse{% endif %}">
-      <div class="lg:w-1/2">
-        <div class="aspect-[4/3] rounded-3xl bg-surface flex items-center justify-center">
-          <span class="flex items-center justify-center w-20 h-20 rounded-2xl bg-paper text-brand">{{ icon(service.icon, "w-9 h-9") }}</span>
+{% set crumbs = [{ label: "Home", url: "/" }, { label: "Services" }] %}
+{% set coverStamp = "Five on file" %}
+{% set coverTitle = "Source, vet, place, verify, upskill." %}
+{% set coverLead = "Five services that work as one connected pipeline, whichever end you're starting from." %}
+{% set coverPrimary = { label: "Book a consultation", href: "/contact/" } %}
+{% set coverSecondary = { label: "Find a job", href: "/services/job-placement/" } %}
+{% set coverImage = {
+  src: "/assets/images/home/team-at-desk.jpg",
+  alt: "A recruiting team reviewing candidate files at a desk",
+  caption: "Exhibit A · Case review",
+  width: 1400, height: 933
+} %}
+{% include "partials/cover-sheet.njk" %}
+
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    {% include "partials/section-rail.njk" %}
+
+    <div class="lg:col-span-9">
+
+      {# ---- 00 The router. Sits above the detail rows: it is the fastest way for a
+             visitor to find their own door. ---- #}
+      <div id="router" class="scroll-mt-28">
+        <p class="eyebrow">00 — Who it's for</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Which service fits you?
+        </h2>
+
+        {# Desktop: a ledger. Mobile: stacked label-and-value pairs rather than a
+           shrunken table — see the responsive rules in PRD.md. #}
+        <div class="mt-6 hidden sm:block">
+          <table class="ledger">
+            <caption class="sr-only">Which of the three audiences each service is for</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="w-1/2">Service</th>
+                <th scope="col" class="!text-center">Students</th>
+                <th scope="col" class="!text-center">Professionals</th>
+                <th scope="col" class="!text-center">Employers</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for service in services.list %}
+              <tr>
+                <th scope="row" data-rowhead>
+                  <a href="{{ service.url | url }}" class="hover:text-brand">{{ service.title }}</a>
+                </th>
+                {% for who in [service.audience.students, service.audience.professionals, service.audience.employers] %}
+                <td class="text-center">
+                  {% if who %}
+                  <span class="inline-flex text-brand">{{ icon("check", "w-4 h-4") }}</span>
+                  <span class="sr-only">Yes</span>
+                  {% else %}
+                  <span aria-hidden="true" class="text-ink/30">—</span>
+                  <span class="sr-only">No</span>
+                  {% endif %}
+                </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 space-y-3 sm:hidden">
+          {% for service in services.list %}
+          <div class="file-inset">
+            <a href="{{ service.url | url }}" class="font-display font-semibold tracking-tight text-ink">{{ service.title }}</a>
+            <p class="mt-1.5 meta">
+              For ·
+              {% if service.audience.students %}Students{% endif %}{% if service.audience.professionals %}{% if service.audience.students %} · {% endif %}Professionals{% endif %}{% if service.audience.employers %}{% if service.audience.students or service.audience.professionals %} · {% endif %}Employers{% endif %}
+            </p>
+          </div>
+          {% endfor %}
         </div>
       </div>
-      <div class="lg:w-1/2">
-        <p class="eyebrow">0{{ loop.index }}</p>
-        <h2 class="font-display text-2xl sm:text-3xl font-semibold text-ink mt-2">{{ service.title }}</h2>
-        <p class="mt-4 text-ink/65 leading-relaxed">{{ service.description }}</p>
-        <a href="{{ service.url | url }}" class="inline-flex items-center gap-1.5 mt-6 text-brand font-medium">Explore {{ service.title }} {{ icon("arrow-right", "w-4 h-4") }}</a>
+
+      {# ---- A The five files. Each row carries the redirect line that prevents the
+             wrong-service enquiry. ---- #}
+      <div id="index" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">A — The five files</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Opened one at a time.
+        </h2>
+
+        <div class="mt-6 space-y-5">
+          {% for service in services.list %}
+          <div class="folder-card {% if service.slug == 'job-placement' %}folder-card-accent{% endif %} p-6">
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-12 sm:items-start">
+              <div class="flex items-center justify-between gap-3 sm:col-span-3 sm:block">
+                <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-brand/10 text-brand">
+                  {{ icon(service.icon, "w-5 h-5") }}
+                </span>
+                <span class="meta text-accent sm:mt-4 sm:block">File · {{ service.ref }}</span>
+                <h3 class="hidden font-display text-xl font-semibold tracking-tight text-ink sm:mt-1 sm:block">{{ service.title }}</h3>
+              </div>
+
+              <div class="sm:col-span-9">
+                <h3 class="font-display text-xl font-semibold tracking-tight text-ink sm:hidden">{{ service.title }}</h3>
+                <p class="mt-2 leading-relaxed text-ink/75 sm:mt-0">{{ service.description }}</p>
+                <p class="mt-4 meta leading-relaxed">
+                  {{ service.notFor }}
+                </p>
+                <a href="{{ service.url | url }}" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">
+                  Explore {{ service.title }} {{ icon("arrow-right", "w-4 h-4") }}
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# ---- B The pipeline read end to end. ---- #}
+      <div id="pipeline" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">B — One pipeline</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          They're five folders in one file.
+        </h2>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-ink/75">
+          Most engagements use two or three of these together — a training graduate handed to placement, a shortlist handed to verification. You never have to pick the whole sequence up front.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          {% for stage in ["Source", "Vet", "Place", "Verify", "Upskill"] %}
+          <span class="file-tag">
+            <span class="font-semibold {% if loop.last %}text-accent-deep{% endif %}">{{ loop.index }}</span> {{ stage }}
+          </span>
+          {% endfor %}
+        </div>
       </div>
     </div>
-    {% endfor %}
   </div>
 </section>
 
-<section class="py-16 sm:py-24 bg-surface">
-  <div class="section-container">
-    <div class="max-w-2xl mb-12">
-      <p class="eyebrow">Who it's for</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mt-2">Which service fits you?</h2>
-    </div>
+{% set placedAtTitle = "Referenced employers" %}
+{% set placedAtLead = "Case files closed with these companies." %}
+{% include "partials/placed-at.njk" %}
 
-    <div class="hidden md:grid grid-cols-4 gap-4 text-sm">
-      <div></div>
-      <div class="font-medium text-ink text-center">Students</div>
-      <div class="font-medium text-ink text-center">Professionals</div>
-      <div class="font-medium text-ink text-center">Employers</div>
-
-      {% set matrix = [
-        { label: "Job Placement", students: true, pros: true, employers: false },
-        { label: "Recruitment & Staffing", students: false, pros: false, employers: true },
-        { label: "Talent Acquisition", students: false, pros: false, employers: true },
-        { label: "Background Verification", students: true, pros: true, employers: true },
-        { label: "IT Training", students: true, pros: false, employers: false }
-      ] %}
-      {% for row in matrix %}
-      <div class="py-3 border-t border-border font-medium text-ink">{{ row.label }}</div>
-      <div class="py-3 border-t border-border text-center">{% if row.students %}{{ icon("check", "w-5 h-5 text-brand inline") }}{% else %}—{% endif %}</div>
-      <div class="py-3 border-t border-border text-center">{% if row.pros %}{{ icon("check", "w-5 h-5 text-brand inline") }}{% else %}—{% endif %}</div>
-      <div class="py-3 border-t border-border text-center">{% if row.employers %}{{ icon("check", "w-5 h-5 text-brand inline") }}{% else %}—{% endif %}</div>
-      {% endfor %}
-    </div>
-
-    <div class="md:hidden flex flex-col gap-4">
-      {% set matrix = [
-        { label: "Job Placement", tags: ["Students", "Professionals"] },
-        { label: "Recruitment & Staffing", tags: ["Employers"] },
-        { label: "Talent Acquisition", tags: ["Employers"] },
-        { label: "Background Verification", tags: ["Students", "Professionals", "Employers"] },
-        { label: "IT Training", tags: ["Students"] }
-      ] %}
-      {% for row in matrix %}
-      <div class="bg-paper rounded-xl p-4">
-        <p class="font-medium text-ink">{{ row.label }}</p>
-        <p class="mt-1 text-sm text-brand">{{ row.tags | join(" · ") }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
+{% set ctaStamp = "Ready to open" %}
 {% set ctaHeadline = "Not sure which service fits?" %}
 {% set ctaSubtext = "Book a free consultation and we'll point you the right way." %}
 {% set ctaLabel = "Book a Consultation" %}
 {% set ctaHref = "/contact/" %}
-{% set ctaVariant = "brand" %}
 {% include "partials/cta-section.njk" %}
