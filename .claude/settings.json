@@ -90,7 +90,8 @@
       "Bash(xargs -0 sed -i '' 's/font-display text-xl font-semibold tracking-tight text-ink\\\\/65 transition-colors group-hover:text-ink sm:text-xl/font-display text-xl font-semibold tracking-tight text-ink\\\\/65 transition-colors group-hover:text-ink sm:text-2xl/g')",
       "Bash(node -e \"console.log\\(require\\('./package.json'\\).scripts\\)\")",
       "Bash(curl -s http://localhost:8080/services/job-placement/)",
-      "Bash(curl -s http://localhost:8080/assets/css/style.css)"
+      "Bash(curl -s http://localhost:8080/assets/css/style.css)",
+      "Bash(cd \"/Users/kuldipthakkar/Desktop/Kuldip/Projects/Web/Yash Thakor Website/claude_helper\" && rm -f design_skill.md ui-ux-pro-max.md CONTENT-PLAN.md WEBSITE-THEME.md SERVICE-PAGES-EXPANSION.md SERVICE-PAGES-LAYOUT.md && wc -l *.md && echo \"--- broken links to deleted files:\" && grep -n \"CONTENT-PLAN\\\\|WEBSITE-THEME\\\\|SERVICE-PAGES\\\\|design_skill\\\\|ui-ux-pro-max\" *.md; echo \"\\(none above = clean\\)\")"
     ],
     "additionalDirectories": [
       "/Users/kuldipthakkar/Desktop/Kuldip/Projects/Web/Yash Thakor Website/src/explore"

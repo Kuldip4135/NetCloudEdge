@@ -1,11 +1,14 @@
-# Website Theme — **Dossier** (finalized)
+# Theme — **Dossier**
 
-The single source of truth for building out the rest of this site. Everything here is
-copy-paste ready against the current stack: **Eleventy 2 + Nunjucks + Tailwind 3**, colours
-resolved through CSS variables (`src/assets/css/input.css`) and consumed as normal Tailwind
-classes (`bg-brand`, `text-ink/65`, …) via `tailwind.config.js`.
+Source of truth for **how the site looks and is built**. Stack: Eleventy 2 + Nunjucks +
+Tailwind 3, colours resolved through CSS variables in `src/assets/css/input.css` and consumed
+as normal Tailwind classes (`bg-brand`, `text-ink/65`, …) via `tailwind.config.js`.
 
-Reference implementation: [src/explore/dossier.njk](src/explore/dossier.njk).
+Companions: [PRD.md](PRD.md) (what pages exist) · [CONTENT.md](CONTENT.md) (the words) ·
+[coding_guidelines.md](coding_guidelines.md) (project conventions) · [ROADMAP.md](ROADMAP.md) (open work).
+
+Dossier is the only theme on the site. The palette sits in `:root`, the component overrides are
+ungated, and no page carries `theme:` front matter.
 
 ---
 
@@ -32,46 +35,7 @@ one or two full-bleed interludes breaking out of it. Reuse that shell on long pa
 
 ---
 
-## 2. Making Dossier the site default — ✅ done
-
-Dossier is now the only theme on the site. The palette below sits in `:root`, the
-component overrides are ungated, the exploration themes and `src/explore/` are deleted,
-and the font request is trimmed to the three faces in §4. No page carries `theme:` front
-matter any more. The rest of this section records what was changed.
-
-**a. `src/assets/css/input.css` — promote the palette to `:root`**
-
-```css
-/* Dossier — the site theme. A case file, not a brochure. Archival slate stock,
-   blue-black registrar's ink, aniline violet; vermilion reserved for stamps
-   and file numbers only. */
-:root {
-  --color-ink: 27 31 46;
-  --color-paper: 238 239 244;
-  --color-brand: 74 63 143;
-  --color-brand-dark: 55 46 110;
-  --color-accent: 184 48 31;
-  --color-accent-deep: 138 34 21;   /* ADD — currently missing; see §3 note */
-  --color-surface: 226 228 236;
-  --color-border: 199 202 216;
-}
-```
-
-**b. Drop the `[data-theme="dossier"]` gate** on the component overrides in §5 so they apply
-globally (find/replace `[data-theme="dossier"] ` → ``). The exploration themes
-(editorial / bold / signal / atrium) can stay gated, or be deleted along with
-`src/explore/` and `partials/variant-switcher.njk` when the exploration is retired.
-
-**c. `src/_includes/layouts/base.njk`** — nothing to change. The `{% if theme %}` attribute
-stays harmless, and the exploration pages keep working while they exist.
-
-Fonts: Dossier uses **Fraunces** (display), **Public Sans** (body), **IBM Plex Mono** (labels).
-Once the other themes go, trim the Google Fonts request in `base.njk` to just those three —
-Space Grotesk and Bricolage Grotesque are Signal/Atrium only and are dead weight.
-
----
-
-## 3. Tokens
+## 2. Tokens
 
 | Token | Tailwind | RGB | Use |
 |---|---|---|---|
@@ -84,9 +48,6 @@ Space Grotesk and Bricolage Grotesque are Signal/Atrium only and are dead weight
 | `--color-surface` | `surface` | `226 228 236` | Section bands, icon chips, inset strips |
 | `--color-border` | `border` | `199 202 216` | Every hairline and dashed rule |
 
-> `--color-accent-deep` is now defined (`138 34 21`), so `text-accent-deep` is safe to use
-> where `accent` gets tight on the `surface` tone.
-
 **Opacity ramp for ink** (contrast measured against `paper`):
 
 | Class | Ratio | Allowed for |
@@ -97,11 +58,10 @@ Space Grotesk and Bricolage Grotesque are Signal/Atrium only and are dead weight
 | `text-ink/60` and below | 4.17 : 1 ✗ | Decorative only — chevrons, dividers, never words |
 
 `text-brand` on paper is 7.6 : 1, `text-accent` is 5.3 : 1 — both safe for text.
-There is one leftover `text-ink/60` on the services row in `dossier.njk:150`; use `/65` in new work.
 
 ---
 
-## 4. Type & rhythm
+## 3. Type & rhythm
 
 ```
 Display   Fraunces      font-display font-semibold tracking-tight
@@ -120,16 +80,13 @@ Labels    IBM Plex Mono font-mono uppercase tracking-widest
 | **Metadata / file no.** | **`.meta`** | 11 mono |
 | UI (nav, buttons, fields) | `text-sm` | 14 |
 
-**The two reading tiers are component classes, not utilities.** `.body-copy` (16px prose)
-and `.meta` (11px mono) exist so the reading scale lives in one place. Use them for anything
-a visitor *reads*; `text-sm` is for chrome only — nav links, buttons, form controls.
+**The two reading tiers are component classes, not utilities.** `.body-copy` (16px prose) and
+`.meta` (11px mono) exist so the reading scale lives in one place. Use them for anything a
+visitor *reads*; `text-sm` is for chrome only — nav links, buttons, form controls.
 
-**11px is the floor.** The old 9px and 10px mono tiers are gone; three near-identical
-metadata sizes was drift, not design. Nothing on the site goes below 11px.
-
-The display scale is deliberately untouched — Fraunces at 48px was already carrying the
-theme. The increase was applied to the *reading* tiers only, where 14px prose was doing a
-job the UI scale shouldn't have.
+**11px is the floor.** The old 9px and 10px mono tiers are gone; three near-identical metadata
+sizes was drift, not design. The display scale is deliberately untouched — Fraunces at 48px was
+already carrying the theme.
 
 Spacing rhythm — keep it identical across pages:
 
@@ -149,138 +106,38 @@ Every full-width section wraps its content in `.section-container`
 
 ---
 
-## 5. Component layer (`@layer components` in `input.css`)
+## 4. Component layer
 
-### 5a. Already shipped — the overrides
+All of these are defined in `@layer components` in [`src/assets/css/input.css`](../src/assets/css/input.css)
+— read the file for the exact `@apply` chains. Use them instead of re-deriving utility strings.
 
-```css
-/* Dossier: folders, not cards. Flat, faintly bureaucratic, a tab of colour along the
-   top edge standing in for a manila folder tab without borrowing manila's hue. */
-.btn-primary  { @apply rounded-sm shadow-none hover:shadow-none hover:translate-y-0 hover:bg-brand-dark; }
-.btn-outline  { @apply rounded-sm border-dashed bg-paper backdrop-blur-none hover:translate-y-0 hover:border-solid; }
-.glass-panel  { @apply rounded-sm border-border bg-paper shadow-none; }
-.card-lift:hover { @apply translate-y-0 shadow-none; }
-.eyebrow      { @apply text-ink/65; }
-body::before  { opacity: 0.2; }              /* the paper grain, kept faint */
-```
+| Class | What it is |
+|---|---|
+| `.folder-card` | The recurring "case file" unit — a folder with a brand tab along the top edge |
+| `.folder-card-accent` | Vermilion tab. A page's single most important card. **One per page, maximum** |
+| `.file-panel` | Folder with no tab — neutral containers (maps, form wells, sidebars) |
+| `.file-inset` | Dashed inset strip on `surface` — callouts, "what's included", small print |
+| `.file-tag` | Metadata chip — sector, duration, location. Never a button, never clickable |
+| `.file-band` | Full-width `surface` band, alternates against the paper sections |
+| `.stamp` | Rotated ink-stamp badge — "VERIFIED", "OPEN", "FILE CLOSED" |
+| `.docket-row` / `.docket-head` | Dashed-rule list row and its printed column header |
+| `.docket-disclosure` | FAQ / accordion row — a dashed docket line that opens |
+| `.ledger` | Data table — ledger rules, not zebra stripes |
+| `.statement` | Pull quote. A vertical brand rule replaces quote marks |
+| `.assertion` | Display-weight lead-in. Distinct from `.statement`, which is a quotation |
+| `.form-row` / `.form-row-label` | Fixed mono label beside content — the Background Verification shape |
+| `.exhibit-band` | Wide plate breaking out across the document column |
+| `.field` / `.field-label` / `.field-error` | Form fields. Squared, dashed until focused |
+| `.filepath` | Breadcrumb, set in mono and separated by slashes |
+| `.rail-link` (`.is-active`) | Sticky section rail links |
+| `.body-copy` / `.meta` / `.eyebrow` | The reading tiers from §3 |
 
-### 5b. Already shipped — the three signature units
-
-```css
-/* A folder with a coloured tab along the top edge — the recurring "case file" unit. */
-.folder-card {
-  @apply relative overflow-hidden rounded-sm border border-border bg-paper pt-5
-         before:absolute before:inset-x-0 before:top-0 before:h-1.5 before:bg-brand;
-}
-
-/* A rotated ink-stamp badge — "VERIFIED", "OPEN", "FILE CLOSED". */
-.stamp {
-  @apply inline-flex -rotate-2 items-center gap-1.5 rounded-sm border-2 border-accent
-         px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-widest text-accent;
-}
-
-/* Dashed-rule row for exhibit/docket lists — never solidifies into a card. */
-.docket-row {
-  @apply grid grid-cols-12 items-center gap-3 border-b border-dashed border-border
-         py-4 last:border-b-0;
-}
-```
-
-### 5c. Add these to extend the theme site-wide
-
-Paste inside `@layer components`. These are the units the inner pages need that the
-homepage never did — forms, FAQ, breadcrumb, tables, pull quotes, section bands.
-
-```css
-  /* ---- Dossier: site-wide extensions ---- */
-
-  /* A folder whose tab is vermilion — reserve for a page's single most important
-     card (the "open a file" CTA tile, a featured service). One per page, maximum. */
-  .folder-card-accent { @apply before:bg-accent; }
-
-  /* A folder with no tab — for neutral containers (maps, form wells, sidebars). */
-  .file-panel { @apply rounded-sm border border-border bg-paper; }
-
-  /* An inset strip: the typed insert clipped inside a file. Use for callouts,
-     "what's included", small print blocks. */
-  .file-inset {
-    @apply rounded-sm border border-dashed border-border bg-surface px-5 py-4;
-  }
-
-  /* Metadata chip — sector, duration, location. Never a button, never clickable. */
-  .file-tag {
-    @apply inline-flex items-center gap-2 rounded-sm border border-border bg-surface
-           px-3 py-1.5 font-mono text-xs text-ink/70;
-  }
-
-  /* Column heading for docket lists — the printed header above a ledger. */
-  .docket-head {
-    @apply grid grid-cols-12 items-center gap-3 border-b border-border pb-2
-           font-mono text-[10px] uppercase tracking-widest text-ink/65;
-  }
-
-  /* Form fields. Squared, dashed until focused — a blank on a form, not a chat input. */
-  .field-label {
-    @apply block font-mono text-[10px] uppercase tracking-widest text-ink/65;
-  }
-  .field {
-    @apply mt-1.5 w-full rounded-sm border border-dashed border-border bg-paper px-3.5 py-2.5
-           text-sm text-ink placeholder:text-ink/40
-           focus:border-solid focus:border-brand focus:outline-none
-           focus:ring-1 focus:ring-brand;
-  }
-  .field-error { @apply mt-1.5 font-mono text-[11px] uppercase tracking-widest text-accent; }
-
-  /* FAQ / accordion row — a dashed docket line that opens. */
-  .docket-disclosure {
-    @apply border-b border-dashed border-border last:border-b-0;
-  }
-  .docket-disclosure summary,
-  .docket-disclosure [data-faq-trigger] {
-    @apply flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left
-           font-display font-semibold tracking-tight text-ink marker:content-none
-           hover:text-brand;
-  }
-
-  /* Breadcrumb — a file path, so it is set in mono and separated by a slash. */
-  .filepath {
-    @apply flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase
-           tracking-widest text-ink/65;
-  }
-  .filepath a { @apply hover:text-brand; }
-
-  /* Pull quote / sworn statement. The vertical brand rule replaces quote marks. */
-  .statement {
-    @apply border-l-2 border-brand pl-5 font-display text-lg leading-relaxed
-           tracking-tight text-ink/75 sm:text-xl;
-  }
-
-  /* Data table — ledger, not zebra stripes. */
-  .ledger { @apply w-full border-collapse text-sm; }
-  .ledger th {
-    @apply border-b border-border pb-2 text-left font-mono text-[10px] uppercase
-           tracking-widest font-normal text-ink/65;
-  }
-  .ledger td { @apply border-b border-dashed border-border py-3.5 text-ink/75; }
-  .ledger tr:last-child td { @apply border-b-0; }
-
-  /* Full-width band on the slate stock — alternates against the paper sections. */
-  .file-band { @apply border-y border-border bg-surface; }
-
-  /* Sticky section rail (the page shell's left column). */
-  .rail-link {
-    @apply flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-ink/65
-           transition-colors hover:bg-surface hover:text-ink;
-  }
-  .rail-link.is-active { @apply bg-surface text-ink; }
-```
-
-Nothing above uses blur, glow, or a shadow — that is deliberate. If a new component needs
-depth, it is the wrong component for this theme; give it a border instead.
+Nothing above uses blur, glow, or a shadow — that is deliberate. **If a new component needs
+depth, it is the wrong component for this theme; give it a border instead.**
 
 ---
 
-## 6. Page shell — copy this for any long inner page
+## 5. Page shell — copy this for any long inner page
 
 ```njk
 ---
@@ -303,22 +160,20 @@ description: …
       <div class="lg:col-span-7">
         <div class="flex flex-wrap items-center gap-3">
           <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} On file</span>
-          <span class="font-mono text-xs uppercase tracking-widest text-ink/65">
-            Case No. 2026–014 · {{ site.address.line2 }}
-          </span>
+          <span class="meta">Case No. 2026–014 · {{ site.address.line2 }}</span>
         </div>
         <h1 class="mt-6 font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
           Headline in a plain declarative sentence.
         </h1>
-        <p class="mt-4 max-w-lg leading-relaxed text-ink/65">Lead paragraph.</p>
+        <p class="mt-4 max-w-lg text-lg leading-relaxed text-ink/75">Lead paragraph.</p>
         <div class="mt-7 flex flex-col gap-3 sm:flex-row">
           <a href="{{ '/contact/' | url }}" class="btn-primary">{{ icon("arrow-right", "w-4 h-4") }} Primary</a>
           <a href="{{ '/services/' | url }}" class="btn-outline">{{ icon("arrow-right", "w-4 h-4") }} Secondary</a>
         </div>
       </div>
 
-      {# Exhibit — a mounted print with a stamp across the corner. The stamp keeps a
-         paper fill: vermilion over an unpredictable photo can't be relied on to stay legible. #}
+      {# Exhibit — a mounted print with a stamp across the corner. The stamp keeps a paper
+         fill: vermilion over an unpredictable photo can't be relied on to stay legible. #}
       <figure class="folder-card p-3 lg:col-span-5">
         <div class="relative">
           <img src="{{ '/assets/images/home/hero-team-meeting.jpg' | url }}" alt="…"
@@ -327,9 +182,7 @@ description: …
             {{ icon("check-badge", "w-3.5 h-3.5") }} Verified
           </span>
         </div>
-        <figcaption class="px-1.5 pb-1 pt-3 font-mono text-[10px] uppercase tracking-widest text-ink/65">
-          Exhibit A · Caption
-        </figcaption>
+        <figcaption class="meta px-1.5 pb-1 pt-3">Exhibit A · Caption</figcaption>
       </figure>
     </div>
   </div>
@@ -343,14 +196,14 @@ description: …
       <div class="sticky top-28 folder-card p-2">
         {% for item in rail %}
         <a href="#{{ item.id }}" class="rail-link">
-          <span class="font-mono text-[10px] text-ink/65">{{ item.n }}</span>{{ item.label }}
+          <span class="meta">{{ item.n }}</span>{{ item.label }}
         </a>
         {% endfor %}
         <div class="mt-1 border-t border-dashed border-border px-3 pt-4">
           <dl class="grid grid-cols-2 gap-y-4">
             {% for stat in stats.list %}
             <div>
-              <dt class="font-mono text-[9px] uppercase tracking-widest text-ink/65">{{ stat.label }}</dt>
+              <dt class="meta">{{ stat.label }}</dt>
               <dd class="mt-1 font-display text-lg font-semibold tracking-tight text-ink"
                   data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
             </div>
@@ -402,7 +255,7 @@ fails contrast.
 
 ---
 
-## 7. Block recipes
+## 6. Block recipes
 
 **Two-up folder pair** (audience split, plan comparison)
 
@@ -413,10 +266,10 @@ fails contrast.
       <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-brand text-paper">
         {{ icon("users", "w-5 h-5") }}
       </span>
-      <span class="font-mono text-[11px] uppercase tracking-widest text-ink/65">File · JS</span>
+      <span class="meta">File · JS</span>
     </div>
-    <h3 class="mt-4 font-display text-lg font-semibold tracking-tight text-ink">Job seeker</h3>
-    <p class="mt-2 text-sm leading-relaxed text-ink/65">One sentence.</p>
+    <h3 class="mt-4 font-display text-xl font-semibold tracking-tight text-ink">Job seeker</h3>
+    <p class="body-copy mt-2">One sentence.</p>
     <a href="#" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">
       Open a file {{ icon("arrow-right", "w-4 h-4") }}
     </a>
@@ -440,7 +293,7 @@ fails contrast.
     {{ icon(service.icon, "w-4 h-4") }}
   </span>
   <p class="col-span-10 font-display font-semibold tracking-tight text-ink sm:col-span-3">{{ service.title }}</p>
-  <p class="col-span-12 text-sm text-ink/65 sm:col-span-6">{{ service.shortDescription }}</p>
+  <p class="body-copy col-span-12 sm:col-span-6">{{ service.shortDescription }}</p>
   <span class="col-span-12 flex justify-end text-ink/30 transition-all group-hover:translate-x-1 group-hover:text-brand sm:col-span-2">
     {{ icon("arrow-right", "w-4 h-4") }}
   </span>
@@ -451,24 +304,12 @@ fails contrast.
 **Numbered procedure** — same `.docket-row`, with `bg-ink font-mono text-paper` numerals in a
 `h-8 w-8 rounded-sm` square. Wrap in `<ol>`.
 
-**Sworn statement / testimonial**
-
-```njk
-<figure class="folder-card p-5">
-  <blockquote class="text-sm leading-relaxed text-ink/75">&ldquo;{{ t.quote }}&rdquo;</blockquote>
-  <figcaption class="mt-4 flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
-    <span>
-      <span class="block text-sm font-semibold text-ink">{{ t.name }}</span>
-      <span class="block text-xs text-ink/65">{{ t.role }} · {{ t.company }}</span>
-    </span>
-    <span class="font-mono text-[10px] uppercase tracking-widest text-ink/65">Sworn</span>
-  </figcaption>
-</figure>
-```
+**Sworn statement / testimonial** — `.folder-card p-5` wrapping a `<blockquote>`, with a
+`<figcaption>` split across a `border-t border-dashed border-border pt-4`: name in
+`text-sm font-semibold text-ink`, role · company below it, and a `.meta` "Sworn" mark on the right.
 
 **Fact strip** — `<dl class="grid grid-cols-3 gap-4 border-t border-dashed border-border pt-5">`
-with mono `<dt>` at `text-[9px] uppercase tracking-widest text-ink/65` and
-`font-display text-base font-semibold` `<dd>`.
+with `.meta` `<dt>` and `font-display text-base font-semibold` `<dd>`.
 
 **Sequence chips** — `.file-tag` per stage, `loop.index` in `font-semibold`, last one
 `text-accent` (a file number, so vermilion is legitimate there).
@@ -488,34 +329,41 @@ with mono `<dt>` at `text-[9px] uppercase tracking-widest text-ink/65` and
 
 ---
 
-## 8. Data & icons
+## 7. Data & icons
 
 Global data (no import needed in templates): `site`, `nav`, `services.list`, `industries.list`,
 `programs.list`, `testimonials.list`, `companies.list`, `placements.list`, `stats.list`,
-`faqs["<service-slug>"]`.
+`faqs["<service-slug>"]`, `images`.
 
-Shared partials that already carry the theme: `placed-at.njk` (pass `placedAtTitle` /
-`placedAtLead`, keep the default grid layout — the marquee is Atrium's), `placement-feed.njk`
-(keep default `rows`), `faq-accordion.njk`, `breadcrumb.njk`, `cta-section.njk`,
-`process-timeline.njk`, `stat-counter.njk`.
+Shared partials that already carry the theme: `cover-sheet.njk`, `section-rail.njk` (accepts a
+`railCard` slot for terms pinned under the links), `placed-at.njk` (pass `placedAtTitle` /
+`placedAtLead`), `placement-feed.njk`, `faq-accordion.njk`, `breadcrumb.njk`, `cta-section.njk`,
+`process-timeline.njk`, `stat-counter.njk`, `testimonial-card.njk`.
 
 Icons — `{% from "partials/icons.njk" import icon %}` then `{{ icon("name", "w-4 h-4") }}`:
 `arrow-right`, `bolt`, `briefcase`, `chart`, `check`, `check-badge`, `chevron-down`, `clock`,
 `close`, `cloud`, `code`, `heart`, `mail`, `map-pin`, `menu`, `phone`, `shield`, `star`,
 `support`, `target`, `users`.
 
-Images live in `src/assets/images/home/` — always set `width`/`height`, `loading="lazy"`
-(except the cover-sheet exhibit, which gets `fetchpriority="high"`), and mount them in a
-`.folder-card` with an `Exhibit N ·` caption. Stock photography credits:
+**Images.** Every slot lives in [`src/_data/images.json`](../src/_data/images.json) — url, alt,
+caption, credit, dimensions — so a template never hardcodes a photo. Service imagery currently
+loads from the Unsplash CDN rather than the repo; `cover-sheet.njk` accepts either form (`url`
+printed raw, `src` through the `url` filter), so moving local later is a one-file change.
+Always set `width`/`height` and `loading="lazy"` (except the cover-sheet exhibit, which gets
+`fetchpriority="high"`), mount photos in a `.folder-card` with an `Exhibit N ·` caption, and
+give every caption something to say beyond restating the alt text. Local photo credits:
 `src/assets/images/home/CREDITS.md`.
+
+**No stock portrait may be presented as a real client, candidate, or team member** — the
+existing `person-*.jpg` files are flagged for replacement before launch.
 
 ---
 
-## 9. Non-negotiables
+## 8. Non-negotiables
 
 - **Vermilion discipline.** `accent` appears on stamps and file numbers. Not on buttons, not on
   links, not on hover states. Break this and the theme collapses into a generic red-accent site.
-- **`text-ink/65` is the floor** for anything a person reads. See §3.
+- **`text-ink/65` is the floor** for anything a person reads. See §2.
 - **No blur, no glow, no drop shadow.** `shadow-*` and `backdrop-blur-*` do not belong in new markup.
 - **`rounded-sm` everywhere**, `rounded-full` never.
 - **Every section is anchorable**: `id` + `scroll-mt-28`, and listed in that page's `rail`.
@@ -527,13 +375,13 @@ Images live in `src/assets/images/home/` — always set `width`/`height`, `loadi
 
 ---
 
-## 10. New page checklist
+## 9. New page checklist
 
-1. Front matter: `layout: layouts/page.njk`, `title`, `description`. (No `theme:` once §2 lands.)
+1. Front matter: `layout: layouts/page.njk`, `title`, `description`.
 2. Define the `rail` array first — it forces you to decide the document's structure.
 3. Cover sheet: stamp + case line, H1, lead, two buttons, exhibit figure. Two columns.
 4. Optional full-bleed interlude (`placed-at.njk` or `placement-feed.njk`) to break the column.
 5. Rail + document column; sections at `mt-14`, each with eyebrow → H2 → content.
 6. Close with the dark `bg-ink` CTA band, verbatim.
-7. `npm run build` and check: no vermilion outside stamps, no `text-ink/60`, no rounded-full,
-   rail anchors all resolve, images have dimensions.
+7. `npm run build` and check: no vermilion outside stamps, no `text-ink/60`, no `rounded-full`,
+   nothing below 11px, rail anchors all resolve, images have dimensions.

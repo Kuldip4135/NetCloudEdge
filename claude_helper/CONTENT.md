@@ -1,21 +1,80 @@
-# Website Content — ready copy, page by page
+# Content — the copy, and the rules behind it
 
-Every section from [PRD.md](PRD.md), with the actual words to use. Copy from here into the pages.
+Source of truth for **every word on the site** and for what we deliberately don't say.
+Structure is in [PRD.md](PRD.md); the visual system is in [THEME.md](THEME.md).
 
-**Company:** Net Cloud Edge · **Tagline:** Where careers find their footing.
+**Company:** Net Cloud Edge (`src/_data/site.json`) · **Tagline:** Where careers find their footing.
+**Audience:** students entering the market, professionals switching, and the employers who hire both.
 
 ### How to read this file
 
-- **✅ Ready** — approved wording, use as-is.
-- **⚠️ Needs confirming** — the words are ready, but they contain a number, name, or promise someone has to verify first. Listed in full at the end.
-- Placeholder markers like `[NUMBER]` mean we don't have the real figure yet — don't ship the page with the bracket still in it.
-- Rules behind these choices (what we never claim, and why) are in [CONTENT-PLAN.md](CONTENT-PLAN.md).
-
-**Length limits:** hero subhead ≤ 20 words · card body 12–20 words · section intro ≤ 35 words · paragraph ≤ 3 sentences.
+- **✅ Ready** — approved wording, use as-is. Don't rewrite it to sound better; it ships.
+- **⚠️ Needs confirming** — the words are ready but contain a number, name, or promise someone has
+  to verify. Every one of these is collected in [Part 4](#part-4--before-launch-what-must-be-confirmed).
+- **❌ Leave out** — a deliberate omission, not an oversight.
+- `[BRACKETS]` mean we don't have the real value yet. Never ship a page with a bracket still in it.
 
 ---
 
+## Part 1 — Ground rules for all copy
+
+**Voice:** plain, specific, second person. "We match you to roles worth taking" — not "leveraging
+synergistic talent solutions."
+
+**Length discipline:** hero subhead ≤ 20 words · card body 12–20 words · section intro ≤ 35 words ·
+body paragraph ≤ 3 sentences. If a section needs more than that, it's two sections.
+
+**The three claim tiers.** Every factual sentence on the site is one of these:
+
+1. **Verified** — we can produce evidence today. State it flatly.
+2. **Policy** — a promise we control (fee model, response time, 90-day check-in). Safe to state,
+   and must then be honored.
+3. **Unverified** — placement counts, success rates, salary outcomes, client names.
+   **Either substantiate it or cut it.** Where a number would go and isn't confirmed, write the
+   *policy* or the *mechanism* instead — never a smaller invented number.
+
+**Never put on this site:**
+
+- Salary figures attached to named individuals (privacy plus verification exposure)
+- Client company names or logos without written permission
+- Certification badges we don't hold — no ISO, no GDPR, no SOC 2
+- Guarantee language ("guaranteed placement", "guaranteed job")
+- Stock-photo headshots presented as real team members or real candidates
+- Legal advice on employment, visa, or background-check compliance
+- Anything about a candidate's background-check result
+
+**No sentence appears verbatim on two pages.** Duplicated copy weakens both and reads as filler —
+this is the standing failure mode whenever a page gets expanded.
+
+### What the competitor research settled
+
+*Netbounce Placement* runs **proof-by-volume**: an employer logo wall (TikTok, Meta, Amazon,
+Google), a live placement feed with salaries, 25+ testimonials with "Verified" badges, a
+year-by-year growth table, a before/after comparison ("Without: 6–8 months, $50–70K. With: 2–4
+months, $85–170K"), and an ISO/GDPR badge wall — one of whose certifications does not exist.
+
+What we took: **the structures, not the claims.** The growth table (dated and concrete beats a
+round "5K+ placed"), the before/after block run qualitatively, and 4–6 real testimonials instead
+of 25 thin ones. What we rejected: salary figures, fabricated badges, and their visa-led messaging
+(F-1/OPT/CPT/H-1B) — that's their niche, and adopting it narrows us into a segment we don't serve
+better than they do.
+
+*Insight Global* runs the opposite strategy — no numbers, no feed, leading with culture, breadth,
+and access to a person. Their real asset is a 28-item industry specialization list, which signals
+coverage and doubles as an SEO surface. We took that (`_data/industries.json`, used on the
+employer-facing pages) and their single human CTA instead of a wall of buttons.
+
+**Where that leaves us:** Netbounce out-proofs us; Insight Global out-credentials us. Our opening
+is the thing neither does cleanly — **we serve both sides and say plainly which service is for
+whom.** The "Which service fits you?" matrix is the differentiator, and it belongs high on the page.
+
+---
+
+## Part 2 — Page by page
+
 # 1. Home
+
+*Job: in 10 seconds, tell a visitor which of the two doors is theirs.*
 
 ## Hero ✅
 
@@ -25,7 +84,11 @@ Every section from [PRD.md](PRD.md), with the actual words to use. Copy from her
 > **Buttons:** Find a Job · Hire Talent
 > **Trust line (under the buttons):** Free for candidates — employers pay our fee.
 
-*Alternative headline if a plainer read is wanted:* **Two doors. One team behind both.** / Subhead: *Students starting out, professionals moving on, and the employers hiring both.*
+*Alternative headline if a plainer read is wanted:* **Two doors. One team behind both.** /
+Subhead: *Students starting out, professionals moving on, and the employers hiring both.*
+
+The trust line is the *policy* kind of claim, and it's a real differentiator — keep it in the hero.
+❌ Rotating headlines, video background, "trusted by thousands", any number we can't back.
 
 ## Dual-Path Split ✅
 
@@ -36,6 +99,8 @@ Personal matching, interview coaching, and offer support — from your first rol
 **For Employers**
 Sourced, screened, and verified candidates — delivered faster than a job board could ever manage.
 → *Explore hiring services*
+
+❌ A third card. Two doors is the point.
 
 ## Services Grid ✅
 
@@ -50,7 +115,8 @@ Sourced, screened, and verified candidates — delivered faster than a job board
 | Background Verification | Thorough, compliant checks before an offer becomes a hire. | Everyone |
 | IT Training | Skill-building tracks that feed directly into our placement pipeline. | Students |
 
-The "For" column is new — add it to each card so visitors can self-select without reading all five.
+The "For" column pulls the services-page matrix forward to where the decision actually happens.
+❌ Long descriptions here; that's what the detail pages are for.
 
 ## Why Choose Us ✅ / ⚠️
 
@@ -62,7 +128,10 @@ The "For" column is new — add it to each card so visitors can self-select with
 - **Fast Turnaround** ⚠️ — Most candidates interview within two to three weeks of onboarding.
 - **End-to-End Support** — We stay involved through the offer, negotiation, and first 90 days.
 
-*If the two-to-three-week figure can't be backed, swap the third tile for:* **One Thread, One Recruiter** — *No chasing status across four job boards and three inboxes.*
+*If the two-to-three-week figure can't be backed, swap the third tile for:* **One Thread, One
+Recruiter** — *No chasing status across four job boards and three inboxes.*
+
+Each tile names a concrete mechanism. ❌ "Passion", "excellence", "customer-centric", "cutting-edge".
 
 ## Stats Bar ⚠️
 
@@ -75,14 +144,19 @@ The "For" column is new — add it to each card so visitors can self-select with
 | 12 | Years of Experience |
 | 94% | Placement Success |
 
-**All four are placeholders.** Confirm or replace. If we have per-year records, the stronger version is a growth strip — *2021: 130 · 2022: 188 · 2023: 234 · 2024: 376 · 2025: 385* — which reads as bookkeeping rather than marketing.
+**All four are placeholders.** Confirm or replace. If we have per-year records, the stronger
+version is a growth strip — *2021: 130 · 2022: 188 · 2023: 234 · 2024: 376 · 2025: 385* — which
+reads as bookkeeping rather than marketing.
+❌ A success percentage above ~95%; it reads as fabricated even when true, unless the denominator
+is defined right beside it.
 
 ## Employer Network / "Placed in" ⚠️
 
 > **Heading:** Candidates placed in
 > **Lead:** Our people work here now.
 
-Currently lists 16 major employers as wordmarks. **Do not ship without written permission**, or without genuine placements at each. Honest fallback that needs no permission:
+Currently lists 16 major employers as wordmarks. **Do not ship without written permission**, or
+without genuine placements at each. Honest fallback that needs no permission:
 
 > **Heading:** Where our candidates work
 > **Lead:** Placements across technology, finance, healthcare, logistics, retail, and professional services.
@@ -92,13 +166,19 @@ Currently lists 16 major employers as wordmarks. **Do not ship without written p
 > **Label:** Manifest · Updated hourly
 > **Footnote:** Names shortened at candidates' request.
 
-Placeholder people. Needs real, consented placements or the section comes out. Keep the footnote — it explains the shortened names honestly. **Never add salary figures to these rows.**
+Placeholder people. Needs real, consented placements or the section comes out. Keep the footnote —
+it explains the shortened names honestly. **Never add salary figures to these rows.**
 
 ## Testimonials ⚠️
 
 > **Spotlight quote (Priya Nandakumar, Data Analyst):** "I'd sent out forty applications with nothing back. My recruiter had me in front of a hiring manager within two weeks — and the role fit better than anything I'd found on my own."
 
-Written well; needs a real, consented person behind it. Photos in the repo are stock — use initials avatars until real ones exist. Four to six real quotes beat twenty-five thin ones.
+Written well; needs a real, consented person behind it. Each testimonial needs full name, role,
+employer *or* industry, and consent. Photos in the repo are stock — use initials avatars until
+real ones exist; that's honest and looks fine. Four to six real quotes beat twenty-five thin ones.
+Quotes about *the process* ("someone actually called me back the same week") beat quotes about
+*the outcome* — they're specific enough to be believable.
+❌ Stock photos, "Verified" badges, quotes without an attributable person.
 
 ## How It Works ✅
 
@@ -109,6 +189,9 @@ Written well; needs a real, consented person behind it. Photos in the repo are s
 2. **Match** — We connect you with roles and employers that actually fit the brief.
 3. **Interview** — Coaching and prep before every conversation that matters.
 4. **Placement** — An offer, a negotiation assist, and a check-in 90 days in.
+
+The time cost per step is the anxiety-reducing detail competitors skip.
+❌ Internal process language ("requisition intake", "candidate calibration").
 
 ## Case Study ⚠️
 
@@ -127,9 +210,13 @@ Same person as the spotlight — pick one placement for each so the page doesn't
 > **Subhead:** Whether you're job hunting or hiring, the first conversation is free.
 > **Buttons:** Get Started · [phone number]
 
+One button's worth of intent. ❌ Newsletter signup, secondary link, phone + form + email at once.
+
 ---
 
 # 2. About Us
+
+*Job: be believable. This is the page that gets read when someone is deciding whether we're real.*
 
 ## Page Header ✅
 
@@ -147,7 +234,13 @@ Same person as the spotlight — pick one placement for each so the page doesn't
 >
 > Today we work both sides of that gap — helping students and professionals land roles that fit, and helping employers hire people who'll stay.
 
-**Add one sentence of specifics** — the year we started, and who started it. Right now the story is true of any agency. Something like: *"[Founder name] started Net Cloud Edge in [year] after [X] years on the hiring side, having watched the same good candidates get filtered out of the same good roles."*
+**Add one sentence of specifics** ⚠️ — the year we started and who started it. Right now the story
+is true of any agency. Something like: *"[Founder name] started Net Cloud Edge in [year] after
+[X] years on the hiring side, having watched the same good candidates get filtered out of the same
+good roles."* Keep it first person, 120–180 words total.
+
+❌ Founder-hero mythology, awards we don't hold, "our journey" timelines with invented milestones,
+an org chart, investor logos.
 
 ## Mission & Values ✅
 
@@ -159,15 +252,17 @@ Same person as the spotlight — pick one placement for each so the page doesn't
 - **Speed** — Good process shouldn't be slow — we move quickly without cutting corners.
 - **Long-Term Partnerships** — We measure success by who's still placed a year later, not just the offer.
 
-The Candidate-First line is rewritten from the original ("A placement is only good if it's good for the person taking it") to name the actual mechanism. Mechanisms are believable; sentiments aren't.
+Candidate-First was rewritten from a sentiment to name the actual mechanism. Mechanisms are
+believable; sentiments aren't. Every value tile follows that pattern.
 
 ## Stats Strip ⚠️
 
-Same four numbers as Home, from the same source. Never a second set.
+Same four numbers as Home, from the same data file. Never a second set.
 
 ## Meet the Team
 
-**Only ships with real photos, real names, real roles.** Per person: name, role, one line on what they handle. No stock headshots — a two-person team stated honestly beats four invented ones.
+**Only ships with real photos, real names, real roles.** Per person: name, role, one line on what
+they handle. No stock headshots — a two-person team stated honestly beats four invented ones.
 
 ## Why Students & Professionals Trust Us ✅ / ⚠️
 
@@ -176,12 +271,15 @@ Same four numbers as Home, from the same source. Never a second set.
 
 **If you're starting out** ⚠️
 We've placed thousands of first-time candidates who didn't know where to start — and treated every one like the placement mattered.
-*"Thousands" depends on the stats being confirmed. Safe rewrite:* "Most of the people we place are figuring out their first move — we've built the process around that, not around senior hires who already know the drill."
+
+*"Thousands" depends on the stats being confirmed. Safe rewrite:* "Most of the people we place are
+figuring out their first move — we've built the process around that, not around senior hires who
+already know the drill."
 
 **If you're switching or hiring** ✅
 Whether you're moving on from a role or trying to fill one, we work from the same playbook: understand the fit before we make the match.
 
-## Company Facts ✅ — *new section, recommended*
+## Company Facts ✅ ⚠️
 
 Small, factual, at the bottom of the page:
 
@@ -199,12 +297,14 @@ Cheapest credibility on the site, and almost no competitor does it.
 
 # 3. Services (Overview)
 
+*Job: route the visitor. Nobody buys from this page — they pick a door.*
+
 ## Page Header ✅
 
 > **Title:** Our Services
 > **Intro:** Source, vet, place, verify, upskill — five services that work as one connected pipeline, whichever end you're starting from.
 
-## Which Service Fits You? ✅ — *move this above the service rows*
+## Which Service Fits You? ✅ — *sits above the service rows*
 
 > **Eyebrow:** Who it's for
 > **Heading:** Which service fits you?
@@ -217,7 +317,8 @@ Cheapest credibility on the site, and almost no competitor does it.
 | Background Verification | ✓ | ✓ | ✓ |
 | IT Training | ✓ | — | — |
 
-This is the fastest router on the site and it's currently sitting below five long descriptions.
+The fastest router on the site. A visitor who knows which door is theirs in five seconds is worth
+more than one who reads all five descriptions.
 
 ## Service Rows ✅
 
@@ -236,7 +337,11 @@ This is the fastest router on the site and it's currently sitting below five lon
 **05 · IT Training** — Structured programs in web development, QA, cloud, and data — built for graduates who want training that leads somewhere specific: a job.
 *Already have the skills? Go straight to Job Placement.*
 
-The italic "not for you" lines are new. They prevent the wrong-service inquiry, which is the most common conversion leak on a five-service site.
+The italic "not for you" lines prevent the wrong-service inquiry — the most common conversion leak
+on a five-service site.
+
+❌ Pricing table, feature-comparison matrix across our own services, per-service testimonials
+(those belong on the detail pages).
 
 ## CTA ✅
 
@@ -248,6 +353,8 @@ The italic "not for you" lines are new. They prevent the wrong-service inquiry, 
 
 # 4. Job Placement
 
+*Job: convert an anxious job seeker. Highest-emotion page on the site.*
+
 ## Hero ✅
 
 > **Breadcrumb:** Home / Services / Job Placement
@@ -256,7 +363,7 @@ The italic "not for you" lines are new. They prevent the wrong-service inquiry, 
 > **Under the button:** Free for candidates. Our fee is paid by the hiring employer, never by you.
 > **Button:** Start Your Job Search
 
-The cost line is currently only in the FAQ. It's the first question every candidate has — it belongs in the hero.
+The cost line belongs in the hero, not the FAQ — it's the first question every candidate has.
 
 ## What's Included ✅
 
@@ -270,7 +377,7 @@ The cost line is currently only in the FAQ. It's the first question every candid
 - **Post-Placement Check-In** — We follow up at 30 and 90 days to make sure it's working out.
 - **Application Tracking** — One recruiter, one thread — no chasing status across job boards.
 
-## What Changes ✅ — *new section, recommended*
+## What Changes ✅
 
 > **Eyebrow:** The difference
 > **Heading:** What actually changes
@@ -282,9 +389,11 @@ The cost line is currently only in the FAQ. It's the first question every candid
 | Competing with hundreds of applicants | Introduced to employers already expecting your resume |
 | Guessing what the interview will cover | Prepped for the specific team you're meeting |
 
-**No salaries and no timelines in this table.** The competitor's version of this block promises "$85K–$170K in 2–4 months" — that's exactly the claim we can't back and don't need. The qualitative version converts nearly as well and is defensible.
+**No salaries and no timelines in this table.** The competitor's version promises "$85K–$170K in
+2–4 months" — exactly the claim we can't back and don't need. The qualitative version converts
+nearly as well and is defensible.
 
-## Process ✅
+## Process ✅ ⚠️
 
 > **Eyebrow:** The process
 > **Heading:** Five steps to an offer
@@ -295,7 +404,7 @@ The cost line is currently only in the FAQ. It's the first question every candid
 4. **Interviews** — Coaching before every conversation that matters.
 5. **Offer** — Negotiation support and a check-in once you've started.
 
-Durations are new — they reduce anxiety and set expectations. ⚠️ Confirm we can meet them.
+Durations reduce anxiety and set expectations. ⚠️ Confirm we can meet them.
 
 ## Success Story ⚠️
 
@@ -306,7 +415,8 @@ Durations are new — they reduce anxiety and set expectations. ⚠️ Confirm w
 > **Approach** — We rebuilt her profile around testing frameworks employers were actually hiring for, and matched her to two fintech teams.
 > **Result** — Offer in hand four days after her first interview, at 15% above her target salary.
 
-Needs a real, consented candidate. Keep "15% above her target" only if true — otherwise cut the clause; the four-day detail carries the story.
+Needs a real, consented candidate; first name or initials only. Keep "15% above her target" only
+if true — otherwise cut the clause; the four-day detail carries the story.
 
 ## FAQ ✅ / ⚠️
 
@@ -315,6 +425,9 @@ Needs a real, consented candidate. Keep "15% above her target" only if true — 
 - **What if the placement doesn't work out?** ⚠️ We stay involved for 90 days post-placement. If a role isn't the right fit in that window, we re-open your search at no additional cost.
 - **What industries do you cover?** Technology, finance, healthcare administration, and professional services, with new industries added as employer demand grows.
 
+❌ Salary claims, guaranteed-placement language, "we apply to 100 jobs for you" (volume is what
+we're positioning *against*), visa/immigration content, urgency banners.
+
 ## CTA ✅
 
 > **Heading:** Start your job search today. · **Button:** Get Started
@@ -322,6 +435,8 @@ Needs a real, consented candidate. Keep "15% above her target" only if true — 
 ---
 
 # 5. Recruitment & Staffing
+
+*Job: convert an employer with a role open right now. Different reader — skims, wants terms.*
 
 ## Hero ✅
 
@@ -339,7 +454,7 @@ Needs a real, consented candidate. Keep "15% above her target" only if true — 
 - **Staffing Models** — Contract, temp-to-hire, or permanent — whichever structure fits the role.
 - **Industry Specializations** — Dedicated sourcing pipelines in technology, finance, healthcare, and more.
 
-## Industries We Staff ⚠️ — *new section, recommended*
+## Industries We Staff ⚠️
 
 > **Eyebrow:** Coverage
 > **Heading:** Where we place
@@ -354,9 +469,11 @@ Needs a real, consented candidate. Keep "15% above her target" only if true — 
 | Retail & E-commerce | Merchandising, Growth, CX |
 | Professional Services | Consulting, Accounting, HR |
 
-The percentage shares stored alongside these sectors are placeholders — **either confirm them or show the sectors without shares.** The sector list itself is the valuable part.
+Driven from `_data/industries.json`, which says to list only sectors with real placement history.
+The percentage shares stored alongside these sectors are placeholders — **either confirm them or
+show the sectors without shares.** The sector list itself is the valuable part.
 
-## How We Work Commercially ✅ — *new section, recommended*
+## How We Work Commercially ✅ ⚠️
 
 > **Eyebrow:** Terms
 > **Heading:** How engagements work
@@ -368,7 +485,7 @@ The percentage shares stored alongside these sectors are placeholders — **eith
 >
 > Rates depend on role and seniority — we'll quote before any work begins.
 
-Don't publish actual percentages; publish the *structure*. Employers who can't find terms assume they're bad.
+Publish the *structure*, never the percentages. Employers who can't find terms assume they're bad.
 
 ## Process ✅
 
@@ -387,13 +504,20 @@ Don't publish actual percentages; publish the *structure*. Employers who can't f
 > **Heading:** Results, not resumes
 > **94%** Placement Success · **18 days** Average Time-to-Fill (Contract) · **20+** Industries Served
 
-All three unverified, and the "20+ industries" contradicts the six sectors listed above — fix that inconsistency either way. **If we don't track these, delete the band** and use a testimonial from an employer instead:
+All three unverified, and "20+ industries" contradicts the six sectors listed above — fix that
+inconsistency either way. **If we don't track these, delete the band** and use an employer
+testimonial instead:
 
 > "We stopped sifting through hundreds of resumes. Every candidate they send has already been screened for the role we actually described, not a generic version of it." — Hiring Manager, fintech scale-up
 
 ## FAQ ⚠️
 
-Four questions on pricing model, minimum engagement, industries, and time-to-fill. The time-to-fill answer ("18 days contract, 34 days permanent — both tracked and reported per engagement") promises reporting we must actually do.
+Four questions on pricing model, minimum engagement, industries, and time-to-fill. The time-to-fill
+answer ("18 days contract, 34 days permanent — both tracked and reported per engagement") promises
+reporting we must actually do.
+
+❌ Actual rates or percentage fees (that's a conversation), client logos without permission,
+"24/7 support" unless staffed, headcount promises.
 
 ## CTA ✅
 
@@ -404,6 +528,9 @@ Link through to Contact with the Employer option pre-selected.
 ---
 
 # 6. Talent Acquisition
+
+*Job: explain why this exists when we already sell staffing. If a visitor can't tell them apart,
+both pages fail.*
 
 ## Hero ✅
 
@@ -419,12 +546,12 @@ Link through to Contact with the Employer option pre-selected.
 | | Recruitment & Staffing | Talent Acquisition |
 |---|---|---|
 | **What it does** | Fills a defined role from an existing pool | Builds a pipeline for a role that doesn't have one |
-| **Timeline** | Days to weeks | 6–10 weeks |
+| **Timeline** | Days to weeks | 6–10 weeks ⚠️ |
 | **Candidates** | Actively looking | Usually not looking |
 | **Best for** | Volume, contract, defined roles | Leadership, specialized, competitive roles |
 | **Terms** | Contingency | Retained |
 
-Upgraded from three bullets to a table. If a visitor can't tell these two services apart in five seconds, both pages fail — this is the most important block on the page, so it goes high.
+The most important block on the page, so it goes high.
 
 ## What's Included ✅
 
@@ -436,11 +563,11 @@ Upgraded from three bullets to a table. If a visitor can't tell these two servic
 - **Market Mapping** — A clear view of where the right candidates sit today, and what it takes to reach them.
 - **Long-Term Partnership Model** — A dedicated search partner, not a transactional vendor relationship.
 
-**Expand Market Mapping into its own short block** — it's the deliverable that justifies the premium framing:
+**Market Mapping gets its own short block** — it's the deliverable that justifies the premium framing:
 
 > **What a market map gives you:** who's doing this job today and where, what they're paid, which companies are the realistic feeder pool, and how long a move from each typically takes. You keep it whether or not you hire through us.
 
-## Process ✅
+## Process ✅ / ⚠️
 
 > **Eyebrow:** The process
 > **Heading:** A search built around the role
@@ -453,7 +580,12 @@ Upgraded from three bullets to a table. If a visitor can't tell these two servic
 
 ## FAQ ✅ / ⚠️
 
-Four questions covering the staffing distinction, suitable roles, timeline (6–10 weeks), and the replacement guarantee. ⚠️ The 6-month guarantee appears twice on this page — confirm it's a real policy before either goes live.
+Four questions covering the staffing distinction, suitable roles, timeline (6–10 weeks), and the
+replacement guarantee. ⚠️ The 6-month guarantee appears twice on this page — confirm it's a real
+policy before either instance goes live.
+
+❌ Named executive placements, "C-suite" claims we can't evidence, a second industries list (link
+to the one on Staffing), and any sentence reused from the Staffing page.
 
 ## CTA ✅
 
@@ -484,7 +616,8 @@ Four questions covering the staffing distinction, suitable roles, timeline (6–
 - **Reference Checks** — Structured conversations with the people who worked with the candidate directly.
 - **Identity Verification** — Confirms the candidate is who their application says they are.
 
-"Where legally permitted" on the criminal check is **non-negotiable** — screening law varies by state and by role.
+"Where legally permitted" on the criminal check is **non-negotiable** — screening law varies by
+state and by role.
 
 ## Compliance ✅
 
@@ -493,9 +626,10 @@ Four questions covering the staffing distinction, suitable roles, timeline (6–
 >
 > Every check begins with documented candidate consent, and every report is scoped to what's legally permitted for the role and jurisdiction. Data is encrypted in transit and at rest, accessible only to the parties directly involved in the hiring decision, and retained only as long as required by applicable law. We don't display third-party compliance badges we haven't earned — if you have specific regulatory requirements for a role, tell us and we'll confirm in writing what our process covers.
 
-Strongest paragraph on the site. The refusal to display unearned badges is a direct contrast with the competitor, who shows an ISO/GDPR badge wall including at least one certification that doesn't exist. **Leave this exactly as written.**
+Strongest paragraph on the site. The refusal to display unearned badges is a direct contrast with
+the competitor's badge wall. **Leave this exactly as written.**
 
-## Process ✅
+## Process ✅ / ⚠️
 
 > **Eyebrow:** The process
 > **Heading:** From request to report
@@ -507,9 +641,13 @@ Strongest paragraph on the site. The refusal to display unearned badges is a dir
 
 ## FAQ ✅ / ⚠️
 
-Turnaround (⚠️ 3–5 business days), scope, data handling, and per-role customization. All well written; only the turnaround needs confirming.
+Turnaround (⚠️ 3–5 business days), scope, data handling, and per-role customization. All well
+written; only the turnaround needs confirming.
 
-**Never on this page:** compliance badges, "100% accurate", "instant results", sample report contents, any real candidate example, or advice on an employer's legal obligations.
+**Never on this page:** compliance badges (ISO / GDPR / SOC 2 / FCRA), "100% accurate", "instant
+results", sample report contents, any real candidate example, anything implying we adjudicate a
+candidate's suitability, or advice on an employer's legal obligations. We report findings; the
+hiring decision is the employer's.
 
 ## CTA ✅
 
@@ -519,7 +657,10 @@ Turnaround (⚠️ 3–5 business days), scope, data handling, and per-role cust
 
 # 8. IT Training
 
-⚠️ **This whole page assumes the four tracks are real, with real curricula and instructors.** If they're placeholders, ship the waitlist version at the bottom of this section instead.
+⚠️ **This whole page assumes the four tracks are real, with real curricula and instructors.**
+If they're placeholders, ship the waitlist version at the bottom of this section instead.
+
+*Job: sell a program to an early-career learner. Reads more like a course page than a service page.*
 
 ## Hero ✅
 
@@ -539,7 +680,8 @@ Turnaround (⚠️ 3–5 business days), scope, data handling, and per-role cust
 | Cloud / DevOps | 10 weeks | Live online | Basic command line helps | Core cloud infrastructure, CI/CD, and deployment fundamentals on AWS. |
 | Data Basics | 8 weeks | Live online | None | SQL, spreadsheets, and data analysis fundamentals for non-technical starters. |
 
-Format and prerequisites are new columns — they're the two things a learner filters on before reading anything else. ⚠️ Fill them in for real.
+Format and prerequisites are the two things a learner filters on before reading anything else.
+⚠️ Every cell here needs to be real.
 
 ## Why Train With Us ✅
 
@@ -548,19 +690,21 @@ Format and prerequisites are new columns — they're the two things a learner fi
 
 Always **"priority access"** or **"direct access."** Never "guaranteed placement."
 
-## What Certification Means ✅ — *new section, recommended*
+## What Certification Means ✅ ⚠️
 
 > **Heading:** What you get at the end
 > **Body:** A Net Cloud Edge completion certificate, a portfolio project you can show employers, and a direct handoff into our Job Placement pipeline. ⚠️ [If a track prepares you for a vendor exam — AWS, ISTQB — say which, and whether the exam fee is included.]
 
-Vague certification claims are the most common complaint about training providers. Being explicit here is a differentiator on its own.
+Vague certification claims are the most common complaint about training providers. Being explicit
+here is a differentiator on its own.
 
-## What It Costs ✅ — *new section, recommended*
+## What It Costs ✅ ⚠️
 
 > **Heading:** Pricing
 > **Body:** Program fees vary by track and format. Payment plans are available, and select tracks offer a placement-linked deferral. ⚠️ [Tell us which track you're considering and we'll send exact pricing — or: Tracks start at $X.]
 
-A page with zero price signal loses price-sensitive readers entirely. A range or a "request pricing" route is enough.
+A page with zero price signal loses price-sensitive readers entirely. A range or a "request
+pricing" route is enough.
 
 ## Curriculum Timeline ✅
 
@@ -575,11 +719,16 @@ A page with zero price signal loses price-sensitive readers entirely. A range or
 
 ## FAQ ✅
 
-Duration, format, cost, prerequisites, and placement. The placement answer is the model for the whole site:
+Duration, format, cost, prerequisites, and placement. The placement answer is the model for the
+whole site:
 
 > **Is placement guaranteed after graduation?** Graduates get direct, priority access to our Job Placement pipeline — not a guarantee, but a real head start over an open application.
 
 Honest, and still sells. Reuse this pattern wherever we're tempted to overclaim.
+
+❌ "Guaranteed job after graduation", graduate-specific placement rates (small denominator, high
+scrutiny), instructor bios we can't verify, false scarcity ("2 seats left"), employer logos framed
+as recruiting our graduates.
 
 ## CTA ✅
 
@@ -596,6 +745,8 @@ No durations, no prices, no curriculum until they exist.
 ---
 
 # 9. Contact
+
+*Job: remove every reason not to send the form.*
 
 ## Page Header ✅
 
@@ -615,9 +766,13 @@ No durations, no prices, no curriculum until they exist.
 > **Next to the button:** We reply within one business day.
 > **Under the form:** We use your details only to respond to this enquiry. Resumes are shared with employers only with your say-so, and we never sell your data.
 
-Both lines are new. The response promise is currently buried in the FAQ; the privacy line is needed the moment we accept resume uploads.
+The response promise belongs beside the button, not buried in the FAQ; the privacy line is needed
+the moment we accept resume uploads.
 
-## Contact Info Card ✅
+❌ Phone as a required field, "how did you hear about us" (ask later), a CAPTCHA where a honeypot
+will do, a CTA band, a pre-ticked newsletter checkbox.
+
+## Contact Info Card ✅ ⚠️
 
 > **Office** — 212 Wabash Ave, Suite 500, Chicago, IL 60601
 > **Phone** — +1 (312) 555-0148
@@ -625,11 +780,13 @@ Both lines are new. The response promise is currently buried in the FAQ; the pri
 > **Hours** — Mon–Fri, 9:00am–6:00pm CT
 > **Social** — LinkedIn · Instagram · X
 
-⚠️ Every one of these is placeholder data — the phone number is a reserved fictional-use number and the social links point at bare domains. All must be real before launch.
+⚠️ Every one of these is placeholder data — the phone number is a reserved fictional-use number
+and the social links point at bare domains. All must be real before launch.
 
 ## Map ✅
 
-Only if the office is real and visitable. Otherwise remove the block entirely rather than showing a city-center pin we don't occupy.
+Only if the office is real and visitable. Otherwise remove the block entirely rather than showing
+a city-center pin we don't occupy.
 
 ## FAQ ✅
 
@@ -641,15 +798,15 @@ No CTA band on this page. The form is the call to action.
 
 ---
 
-# Shared
+## Part 3 — Shared
 
 ## Navigation ✅
 
 Home · About · Services ▾ · Contact · **Get Started**
-Services dropdown lists all five service pages.
-On mobile, the header CTA becomes a click-to-call link.
+Services dropdown lists all five service pages. On mobile the header CTA becomes a click-to-call link.
 
-No Careers, Insights, or Refer & Earn until those pages exist and are maintained.
+No Careers, Insights, or Refer & Earn until those pages exist and are maintained — a nav item
+leading to a thin page costs more than a missing one.
 
 ## Footer ✅
 
@@ -660,7 +817,8 @@ No Careers, Insights, or Refer & Earn until those pages exist and are maintained
 >
 > **Bottom line:** © [year] [Registered entity name]. All rights reserved.
 
-⚠️ Privacy Policy and Terms must exist before the resume upload goes live. No newsletter signup unless someone actually sends a newsletter.
+⚠️ Privacy Policy and Terms must exist before the resume upload goes live. No newsletter signup
+unless someone actually sends a newsletter, and no second copy of the full nav.
 
 ## CTA band wording, by page
 
@@ -676,6 +834,8 @@ No Careers, Insights, or Refer & Earn until those pages exist and are maintained
 | IT Training | Ready to build a new skill set? | Enroll Now |
 | Contact | *(none — the form is the CTA)* | |
 
+One action per band, verb-first. Never two competing buttons.
+
 ## Page titles & descriptions ✅
 
 | Page | Title | Description |
@@ -690,26 +850,31 @@ No Careers, Insights, or Refer & Earn until those pages exist and are maintained
 | IT Training | IT Training | Structured programs in web development, QA, cloud, and data — built for graduates who want training that leads somewhere specific: a job. |
 | Contact | Contact | Whether you're looking for a job or looking to hire, we're here to help. |
 
+Meta descriptions get rewritten to 150–160 chars against the final content of each page.
+
 ---
 
-# Everything marked ⚠️, in one list
+## Part 4 — Before launch: what must be confirmed
 
-Ordered by how many pages depend on it.
+Every ⚠️ on the site, in one list, ordered by how much depends on it. This is the only copy of
+this list — [ROADMAP.md](ROADMAP.md) points here rather than keeping its own.
 
 | # | To confirm | Blocks |
 |---|---|---|
-| 1 | Candidates placed · partner companies · years in business · success rate | Home, About |
-| 2 | Company contact details — phone, email, address, social | Every page (footer), Contact |
-| 3 | Fee model: employers pay, candidates never do | Home, Services, Job Placement |
-| 4 | Employer names/logos — written permission, real placements | Home |
-| 5 | Real consented testimonials (4–6) and placement feed entries | Home, Job Placement |
-| 6 | Time-to-fill (18 / 34 days), interview timeline (2–3 weeks), offer timeline (4–8 weeks) | Home, Job Placement, Staffing |
-| 7 | Verification turnaround (3–5 business days) | Background Verification |
-| 8 | 90-day candidate re-open · 6-month replacement guarantee | Job Placement, Talent Acquisition |
-| 9 | Commercial structure — contingency, contract markup, no retainer | Staffing, Talent Acquisition |
-| 10 | IT Training: real tracks? durations, formats, prerequisites, pricing, what "certification" means | IT Training |
-| 11 | Industry sector shares (38% / 21% / 14%…) | Staffing |
-| 12 | Team photos and bios | About |
-| 13 | Legal entity name, founding year, founder name | About, footer |
-| 14 | Privacy Policy and Terms pages | Footer, Contact form |
-| 15 | Is the Chicago office real and visitable? | Contact, footer |
+| 1 | **Every number in `_data/stats.json` and `_data/faqs.json`** — candidates placed, partner companies, years, success rate | Home, About, Staffing |
+| 2 | **Fee model in writing** — "employers pay, candidates never do". Any candidate-paid element changes three pages | Home, Services, Job Placement |
+| 3 | **Company contact details** — phone, email, address, social. All currently fictional | Every page (footer), Contact |
+| 4 | **Real consented testimonials (4–6)** and placement-feed entries, with name, role, employer or industry | Home, Job Placement |
+| 5 | **IT Training reality** — are the four tracks real, with curricula and instructors? Determines whether the page ships in full or as a waitlist | IT Training |
+| 6 | **Timelines** — time-to-fill (18 / 34 days), interview window (2–3 weeks), offer window (4–8 weeks), TA search (6–10 weeks) | Home, Job Placement, Staffing, Talent Acquisition |
+| 7 | **Commercial structure for employers** — contingency vs retained, contract markup, replacement window, temp-to-perm conversion terms. Structure, not rates | Staffing, Talent Acquisition |
+| 8 | **Background check scope** — which checks we actually run, through which vendor, typical turnaround (3–5 business days?) | Background Verification |
+| 9 | **Guarantees** — 90-day candidate re-open, 6-month replacement, any refund policy. Each is currently asserted in an FAQ; each must be a real policy | Job Placement, Talent Acquisition |
+| 10 | **Employer names / logos** — written permission plus genuine placements at each | Home |
+| 11 | **Industry sector shares** (38% / 21% / 14%…) — and whether every listed sector has real placement history | Staffing, Job Placement |
+| 12 | **Team photos and bios** — determines whether About §5 exists at all | About |
+| 13 | **Legal entity name, founding year, founder name** | About, footer |
+| 14 | **Privacy Policy and Terms pages** — required before the resume upload goes live | Footer, Contact form |
+| 15 | **Is the Chicago office real and visitable?** | Contact, footer |
+
+Where an answer doesn't arrive, the fallback is always the same: **write the mechanism, cut the number.**
