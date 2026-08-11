@@ -1,0 +1,435 @@
+---
+layout: layouts/page.njk
+title: Terms & Conditions
+description: The terms you agree to by using this site, sending us a resume, engaging us to hire, or enrolling in a training program.
+effective: August 12, 2026
+extraScripts:
+  - /assets/js/rail-active.js
+---
+{% from "partials/icons.njk" import icon %}
+
+{#
+  ⚠️ NOT LEGAL ADVICE. Drafted against what this business actually sells, not lifted from
+  a template, and it must be reviewed by counsel before launch (CONTENT.md verification
+  list, item 14).
+
+  MUST CONFIRM before this page goes live — every one of these is a commercial promise:
+    · the 90-day replacement period in §C
+    · the 7-day training withdrawal window in §D
+    · the 12-month direct-hire restriction in §C
+    · governing law and venue in §I — set to Illinois to match the Chicago office
+    · {{ site.legalEntity }} being the correct contracting entity
+  Where a number appears here it is an industry-standard default, not a decision anyone
+  has made. Change it or delete the clause; do not ship it unread.
+
+  Two content rules carried from the service pages: our fee is never paid by a job
+  seeker, and nothing on this site — this page least of all — promises a placement.
+#}
+
+{% set rail = [
+  { id: "agreement",  label: "The agreement",   n: "00" },
+  { id: "site",       label: "Using this site", n: "A"  },
+  { id: "candidates", label: "Candidates",      n: "B"  },
+  { id: "employers",  label: "Employers",       n: "C"  },
+  { id: "training",   label: "Training",        n: "D"  },
+  { id: "ip",         label: "Content and IP",  n: "E"  },
+  { id: "disclaimer", label: "Disclaimers",     n: "F"  },
+  { id: "liability",  label: "Liability",       n: "G"  },
+  { id: "law",        label: "Governing law",   n: "H"  },
+  { id: "general",    label: "General",         n: "I"  }
+] %}
+
+<section class="file-band">
+  <div class="section-container py-10 sm:py-14">
+    {% set crumbs = [{ label: "Home", url: "/" }, { label: "Terms & Conditions" }] %}
+    {% include "partials/breadcrumb.njk" %}
+
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} On file</span>
+      <span class="font-mono text-xs uppercase tracking-widest text-ink/65">
+        Effective {{ effective }} · {{ site.legalEntity }}
+      </span>
+    </div>
+    <h1 class="mt-6 max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+      Terms &amp; Conditions.
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink/75">
+      What you agree to by using this site, sending us a resume, engaging us to hire, or
+      enrolling in a program. Written to be read, not to be survived.
+    </p>
+  </div>
+</section>
+
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    {% include "partials/section-rail.njk" %}
+
+    <div class="lg:col-span-9">
+
+      <div class="file-inset">
+        <p class="meta">The short version</p>
+        <div class="legal-prose mt-3">
+          <p>
+            Tell us the truth about your experience or your vacancy, and we will do the same
+            about what we can deliver. We introduce people to employers; we do not employ the
+            candidates we place and we cannot promise anyone a job. Employers pay our fee, job
+            seekers never do. Where you have signed a separate engagement letter or enrolment
+            agreement with us, that document wins over this page.
+          </p>
+        </div>
+      </div>
+
+      {# ---- 00 The agreement ---- #}
+      <div id="agreement" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">00 — Agreement</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          The agreement.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            These terms are between you and {{ site.legalEntity }} (&ldquo;{{ site.shortName }},&rdquo;
+            &ldquo;we,&rdquo; &ldquo;us&rdquo;). You accept them by using
+            <a href="{{ site.url }}">{{ site.url }}</a>, submitting the contact form, sending us a
+            resume or a hiring brief, or enrolling in a program. If you do not accept them, do
+            not use the site or the services.
+          </p>
+          <p>
+            You must be at least 16 years old and legally able to enter a contract. If you accept
+            these terms for a company, you confirm you are authorised to bind it, and
+            &ldquo;you&rdquo; means that company.
+          </p>
+          <h3>Which document governs</h3>
+          <p>
+            Where you have signed something more specific with us — a recruitment services
+            agreement, a statement of work, a training enrolment form — that document governs its
+            subject matter, and this page fills the gaps around it. This page alone governs
+            general use of the site.
+          </p>
+          <p>
+            Our <a href="{{ '/privacy-policy/' | url }}">Privacy Policy</a> forms part of these
+            terms.
+          </p>
+        </div>
+      </div>
+
+      {# ---- A Using the site ---- #}
+      <div id="site" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">A — Site use</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Using this site.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>You may read, print and share these pages for your own hiring or job search. You may not:</p>
+          <ul>
+            <li>Scrape, harvest or bulk-copy the site or anything on it, by any automated means.</li>
+            <li>Submit false information, impersonate anyone, or apply on someone else's behalf without their permission.</li>
+            <li>Upload malware, or a file you do not have the right to send us.</li>
+            <li>Probe, overload or interfere with the site or the systems behind it.</li>
+            <li>Use anything here to build a competing candidate database, or to advertise.</li>
+            <li>Use the site for anything unlawful, or in breach of employment or discrimination law.</li>
+          </ul>
+          <p>
+            We may suspend access, and remove any submission, where we believe one of these has
+            been breached.
+          </p>
+          <h3>What you send us</h3>
+          <p>
+            You keep ownership of your resume and everything else you submit. You give us
+            permission to store it, format it, and share it as described in the
+            <a href="{{ '/privacy-policy/' | url }}">Privacy Policy</a> — which, for a candidate,
+            means with an employer only after you have agreed to that specific introduction. You
+            confirm that what you send is accurate, is yours to send, and does not breach anyone
+            else's rights or a confidentiality obligation you owe an employer.
+          </p>
+        </div>
+      </div>
+
+      {# ---- B Candidates. The fee sentence and the no-guarantee sentence are the two
+             loadbearing lines on this page for a job seeker; both are stated plainly
+             rather than buried in the disclaimer section. ---- #}
+      <div id="candidates" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">B — Candidates</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          If you are a job seeker.
+        </h2>
+        <div class="legal-prose mt-6">
+          <h3>We charge you nothing</h3>
+          <p>
+            Placement is free to candidates. Our fee is paid by the employer. Nobody at
+            {{ site.shortName }} will ever ask you for a payment, a deposit or a percentage of
+            your salary in exchange for a role, and if anyone claiming to represent us does, tell
+            us at <a href="mailto:{{ site.email }}">{{ site.email }}</a>. Our paid IT training
+            programs are a separate service, described in §D — enrolling in one is optional and
+            is never a condition of being put forward for a job.
+          </p>
+          <h3>No guarantee of employment</h3>
+          <p>
+            We put strong candidates in front of employers who are hiring. We do not decide who
+            gets hired, we do not control an employer's process or timeline, and nothing on this
+            site is a promise of a job, an interview, a salary, or a visa outcome. Statistics we
+            publish describe past results and predict nothing about yours.
+          </p>
+          <h3>What we need from you</h3>
+          <ul>
+            <li>Accurate information about your experience, qualifications and work authorisation. A misrepresentation is grounds for us to end our representation of you, and for an employer to withdraw an offer.</li>
+            <li>Prompt notice if you are no longer available, have accepted another role, or have applied to the same employer directly or through another agency.</li>
+            <li>Consent, in writing, before we run any background check or contact a referee.</li>
+          </ul>
+          <h3>Going direct</h3>
+          <p>
+            Where we have introduced you to an employer, please do not deal with that employer
+            for the same or a similar role behind us. Doing so puts our fee at risk, which is
+            what funds the free service you are receiving.
+          </p>
+        </div>
+      </div>
+
+      {# ---- C Employers. Rates stay off this page on purpose — they live in the
+             engagement letter, per the same rule the service pages follow. ---- #}
+      <div id="employers" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">C — Employers</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          If you are hiring.
+        </h2>
+        <div class="legal-prose mt-6">
+          <h3>Introductions and fees</h3>
+          <p>
+            An <strong>introduction</strong> is our supply of a candidate's details to you in any
+            form — resume, profile, verbal or written referral. An <strong>engagement</strong> is
+            your employment of that candidate in any capacity, permanent or contract, whether or
+            not for the role we introduced them for.
+          </p>
+          <p>
+            A fee becomes payable on engagement. The rate, the basis it is calculated on, and the
+            payment terms are set out in the engagement letter signed for your account — not on
+            this page. If you engage a candidate we introduced within
+            <strong>12 months</strong> of the introduction, the fee is payable even if the
+            engagement is for a different role, in a different division, or arranged after our
+            work on that vacancy ended. The same applies if you pass the candidate's details to
+            another organisation and they engage them.
+          </p>
+          <h3>Replacement period</h3>
+          <p>
+            If a permanently placed candidate leaves or is dismissed for cause within
+            <strong>90 days</strong> of their start date, we will search for a replacement at no
+            further fee, provided your invoice is paid in full and you notify us in writing within
+            14 days of their departure. The replacement period does not apply where the role is
+            made redundant, the role's scope changes materially, or the departure follows a
+            failure to pay the candidate as agreed.
+          </p>
+          <h3>What we need from you</h3>
+          <ul>
+            <li>An accurate brief — the real role, the real salary range, the real requirements.</li>
+            <li>Notice, promptly, when a role is filled, paused or withdrawn.</li>
+            <li>Confirmation of an engagement within 7 days of an offer being accepted.</li>
+            <li>Compliance with employment and anti-discrimination law in your hiring decisions. We will not screen candidates on any protected characteristic, whoever asks.</li>
+          </ul>
+          <h3>Contract and temporary staff</h3>
+          <p>
+            Where we supply contract or temporary staff, the worker is not your employee unless
+            your engagement letter says so, and the agreement sets out who is responsible for
+            supervision, timesheets, insurance and statutory contributions. Read it; the split
+            differs by arrangement.
+          </p>
+          <h3>Candidate details are confidential</h3>
+          <p>
+            Details we supply are for assessing that candidate for your vacancy. Do not forward
+            them to a third party, add them to a database, or retain them beyond the hiring
+            decision without the candidate's consent.
+          </p>
+        </div>
+      </div>
+
+      {# ---- D Training ---- #}
+      <div id="training" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">D — Training</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          If you are enrolling in a program.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            <a href="{{ '/services/it-training/' | url }}">IT Training</a> programs are sold under
+            an enrolment agreement that names the track, the schedule, the fee and the payment
+            plan. These terms apply alongside it.
+          </p>
+          <ul>
+            <li><strong>Your place</strong> is confirmed when the first payment clears. Fees are per learner and are not transferable to another person.</li>
+            <li><strong>Withdrawal.</strong> Withdraw in writing within <strong>7 days</strong> of the program start date and we refund what you have paid, less any materials already issued. After that, fees for the current term are non-refundable, though we will normally let you defer once to a later cohort.</li>
+            <li><strong>Attendance.</strong> Certification requires meeting the attendance and assessment thresholds set out in the enrolment agreement.</li>
+            <li><strong>Changes.</strong> We may change an instructor, reschedule a session, or run a cohort online. If we cancel a program outright, you receive a full refund of the unused portion.</li>
+            <li><strong>Course materials</strong> are licensed to you personally for your own study. Do not record sessions, redistribute materials, or share your access with anyone else.</li>
+            <li><strong>Conduct.</strong> We may remove a learner for harassment, cheating, or repeated disruption, without refund.</li>
+          </ul>
+          <h3>Training is not a placement</h3>
+          <p>
+            Graduates get direct access to our placement pipeline. That means your file goes to
+            our recruiters and you are considered for live roles ahead of the general pool. It is
+            not a job offer, and it is not a guarantee of one. Any statement to the contrary,
+            from anyone, is not authorised by us.
+          </p>
+        </div>
+      </div>
+
+      {# ---- E IP ---- #}
+      <div id="ip" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">E — Intellectual property</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Content and ownership.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            The text, design, curricula, process documentation and marks on this site belong to
+            {{ site.legalEntity }} or our licensors, and are protected by copyright and trade mark
+            law. You may quote a short extract with attribution and a link. You may not reproduce
+            a substantial part of the site, or use our name or marks to suggest an endorsement or
+            partnership that does not exist.
+          </p>
+          <p>
+            Photographs on this site are licensed stock unless captioned otherwise, and do not
+            depict our clients or candidates. Third-party names appear only to identify the
+            employer or technology in question.
+          </p>
+          <p>
+            Where we link to another site, we do not control it and we are not responsible for
+            what is on it.
+          </p>
+        </div>
+      </div>
+
+      {# ---- F Disclaimers ---- #}
+      <div id="disclaimer" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">F — Disclaimers</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          What we do not warrant.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            The site is provided as is. We keep it accurate and current, but we do not warrant
+            that every page is error-free, that the site is always available, or that content
+            written for a general audience fits your situation. Nothing here is legal, tax,
+            immigration or financial advice.
+          </p>
+          <p>
+            <strong>On candidates.</strong> We verify what we are engaged to verify, and we tell
+            you what was checked. Beyond that, the hiring decision and the assessment behind it
+            are yours. We do not warrant a candidate's suitability, performance, or that they
+            will stay.
+          </p>
+          <p>
+            <strong>On employers and roles.</strong> Roles we describe to candidates are described
+            as the employer described them to us. We do not control an employer's conduct, its
+            workplace, or whether the job survives contact with reality.
+          </p>
+          <p>
+            To the extent the law allows, we exclude all implied warranties. Some jurisdictions do
+            not allow that exclusion, in which case it applies to you only as far as it lawfully
+            can, and nothing here limits liability for death or personal injury caused by
+            negligence, for fraud, or for anything else that cannot lawfully be limited.
+          </p>
+        </div>
+      </div>
+
+      {# ---- G Liability and indemnity ---- #}
+      <div id="liability" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">G — Liability</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Limits on liability.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            Subject to the paragraph above, we are not liable for indirect or consequential loss,
+            nor for lost profits, lost business, lost opportunity, wasted management time, or
+            damage to reputation, however caused.
+          </p>
+          <p>
+            Our total liability arising out of a placement or a program is capped at the fees you
+            actually paid us for it in the 12 months before the claim arose. Where you have paid
+            us nothing — a candidate, or a site visitor — our total liability is capped at
+            <strong>USD 100</strong>.
+          </p>
+          <p>
+            You will indemnify us against claims, losses and reasonable legal costs arising from
+            your breach of these terms, from information you gave us that turns out to be false,
+            or, if you are an employer, from your treatment of a candidate we introduced.
+          </p>
+        </div>
+      </div>
+
+      {# ---- H Law and disputes ---- #}
+      <div id="law" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">H — Jurisdiction</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Governing law and disputes.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            These terms are governed by the laws of the State of Illinois, without regard to its
+            conflict-of-laws rules. The state and federal courts located in Cook County, Illinois
+            have exclusive jurisdiction, and both of us submit to them. If you are a consumer
+            resident elsewhere, this does not deprive you of the protection of mandatory laws in
+            your country.
+          </p>
+          <p>
+            Before filing anything, tell us. Write to
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a> setting out the problem and what
+            you want done about it, and we will try to resolve it within 30 days. Most disputes in
+            this business are a misunderstanding about who introduced whom, and a phone call
+            settles them faster than a court will.
+          </p>
+        </div>
+      </div>
+
+      {# ---- I General ---- #}
+      <div id="general" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">I — General</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          The rest.
+        </h2>
+        <div class="legal-prose mt-6">
+          <ul>
+            <li><strong>Changes.</strong> We may revise these terms. The effective date at the top shows the current version, and continuing to use the site after a change means you accept it. Changes do not apply retrospectively to a placement already made or a program already running.</li>
+            <li><strong>Termination.</strong> Either of us may end an engagement on written notice. Clauses that are meant to outlive it — fees owed, the restriction in §C, confidentiality, IP, liability — survive.</li>
+            <li><strong>Severability.</strong> If a clause is unenforceable, it is severed and the rest stands.</li>
+            <li><strong>No waiver.</strong> Not enforcing a term once does not waive it.</li>
+            <li><strong>Assignment.</strong> You may not assign these terms without our consent. We may assign them to a successor of the business.</li>
+            <li><strong>No third-party rights.</strong> Nobody outside this agreement can enforce it.</li>
+            <li><strong>Force majeure.</strong> Neither of us is liable for a delay caused by something genuinely outside our control.</li>
+            <li><strong>Entire agreement.</strong> These terms, your engagement letter or enrolment agreement, and the Privacy Policy are the whole of what is agreed, and replace anything said beforehand.</li>
+          </ul>
+        </div>
+
+        <div class="mt-6 folder-card p-6">
+          <p class="meta">Questions about these terms</p>
+          <dl class="mt-4 space-y-5">
+            <div class="flex items-start gap-3">
+              <span class="mt-0.5 shrink-0 text-brand">{{ icon("mail", "w-5 h-5") }}</span>
+              <div>
+                <dt class="meta">Email</dt>
+                <dd class="mt-1 text-sm"><a href="mailto:{{ site.email }}" class="text-ink/75 transition-colors hover:text-brand">{{ site.email }}</a></dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="mt-0.5 shrink-0 text-brand">{{ icon("map-pin", "w-5 h-5") }}</span>
+              <div>
+                <dt class="meta">Registered office</dt>
+                <dd class="mt-1 text-sm text-ink/75">{{ site.legalEntity }}<br>{{ site.address.line1 }}<br>{{ site.address.line2 }}</dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="mt-0.5 shrink-0 text-brand">{{ icon("phone", "w-5 h-5") }}</span>
+              <div>
+                <dt class="meta">Phone</dt>
+                <dd class="mt-1 text-sm"><a href="{{ site.phoneHref }}" class="text-ink/75 transition-colors hover:text-brand">{{ site.phone }}</a></dd>
+              </div>
+            </div>
+          </dl>
+          <p class="mt-6 border-t border-dashed border-border pt-5 body-copy">
+            Read this alongside our <a href="{{ '/privacy-policy/' | url }}" class="font-medium text-brand hover:underline">Privacy Policy</a>.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

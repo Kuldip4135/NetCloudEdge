@@ -1,0 +1,491 @@
+---
+layout: layouts/page.njk
+title: Privacy Policy
+description: What Net Cloud Edge collects when you send us a resume or a hiring brief, who we share it with, how long we keep it, and how to get it deleted.
+effective: August 12, 2026
+extraScripts:
+  - /assets/js/rail-active.js
+---
+{% from "partials/icons.njk" import icon %}
+
+{#
+  ⚠️ NOT LEGAL ADVICE. This is a drafted policy written against what the site actually
+  does — the contact form, the resume upload, the background verification service — not
+  a copied template. It must be reviewed by counsel before launch, and every bracketed
+  or site.json placeholder confirmed (CONTENT.md verification list, item 14).
+
+  Two rules held throughout: describe only processing that genuinely happens, and never
+  promise a right the business cannot deliver. If a practice changes, this page changes
+  with it — a policy that describes the wrong company is worse than no policy.
+
+  No cover-sheet exhibit and no CTA band. A visitor who lands here wants a clause, not
+  a photograph of an office and an invitation to book a call.
+#}
+
+{% set rail = [
+  { id: "scope",      label: "Who this covers",   n: "00" },
+  { id: "collect",    label: "What we collect",   n: "A"  },
+  { id: "use",        label: "How we use it",     n: "B"  },
+  { id: "share",      label: "Who receives it",   n: "C"  },
+  { id: "screening",  label: "Background checks", n: "D"  },
+  { id: "cookies",    label: "Cookies",           n: "E"  },
+  { id: "retention",  label: "How long we keep",  n: "F"  },
+  { id: "security",   label: "Security",          n: "G"  },
+  { id: "rights",     label: "Your rights",       n: "H"  },
+  { id: "contact",    label: "Contact us",        n: "I"  }
+] %}
+
+<section class="file-band">
+  <div class="section-container py-10 sm:py-14">
+    {% set crumbs = [{ label: "Home", url: "/" }, { label: "Privacy Policy" }] %}
+    {% include "partials/breadcrumb.njk" %}
+
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} On file</span>
+      <span class="font-mono text-xs uppercase tracking-widest text-ink/65">
+        Effective {{ effective }} · {{ site.legalEntity }}
+      </span>
+    </div>
+    <h1 class="mt-6 max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+      Privacy Policy.
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink/75">
+      We handle resumes for a living, so this page is specific: what we take, who we hand
+      it to, how long we hold it, and how to make us delete it.
+    </p>
+  </div>
+</section>
+
+<section class="section-container py-14 sm:py-20">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+
+    {% include "partials/section-rail.njk" %}
+
+    <div class="lg:col-span-9">
+
+      {# The summary sits above the clauses, not in place of them. Most visitors read
+         only this box; it therefore has to be true on its own, not a friendly gloss
+         that the clauses below quietly contradict. #}
+      <div class="file-inset">
+        <p class="meta">The short version</p>
+        <div class="legal-prose mt-3">
+          <p>
+            We collect what you send us — contact details, a resume, a hiring brief — and use
+            it to do the one job you asked for. We share a candidate's details with an employer
+            only after that candidate agrees to that specific introduction. We run background
+            checks only with written consent. We do not sell personal information, and we never
+            charge a job seeker to be placed. You can ask us to delete your file at any time and
+            we will, unless the law requires us to keep a record.
+          </p>
+        </div>
+      </div>
+
+      {# ---- 00 Scope ---- #}
+      <div id="scope" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">00 — Scope</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Who this covers.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            This policy explains how {{ site.legalEntity }} (&ldquo;{{ site.shortName }},&rdquo;
+            &ldquo;we,&rdquo; &ldquo;us&rdquo;) handles personal information. It applies to
+            <a href="{{ site.url }}">{{ site.url }}</a>, to our recruitment, staffing, talent
+            acquisition, background verification and IT training services, and to email, phone
+            and in-person contact with us about any of them.
+          </p>
+          <p>It covers four groups of people:</p>
+          <ul>
+            <li><strong>Candidates</strong> — anyone who sends us a resume, applies through us, or is put forward to an employer by us.</li>
+            <li><strong>Client contacts</strong> — the people at employers who brief us, interview our candidates, and sign our agreements.</li>
+            <li><strong>Training applicants and learners</strong> — anyone who enquires about or enrols in one of our programs.</li>
+            <li><strong>Site visitors</strong> — anyone who reads these pages without contacting us.</li>
+          </ul>
+          <p>
+            Where we recruit for an employer, that employer decides what it does with the
+            candidate information we pass on. From that point the employer is responsible for
+            its own handling of it, under its own privacy policy — not this one.
+          </p>
+        </div>
+      </div>
+
+      {# ---- A What we collect. A table, because the honest answer differs by who you
+             are, and a paragraph that tries to cover all four groups at once ends up
+             covering none of them. ---- #}
+      <div id="collect" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">A — Collection</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          What we collect.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            Almost all of it comes directly from you. We do not buy candidate lists.
+          </p>
+        </div>
+
+        <div class="mt-6 overflow-x-auto">
+          <table class="ledger">
+            <thead>
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">What that means</th>
+                <th scope="col">Where it comes from</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" data-rowhead>Contact details</th>
+                <td>Name, email address, phone number, city.</td>
+                <td>You, via the contact form, email or a call.</td>
+              </tr>
+              <tr>
+                <th scope="row" data-rowhead>Career history</th>
+                <td>Your resume and anything in it — employment history, education, certifications, skills, references.</td>
+                <td>You, or a referrer you asked to send it.</td>
+              </tr>
+              <tr>
+                <th scope="row" data-rowhead>Placement record</th>
+                <td>Roles you were put forward for, interview outcomes, notes from our conversations, availability, and the terms you told us you would accept.</td>
+                <td>Generated by us as we work your file.</td>
+              </tr>
+              <tr>
+                <th scope="row" data-rowhead>Verification data</th>
+                <td>Identity, employment and education checks, and — where a role requires it and you have consented in writing — criminal record and credit checks.</td>
+                <td>Screening vendors, former employers, institutions.</td>
+              </tr>
+              <tr>
+                <th scope="row" data-rowhead>Client details</th>
+                <td>Company name, the role being hired for, business contact details, and the commercial terms of our engagement.</td>
+                <td>The employer.</td>
+              </tr>
+              <tr>
+                <th scope="row" data-rowhead>Training records</th>
+                <td>Track enrolled in, attendance, assessment results, and payment status.</td>
+                <td>You, and our instructors.</td>
+              </tr>
+              <tr>
+                <th scope="row" data-rowhead>Technical data</th>
+                <td>IP address, browser and device type, pages viewed, and the site you arrived from.</td>
+                <td>Collected automatically — see <a href="#cookies">Cookies</a>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="legal-prose mt-6">
+          <h3>Sensitive information</h3>
+          <p>
+            Some of what a resume contains is sensitive — date of birth, national identifiers,
+            work authorisation status, and in some jurisdictions criminal history. We ask for
+            these only where a role or the law genuinely requires them, we ask separately rather
+            than burying the request in a form, and we do not use them for anything but the
+            purpose we asked for. Please do not send us health information, and do not include
+            it on a resume you upload here.
+          </p>
+          <h3>Children</h3>
+          <p>
+            Our services are for working-age adults. We do not knowingly collect information
+            from anyone under 16. If you believe a child has sent us information, write to
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a> and we will delete it.
+          </p>
+        </div>
+      </div>
+
+      {# ---- B How we use it ---- #}
+      <div id="use" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">B — Purpose</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          How we use it.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>We use personal information to:</p>
+          <ul>
+            <li>Reply to your enquiry and work out whether we can help.</li>
+            <li>Match candidates to open roles and put a shortlist to an employer.</li>
+            <li>Prepare a candidate for interview and pass on feedback afterwards.</li>
+            <li>Run background verification where a role requires it and consent has been given.</li>
+            <li>Deliver, assess and administer training programs, including payment.</li>
+            <li>Keep a record of who we introduced to whom, which is how placement fees are established and disputed.</li>
+            <li>Meet legal obligations — tax, employment, anti-discrimination and record-keeping law.</li>
+            <li>Understand which parts of this site are used, in aggregate, so we can improve it.</li>
+          </ul>
+          <h3>What we do not do</h3>
+          <ul>
+            <li>We do not sell personal information, and we do not share it for cross-context behavioural advertising.</li>
+            <li>We do not send a resume to an employer without the candidate's agreement to that specific introduction.</li>
+            <li>We do not make hiring decisions by automated means. Software helps us search and sort; a person decides who is put forward.</li>
+            <li>We do not charge job seekers. Our fee is paid by the employer.</li>
+          </ul>
+          <h3>Marketing</h3>
+          <p>
+            We may email you about roles, programs or hiring updates relevant to what you came
+            to us for. Every such email carries an unsubscribe link, and unsubscribing does not
+            affect the service you are already receiving from us.
+          </p>
+          <h3>Legal bases</h3>
+          <p>
+            Where the UK or EU GDPR applies to you, we rely on: <strong>contract</strong>, to
+            provide a service you asked for; <strong>legitimate interests</strong>, to operate a
+            recruitment business, keep our records, and secure this site; <strong>consent</strong>,
+            for background checks, marketing email and non-essential cookies, which you may
+            withdraw at any time; and <strong>legal obligation</strong>, where a law requires us
+            to collect or keep something.
+          </p>
+        </div>
+      </div>
+
+      {# ---- C Sharing ---- #}
+      <div id="share" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">C — Disclosure</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Who receives it.
+        </h2>
+        <div class="legal-prose mt-6">
+          <ul>
+            <li><strong>Employers and their hiring teams</strong>, when a candidate has agreed to be put forward for that specific role. We tell you which employer before we send anything.</li>
+            <li><strong>Screening vendors</strong>, to run the checks described below.</li>
+            <li><strong>Service providers</strong> who run parts of our operation under contract — email, applicant tracking, cloud hosting, accounting, payment processing. They may use the information only to perform that service for us.</li>
+            <li><strong>Professional advisers</strong> — lawyers, auditors, insurers — where we need advice or have to prove something.</li>
+            <li><strong>Authorities</strong>, where the law compels disclosure or we need to establish, exercise or defend a legal claim.</li>
+            <li><strong>A buyer</strong>, if the business or part of it is sold or merged. The information stays subject to this policy until you are told otherwise.</li>
+          </ul>
+          <h3>International transfers</h3>
+          <p>
+            We are based in {{ site.address.line2 }}, and some of our providers operate outside
+            your country. Where we move personal information across a border we use a lawful
+            transfer mechanism — standard contractual clauses or an adequacy decision — and
+            require the recipient to protect it to the standard set out here.
+          </p>
+        </div>
+      </div>
+
+      {# ---- D Background verification. This is a service we sell, so it gets its own
+             clause rather than a line in the sharing list. The FCRA language is
+             US-specific and is exactly what counsel must check first. ---- #}
+      <div id="screening" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">D — Verification</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Background checks.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            <a href="{{ '/services/background-verification/' | url }}">Background verification</a>
+            is one of our services, and it is the most intrusive thing we do with your
+            information. It runs on rules:
+          </p>
+          <ul>
+            <li>Nothing is checked without your <strong>written consent</strong>, given separately from any job application, and describing what will be checked.</li>
+            <li>You are told which vendor will perform the check before it begins.</li>
+            <li>You may withdraw consent at any point before the check completes. We will stop; the employer may then decide it cannot proceed with the role.</li>
+            <li>You get a copy of the report on request, and a reasonable opportunity to dispute anything in it before it counts against you.</li>
+            <li>Where a check is a &ldquo;consumer report&rdquo; under the US Fair Credit Reporting Act, you also receive the disclosures and the summary of rights that Act requires, and the adverse-action process it sets out is followed before a decision is finalised.</li>
+          </ul>
+          <p>
+            We check only what the role justifies. A credit check on a role with no financial
+            responsibility is not something we will run, whoever asks for it.
+          </p>
+        </div>
+      </div>
+
+      {# ---- E Cookies. Written against what the site actually loads today: no
+             analytics, no ad pixels, one CDN font request. If a tag is ever added,
+             this clause and the retention table change in the same commit. ---- #}
+      <div id="cookies" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">E — Cookies</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Cookies and tracking.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            This site is deliberately light. We set no advertising cookies and we do not track
+            you across other websites. What runs is:
+          </p>
+          <ul>
+            <li><strong>Strictly necessary</strong> storage, to keep the site working and secure. It cannot be switched off, and it identifies nobody.</li>
+            <li><strong>Aggregate analytics</strong>, if enabled, to count page views and referrers. We configure it to anonymise IP addresses and we do not use it to build a profile of you.</li>
+            <li><strong>Fonts</strong>, requested from Google Fonts. Loading a font tells Google your IP address; nothing else is sent, and no cookie is set by it.</li>
+            <li><strong>Server logs</strong>, kept by our host for security and troubleshooting.</li>
+          </ul>
+          <p>
+            Your browser can block or delete cookies, and most honour a Global Privacy Control
+            signal, which we treat as a valid opt-out of any sale or sharing — though as above,
+            we do neither.
+          </p>
+        </div>
+      </div>
+
+      {# ---- F Retention ---- #}
+      <div id="retention" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">F — Retention</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          How long we keep it.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            We keep a file for as long as it is useful to the purpose it was collected for, then
+            we delete it. In practice:
+          </p>
+        </div>
+
+        <div class="mt-6 overflow-x-auto">
+          <table class="ledger">
+            <thead>
+              <tr>
+                <th scope="col">Record</th>
+                <th scope="col">Kept for</th>
+                <th scope="col">Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Enquiry with no engagement</th>
+                <td>12 months</td>
+                <td>So we recognise you if you come back.</td>
+              </tr>
+              <tr>
+                <th scope="row">Active candidate file</th>
+                <td>24 months from last contact</td>
+                <td>To put you forward for later roles.</td>
+              </tr>
+              <tr>
+                <th scope="row">Placement record</th>
+                <td>7 years from placement</td>
+                <td>Fee entitlement, tax and employment law.</td>
+              </tr>
+              <tr>
+                <th scope="row">Verification report</th>
+                <td>As required by the check's governing law</td>
+                <td>Statutory minimum, then destroyed.</td>
+              </tr>
+              <tr>
+                <th scope="row">Training and payment records</th>
+                <td>7 years</td>
+                <td>Accounting and certification.</td>
+              </tr>
+              <tr>
+                <th scope="row">Server logs</th>
+                <td>90 days</td>
+                <td>Security and troubleshooting.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="legal-prose mt-6">
+          <p>
+            Ask us to delete your file earlier and we will, except for the minimum we are
+            legally required to retain — typically a placement record. We will tell you what is
+            being kept and why.
+          </p>
+        </div>
+      </div>
+
+      {# ---- G Security ---- #}
+      <div id="security" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">G — Security</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          How we protect it.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            Access to candidate files is limited to the people working your case. Data is
+            encrypted in transit, our providers are contracted to security terms, and accounts
+            carry multi-factor authentication. Staff are trained on handling resumes and
+            verification reports specifically.
+          </p>
+          <p>
+            No system is perfectly secure, and we will not claim otherwise. If a breach affects
+            your information and puts you at risk, we will notify you and the relevant regulator
+            within the timeframe the law sets.
+          </p>
+        </div>
+      </div>
+
+      {# ---- H Rights. Deliberately written as one list rather than split by
+             jurisdiction: a candidate should not have to work out which statute
+             applies to them before they can ask for their file back. ---- #}
+      <div id="rights" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">H — Rights</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Your rights.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            Depending on where you live, you have some or all of the rights below. We extend all
+            of them to every candidate as a matter of practice, rather than asking you to prove
+            which law covers you.
+          </p>
+          <ul>
+            <li><strong>Know and access</strong> — what we hold about you, and a copy of it.</li>
+            <li><strong>Correct</strong> — fix anything inaccurate, which matters most for a resume already in circulation.</li>
+            <li><strong>Delete</strong> — have your file erased, subject to the retention table above.</li>
+            <li><strong>Withdraw consent</strong> — for background checks or marketing, at any time.</li>
+            <li><strong>Object or restrict</strong> — tell us to stop a particular use while a question is resolved.</li>
+            <li><strong>Portability</strong> — receive what you gave us in a machine-readable file.</li>
+            <li><strong>Opt out of sale or sharing</strong> — already the default; we do neither.</li>
+            <li><strong>Non-retaliation</strong> — exercising any of these will not affect how we represent you.</li>
+          </ul>
+          <p>
+            To use any of them, email <a href="mailto:{{ site.email }}">{{ site.email }}</a> with
+            enough detail for us to find your file. We respond within 45 days, and will tell you
+            if we need longer. We may ask you to verify your identity first — we are not handing
+            a resume to whoever asks for it. An authorised agent may act for you with written
+            permission.
+          </p>
+          <p>
+            If you are unhappy with our answer, you may complain to your data protection
+            authority: in the EU or UK, your national regulator; in California, the California
+            Privacy Protection Agency or the Attorney General.
+          </p>
+        </div>
+      </div>
+
+      {# ---- I Contact and changes ---- #}
+      <div id="contact" class="mt-14 scroll-mt-28">
+        <p class="eyebrow">I — Contact</p>
+        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          Changes, and how to reach us.
+        </h2>
+        <div class="legal-prose mt-6">
+          <p>
+            We update this policy when our practices change. The effective date at the top of the
+            page always reflects the current version, and if a change materially affects how we
+            handle candidate information we will say so directly to the people concerned rather
+            than relying on you to re-read this page.
+          </p>
+        </div>
+
+        <div class="mt-6 folder-card p-6">
+          <p class="meta">Privacy enquiries</p>
+          <dl class="mt-4 space-y-5">
+            <div class="flex items-start gap-3">
+              <span class="mt-0.5 shrink-0 text-brand">{{ icon("mail", "w-5 h-5") }}</span>
+              <div>
+                <dt class="meta">Email</dt>
+                <dd class="mt-1 text-sm"><a href="mailto:{{ site.email }}" class="text-ink/75 transition-colors hover:text-brand">{{ site.email }}</a></dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="mt-0.5 shrink-0 text-brand">{{ icon("map-pin", "w-5 h-5") }}</span>
+              <div>
+                <dt class="meta">Post</dt>
+                <dd class="mt-1 text-sm text-ink/75">{{ site.legalEntity }}<br>{{ site.address.line1 }}<br>{{ site.address.line2 }}</dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="mt-0.5 shrink-0 text-brand">{{ icon("phone", "w-5 h-5") }}</span>
+              <div>
+                <dt class="meta">Phone</dt>
+                <dd class="mt-1 text-sm"><a href="{{ site.phoneHref }}" class="text-ink/75 transition-colors hover:text-brand">{{ site.phone }}</a></dd>
+              </div>
+            </div>
+          </dl>
+          <p class="mt-6 border-t border-dashed border-border pt-5 body-copy">
+            Read this alongside our <a href="{{ '/terms-conditions/' | url }}" class="font-medium text-brand hover:underline">Terms &amp; Conditions</a>.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

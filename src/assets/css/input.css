@@ -274,6 +274,41 @@
     @apply font-display text-xl font-semibold leading-snug tracking-tight text-ink sm:text-2xl;
   }
 
+  /* A legal clause — prose end to end, which no other page on the site is. Privacy
+     Policy and Terms run to forty-odd paragraphs and lists with no cards between them,
+     and tagging each element inline would bury the sentences under class attributes.
+     So these two pages get one scoped prose block instead. It sets only what plain
+     tags need; anything richer than a paragraph or a list still uses the real
+     components (.ledger, .file-inset) around it. */
+  .legal-prose > * + * {
+    @apply mt-4;
+  }
+  .legal-prose p,
+  .legal-prose li {
+    @apply body-copy;
+  }
+  .legal-prose h3 {
+    @apply mt-7 font-display text-lg font-semibold leading-snug tracking-tight text-ink;
+  }
+  .legal-prose ul {
+    @apply space-y-2.5;
+  }
+  /* A dash rather than a bullet — the rest of the site marks list items with the same
+     hairline rule the docket rows use. */
+  .legal-prose li {
+    @apply relative pl-5;
+  }
+  .legal-prose li::before {
+    content: "";
+    @apply absolute left-0 top-[0.7em] h-px w-2.5 bg-brand;
+  }
+  .legal-prose a {
+    @apply font-medium text-brand hover:underline;
+  }
+  .legal-prose strong {
+    @apply font-semibold text-ink;
+  }
+
   /* ---- Mobile menu ----
 
      The trigger is three bars that rotate into an X rather than two icons swapped out,
