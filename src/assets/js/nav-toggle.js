@@ -3,16 +3,23 @@
   var menu = document.querySelector("[data-mobile-menu]");
   if (!toggle || !menu) return;
 
+  var label = toggle.querySelector("[data-mobile-menu-label]");
+
+  /* Open/closed is carried by aria-expanded on the button and .is-open on the panel;
+     the CSS animates off both. Nothing here touches `hidden` — display:none would kill
+     the transition. */
   function closeMenu() {
-    menu.classList.add("hidden");
+    menu.classList.remove("is-open");
     toggle.setAttribute("aria-expanded", "false");
     document.body.classList.remove("overflow-hidden");
+    if (label) label.textContent = "Open menu";
   }
 
   function openMenu() {
-    menu.classList.remove("hidden");
+    menu.classList.add("is-open");
     toggle.setAttribute("aria-expanded", "true");
     document.body.classList.add("overflow-hidden");
+    if (label) label.textContent = "Close menu";
   }
 
   toggle.addEventListener("click", function () {

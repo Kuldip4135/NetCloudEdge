@@ -273,4 +273,89 @@
   .assertion {
     @apply font-display text-xl font-semibold leading-snug tracking-tight text-ink sm:text-2xl;
   }
+
+  /* ---- Mobile menu ----
+
+     The trigger is three bars that rotate into an X rather than two icons swapped out,
+     so the control stays the same object across the state change. Everything reads off
+     aria-expanded — the button's accessible state is the only source of truth, and the
+     JS never has to keep a second class in sync with it. */
+  .nav-burger {
+    @apply relative -mr-2 h-10 w-10 shrink-0 text-ink;
+  }
+  .nav-burger-bar {
+    @apply absolute left-1/2 top-1/2 block h-px w-5 bg-current;
+    transition:
+      transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 120ms linear;
+  }
+  .nav-burger-bar:nth-child(1) {
+    transform: translate(-50%, calc(-50% - 6px));
+  }
+  .nav-burger-bar:nth-child(2) {
+    transform: translate(-50%, -50%);
+  }
+  .nav-burger-bar:nth-child(3) {
+    transform: translate(-50%, calc(-50% + 6px));
+  }
+  .nav-burger[aria-expanded="true"] .nav-burger-bar:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .nav-burger[aria-expanded="true"] .nav-burger-bar:nth-child(2) {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleX(0.3);
+  }
+  .nav-burger[aria-expanded="true"] .nav-burger-bar:nth-child(3) {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  /* The panel drops a few pixels into place under the header instead of appearing
+     whole. `visibility` (not `display`) is what closes it, so both directions can be
+     transitioned and the rows keep their stagger on the way in. */
+  .mobile-menu {
+    @apply invisible fixed inset-0 top-16 z-40 overflow-y-auto bg-paper opacity-0 lg:hidden;
+    transform: translateY(-8px);
+    /* `visibility` is stepped, not interpolated, so it has to be held until the fade
+       finishes — otherwise closing hides the panel on frame one and the exit animation
+       is never seen. Delayed on the way out, immediate on the way in. */
+    transition:
+      opacity 200ms ease,
+      transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 250ms;
+  }
+  .mobile-menu.is-open {
+    @apply visible opacity-100;
+    transform: translateY(0);
+    transition:
+      opacity 200ms ease,
+      transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0s;
+  }
+  .mobile-menu nav > * {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 220ms ease,
+      transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mobile-menu.is-open nav > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .mobile-menu.is-open nav > *:nth-child(1) { transition-delay: 60ms; }
+  .mobile-menu.is-open nav > *:nth-child(2) { transition-delay: 90ms; }
+  .mobile-menu.is-open nav > *:nth-child(3) { transition-delay: 120ms; }
+  .mobile-menu.is-open nav > *:nth-child(4) { transition-delay: 150ms; }
+  .mobile-menu.is-open nav > *:nth-child(5) { transition-delay: 180ms; }
+  .mobile-menu.is-open nav > *:nth-child(6) { transition-delay: 210ms; }
+  .mobile-menu.is-open nav > *:nth-child(n + 7) { transition-delay: 240ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-burger-bar,
+  .mobile-menu,
+  .mobile-menu nav > * {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
 }
