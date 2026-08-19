@@ -1,25 +1,27 @@
 {#
-  Numbered procedure — a real ordered sequence, so numbering it is appropriate.
-  Rendered as docket rows rather than a card grid: one ledger line per step, ink numerals
-  in a squared chip. Stacks to label-over-description on mobile.
+  Numbered trace sequence: circular mono badges connected by a hairline through their
+  centers, inside a glass panel.
 
   Params: steps [{label, description, duration?}], sectionTitle, sectionEyebrow, sectionId.
 #}
 <div id="{{ sectionId or 'procedure' }}" class="scroll-mt-28">
   <p class="eyebrow">{{ sectionEyebrow or "The process" }}</p>
-  <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-    {{ sectionTitle or "How a file moves." }}
+  <h2 class="mt-2 max-w-xl font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+    {{ sectionTitle or "How a request moves." }}
   </h2>
-  <ol class="mt-6">
-    {% for step in steps %}
-    <li class="docket-row">
-      <span class="col-span-2 flex h-8 w-8 items-center justify-center rounded-sm bg-ink font-mono text-xs font-semibold text-paper sm:col-span-1" aria-hidden="true">{{ loop.index }}</span>
-      <p class="col-span-10 font-display font-semibold tracking-tight text-ink sm:col-span-3">
-        {{ step.label }}
-        {% if step.duration %}<span class="mt-1 block meta font-normal">{{ step.duration }}</span>{% endif %}
-      </p>
-      <p class="col-span-12 body-copy sm:col-span-8">{{ step.description }}</p>
-    </li>
-    {% endfor %}
-  </ol>
+  <div class="glass-panel mt-6 p-6 sm:p-8">
+    <ol class="relative grid grid-cols-1 gap-8 sm:grid-cols-4 sm:gap-6">
+      <div class="pointer-events-none absolute left-0 right-0 top-[1.125rem] hidden h-px bg-ink/10 sm:block" aria-hidden="true"></div>
+      {% for step in steps %}
+      <li class="relative flex flex-col items-start gap-3 sm:items-center sm:text-center">
+        <span class="trace-badge relative z-10" aria-hidden="true">{{ loop.index }}</span>
+        <div class="sm:px-1">
+          <p class="font-grotesk font-semibold tracking-tight text-ink">{{ step.label }}</p>
+          {% if step.duration %}<p class="mt-0.5 meta font-normal">{{ step.duration }}</p>{% endif %}
+          <p class="mt-1.5 text-sm leading-relaxed text-ink/60">{{ step.description }}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
 </div>

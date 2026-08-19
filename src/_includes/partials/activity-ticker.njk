@@ -1,0 +1,24 @@
+{#
+  Live activity ticker — the very first thing on the page, before the hero even
+  finishes loading: proof the system is already running, not a banner promising it
+  is. A thin full-bleed strip, sourced from _data/placements.json, using the same
+  marquee mechanics as the employer wall (see .marquee-track in input.css) — pauses
+  on hover/focus, drops to a static single pass under reduced motion.
+#}
+{% set activity = [] %}
+{% for p in placements.list %}
+  {% set _ = activity.push(p.detail + " — " + p.role + ", " + p.company) %}
+{% endfor %}
+<div class="marquee-wrap border-b border-ink/10 bg-surface/60">
+  <div class="marquee-track animate-marquee-fast py-2.5">
+    {% for pass in ["visible", "duplicate"] %}
+    <div class="flex shrink-0 items-center {% if pass == "duplicate" %}motion-reduce:hidden{% endif %}" {% if pass == "duplicate" %}aria-hidden="true"{% endif %}>
+      {% for line in activity %}
+      <span class="mx-5 inline-flex items-center gap-2 whitespace-nowrap font-mono text-[11px] uppercase tracking-widest text-ink/65">
+        <span class="status-dot"></span>{{ line }}
+      </span>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</div>

@@ -1,17 +1,19 @@
 {#
-  Employer wall, fed from _data/companies.json — a rigid bordered matrix, the way an
-  index of referenced parties would be printed. Wordmarks, not logo files: see the note
-  in that data file. DO NOT ship without written permission and a genuine placement at
-  each company (CONTENT.md verification list, item 4).
+  Employer wall, fed from _data/companies.json — a full-bleed interlude breaking out of
+  the bento grid rhythm. Wordmarks drift past in a continuous marquee rather than
+  sitting in a static grid — the wall should feel like a running tape, not a poster.
+  Content is printed twice for a seamless loop; the second copy is aria-hidden and
+  dropped under reduced motion (see .marquee-track in input.css). Pauses on
+  hover/focus so a moving wall never sits under someone's pointer or keyboard focus.
 
   Params: placedAtTitle, placedAtLead (optional copy overrides).
 #}
-<section class="file-band py-14 sm:py-20">
+<section class="py-10 sm:py-14">
   <div class="section-container">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <p class="eyebrow">{{ placedAtTitle or "Candidates placed in" }}</p>
-        <h2 class="mt-2 font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+        <h2 class="mt-2 font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           {{ placedAtLead or "Our people work here now." }}
         </h2>
       </div>
@@ -20,14 +22,32 @@
       </p>
     </div>
 
-    <ul class="mt-8 grid grid-cols-2 border-l border-t border-border sm:grid-cols-3 lg:grid-cols-4">
-      {% for company in companies.list %}
-      <li class="group flex items-center justify-center border-b border-r border-border px-4 py-7 transition-colors hover:bg-paper">
-        <span class="text-center font-display text-xl font-semibold tracking-tight text-ink/65 transition-colors group-hover:text-ink sm:text-2xl">
-          {{ company.name }}
-        </span>
-      </li>
-      {% endfor %}
-    </ul>
+    <div class="glass-panel marquee-wrap mt-8">
+      <div class="marquee-track animate-marquee">
+        {% for pass in ["visible", "duplicate"] %}
+        <ul class="flex shrink-0 items-stretch {% if pass == "duplicate" %}motion-reduce:hidden{% endif %}" {% if pass == "duplicate" %}aria-hidden="true"{% endif %}>
+          {% for company in companies.list %}
+          <li class="group flex w-[170px] shrink-0 items-center justify-center border-r border-ink/10 px-6 py-8 transition-colors hover:bg-surface/50 sm:w-[210px]">
+            {% if company.domain %}
+            <img
+              src="https://logo.clearbit.com/{{ company.domain }}?size=160"
+              alt="{{ company.name }}"
+              width="120" height="40" loading="lazy"
+              data-logo-fallback
+              data-name="{{ company.name }}"
+              data-fallback-class="text-center font-grotesk text-xl font-semibold tracking-tight text-ink/50 transition-colors group-hover:text-brand sm:text-2xl"
+              class="h-7 w-auto max-w-[130px] object-contain grayscale transition-all duration-200 group-hover:grayscale-0 sm:h-8"
+            >
+            {% else %}
+            <span class="text-center font-grotesk text-xl font-semibold tracking-tight text-ink/50 transition-colors group-hover:text-brand sm:text-2xl">
+              {{ company.name }}
+            </span>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </section>

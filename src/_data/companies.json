@@ -1,21 +1,21 @@
 {
-  "note": "Employers where our candidates have been placed. Displayed as wordmarks, not logo files — swap in official SVG logos only with each company's brand-usage permission.",
+  "note": "Employers where our candidates have been placed. Logos are pulled live from Clearbit's public logo API by domain, not stored in the repo. Displayed only with genuine, permission-cleared placements at each — confirm before launch (CONTENT.md Part 4, #10). If a domain is wrong or a company hasn't cleared use, remove the entry or drop the domain field to fall back to the plain wordmark.",
   "list": [
-    { "name": "Google" },
-    { "name": "Amazon" },
-    { "name": "Samsung" },
-    { "name": "Microsoft" },
-    { "name": "Meta" },
-    { "name": "Nvidia" },
-    { "name": "Accenture" },
-    { "name": "Deloitte" },
-    { "name": "JPMorgan Chase" },
-    { "name": "Capital One" },
-    { "name": "PayPal" },
-    { "name": "Intel" },
-    { "name": "Salesforce" },
-    { "name": "Cisco" },
-    { "name": "IBM" },
-    { "name": "Qualcomm" }
+    { "name": "Google", "domain": "google.com" },
+    { "name": "Amazon", "domain": "amazon.com" },
+    { "name": "Samsung", "domain": "samsung.com" },
+    { "name": "Microsoft", "domain": "microsoft.com" },
+    { "name": "Meta", "domain": "meta.com" },
+    { "name": "Nvidia", "domain": "nvidia.com" },
+    { "name": "Accenture", "domain": "accenture.com" },
+    { "name": "Deloitte", "domain": "deloitte.com" },
+    { "name": "JPMorgan Chase", "domain": "jpmorganchase.com" },
+    { "name": "Capital One", "domain": "capitalone.com" },
+    { "name": "PayPal", "domain": "paypal.com" },
+    { "name": "Intel", "domain": "intel.com" },
+    { "name": "Salesforce", "domain": "salesforce.com" },
+    { "name": "Cisco", "domain": "cisco.com" },
+    { "name": "IBM", "domain": "ibm.com" },
+    { "name": "Qualcomm", "domain": "qualcomm.com" }
   ]
 }

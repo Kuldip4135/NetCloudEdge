@@ -1,17 +1,18 @@
 {#
-  Stat band, fed from _data/stats.json so Home and About can never disagree.
-  Figures are set in the mono face — placement results are bookkeeping, not marketing.
+  Stat band, fed from _data/stats.json so Home and About can never disagree. Per
+  PRD.md: four counters, 2x2 on mobile, one row on desktop. Figures are set in the
+  mono face inside glass tiles — a running total on the console, not a badge.
   Requires /assets/js/count-up.js in the page's extraScripts.
 
   Params: statsTitle, statsEyebrow, statsNote (all optional).
 #}
-<section class="file-band py-14 sm:py-20">
+<section class="py-14 sm:py-20">
   <div class="section-container">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="eyebrow">{{ statsEyebrow or "Running totals" }}</p>
-        <h2 class="mt-2 font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-          {{ statsTitle or "What the ledger says" }}
+        <p class="eyebrow">{{ statsEyebrow or "Live totals" }}</p>
+        <h2 class="mt-2 font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+          {{ statsTitle or "What's running right now." }}
         </h2>
       </div>
       <p class="max-w-xs meta leading-relaxed">
@@ -19,15 +20,14 @@
       </p>
     </div>
 
-    <dl class="mt-8 grid grid-cols-2 gap-px border border-border bg-border md:grid-cols-4">
+    <div class="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
       {% for stat in stats.list %}
-      {# flex-col-reverse: the figure reads first, but dt still precedes dd in the DOM. #}
-      <div class="flex flex-col-reverse bg-paper px-5 py-7">
-        <dt class="mt-2 meta">{{ stat.label }}</dt>
-        <dd class="font-mono text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
+      <div class="glass-panel card-lift px-5 py-7">
+        <dd class="stat-figure text-3xl sm:text-4xl"
             data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
+        <dt class="stat-label">{{ stat.label }}</dt>
       </div>
       {% endfor %}
-    </dl>
+    </div>
   </div>
 </section>

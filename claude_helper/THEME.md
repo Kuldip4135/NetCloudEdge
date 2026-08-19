@@ -1,387 +1,245 @@
-# Theme — **Dossier**
+# Theme: "The Console" — Default Site Theme
 
-Source of truth for **how the site looks and is built**. Stack: Eleventy 2 + Nunjucks +
-Tailwind 3, colours resolved through CSS variables in `src/assets/css/input.css` and consumed
-as normal Tailwind classes (`bg-brand`, `text-ink/65`, …) via `tailwind.config.js`.
+> Purpose of this document: describe the default (no `data-theme` attribute) design
+> language of this site precisely enough that an AI reading only this file — with no
+> access to the rest of the repo — could design and build an entire matching website
+> from scratch (new pages, new components, new copy) in the same visual language.
+> This is the theme used for Home / About / Services / Contact. It is NOT one of the
+> four alternate `[data-theme]` skins (`editorial`, `bold`, `dossier`, `signal`) —
+> it is the baseline the whole site is built on.
 
-Companions: [PRD.md](PRD.md) (what pages exist) · [CONTENT.md](CONTENT.md) (the words) ·
-[coding_guidelines.md](coding_guidelines.md) (project conventions) · [ROADMAP.md](ROADMAP.md) (open work).
+## 1. Concept, in one sentence
 
-Dossier is the only theme on the site. The palette sits in `:root`, the component overrides are
-ungated, and no page carries `theme:` front matter.
+The homepage — and the site generally — is styled as **a live operations dashboard**:
+a bento grid of frosted-glass tiles floating over soft colored light, as if you're
+looking at a control console that is quietly monitoring a real-time recruiting
+pipeline (candidates, employers, placements), not a static marketing brochure.
 
----
+Governing metaphor: **glass panels over light**. Every content block is a translucent,
+blurred "pane" (glassmorphism) sitting above soft glowing color blobs ("orbs"). Status
+indicators (pulsing dots, monospace chips) reinforce the "live system" feeling
+throughout — on the hero, on stat counters, on the "manifest" of recent placements.
 
-## 1. The idea (read this before writing markup)
+Domain/industry it's built for: recruiting & staffing (candidates, employers, job
+placements) — but the visual system itself is industry-agnostic and would work for
+any "operational" or data-forward B2B/B2C product (fintech dashboards, logistics,
+SaaS ops tools, monitoring products).
 
-**A case file, not a brochure.** Every page is a document that was opened, stamped, and filed.
-The visual language comes from the materials the motif is actually made of — archival slate
-stock, blue-black registrar's ink, aniline violet (the colour real stamp pads put on paper),
-and vermilion reserved strictly for stamps and file numbers.
+## 2. Color system
 
-| Do | Don't |
-|---|---|
-| Flat surfaces, hairline borders, `rounded-sm` | Blur, glow, glass, drop shadows, big radii |
-| Folders with a coloured tab (`.folder-card`) | Floating cards that lift on hover |
-| Dashed rules between rows (`.docket-row`) | Boxed grids of equal cards for everything |
-| Mono for labels, file numbers, metadata | Mono for body copy |
-| Vermilion (`accent`) only on stamps + file numbers | Vermilion as a general highlight or CTA colour |
-| Cool slate stock | Warm manila/cream — it reads nostalgic, not verified |
-| Asymmetric page shells (rail + document column) | hero → grid → grid → grid → CTA on every page |
+Colors are defined as CSS custom properties holding `R G B` triplets (space-separated,
+no commas), consumed via `rgb(var(--token) / <alpha>)` so every color supports
+opacity modifiers everywhere it's used.
 
-The one structural signature: **a sticky left rail beside a narrower document column**, with
-one or two full-bleed interludes breaking out of it. Reuse that shell on long pages
-(About, Services index, Service detail). Short pages (Contact) can drop the rail.
-
----
-
-## 2. Tokens
-
-| Token | Tailwind | RGB | Use |
-|---|---|---|---|
-| `--color-ink` | `ink` | `27 31 46` | Body text, headings, dark CTA band, step numerals |
-| `--color-paper` | `paper` | `238 239 244` | Page stock, folder faces, text on ink |
-| `--color-brand` | `brand` | `74 63 143` | Folder tabs, primary buttons, links, icon chips |
-| `--color-brand-dark` | `brand-dark` | `55 46 110` | Primary button hover only |
-| `--color-accent` | `accent` | `184 48 31` | **Stamps and file numbers only** |
-| `--color-accent-deep` | `accent-deep` | `138 34 21` | Accent text on `surface` where `accent` gets tight |
-| `--color-surface` | `surface` | `226 228 236` | Section bands, icon chips, inset strips |
-| `--color-border` | `border` | `199 202 216` | Every hairline and dashed rule |
-
-**Opacity ramp for ink** (contrast measured against `paper`):
-
-| Class | Ratio | Allowed for |
-|---|---|---|
-| `text-ink` | 14.2 : 1 | Headings, emphasis |
-| `text-ink/75` | ~6.5 : 1 | Long-form body, quotes |
-| `text-ink/65` | 4.89 : 1 | **Floor for any real text** — secondary copy, mono labels |
-| `text-ink/60` and below | 4.17 : 1 ✗ | Decorative only — chevrons, dividers, never words |
-
-`text-brand` on paper is 7.6 : 1, `text-accent` is 5.3 : 1 — both safe for text.
-
----
-
-## 3. Type & rhythm
-
-```
-Display   Fraunces      font-display font-semibold tracking-tight
-Body      Public Sans   font-body (set on <body>)
-Labels    IBM Plex Mono font-mono uppercase tracking-widest
+```css
+--color-ink: 16 28 46; /* near-black navy — all body text */
+--color-paper: 245 248 252; /* near-white — page background, text-on-color */
+--color-brand: 29 95 214; /* cobalt blue — primary actions, authority */
+--color-brand-dark: 20 64 158; /* darker cobalt — hover states */
+--color-accent: 23 182 212; /* cyan — "live", confirmed, signal color */
+--color-accent-deep: 12 116 137; /* darker cyan — text-safe accent on light bg */
+--color-surface: 234 241 251; /* pale blue-white — subtle fills */
+--color-border: 211 225 245; /* pale blue-grey — hairlines */
 ```
 
-| Role | Classes | Size |
-|---|---|---|
-| Page H1 | `font-display text-3xl sm:text-5xl font-semibold leading-[1.1] tracking-tight text-ink` | 30 / 48 |
-| Section H2 | `font-display text-2xl sm:text-3xl font-semibold leading-tight tracking-tight text-ink` | 24 / 30 |
-| Card H3 | `font-display text-xl font-semibold tracking-tight text-ink` | 20 |
-| Lead paragraph | `text-lg leading-relaxed text-ink/75 max-w-xl` | 18 |
-| **Body** | **`.body-copy`** | 16 |
-| Eyebrow / filing mark | `.eyebrow` | 12 mono |
-| **Metadata / file no.** | **`.meta`** | 11 mono |
-| UI (nav, buttons, fields) | `text-sm` | 14 |
+Palette character: **cool, clean, corporate-but-alive**. Not warm/cream, not
+neutral-grey. A very light blue-white "paper" (not pure white) with a confident
+cobalt blue for primary actions and a cyan "signal" color reserved specifically for
+anything meant to feel live, active, or just-confirmed (status dots, "live" badges,
+count-up numbers). Cyan is a functional color, not decorative — use it for state,
+not for random accents.
 
-**The two reading tiers are component classes, not utilities.** `.body-copy` (16px prose) and
-`.meta` (11px mono) exist so the reading scale lives in one place. Use them for anything a
-visitor *reads*; `text-sm` is for chrome only — nav links, buttons, form controls.
+Usage rules:
 
-**11px is the floor.** The old 9px and 10px mono tiers are gone; three near-identical metadata
-sizes was drift, not design. The display scale is deliberately untouched — Fraunces at 48px was
-already carrying the theme.
+- `ink` — all body copy, headings, icons on light backgrounds.
+- `paper` — page background base, and text color on top of `brand`/`accent`/`ink`
+  filled surfaces.
+- `brand` (cobalt) — primary CTAs, primary icon chips, key numerals, links.
+- `accent` (cyan) — "live"/status indicators, secondary icon chips, star ratings,
+  highlighted stat callouts. Never used as the primary button color.
+- `surface` — very subtle background fills, rarely needed since glass panels handle
+  most surfaces.
+- `border` — hairlines, dividers between stat blocks, table-ish content.
 
-Spacing rhythm — keep it identical across pages:
+## 3. Typography
 
-```
-Full-width section padding   py-14 sm:py-20     (dark CTA: py-20 sm:py-28)
-Between doc-column sections  mt-14
-Heading → content            mt-6
-Eyebrow → heading            mt-2
-Heading → lead paragraph     mt-4
-Lead → buttons               mt-7
-Grid gaps                    gap-5 (cards) / gap-8 lg:gap-12 (page columns)
-Anchor offset for the rail   scroll-mt-28
-```
+Four font families, each with a distinct job — do not blend their roles:
 
-Every full-width section wraps its content in `.section-container`
-(`max-w-content mx-auto px-4 sm:px-6 lg:px-8`, `--max-w-content: 1280px`).
+| Token                      | Family (w/ fallback stack)                          | Used for                                                                                                                           |
+| -------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `font-grotesk`             | Space Grotesk, ui-sans-serif, system-ui, sans-serif | All headings (h1–h3), tile titles, big numerals in prose context — the "voice" of the design                                       |
+| `font-body` (default body) | Public Sans, ui-sans-serif, system-ui, sans-serif   | Paragraph text, descriptions                                                                                                       |
+| `font-mono`                | IBM Plex Mono, ui-monospace, monospace              | Status labels, eyebrows/labels, stat counters, timestamps, "system" chrome text — anything meant to feel like instrumentation/data |
+| `font-display`             | Fraunces, ui-serif, Georgia, serif                  | Reserved/available but NOT the default theme's display face — belongs to other variants                                            |
 
----
+Rules:
 
-## 4. Component layer
+- Headlines are bold, tight tracking, large scale (h1 up to `text-6xl` on desktop),
+  set in Space Grotesk — geometric, slightly technical, not a humanist sans.
+- Any label that should feel like machine-generated status text (eyebrows, "Live
+  totals", timestamps, step numbers, stat values) is set in monospace, uppercase,
+  letter-spaced (`tracking-widest`), small (11–12px), and usually at reduced opacity
+  (`text-ink/45` to `/55`) unless it's the hero number itself.
+- Body copy is relaxed leading, medium-size, ink at ~65% opacity (`text-ink/65`) so
+  it recedes under the bolder headline/mono chrome.
 
-All of these are defined in `@layer components` in [`src/assets/css/input.css`](../src/assets/css/input.css)
-— read the file for the exact `@apply` chains. Use them instead of re-deriving utility strings.
+## 4. The core visual unit: glass panels over light
 
-| Class | What it is |
-|---|---|
-| `.folder-card` | The recurring "case file" unit — a folder with a brand tab along the top edge |
-| `.folder-card-accent` | Vermilion tab. A page's single most important card. **One per page, maximum** |
-| `.file-panel` | Folder with no tab — neutral containers (maps, form wells, sidebars) |
-| `.file-inset` | Dashed inset strip on `surface` — callouts, "what's included", small print |
-| `.file-tag` | Metadata chip — sector, duration, location. Never a button, never clickable |
-| `.file-band` | Full-width `surface` band, alternates against the paper sections |
-| `.stamp` | Rotated ink-stamp badge — "VERIFIED", "OPEN", "FILE CLOSED" |
-| `.docket-row` / `.docket-head` | Dashed-rule list row and its printed column header |
-| `.docket-disclosure` | FAQ / accordion row — a dashed docket line that opens |
-| `.ledger` | Data table — ledger rules, not zebra stripes |
-| `.statement` | Pull quote. A vertical brand rule replaces quote marks |
-| `.assertion` | Display-weight lead-in. Distinct from `.statement`, which is a quotation |
-| `.form-row` / `.form-row-label` | Fixed mono label beside content — the Background Verification shape |
-| `.exhibit-band` | Wide plate breaking out across the document column |
-| `.field` / `.field-label` / `.field-error` | Form fields. Squared, dashed until focused |
-| `.filepath` | Breadcrumb, set in mono and separated by slashes |
-| `.rail-link` (`.is-active`) | Sticky section rail links |
-| `.body-copy` / `.meta` / `.eyebrow` | The reading tiers from §3 |
+This is the signature and must be present on essentially every page to read as "this
+theme."
 
-Nothing above uses blur, glow, or a shadow — that is deliberate. **If a new component needs
-depth, it is the wrong component for this theme; give it a border instead.**
+**Background layer — the "light":**
 
----
+- Full-bleed section background: soft gradient `from-surface to-paper` (top to
+  bottom).
+- 2–3 large blurred circular color blobs ("orbs") positioned absolutely, using
+  `brand` and `accent` at low opacity (15–25%), `blur-3xl`, sized 20–34rem,
+  positioned to bleed off the edges of hero/closer sections. Two of them get a slow
+  drifting float animation (12–14s ease-in-out, translate + scale, `prefers-reduced-motion`-safe).
+- These orbs are what the glass panels have to actually blur/frost — without light
+  behind it, a translucent panel reads as flat and pointless.
 
-## 5. Page shell — copy this for any long inner page
+**Foreground layer — the "glass":**
 
-```njk
----
-layout: layouts/page.njk
-title: About
-description: …
----
-{% from "partials/icons.njk" import icon %}
-
-{% set rail = [
-  { id: "overview",  label: "Overview",  n: "00" },
-  { id: "history",   label: "History",   n: "A"  },
-  { id: "people",    label: "People",    n: "B"  }
-] %}
-
-{# 1 — Cover sheet: two columns, never one column against dead space. #}
-<section class="file-band">
-  <div class="section-container py-10 sm:py-14">
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center lg:gap-12">
-      <div class="lg:col-span-7">
-        <div class="flex flex-wrap items-center gap-3">
-          <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} On file</span>
-          <span class="meta">Case No. 2026–014 · {{ site.address.line2 }}</span>
-        </div>
-        <h1 class="mt-6 font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
-          Headline in a plain declarative sentence.
-        </h1>
-        <p class="mt-4 max-w-lg text-lg leading-relaxed text-ink/75">Lead paragraph.</p>
-        <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-          <a href="{{ '/contact/' | url }}" class="btn-primary">{{ icon("arrow-right", "w-4 h-4") }} Primary</a>
-          <a href="{{ '/services/' | url }}" class="btn-outline">{{ icon("arrow-right", "w-4 h-4") }} Secondary</a>
-        </div>
-      </div>
-
-      {# Exhibit — a mounted print with a stamp across the corner. The stamp keeps a paper
-         fill: vermilion over an unpredictable photo can't be relied on to stay legible. #}
-      <figure class="folder-card p-3 lg:col-span-5">
-        <div class="relative">
-          <img src="{{ '/assets/images/home/hero-team-meeting.jpg' | url }}" alt="…"
-               width="1400" height="933" class="aspect-[4/3] w-full object-cover">
-          <span class="stamp absolute bottom-3 left-3 bg-paper">
-            {{ icon("check-badge", "w-3.5 h-3.5") }} Verified
-          </span>
-        </div>
-        <figcaption class="meta px-1.5 pb-1 pt-3">Exhibit A · Caption</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-{# 2 — The file: sticky rail + document column. #}
-<section class="section-container py-14 sm:py-20">
-  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
-
-    <nav class="hidden lg:col-span-3 lg:block" aria-label="Sections">
-      <div class="sticky top-28 folder-card p-2">
-        {% for item in rail %}
-        <a href="#{{ item.id }}" class="rail-link">
-          <span class="meta">{{ item.n }}</span>{{ item.label }}
-        </a>
-        {% endfor %}
-        <div class="mt-1 border-t border-dashed border-border px-3 pt-4">
-          <dl class="grid grid-cols-2 gap-y-4">
-            {% for stat in stats.list %}
-            <div>
-              <dt class="meta">{{ stat.label }}</dt>
-              <dd class="mt-1 font-display text-lg font-semibold tracking-tight text-ink"
-                  data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
-            </div>
-            {% endfor %}
-          </dl>
-        </div>
-      </div>
-    </nav>
-
-    <div class="lg:col-span-9">
-      {% for item in rail %}
-      <div id="{{ item.id }}" class="scroll-mt-28 {% if not loop.first %}mt-14{% endif %}">
-        <p class="eyebrow">{{ item.n }} — {{ item.label }}</p>
-        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-          Section heading.
-        </h2>
-        <div class="mt-6"><!-- folders / docket rows --></div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-{# 3 — Close the case. Identical on every page. #}
-<section class="bg-ink py-20 sm:py-28">
-  <div class="section-container text-center">
-    <span class="stamp !border-paper !text-paper">{{ icon("check-badge", "w-3.5 h-3.5") }} Ready to open</span>
-    <h2 class="mx-auto mt-6 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight text-paper sm:text-5xl">
-      Ready to open your file?
-    </h2>
-    <p class="mx-auto mt-5 max-w-lg leading-relaxed text-paper/65">
-      Whether you're job hunting or hiring, the intake call is free — and it starts the file.
-    </p>
-    <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-      <a href="{{ '/contact/' | url }}" class="inline-flex items-center justify-center gap-2 rounded-sm bg-paper px-6 py-3.5 font-medium text-ink transition-colors hover:bg-surface">
-        Get Started {{ icon("arrow-right", "w-4 h-4") }}
-      </a>
-      <a href="{{ site.phoneHref }}" class="inline-flex items-center justify-center gap-2 rounded-sm border border-paper/40 px-6 py-3.5 font-medium text-paper transition-colors hover:border-paper">
-        {{ icon("phone", "w-4 h-4") }} {{ site.phone }}
-      </a>
-    </div>
-  </div>
-</section>
+```css
+.glass-panel {
+  background: rgb(paper / 0.6);
+  backdrop-filter: blur(24px) /* backdrop-blur-xl */;
+  border: 1px solid rgb(255 255 255 / 0.6);
+  box-shadow: /* .glass = */
+    0 1px 1px rgb(ink/0.04),
+    0 12px 32px -12px rgb(ink/0.12);
+  border-radius: 1.75rem; /* generous, consistent rounding on every panel */
+}
 ```
 
-On the dark band the tokens invert: text is `text-paper` / `text-paper/65`, buttons are
-paper-filled, and the stamp needs `!border-paper !text-paper` because vermilion on ink
-fails contrast.
+- Every discrete content block on the page — hero, stat cards, testimonial,
+  service cards, process steps — is a `.glass-panel`, not a plain white card.
+- Panels are laid out as a **bento grid**: `grid-cols-12` on desktop, panels span
+  varying column counts (7+5, 4+4+4, 7+5, 12, 12) rather than a uniform card grid.
+  This asymmetric, dashboard-like arrangement is intentional — avoid making
+  everything the same size.
+- Interactive/hover cards additionally get `.card-lift`: translate up 1.5 on hover
+  plus the glass shadow — subtle, not dramatic.
+- Corner radius is consistently very generous (28px / `1.75rem`) across panels —
+  this softness is part of what keeps "glass + dashboard" from feeling cold.
 
----
+## 5. Signature components (the "operations dashboard" motifs)
 
-## 6. Block recipes
+These specific UI patterns are what sell the "live system" concept — reuse this
+vocabulary rather than inventing generic marketing components:
 
-**Two-up folder pair** (audience split, plan comparison)
+- **Status chip** (`.status-chip`): small pill, monospace, uppercase-ish, often
+  paired with a pulsing dot (a `absolute animate-ping` ring behind a solid dot) in
+  accent or brand color. Used for "System status — live", "Signal received",
+  "Ready when you are". This pulsing-dot + chip pattern is the single most
+  recognizable motif in the theme — reuse it anywhere something should feel
+  live/current.
+- **Manifest / ledger rows** (`.manifest-row`): a `grid-cols-12` row inside a panel
+  listing real-feeling records (name/role, company, status chip) with a bottom
+  hairline (`border-b border-ink/10`), no border on the last row. Reads like a live
+  feed/table, not a bullet list. Status values get color-coded chips (accent for
+  "done/placed" state, brand for "in progress" state).
+- **Count-up stat numerals**: large monospace numbers (`font-mono text-2xl
+font-semibold`) with a small mono label underneath at reduced opacity. On the
+  homepage these animate from 0 to target via a `data-count-up`/`data-target`
+  JS hook — implies motion/liveness even in a static screenshot.
+- **Icon chips**: small rounded-square (`rounded-xl`/`rounded-2xl`) solid-color
+  badges (`bg-brand`, `bg-accent`, or `bg-ink`) holding a white/paper-colored line
+  icon, `shadow-glow` (colored glow shadow matching the fill). Used to lead every
+  feature/service block.
+- **Numbered process/trace steps**: circular monospace-numbered badges
+  (`01`, `02`...) connected by a horizontal hairline through their centers — used
+  both for a generic "how it works" 4-step list and for a narrative "trace through
+  the system" case-study timeline (walk one real customer through discrete
+  timestamped stages: Day 0 → Day 4 → Day 11 → Day 16, applied → matched →
+  interview → offer). This "trace" pattern — a single concrete story rendered as a
+  timestamped pipeline — is a distinctive theme signature; use it for one flagship
+  proof-point per major page rather than generic testimonials only.
+- **Eyebrow labels** (`.eyebrow`): tiny monospace uppercase brand-colored kicker
+  above every section heading ("Why us", "What we do", "How it works").
 
-```njk
-<div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-  <div class="folder-card p-6">
-    <div class="flex items-start justify-between">
-      <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-brand text-paper">
-        {{ icon("users", "w-5 h-5") }}
-      </span>
-      <span class="meta">File · JS</span>
-    </div>
-    <h3 class="mt-4 font-display text-xl font-semibold tracking-tight text-ink">Job seeker</h3>
-    <p class="body-copy mt-2">One sentence.</p>
-    <a href="#" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">
-      Open a file {{ icon("arrow-right", "w-4 h-4") }}
-    </a>
-  </div>
-  <!-- second folder: bg-accent chip, File · EMP -->
-</div>
+## 6. Buttons
+
+```css
+.btn-primary  = solid brand pill, paper text, shadow-glow, lifts -0.5 + darkens on hover
+.btn-outline  = translucent paper/50 + backdrop-blur pill, ink text, white/60 border,
+                border/text turn brand on hover, same lift
 ```
 
-**Docket list** (services, sectors, programs, any 4–8 item list — use this instead of a card grid)
+Both are fully rounded (`rounded-full`), generous padding (`px-6 py-3.5`), medium
+weight, 200ms transitions, always paired with a trailing arrow icon on primary CTAs.
+Never square/sharp buttons in this theme (that's the "bold" variant's job).
 
-```njk
-<div class="docket-head">
-  <span class="col-span-1"></span>
-  <span class="col-span-3">Service</span>
-  <span class="col-span-6">Scope</span>
-  <span class="col-span-2 text-right">Ref</span>
-</div>
-{% for service in services.list %}
-<a href="{{ service.url | url }}" class="docket-row group">
-  <span class="col-span-2 flex h-9 w-9 items-center justify-center rounded-sm bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-paper sm:col-span-1">
-    {{ icon(service.icon, "w-4 h-4") }}
-  </span>
-  <p class="col-span-10 font-display font-semibold tracking-tight text-ink sm:col-span-3">{{ service.title }}</p>
-  <p class="body-copy col-span-12 sm:col-span-6">{{ service.shortDescription }}</p>
-  <span class="col-span-12 flex justify-end text-ink/30 transition-all group-hover:translate-x-1 group-hover:text-brand sm:col-span-2">
-    {{ icon("arrow-right", "w-4 h-4") }}
-  </span>
-</a>
-{% endfor %}
-```
+## 7. Motion
 
-**Numbered procedure** — same `.docket-row`, with `bg-ink font-mono text-paper` numerals in a
-`h-8 w-8 rounded-sm` square. Wrap in `<ol>`.
+- Orbs: slow independent float loops (12s/14s), never synchronized, subtle
+  scale+translate only.
+- Status dots: `animate-ping` pulse ring behind a solid dot — used sparingly, only
+  on genuinely "live/current" indicators, not decoratively everywhere.
+- Count-up numerals on scroll/load.
+- Hover lifts on cards/buttons (`-translate-y-0.5` to `-1.5`), never rotation or
+  large movement.
+- Everything respects `prefers-reduced-motion: reduce` (animations collapse to
+  ~instant, scroll-behavior reverts to auto).
+- A faint fixed SVG noise/grain texture overlays the whole page at low opacity
+  (`mix-blend-mode: multiply`) for tactility — keeps the glass look from feeling too
+  digital/sterile.
 
-**Sworn statement / testimonial** — `.folder-card p-5` wrapping a `<blockquote>`, with a
-`<figcaption>` split across a `border-t border-dashed border-border pt-4`: name in
-`text-sm font-semibold text-ink`, role · company below it, and a `.meta` "Sworn" mark on the right.
+## 8. Layout patterns to reuse on new pages
 
-**Fact strip** — `<dl class="grid grid-cols-3 gap-4 border-t border-dashed border-border pt-5">`
-with `.meta` `<dt>` and `font-display text-base font-semibold` `<dd>`.
+1. **Hero as dashboard, not banner**: pair a large glass "hero tile" (headline + CTA
+   - inline stat row) with an adjacent smaller glass "live feed" tile (manifest-style
+     list) rather than a single centered hero.
+2. **Bento grid over section stack**: prefer an asymmetric `grid-cols-12` bento
+   layout of glass panels (mixed 4/5/7/12-column spans) over uniform full-width
+   stacked sections, at least for the top of a page.
+3. **Two-audience split**: for any page describing two sides of a marketplace/service
+   (e.g. "For Job Seekers" / "For Employers"), give each side its own equal-width
+   glass panel with a distinct icon-chip color (brand vs. accent) and matching link
+   color — never merge them into one panel.
+4. **One flagship "trace" story per major page**: a single named, concrete
+   example walked through timestamped pipeline stages, closing with a real quote —
+   this does more work than generic testimonial grids in this theme.
+5. **Symmetric open/close**: bookend the page with visually matching hero and
+   closing sections (same orb treatment, same glass-panel CTA block, same status-chip
+   pattern) so the page feels like it "returns to the console" at the end.
+6. **Full-bleed interludes** (e.g. logo marquees) break the section-container width
+   constraint between bento blocks to vary rhythm.
 
-**Sequence chips** — `.file-tag` per stage, `loop.index` in `font-semibold`, last one
-`text-accent` (a file number, so vermilion is legitimate there).
+## 9. What this theme is NOT (contrast with sibling variants, for disambiguation)
 
-**Breadcrumb**
+If asked to build "the site's theme," this default is the one to use unless a
+specific alternate is named. Do not accidentally pull in traits from these
+siblings, which exist elsewhere in this project as opt-in `[data-theme]` skins:
 
-```njk
-<nav class="filepath" aria-label="Breadcrumb">
-  <a href="{{ '/' | url }}">Home</a><span aria-hidden="true">/</span>
-  <a href="{{ '/services/' | url }}">Services</a><span aria-hidden="true">/</span>
-  <span class="text-ink">{{ title }}</span>
-</nav>
-```
+- NOT "editorial" (warm cream/print, squared-off, no blur, serif-led).
+- NOT "bold" (neo-brutalist, thick black borders/outlines, offset hard shadows,
+  zero blur, loud saturated colorways).
+- NOT "dossier" (case-file/folder motif, dashed borders, stamps, muted slate).
+- NOT "signal" (a dark-mode "control room" descendant of this same glass language,
+  but on a near-black petrol background with green/amber functional states instead
+  of light paper + cobalt/cyan).
 
-**Form** — `.field-label` + `.field`, submit is `.btn-primary`, wrap the whole form in
-`.file-panel p-6 sm:p-8`, and put reassurance copy in a `.file-inset` beside it.
+The default theme described in this document is light, cool-toned, and paper-based
+— glass floating over light on a bright background, not glass in a dark room.
 
----
+## 10. Quick build spec (for an AI generating a new page/site in this theme)
 
-## 7. Data & icons
-
-Global data (no import needed in templates): `site`, `nav`, `services.list`, `industries.list`,
-`programs.list`, `testimonials.list`, `companies.list`, `placements.list`, `stats.list`,
-`faqs["<service-slug>"]`, `images`.
-
-Shared partials that already carry the theme: `cover-sheet.njk`, `section-rail.njk` (accepts a
-`railCard` slot for terms pinned under the links), `placed-at.njk` (pass `placedAtTitle` /
-`placedAtLead`), `placement-feed.njk`, `faq-accordion.njk`, `breadcrumb.njk`, `cta-section.njk`,
-`process-timeline.njk`, `stat-counter.njk`, `testimonial-card.njk`.
-
-Icons — `{% from "partials/icons.njk" import icon %}` then `{{ icon("name", "w-4 h-4") }}`:
-`arrow-right`, `bolt`, `briefcase`, `chart`, `check`, `check-badge`, `chevron-down`, `clock`,
-`close`, `cloud`, `code`, `heart`, `mail`, `map-pin`, `menu`, `phone`, `shield`, `star`,
-`support`, `target`, `users`.
-
-**Images.** Every slot lives in [`src/_data/images.json`](../src/_data/images.json) — url, alt,
-caption, credit, dimensions — so a template never hardcodes a photo. Service imagery currently
-loads from the Unsplash CDN rather than the repo; `cover-sheet.njk` accepts either form (`url`
-printed raw, `src` through the `url` filter), so moving local later is a one-file change.
-Always set `width`/`height` and `loading="lazy"` (except the cover-sheet exhibit, which gets
-`fetchpriority="high"`), mount photos in a `.folder-card` with an `Exhibit N ·` caption, and
-give every caption something to say beyond restating the alt text. Local photo credits:
-`src/assets/images/home/CREDITS.md`.
-
-**No stock portrait may be presented as a real client, candidate, or team member** — the
-existing `person-*.jpg` files are flagged for replacement before launch.
-
----
-
-## 8. Non-negotiables
-
-- **Vermilion discipline.** `accent` appears on stamps and file numbers. Not on buttons, not on
-  links, not on hover states. Break this and the theme collapses into a generic red-accent site.
-- **`text-ink/65` is the floor** for anything a person reads. See §2.
-- **No blur, no glow, no drop shadow.** `shadow-*` and `backdrop-blur-*` do not belong in new markup.
-- **`rounded-sm` everywhere**, `rounded-full` never.
-- **Every section is anchorable**: `id` + `scroll-mt-28`, and listed in that page's `rail`.
-- **Reduced motion is already handled globally** in `@layer base`; if you add a keyframe
-  animation, verify it neutralises there.
-- **`:focus-visible` is a 2px accent outline** — never remove it, and never set `outline: none`
-  without an equivalent replacement.
-- Decorative-only elements get `aria-hidden="true"`; the paper grain is `pointer-events: none`.
-
----
-
-## 9. New page checklist
-
-1. Front matter: `layout: layouts/page.njk`, `title`, `description`.
-2. Define the `rail` array first — it forces you to decide the document's structure.
-3. Cover sheet: stamp + case line, H1, lead, two buttons, exhibit figure. Two columns.
-4. Optional full-bleed interlude (`placed-at.njk` or `placement-feed.njk`) to break the column.
-5. Rail + document column; sections at `mt-14`, each with eyebrow → H2 → content.
-6. Close with the dark `bg-ink` CTA band, verbatim.
-7. `npm run build` and check: no vermilion outside stamps, no `text-ink/60`, no `rounded-full`,
-   nothing below 11px, rail anchors all resolve, images have dimensions.
+- Background: `bg-gradient-to-b from-surface to-paper`, 2–3 low-opacity blurred
+  brand/accent orbs behind content.
+- Container: max-width ~1280px, centered, responsive horizontal padding.
+- Every content block: `.glass-panel` — `bg-paper/60`, `backdrop-blur-xl`,
+  `border-white/60`, soft layered shadow, `rounded-[1.75rem]`.
+- Grid: 12-column bento on desktop, asymmetric spans, collapsing to single column
+  on mobile.
+- Headings: Space Grotesk, bold, tight tracking.
+- Body: Public Sans, `text-ink/65`.
+- Labels/data/status: IBM Plex Mono, uppercase, wide tracking, small, muted opacity
+  unless it's the hero stat.
+- Primary color cobalt blue for actions/authority; cyan reserved exclusively for
+  "live/confirmed" signaling — pulsing dot + chip, never a general accent.
+- Buttons: fully rounded pills with colored glow shadows and a small hover lift.
+- Include at least one "manifest"-style live feed list and one numbered
+  process/trace sequence per page where content allows — these are the theme's
+  signature, not optional flourish.

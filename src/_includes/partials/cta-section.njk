@@ -1,27 +1,24 @@
 {#
-  "Close the case" — the dark band that ends every page except Contact. Identical
-  everywhere; only the wording changes.
+  The closing band — symmetric with the hero, so the page feels like it returns to the
+  console at the end. Sits on ink, over the orb layer showing faintly through.
 
-  Params: ctaHeadline, ctaSubtext (optional), ctaLabel, ctaHref.
-
-  On ink the tokens invert: text is paper / paper-65, the button is paper-filled, and the
-  stamp needs !border-paper !text-paper because vermilion on ink fails contrast.
+  Params: ctaHeadline, ctaSubtext (optional), ctaLabel, ctaHref, ctaStamp (optional).
 #}
 {% from "partials/icons.njk" import icon %}
-<section class="bg-ink py-20 sm:py-28">
+<section class="relative overflow-hidden bg-ink py-20 sm:py-28">
   <div class="section-container text-center">
-    <span class="stamp !border-paper !text-paper">{{ icon("check-badge", "w-3.5 h-3.5") }} {{ ctaStamp or "Ready to open" }}</span>
-    <h2 class="mx-auto mt-6 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight text-paper sm:text-5xl">
+    <span class="status-chip border-white/20 bg-paper/10 text-paper backdrop-blur-xl">
+      <span class="status-dot"></span>{{ ctaStamp or "Ready when you are" }}
+    </span>
+    <h2 class="mx-auto mt-6 max-w-2xl font-grotesk text-3xl font-bold leading-tight tracking-tight text-paper sm:text-5xl">
       {{ ctaHeadline }}
     </h2>
     {% if ctaSubtext %}
     <p class="mx-auto mt-5 max-w-lg leading-relaxed text-paper/65">{{ ctaSubtext }}</p>
     {% endif %}
     <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-      <a href="{{ ctaHref | url }}" class="inline-flex items-center justify-center gap-2 rounded-sm bg-paper px-6 py-3.5 font-medium text-ink transition-colors hover:bg-surface">
-        {{ ctaLabel }} {{ icon("arrow-right", "w-4 h-4") }}
-      </a>
-      <a href="{{ site.phoneHref }}" class="inline-flex items-center justify-center gap-2 rounded-sm border border-paper/40 px-6 py-3.5 font-medium text-paper transition-colors hover:border-paper">
+      <a href="{{ ctaHref | url }}" class="btn-primary">{{ ctaLabel }} {{ icon("arrow-right", "w-4 h-4") }}</a>
+      <a href="{{ site.phoneHref }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-paper/30 px-6 py-3.5 font-medium text-paper backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:border-paper/60">
         {{ icon("phone", "w-4 h-4") }} {{ site.phone }}
       </a>
     </div>

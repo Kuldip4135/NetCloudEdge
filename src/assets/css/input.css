@@ -3,27 +3,27 @@
 @tailwind utilities;
 
 /*
-  DOSSIER — the site theme. A case file, not a brochure.
+  THE CONSOLE — the site theme. A live operations dashboard, not a brochure.
 
   Colours are R G B triplets consumed via rgb(var(--x) / <alpha>) in tailwind.config.js,
   so opacity modifiers (bg-brand/10, text-ink/65) keep working unchanged.
 
-  The palette is taken from the materials the motif is actually made of: archival slate
-  stock (never warm/cream — the folder-and-stamp idea should read as verification, not
-  nostalgia), blue-black registrar's ink, and aniline violet, which is the colour real
-  stamp pads and indelible copying pencils put on a document. Vermilion is reserved
-  strictly for stamps and file numbers — see the non-negotiables in
-  claude_helper/THEME.md §8.
+  Cool, clean, corporate-but-alive: a pale blue-white "paper" (never warm/cream) behind
+  frosted glass panels, a confident cobalt for primary actions, and a cyan "signal"
+  colour reserved strictly for anything meant to read as live/current — status dots,
+  "live" badges, count-up numbers.
 */
 :root {
-  --color-ink: 27 31 46;
-  --color-paper: 238 239 244;
-  --color-brand: 74 63 143;
-  --color-brand-dark: 55 46 110;
-  --color-accent: 184 48 31;
-  --color-accent-deep: 138 34 21;
-  --color-surface: 226 228 236;
-  --color-border: 199 202 216;
+  --color-ink: 16 28 46;
+  --color-paper: 245 248 252;
+  --color-brand: 29 95 214;
+  --color-brand-dark: 20 64 158;
+  --color-accent: 23 182 212;
+  --color-accent-deep: 12 116 137;
+  --color-surface: 234 241 251;
+  --color-border: 211 225 245;
+  --color-signal: 29 95 214;
+  --color-signal-dark: 20 64 158;
 }
 
 @layer base {
@@ -46,8 +46,7 @@
     outline-offset: 2px;
   }
 
-  /* Paper grain over the slate stock — fixed, decorative, never intercepts input.
-     Kept faint: this is archival stock, not a texture effect. */
+  /* Faint grain over the glass/light — keeps the console from feeling too digital. */
   body {
     position: relative;
   }
@@ -57,7 +56,7 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.2;
+    opacity: 0.12;
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
@@ -70,29 +69,16 @@
   .section-container {
     @apply max-w-content mx-auto px-4 sm:px-6 lg:px-8;
   }
-  /* Section labels are filing marks, not headlines — they stay quiet so vermilion
-     remains exclusive to stamps. /65 keeps 12px mono above 4.5:1 on the slate stock. */
+  /* Tiny monospace uppercase brand-coloured kicker above every section heading. */
   .eyebrow {
-    @apply font-mono text-xs uppercase tracking-widest text-ink/65;
+    @apply font-mono text-xs uppercase tracking-widest text-brand;
   }
-
-  /* ---- Reading tiers ----
-
-     Two classes carry every piece of text meant to be *read* rather than *scanned*.
-     They exist because the alternative — a size utility repeated on 100+ elements —
-     is how the site ended up with three near-identical mono tiers (9/10/11px) and
-     descriptive prose sitting at 14px, a UI size doing a reading job.
-
-     Body copy is 16px: card bodies, table cells, anything a visitor reads a sentence
-     of. The 14px `text-sm` utility stays, but only for genuine UI — nav links,
-     buttons, form fields.
-
-     Metadata is 11px mono and is the floor for the whole site. Nothing goes smaller;
-     the old 9px and 10px tiers are gone. On a dark band, follow with `text-paper/75`
-     — a utility outranks a component class, so the override needs no variant here. */
   .body-copy {
-    @apply text-base leading-relaxed text-ink/75;
+    @apply text-base leading-relaxed text-ink/65;
   }
+  /* Machine-generated status text: eyebrows, timestamps, stat labels. Never the hero
+     number itself — that stays at full mono weight/opacity. ink/65 (not /50) — at
+     11px this is small text and WCAG AA needs 4.5:1; /50 measures ~3.3:1 on paper. */
   .meta {
     @apply font-mono text-[11px] uppercase tracking-widest text-ink/65;
   }
@@ -100,98 +86,153 @@
     text-wrap: balance;
   }
   [data-header].is-scrolled {
-    @apply border-border;
+    @apply border-white/50 bg-paper/80;
   }
 
-  /* ---- Buttons. Squared, flat: no lift, no glow, no shadow. ---- */
+  /* ---- The background "light" — a fixed layer every glass panel blurs ---- */
+
+  .bg-orbs {
+    @apply pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-surface to-paper;
+  }
+  .orb {
+    @apply absolute rounded-full blur-3xl;
+  }
+  /* Faint schematic grid behind the hero — the console reading as an instrument
+     panel rather than a poster. Fades out toward the edges via mask so it never
+     competes with content lower on the page. */
+  .bg-grid {
+    @apply absolute inset-0;
+    background-image:
+      linear-gradient(rgb(var(--color-ink) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--color-ink) / 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 65% 55% at 50% 0%, black 30%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 0%, black 30%, transparent 85%);
+  }
+  /* A soft glow sweeping down through the grid, like a scanning pass. */
+  .bg-grid-beam {
+    @apply absolute inset-x-0 top-0 h-72 animate-grid-sweep-slow;
+    background: linear-gradient(180deg, transparent, rgb(var(--color-accent) / 0.16), transparent);
+  }
+
+  /* ---- Buttons. Fully rounded pills, glow, small hover lift. ---- */
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-brand px-6 py-3.5
-           font-medium text-paper transition-colors duration-200 hover:bg-brand-dark;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5
+           font-medium text-paper shadow-glow transition-all duration-200
+           hover:-translate-y-0.5 hover:bg-brand-dark;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-sm border border-dashed
-           border-border bg-paper px-6 py-3.5 font-medium text-ink transition-colors
-           duration-200 hover:border-solid hover:border-brand hover:text-brand;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/60
+           bg-paper/50 px-6 py-3.5 font-medium text-ink backdrop-blur-xl transition-all
+           duration-200 hover:-translate-y-0.5 hover:border-brand hover:text-brand;
   }
 
-  /* ---- The three signature units ---- */
+  /* ---- The signature unit: a frosted pane over the light ---- */
 
-  /* A folder with a coloured tab along the top edge — the recurring "case file" unit. */
-  .folder-card {
-    @apply relative overflow-hidden rounded-sm border border-border bg-paper pt-5
-           before:absolute before:inset-x-0 before:top-0 before:h-1.5 before:bg-brand;
+  .glass-panel {
+    @apply rounded-[1.75rem] border border-white/60 bg-paper/60 shadow-glass backdrop-blur-xl;
   }
-  /* A folder whose tab is vermilion — a page's single most important card. One per page. */
-  .folder-card-accent {
-    @apply before:bg-accent;
+  /* Hover-interactive panels only — a subtle lift, never rotation or a big movement. */
+  .card-lift {
+    @apply transition-transform duration-200 hover:-translate-y-1.5;
   }
 
-  /* A rotated ink-stamp badge — "VERIFIED", "OPEN", "FILE CLOSED". */
-  .stamp {
-    @apply inline-flex -rotate-2 items-center gap-1.5 rounded-sm border-2 border-accent
-           px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-widest text-accent;
+  /* Rounded-square solid-colour badge holding a line icon, with a matching glow. */
+  .icon-chip {
+    @apply flex h-10 w-10 items-center justify-center rounded-2xl bg-brand text-paper shadow-glow;
+  }
+  .icon-chip-accent {
+    @apply bg-accent text-paper shadow-glow-accent;
+  }
+  .icon-chip-ink {
+    @apply bg-ink text-paper shadow-none;
   }
 
-  /* Dashed-rule row for exhibit/docket lists — never solidifies into a card. */
-  .docket-row {
-    @apply grid grid-cols-12 items-center gap-3 border-b border-dashed border-border
-           py-4 last:border-b-0;
+  /* Status chip: mono pill + a pulsing dot behind a solid dot. The single most
+     recognisable motif in the theme — use anywhere something should feel live/current. */
+  .status-chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/60 bg-paper/70
+           px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-widest
+           text-ink backdrop-blur-xl;
   }
-  /* Column heading for docket lists — the printed header above a ledger. */
-  .docket-head {
-    @apply grid grid-cols-12 items-center gap-3 border-b border-border pb-2
+  .status-dot {
+    @apply relative inline-flex h-2 w-2 shrink-0 rounded-full bg-accent;
+  }
+  .status-dot::before {
+    content: "";
+    @apply absolute inset-0 -m-1 animate-ping rounded-full bg-accent/60;
+  }
+  .status-dot-brand {
+    @apply bg-brand;
+  }
+  .status-dot-brand::before {
+    @apply bg-brand/60;
+  }
+
+  /* Manifest / ledger row — a live-feed record inside a glass panel: grid-cols-12,
+     hairline between rows, no border on the last one. */
+  .manifest-row {
+    @apply grid grid-cols-12 items-center gap-3 border-b border-ink/10 py-4 last:border-b-0;
+  }
+  .manifest-head {
+    @apply grid grid-cols-12 items-center gap-3 border-b border-ink/10 pb-2
            font-mono text-[11px] uppercase tracking-widest text-ink/65;
   }
 
-  /* ---- Containers ---- */
+  /* Sticky section rail — a glass panel identical to .glass-panel, holding the
+     in-page link list. */
+  .folder-card {
+    @apply rounded-[1.75rem] border border-white/60 bg-paper/60 shadow-glass backdrop-blur-xl;
+  }
+  /* One rail link — the mono index number stays fixed weight; only the label and
+     the left rule react to the active state set by rail-active.js. */
+  .rail-link {
+    @apply flex items-center gap-2.5 rounded-full border-l-2 border-transparent px-3 py-2.5
+           text-sm font-medium text-ink/60 transition-colors hover:bg-surface/70 hover:text-ink;
+  }
+  .rail-link.is-active {
+    @apply border-brand bg-surface/70 text-ink;
+  }
 
-  /* A folder with no tab — neutral containers (maps, form wells, sidebars). */
-  .file-panel {
-    @apply rounded-sm border border-border bg-paper;
-  }
-  /* An inset strip: the typed insert clipped inside a file. Callouts, small print. */
-  .file-inset {
-    @apply rounded-sm border border-dashed border-border bg-surface px-5 py-4;
-  }
-  /* Metadata chip — sector, duration, location. Never a button, never clickable. */
+  /* Metadata chip — sector, duration, audience. Never a button, never clickable. */
   .file-tag {
-    @apply inline-flex items-center gap-2 rounded-sm border border-border bg-surface
-           px-3 py-1.5 font-mono text-xs text-ink/70;
+    @apply inline-flex items-center gap-2 rounded-full bg-surface/80 px-3 py-1.5
+           font-mono text-xs text-ink/70;
   }
-  /* Full-width band on the slate stock — alternates against the paper sections. */
-  .file-band {
-    @apply border-y border-border bg-surface;
+  /* A nested, quieter well inside a glass panel — callouts, small print, form wells. */
+  .file-inset {
+    @apply rounded-xl bg-surface/60 px-5 py-4;
   }
 
-  /* ---- Forms. Squared, dashed until focused — a blank on a form, not a chat input. ---- */
+  /* ---- Forms. Glass inputs, brand focus ring, no dashed borders. ---- */
 
   .field-label {
     @apply block font-mono text-[11px] uppercase tracking-widest text-ink/65;
   }
   .field {
-    @apply mt-1.5 w-full rounded-sm border border-dashed border-border bg-paper px-3.5 py-2.5
-           text-base text-ink placeholder:text-ink/40
-           focus:border-solid focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
+    @apply mt-1.5 w-full rounded-2xl border border-white/60 bg-paper/70 px-3.5 py-2.5
+           text-base text-ink placeholder:text-ink/40 backdrop-blur-xl
+           focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
   }
   .field-error {
-    @apply mt-1.5 font-mono text-[11px] uppercase tracking-widest text-accent;
+    @apply mt-1.5 font-mono text-[11px] uppercase tracking-widest text-accent-deep;
   }
 
   /* ---- Disclosure, navigation, quotes, tables ---- */
 
-  /* FAQ / accordion row — a dashed docket line that opens. */
-  .docket-disclosure {
-    @apply border-b border-dashed border-border last:border-b-0;
+  /* FAQ / accordion row inside a glass panel. */
+  .manifest-disclosure {
+    @apply border-b border-ink/10 last:border-b-0;
   }
-  .docket-disclosure summary,
-  .docket-disclosure [data-accordion-trigger] {
+  .manifest-disclosure summary,
+  .manifest-disclosure [data-accordion-trigger] {
     @apply flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left
-           font-display font-semibold tracking-tight text-ink marker:content-none
+           font-grotesk font-semibold tracking-tight text-ink marker:content-none
            hover:text-brand;
   }
 
-  /* Breadcrumb — a file path, so it is set in mono and separated by a slash. */
+  /* Breadcrumb — quiet muted mono trail. */
   .filepath {
     @apply flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase
            tracking-widest text-ink/65;
@@ -200,86 +241,64 @@
     @apply hover:text-brand;
   }
 
-  /* Pull quote / sworn statement. The vertical brand rule replaces quote marks. */
-  .statement {
-    @apply border-l-2 border-brand pl-5 font-display text-xl leading-relaxed
-           tracking-tight text-ink/75 sm:text-2xl;
+  /* Pull quote / highlight. One consolidated component (replaces the old separate
+     "statement"/"assertion" split) — a vertical accent rule stands in for quote marks. */
+  .highlight {
+    @apply border-l-2 border-accent pl-5 font-grotesk text-xl font-semibold leading-snug
+           tracking-tight text-ink sm:text-2xl;
   }
 
-  /* Data table — ledger, not zebra stripes. */
+  /* Data table — hairline rules, mono headers. */
   .ledger {
     @apply w-full border-collapse text-base;
   }
   .ledger thead th {
-    @apply border-b border-border pb-2 text-left font-mono text-[11px] font-normal
+    @apply border-b border-ink/10 pb-2 text-left font-mono text-[11px] font-normal
            uppercase tracking-widest text-ink/65;
   }
-  /* A row header is a printed label by default — "Timeline", "Terms". */
   .ledger tbody th {
-    @apply border-b border-dashed border-border py-3.5 pr-6 text-left align-top font-mono
+    @apply border-b border-ink/10 py-3.5 pr-6 text-left align-top font-mono
            text-[11px] font-normal uppercase tracking-widest text-ink/65;
   }
-  /* …unless it carries content rather than a label, such as a service name. Set as an
-     attribute so it outranks .ledger tbody th without an !important on every cell. */
   .ledger tbody th[data-rowhead] {
-    @apply align-middle font-display text-lg font-semibold normal-case tracking-tight text-ink;
+    @apply align-middle font-grotesk text-lg font-semibold normal-case tracking-tight text-ink;
   }
   .ledger td {
-    @apply border-b border-dashed border-border py-3.5 text-ink/75;
+    @apply border-b border-ink/10 py-3.5 text-ink/65;
   }
   .ledger tr:last-child td,
   .ledger tbody tr:last-child th {
     @apply border-b-0;
   }
 
-  /* Sticky section rail (the page shell's left column). */
-  .rail-link {
-    @apply flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm text-ink/65
-           transition-colors hover:bg-surface hover:text-ink;
+  /* Count-up stat numeral: big mono figure over a small muted mono label. */
+  .stat-figure {
+    @apply font-mono text-2xl font-semibold tracking-tight text-ink sm:text-3xl;
   }
-  .rail-link.is-active {
-    @apply bg-surface text-ink;
+  .stat-label {
+    @apply meta mt-2;
   }
 
-  /* ---- Document types ----
+  /* Numbered process/trace step — a circular mono badge; steps connect via a hairline
+     drawn between them by the including template (border-t on the row track). */
+  .trace-badge {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink
+           font-mono text-xs font-semibold text-paper;
+  }
 
-     Every service page keeps the same shell — cover sheet, rail, doc column, FAQ, CTA.
-     What differs is the kind of document filling the column, because a job seeker
-     reading top-to-bottom and an employer scanning for terms want different pages.
-     These are the units that make that difference. Each is used by one or two pages;
-     that is deliberate, not duplication waiting to be factored out. */
+  /* ---- Document types ---- */
 
-  /* A form row — fixed mono label block beside its content. Background Verification is
-     set entirely in these, so the page reads as a filled-in form rather than a pitch. */
+  /* A labelled section: eyebrow-led heading beside its content, used where a page
+     wants to read as a filled-in form (Background Verification). */
   .form-row {
-    @apply grid gap-4 border-t border-dashed border-border pt-8 md:grid-cols-[8rem_1fr] md:gap-10;
+    @apply grid gap-4 border-t border-ink/10 pt-8 md:grid-cols-[10rem_1fr] md:gap-10;
   }
   .form-row-label {
     @apply md:sticky md:top-28 md:self-start;
   }
 
-  /* A wide plate across the document column — the exhibit that breaks a run of text.
-     Job Placement uses these as bands between sections; Talent Acquisition uses one. */
-  .exhibit-band {
-    @apply overflow-hidden rounded-sm border border-border bg-surface;
-  }
-  .exhibit-band img {
-    @apply w-full object-cover;
-  }
-
-  /* A lead-in line at display weight, no quote rule — carries the sparse pages
-     (Talent Acquisition) where there is deliberately little else on screen. Distinct
-     from `.statement` above, which is a quotation and keeps its brand rule. */
-  .assertion {
-    @apply font-display text-xl font-semibold leading-snug tracking-tight text-ink sm:text-2xl;
-  }
-
-  /* A legal clause — prose end to end, which no other page on the site is. Privacy
-     Policy and Terms run to forty-odd paragraphs and lists with no cards between them,
-     and tagging each element inline would bury the sentences under class attributes.
-     So these two pages get one scoped prose block instead. It sets only what plain
-     tags need; anything richer than a paragraph or a list still uses the real
-     components (.ledger, .file-inset) around it. */
+  /* Legal clause prose — Privacy Policy / Terms run to plain paragraphs and lists with
+     no cards between them; this sets what plain tags need inside a glass panel. */
   .legal-prose > * + * {
     @apply mt-4;
   }
@@ -288,13 +307,11 @@
     @apply body-copy;
   }
   .legal-prose h3 {
-    @apply mt-7 font-display text-lg font-semibold leading-snug tracking-tight text-ink;
+    @apply mt-7 font-grotesk text-lg font-semibold leading-snug tracking-tight text-ink;
   }
   .legal-prose ul {
     @apply space-y-2.5;
   }
-  /* A dash rather than a bullet — the rest of the site marks list items with the same
-     hairline rule the docket rows use. */
   .legal-prose li {
     @apply relative pl-5;
   }
@@ -307,6 +324,29 @@
   }
   .legal-prose strong {
     @apply font-semibold text-ink;
+  }
+
+  /* ---- Marquee — the wordmark wall and the status ticker drift past continuously.
+     Content is duplicated once in the template for a seamless loop (-50% = exactly one
+     copy). Pausing on hover/focus is required, not optional — a moving wordmark under
+     someone's pointer or keyboard focus reads as broken, not alive. The duplicate copy
+     is aria-hidden and dropped under reduced motion so nothing reads twice to a screen
+     reader or a keyboard user tabbing through motionless content. */
+  .marquee-wrap {
+    @apply overflow-hidden;
+  }
+  .marquee-wrap:hover .marquee-track,
+  .marquee-wrap:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+  .marquee-track {
+    @apply flex w-max;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none !important;
+      transform: none !important;
+    }
   }
 
   /* ---- Mobile menu ----
@@ -348,7 +388,8 @@
      whole. `visibility` (not `display`) is what closes it, so both directions can be
      transitioned and the rows keep their stagger on the way in. */
   .mobile-menu {
-    @apply invisible fixed inset-0 top-16 z-40 overflow-y-auto bg-paper opacity-0 lg:hidden;
+    @apply invisible fixed inset-0 top-16 z-40 overflow-y-auto bg-paper/90 opacity-0
+           backdrop-blur-xl lg:hidden;
     transform: translateY(-8px);
     /* `visibility` is stepped, not interpolated, so it has to be held until the fade
        finishes — otherwise closing hides the panel on frame one and the exit animation
@@ -392,5 +433,16 @@
   .mobile-menu nav > * {
     transition-duration: 1ms !important;
     transition-delay: 0ms !important;
+  }
+  .orb {
+    animation: none !important;
+  }
+  .status-dot::before {
+    animation: none !important;
+    display: none;
+  }
+  .bg-grid-beam {
+    animation: none !important;
+    opacity: 0.35;
   }
 }
