@@ -1,0 +1,121 @@
+{#
+  Home hero — centred, full-width, image beneath rather than beside.
+
+  Distinct from partials/cover-sheet.njk, which the five service pages use: those are
+  left-text / right-image splits, because a service page opens mid-conversation with a
+  reader who already chose a door. Home opens before that choice is made, so the
+  headline gets the full measure of the page and both doors sit side by side under it,
+  neither one visually favoured. Keeping the two heroes as separate partials is
+  deliberate — merging them would mean a flag that changes the entire layout.
+
+  The image sits below the fold-line copy as a wide band, so the hero's first screen is
+  headline + CTAs on mobile and desktop alike, with the photograph as reward for the
+  first scroll rather than competition for the headline.
+#}
+{% from "partials/icons.njk" import icon %}
+{# data-rotator-scope marks the region whose hover / keyboard focus pauses the rotator. #}
+<section data-rotator-scope class="relative overflow-hidden">
+
+  {# The hero's own ground — three soft brand-coloured fields drifting on long, offset
+     loops. Decorative only, and the one place on the site where colour blur is allowed
+     to carry depth; see .hero-aurora in input.css for why the exception is scoped here. #}
+  <div class="hero-aurora" aria-hidden="true">
+    <span class="aurora-blob aurora-blob-1"></span>
+    <span class="aurora-blob aurora-blob-2"></span>
+    <span class="aurora-blob aurora-blob-3"></span>
+  </div>
+
+  {# The dot field, deliberately after the bloom in the markup — both layers sit at
+     -z-10, so DOM order is what keeps the dots crisp on top of the colour. #}
+  <div class="hero-dots" aria-hidden="true"></div>
+
+  <div class="section-container pb-12 pt-14 sm:pb-16 sm:pt-20 lg:pt-24">
+
+    <div class="section-head is-centered max-w-4xl">
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <span class="status-chip"><span class="status-dot"></span>Intake open</span>
+        <span class="meta">{{ site.address.line1 }} · {{ site.address.line2 }}</span>
+      </div>
+
+      {# The rotating audience word.
+
+         The <h1>'s accessible text is the complete sentence, held in a visually-hidden
+         span — a screen reader and a crawler get one coherent heading rather than a
+         word that mutates under them. The visible half is aria-hidden presentation of
+         that same sentence.
+
+         The track renders with the first word already in the mask, so the hero is
+         correct before text-rotator.js runs and if it never does. Single words only:
+         anything long enough to wrap would break the one-line mask the roll depends on.
+
+         The first word is repeated at the end of the track — the roll wraps onto that
+         duplicate and then snaps back to index 0, a jump between two identical frames
+         that cannot be seen. #}
+      {% set rotatorWords = ["students", "professionals", "employers"] %}
+
+      <h1 class="mt-3">
+        <span class="sr-only">
+          Recruiting for students starting out, professionals moving on, and the employers hiring both.
+        </span>
+
+        <span aria-hidden="true" class="display-title block">
+          <span class="block">Recruiting for</span>
+
+          <span data-rotator class="roll-mask">
+            <span data-rotator-track class="roll-track">
+              {% for word in rotatorWords %}
+              <span data-rotator-word class="roll-word">{{ word }}</span>
+              {% endfor %}
+              <span data-rotator-word data-rotator-clone class="roll-word">{{ rotatorWords[0] }}</span>
+            </span>
+          </span>
+        </span>
+
+      </h1>
+
+      <p class="lead-copy mx-auto max-w-2xl">
+        Two doors, one team behind both — matched by people who read the brief,
+        not a keyword filter.
+      </p>
+
+      {# Two doors, equal weight. The solid/outline pairing distinguishes them without
+         ranking them: both are primary paths, and the page's whole premise is that the
+         visitor picks one. #}
+      <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="{{ '/services/job-placement/' | url }}" class="btn-primary">
+          {{ icon("users", "w-4 h-4") }} Find a Job
+        </a>
+        <a href="{{ '/services/recruitment-staffing/' | url }}" class="btn-outline">
+          {{ icon("briefcase", "w-4 h-4") }} Hire Talent
+        </a>
+      </div>
+
+      {# The fee model belongs in the hero, not the FAQ — it's the first question every
+         candidate has, and it's a policy claim we control, so it's safe to state. #}
+      <p class="meta mt-6">Free for candidates — employers pay our fee.</p>
+    </div>
+
+    <figure class="relative mt-12 sm:mt-16">
+      <img src="{{ '/assets/images/home/hero-team-meeting.jpg' | url }}"
+           alt="A recruiter and a candidate in conversation"
+           width="2400" height="1000" loading="eager" fetchpriority="high"
+           class="aspect-[16/10] w-full rounded-2xl object-cover shadow-card sm:aspect-[21/9]">
+
+      {# Stat strip overlapping the image's lower edge on desktop, stacked beneath it on
+         mobile — one element tying the photograph to the numbers instead of leaving a
+         dead gap between two full-width blocks. Figures come from _data/stats.json, the
+         same source About reads, so the two pages can never disagree. #}
+      <figcaption class="glass-panel relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 gap-px overflow-hidden bg-border p-0 sm:-mt-12 md:grid-cols-4 lg:-mt-16">
+        {% for stat in stats.list %}
+        <div class="bg-surface px-5 py-6 text-center sm:px-6 sm:py-7">
+          <p class="stat-figure text-2xl sm:text-3xl"
+             data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</p>
+          <p class="stat-label">{{ stat.label }}</p>
+        </div>
+        {% endfor %}
+      </figcaption>
+    </figure>
+
+    <p class="meta mt-5 text-center">Figures under review · updated quarterly</p>
+  </div>
+</section>

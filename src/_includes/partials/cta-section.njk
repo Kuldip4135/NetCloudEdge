@@ -7,7 +7,7 @@
 {% from "partials/icons.njk" import icon %}
 <section class="relative overflow-hidden bg-ink py-20 sm:py-28">
   <div class="section-container text-center">
-    <span class="status-chip border-white/20 bg-paper/10 text-paper backdrop-blur-xl">
+    <span class="status-chip border-white/20 bg-paper/10 text-paper">
       <span class="status-dot"></span>{{ ctaStamp or "Ready when you are" }}
     </span>
     <h2 class="mx-auto mt-6 max-w-2xl font-grotesk text-3xl font-bold leading-tight tracking-tight text-paper sm:text-5xl">
@@ -18,7 +18,9 @@
     {% endif %}
     <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
       <a href="{{ ctaHref | url }}" class="btn-primary">{{ ctaLabel }} {{ icon("arrow-right", "w-4 h-4") }}</a>
-      <a href="{{ site.phoneHref }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-paper/30 px-6 py-3.5 font-medium text-paper backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:border-paper/60">
+      {# Named properties, not `transition-all` — and no backdrop-blur: this band sits on
+         flat ink, so the blur filtered a solid colour for nothing and cost a repaint. #}
+      <a href="{{ site.phoneHref }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-paper/30 px-6 py-3.5 font-medium text-paper duration-200 ease-out transition-[transform,border-color] hover:-translate-y-0.5 hover:border-paper/60">
         {{ icon("phone", "w-4 h-4") }} {{ site.phone }}
       </a>
     </div>

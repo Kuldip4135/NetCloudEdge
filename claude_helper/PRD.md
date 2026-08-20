@@ -1,13 +1,51 @@
 # PRD — pages, sections, and shared components
 
-Source of truth for **what pages exist and what sections each one has, in what order**.
-The words go in [CONTENT.md](CONTENT.md); the visual system is [THEME.md](THEME.md);
-remaining build work is [ROADMAP.md](ROADMAP.md).
+Source of truth for **what pages exist and what sections each one has, in what order**, for
+Net Cloud Edge (`src/_data/site.json`), a recruiting and staffing site serving two audiences —
+students entering the job market and working professionals switching or moving up — plus the
+employers who hire both.
 
-**Audience:** students entering the job market, working professionals switching or moving up,
-and the employers who hire both. Competitor reviewed for structure (not content):
-[Netbounce Placement](https://netbounceplacement.com/) — a full-service US recruiting firm with
-visa/OPT-specific messaging. We borrow their structure; our audience is broader than their niche.
+## Competitor research
+
+Reviewed for structure and positioning, not copied for content or claims:
+
+- **[Netbounce Placement](https://netbounceplacement.com/)** — a full-service US recruiting firm
+  with visa/OPT-specific messaging. Runs **proof-by-volume**: an employer logo wall, a live
+  placement feed with salaries, 25+ testimonials, a year-by-year growth table, a before/after
+  comparison block, and a certification badge wall (one badge on it does not correspond to a real
+  certification). **What we borrow:** the growth-table pattern (dated and concrete beats a round
+  headline number) and a qualitative before/after block. **What we reject:** salary figures tied
+  to placements, unverifiable badges, and their visa-led framing — that's their niche, and it
+  narrows us into a segment we don't serve better than they do.
+- **[Insight Global](https://insightglobal.com/)** — the opposite strategy: no counters, no feed,
+  leads with culture, breadth of industry coverage, and access to a named person rather than a
+  form. Their real asset is a long, specific industry list (20+ named industries), which reads as
+  coverage and doubles as an SEO surface. **What we borrow:** the industries list
+  (`_data/industries.json`, surfaced on the employer-facing pages) and a single human-facing CTA
+  in place of a wall of competing buttons.
+- **[Robert Half](https://www.roberthalf.com/us/en)** — the largest player at true dual-audience
+  scale: a job-search tool and a "hire talent" path live on the same homepage, backed by a
+  standing insights/research hub (salary guides, hiring advice, career advice) that both audiences
+  return to outside of an active job search or open role. **What we borrow:** confirmation that the
+  dual-path homepage split is the right opening move at any company size. **What we deliberately
+  don't build:** the insights hub — it's a genuine content-marketing commitment (research,
+  publishing cadence, SEO investment) that only pays off maintained, and a thin version reads worse
+  than none. Tracked under [Deferred to phase 2](#deferred-to-phase-2-deliberately).
+- **TEKsystems / Randstad / ManpowerGroup** — the large generalist and specialist firms split the
+  market on one axis: **breadth vs. specialization**. TEKsystems and Insight Global win on IT
+  depth; Randstad and Adecco win on breadth across admin, operational, and light-industrial roles.
+  Neither framing is stated loudly on their homepages — it shows up in how each site organizes its
+  service and industry pages. **What we borrow:** the same tension exists inside our own five
+  services, between Recruitment & Staffing (breadth, speed, volume roles) and Talent Acquisition
+  (depth, seniority, executive search). It's why Talent Acquisition's most important section is a
+  direct comparison table against Staffing, placed high on the page — without it, a visitor can't
+  tell the two services apart, which is exactly the failure mode this class of company falls into
+  when its service lines aren't clearly delineated.
+
+**Net position:** Netbounce out-proofs us, Insight Global out-credentials us, Robert Half
+out-publishes us. None of the three say plainly, on their own homepage, which of their services is
+for whom — **we do, and it stays the differentiator.** The "Which service fits you?" matrix on the
+Services overview page is the thing none of them build cleanly, and it stays high on the page.
 
 ## Sitemap (9 pages)
 
@@ -36,6 +74,8 @@ credibility to employers.*
 
 1. **Hero** — one static headline (no carousel), subhead, two CTAs: "Find a Job" (solid) /
    "Hire Talent" (outline), plus the fee-model trust line. Image stacks below text on mobile.
+   Robert Half runs this exact dual-CTA pattern at the largest scale in the industry — it's the
+   validated opening move, not a guess.
 2. **Dual-Path Split** — two cards, "For Job Seekers" / "For Employers", each with an icon, a
    two-line pitch, and its own CTA. Two doors is the point; a third dilutes the choice.
 3. **Services Grid** — five cards: icon, title, one-liner, audience tag, "Learn more". 1 / 2 / 3
@@ -44,7 +84,9 @@ credibility to employers.*
 5. **Success Metrics** — four counters in the numeric face, counting up on scroll. 2×2 on mobile,
    one row on desktop.
 6. **Employer network + placement feed** — full-bleed interludes; both gated on permission and
-   real consented placements.
+   real consented placements. Netbounce's live feed is the strongest single element of their
+   proof-by-volume strategy — we run a smaller, honest version of it, never backfilled with
+   invented placements.
 7. **Testimonials** — swipe horizontally on mobile, row on desktop. Initials avatar where there's
    no real photo.
 8. **How It Works** — four numbered steps, each with the time cost to the visitor.
@@ -75,7 +117,8 @@ credibility to employers.*
 1. **Page Header** — title plus an intro framing the five as one pipeline: source → vet → place →
    verify → upskill.
 2. **Which Service Fits You?** — audience × service matrix. **Sits above the detail rows** — it's
-   the fastest router on the site. Collapses to stacked label/value pairs on mobile.
+   the fastest router on the site, and the thing none of the researched competitors build cleanly
+   on their own homepage or overview page. Collapses to stacked label/value pairs on mobile.
 3. **Services Detail Rows** — five zig-zag rows, alternating image side, each with a 2–3 line
    description, a "not for you if…" line pointing at the right alternative, and an "Explore" link.
 4. **CTA Band** — "Not sure which service fits? Book a free consultation."
@@ -101,7 +144,8 @@ credibility to employers.*
 1. **Hero** — mirrored layout from Job Placement, employer-facing headline.
 2. **What's Included** — sourcing, screening, staffing models, industry specialisations.
 3. **Industries We Staff** — sectors with typical roles. Employers scan for their own sector
-   before reading anything else.
+   before reading anything else — Insight Global's homepage leads with exactly this kind of long,
+   specific industry list, and it's their strongest single credibility signal.
 4. **How Engagements Work** — commercial structure stated plainly, structure not rates.
    Employers who can't find terms assume they're bad.
 5. **Process Steps.**
@@ -117,7 +161,10 @@ seconds, both pages fail.*
 1. **Hero** — on the surface tone rather than paper, a deliberate one-shade shift so the page
    reads as more premium without introducing any new colour.
 2. **How This Differs from Staffing** — comparison table, placed high. The most important block
-   on the page.
+   on the page: the breadth-vs-specialization split that separates generalist firms (Randstad,
+   Adecco) from depth-focused ones (TEKsystems, Insight Global) in the wider market is exactly the
+   split between our own Staffing and Talent Acquisition services, and it has to be stated
+   explicitly rather than left for the visitor to infer.
 3. **What's Included** — with market mapping expanded into its own block; describing that
    deliverable concretely is what justifies the premium framing.
 4. **Process Steps.**
@@ -133,7 +180,8 @@ seconds, both pages fail.*
 2. **What We Verify** — icon grid, with *"where legally permitted"* on the criminal check.
    That qualifier is not optional.
 3. **Compliance Note** — plain text, no badge iconography. Consent, data handling, retention,
-   and an explicit statement that we don't display badges we haven't earned.
+   and an explicit statement that we don't display badges we haven't earned — Netbounce's one
+   unearned certification badge is the specific mistake this rule exists to prevent.
 4. **Process Steps.**
 5. **FAQ Accordion.**
 6. **CTA Band.**
@@ -157,7 +205,7 @@ service page.*
 8. **CTA Band.**
 
 > If the tracks aren't real yet, this page ships as a single waitlist section instead — no
-> durations, no prices, no curriculum until they exist. See [ROADMAP.md](ROADMAP.md) blocker 1.
+> durations, no prices, no curriculum until they exist.
 
 ## 9. Contact
 
@@ -186,7 +234,8 @@ No CTA band. The form on this page *is* the call to action.
   - **Mobile menu** — full-width slide-in, closes on outside click and on Escape, page behind it
     locked from scrolling.
   - No Careers, Insights, or Refer & Earn items until those pages exist and are maintained — a nav
-    item leading to a thin page costs more than a missing one.
+    item leading to a thin page costs more than a missing one. (See Robert Half's insights hub
+    above, deferred for the same reason.)
 - **Footer** — four columns on desktop, one on mobile: (1) logo, one-line pitch, social;
   (2) all five services; (3) company links including Privacy Policy and Terms; (4) contact details.
   Registered entity name in the copyright line. No newsletter signup unless someone genuinely
@@ -213,5 +262,10 @@ Designed mobile-first, then adapted upward through tablet and desktop.
 
 ## Deferred to phase 2 (deliberately)
 
-Blog / Insights (the competitor's heavy SEO play), resume ATS scorer (needs a real backend — a
-fake scorer is worse than none), referral program, careers page, live placement feed.
+- **Insights / resources hub** — Robert Half's strongest asset (salary guides, hiring advice,
+  career advice) is a standing content-marketing commitment: research, a publishing cadence, SEO
+  investment. A thin version reads worse than none.
+- **Resume ATS scorer** — needs a real backend; a fake scorer is worse than no scorer.
+- **Referral program.**
+- **Careers page.**
+- **Live placement feed** — beyond the gated, permission-based version already on Home.

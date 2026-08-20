@@ -3,27 +3,47 @@
 @tailwind utilities;
 
 /*
-  THE CONSOLE — the site theme. A live operations dashboard, not a brochure.
+  THE LEDGER — the site theme. A premium, paper-white staffing firm, not a dashboard.
 
   Colours are R G B triplets consumed via rgb(var(--x) / <alpha>) in tailwind.config.js,
   so opacity modifiers (bg-brand/10, text-ink/65) keep working unchanged.
 
-  Cool, clean, corporate-but-alive: a pale blue-white "paper" (never warm/cream) behind
-  frosted glass panels, a confident cobalt for primary actions, and a cyan "signal"
-  colour reserved strictly for anything meant to read as live/current — status dots,
-  "live" badges, count-up numbers.
+  Disciplined two-colour system: crisp white surfaces on a near-white paper ground,
+  a single confident blue carrying every action and every "live" signal — no cyan,
+  no second accent hue. Depth comes from a hairline border plus a soft, wide, colourless
+  shadow, never from blur-over-colour. Detailing (the eyebrow, the mono meta line, the
+  numbered tile) is what reads as premium — not glow.
 */
 :root {
-  --color-ink: 16 28 46;
-  --color-paper: 245 248 252;
-  --color-brand: 29 95 214;
-  --color-brand-dark: 20 64 158;
-  --color-accent: 23 182 212;
-  --color-accent-deep: 12 116 137;
-  --color-surface: 234 241 251;
-  --color-border: 211 225 245;
-  --color-signal: 29 95 214;
-  --color-signal-dark: 20 64 158;
+  --color-ink: 15 23 42;
+  --color-paper: 244 248 252;
+  --color-brand: 21 71 196;
+  --color-brand-dark: 14 51 148;
+  --color-accent: 37 130 246;
+  --color-accent-deep: 13 84 179;
+  --color-surface: 255 255 255;
+  --color-border: 224 230 240;
+  --color-signal: 21 71 196;
+  --color-signal-dark: 14 51 148;
+}
+
+/* Three drifts, deliberately unequal in distance and direction as well as duration, so
+   no two blobs ever trace parallel paths. `alternate` in the shorthand means each one
+   eases back the way it came — no reset seam to hide. */
+@keyframes aurora-drift-a {
+  to {
+    transform: translate3d(90px, 50px, 0) scale(1.12);
+  }
+}
+@keyframes aurora-drift-b {
+  to {
+    transform: translate3d(-80px, 60px, 0) scale(1.08);
+  }
+}
+@keyframes aurora-drift-c {
+  to {
+    transform: translate3d(60px, -34px, 0) scale(1.14);
+  }
 }
 
 @layer base {
@@ -46,19 +66,8 @@
     outline-offset: 2px;
   }
 
-  /* Faint grain over the glass/light — keeps the console from feeling too digital. */
   body {
     position: relative;
-  }
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.12;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 
@@ -71,79 +80,243 @@
   }
   /* Tiny monospace uppercase brand-coloured kicker above every section heading. */
   .eyebrow {
-    @apply font-mono text-xs uppercase tracking-widest text-brand;
+    @apply font-mono text-sm uppercase tracking-widest text-brand;
   }
   .body-copy {
-    @apply text-base leading-relaxed text-ink/65;
+    @apply text-[17px] leading-relaxed text-ink/65;
+  }
+
+  /* ---- Display scale ----
+     Three steps, and only three. The hero is deliberately far larger than a section
+     heading — that gap is what makes the page feel designed rather than uniformly
+     "big". Headings run bold (not semibold) with tight tracking and leading; the
+     lead paragraph beneath sits at 18–20px so the size contrast stays legible. */
+
+  /* The mobile step is 2.5rem rather than the scale's text-5xl (3rem). At 48px the
+     rotator's longest word — "professionals" — measures wider than a 375px viewport's
+     content box, and .roll-mask clips overflow, so the word would lose its tail on the
+     smallest phones. 2.5rem keeps the bump and keeps the word intact. */
+  .display-title {
+    @apply font-grotesk text-[2.5rem] font-bold leading-[1.05] tracking-tight text-ink
+           sm:text-7xl lg:text-8xl;
+  }
+  .section-title {
+    @apply font-grotesk text-4xl font-bold leading-[1.15] tracking-tight text-ink sm:text-5xl;
+  }
+  .card-title {
+    @apply font-grotesk text-xl font-semibold leading-snug tracking-tight text-ink;
+  }
+  /* Lead paragraph under a display or section title. */
+  .lead-copy {
+    @apply text-xl leading-relaxed text-ink/65 sm:text-[22px];
+  }
+
+  /* Standard section header block: eyebrow, title, optional lead. `is-centered`
+     centres the whole block and constrains the measure — used by the hero, the
+     value-proposition band, and the closing CTA. */
+  .section-head {
+    @apply max-w-2xl;
+  }
+  .section-head.is-centered {
+    @apply mx-auto text-center;
+  }
+  .section-head .section-title,
+  .section-head .display-title {
+    @apply mt-3;
+  }
+  .section-head .lead-copy {
+    @apply mt-4;
   }
   /* Machine-generated status text: eyebrows, timestamps, stat labels. Never the hero
      number itself — that stays at full mono weight/opacity. ink/65 (not /50) — at
-     11px this is small text and WCAG AA needs 4.5:1; /50 measures ~3.3:1 on paper. */
+     12px this is still small text and WCAG AA needs 4.5:1; /50 measures ~3.3:1 on
+     paper, so the opacity holds even though the size went up. */
   .meta {
-    @apply font-mono text-[11px] uppercase tracking-widest text-ink/65;
+    @apply font-mono text-xs uppercase tracking-widest text-ink/65;
   }
   .text-balance {
     text-wrap: balance;
   }
   [data-header].is-scrolled {
-    @apply border-white/50 bg-paper/80;
+    @apply border-border bg-surface/90;
   }
 
-  /* ---- The background "light" — a fixed layer every glass panel blurs ---- */
+  /* ---- The background — a fixed, near-silent texture, not a light source ---- */
 
+  /* An almost imperceptible dot grid: the one nod to "instrument precision" this
+     theme keeps, dialled down to a texture rather than a visual. No blobs, no
+     colour, no motion — those read as a product dashboard, not a staffing firm. */
   .bg-orbs {
-    @apply pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-surface to-paper;
-  }
-  .orb {
-    @apply absolute rounded-full blur-3xl;
-  }
-  /* Faint schematic grid behind the hero — the console reading as an instrument
-     panel rather than a poster. Fades out toward the edges via mask so it never
-     competes with content lower on the page. */
-  .bg-grid {
-    @apply absolute inset-0;
-    background-image:
-      linear-gradient(rgb(var(--color-ink) / 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(var(--color-ink) / 0.06) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 65% 55% at 50% 0%, black 30%, transparent 85%);
-    -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 0%, black 30%, transparent 85%);
-  }
-  /* A soft glow sweeping down through the grid, like a scanning pass. */
-  .bg-grid-beam {
-    @apply absolute inset-x-0 top-0 h-72 animate-grid-sweep-slow;
-    background: linear-gradient(180deg, transparent, rgb(var(--color-accent) / 0.16), transparent);
+    @apply pointer-events-none fixed inset-0 -z-10 bg-paper;
+    background-image: radial-gradient(rgb(var(--color-ink) / 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
   }
 
-  /* ---- Buttons. Fully rounded pills, glow, small hover lift. ---- */
+  /* ---- The hero ground — an aurora bloom ----
 
+     A deliberate, scoped exception to this theme's no-glow rule. THE LEDGER's premise
+     is that depth comes from a hairline and a colourless shadow, never from blur over
+     colour — and that still governs every card, panel and button on the site. The home
+     hero is the one surface allowed to break it, because it is the only screen with no
+     component on it to be consistent with: it is paper, a headline, and two buttons.
+     .bg-orbs still carries every other page, unchanged.
+
+     Three soft brand-coloured fields drift behind the copy on long, offset, alternating
+     loops. Offset durations (20s / 26s / 32s) are what stop the group from ever
+     resolving into a single pulsing rhythm — with matched durations the eye locks onto
+     the beat and the whole thing reads as a loading screen.
+
+     The blobs sit in the upper corners and low centre, clear of the headline's own
+     column, so the text never crosses a colour boundary while it is being read. At
+     these opacities the composite under the copy stays within a few points of paper
+     white, so ink/65 body text keeps its contrast — the bloom is doing nothing to
+     legibility, which is the condition for it being allowed here at all.
+
+     Motion is transform only, on a filtered layer promoted with will-change, so each
+     frame is a composite rather than a re-blur. blur() is the expensive part, so it is
+     dialled back on small screens where the fill rate costs most and the blobs are
+     mostly off-canvas anyway.
+
+     prefers-reduced-motion is handled globally in @layer base: the animation collapses
+     to a single instant iteration and the blobs simply hold a static position. The
+     bloom stays, the drift stops — which is the correct reading of that preference. */
+  .hero-aurora {
+    @apply pointer-events-none absolute inset-0 -z-10 overflow-hidden;
+  }
+  .aurora-blob {
+    @apply absolute block rounded-full;
+    filter: blur(70px);
+    will-change: transform;
+  }
+  .aurora-blob-1 {
+    @apply h-[26rem] w-[38rem];
+    left: -10%;
+    top: -26%;
+    background: radial-gradient(circle, rgb(var(--color-brand) / 0.30), transparent 68%);
+    animation: aurora-drift-a 20s ease-in-out infinite alternate;
+  }
+  .aurora-blob-2 {
+    @apply h-[25rem] w-[35rem];
+    right: -8%;
+    top: -18%;
+    background: radial-gradient(circle, rgb(var(--color-accent) / 0.28), transparent 68%);
+    animation: aurora-drift-b 26s ease-in-out infinite alternate;
+  }
+  /* The third sits low and centred, tying the bloom down into the photograph band so
+     the hero doesn't read as colour at the top and nothing underneath. Weakest of the
+     three — it is a transition, not a feature. */
+  .aurora-blob-3 {
+    @apply h-[22rem] w-[42rem];
+    left: 50%;
+    bottom: -30%;
+    margin-left: -21rem;
+    background: radial-gradient(circle, rgb(var(--color-brand) / 0.16), transparent 70%);
+    animation: aurora-drift-c 32s ease-in-out infinite alternate;
+  }
+  @media (max-width: 640px) {
+    .aurora-blob {
+      filter: blur(48px);
+    }
+  }
+
+  /* ---- The hero dot field, over the bloom ----
+
+     Sits above .hero-aurora rather than beneath it. Under the blobs the dots would be
+     blurred out exactly where the bloom is strongest, leaving texture only in the
+     corners where nothing is happening. Over the top, the field stays crisp and the
+     colour reads as light passing behind a fixed screen — which is the effect that
+     makes the two layers look designed together instead of merely stacked.
+
+     Ordering is DOM order, not z-index: both layers sit at -z-10 and paint in the
+     order they appear in the markup, so the dots must stay the second of the two.
+
+     Masked bright at the centre and fading out toward the edges — the opposite of the
+     first attempt at this hero, and the reason this one is actually visible. The copy
+     sits in the strongest part of the texture, which is where every reference for this
+     pattern puts it.
+
+     22px pitch against .bg-orbs' 28px. The site-wide field is `fixed` and this one
+     scrolls, so a matched pitch would drift in and out of phase as the page moves and
+     shimmer. A clearly different spacing reads as its own texture instead. At ink/0.13
+     against the ground layer's ink/0.06 this one dominates anyway. */
+  .hero-dots {
+    @apply pointer-events-none absolute inset-0 -z-10;
+    background-image: radial-gradient(rgb(var(--color-ink) / 0.13) 1.4px, transparent 1.4px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(ellipse 62% 66% at 50% 38%, #000 8%, transparent 78%);
+    mask-image: radial-gradient(ellipse 62% 66% at 50% 38%, #000 8%, transparent 78%);
+  }
+
+  /* ---- Buttons. Fully rounded pills, a small hover lift, no glow halo. ---- */
+
+  /* Buttons name their transitioned properties rather than using `transition-all`.
+     `all` sweeps in whatever else changes on hover — box-shadow, borders, inherited
+     colour — and each of those is a repaint the compositor can't skip. Transform and
+     colour are enough to read as a lift. */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5
-           font-medium text-paper shadow-glow transition-all duration-200
-           hover:-translate-y-0.5 hover:bg-brand-dark;
+           font-semibold text-paper shadow-card duration-200 ease-out
+           transition-[transform,background-color] hover:-translate-y-0.5 hover:bg-brand-dark;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/60
-           bg-paper/50 px-6 py-3.5 font-medium text-ink backdrop-blur-xl transition-all
-           duration-200 hover:-translate-y-0.5 hover:border-brand hover:text-brand;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink/15
+           bg-surface px-6 py-3.5 font-semibold text-ink duration-200 ease-out
+           transition-[transform,border-color,color] hover:-translate-y-0.5
+           hover:border-brand hover:text-brand;
   }
 
-  /* ---- The signature unit: a frosted pane over the light ---- */
+  /* ---- The signature unit: a crisp white card — hairline border, soft ambient
+     shadow, no blur. Depth comes from the shadow and the border, never from
+     translucency over a coloured background. ---- */
 
   .glass-panel {
-    @apply rounded-[1.75rem] border border-white/60 bg-paper/60 shadow-glass backdrop-blur-xl;
+    @apply rounded-2xl border border-border bg-surface shadow-card;
   }
-  /* Hover-interactive panels only — a subtle lift, never rotation or a big movement. */
+  /* Hover-interactive panels only — a subtle lift with a matching shadow step-up.
+
+     The deeper shadow lives on a pseudo-element that fades in, rather than being a
+     box-shadow transition on the card itself. Animating box-shadow repaints the card
+     and its blur radius every frame; cross-fading two static shadows is a compositor
+     opacity change and stays smooth with a dozen cards on screen.
+
+     Note: the ::after carries an *outer* shadow, so a card combining .card-lift with
+     `overflow-hidden` would clip it. Nothing does today — put the overflow on an inner
+     wrapper if that ever changes. */
   .card-lift {
-    @apply transition-transform duration-200 hover:-translate-y-1.5;
+    @apply relative transition-transform duration-200 ease-out hover:-translate-y-1;
+  }
+  .card-lift::after {
+    content: "";
+    border-radius: inherit;
+    @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out;
+    box-shadow: 0 2px 4px rgb(15 23 42 / 0.05), 0 20px 40px -14px rgb(15 23 42 / 0.16);
+  }
+  .card-lift:hover::after {
+    @apply opacity-100;
   }
 
-  /* Rounded-square solid-colour badge holding a line icon, with a matching glow. */
-  .icon-chip {
-    @apply flex h-10 w-10 items-center justify-center rounded-2xl bg-brand text-paper shadow-glow;
+  /* Link with a trailing arrow that nudges right on hover. Translating the icon
+     instead of animating `gap` keeps this off the layout path — a gap transition
+     reflows the line on every frame, which is the jerkiest thing on a page full of
+     these. Works from the link itself or from an ancestor .group. */
+  .link-arrow {
+    @apply inline-flex items-center gap-2 text-sm font-semibold text-brand;
   }
+  .link-arrow svg {
+    @apply transition-transform duration-200 ease-out;
+  }
+  .link-arrow:hover svg,
+  .group:hover .link-arrow svg {
+    @apply translate-x-1;
+  }
+
+  /* Rounded-square solid-colour badge holding a line icon. */
+  .icon-chip {
+    @apply flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-paper shadow-glow;
+  }
+  /* Quieter tinted variant — brand-on-tint, for secondary use inside a white card. */
   .icon-chip-accent {
-    @apply bg-accent text-paper shadow-glow-accent;
+    @apply bg-brand/10 text-brand shadow-none;
   }
   .icon-chip-ink {
     @apply bg-ink text-paper shadow-none;
@@ -152,9 +325,8 @@
   /* Status chip: mono pill + a pulsing dot behind a solid dot. The single most
      recognisable motif in the theme — use anywhere something should feel live/current. */
   .status-chip {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/60 bg-paper/70
-           px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-widest
-           text-ink backdrop-blur-xl;
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-surface
+           px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-widest text-ink;
   }
   .status-dot {
     @apply relative inline-flex h-2 w-2 shrink-0 rounded-full bg-accent;
@@ -177,46 +349,46 @@
   }
   .manifest-head {
     @apply grid grid-cols-12 items-center gap-3 border-b border-ink/10 pb-2
-           font-mono text-[11px] uppercase tracking-widest text-ink/65;
+           font-mono text-xs uppercase tracking-widest text-ink/65;
   }
 
-  /* Sticky section rail — a glass panel identical to .glass-panel, holding the
+  /* Sticky section rail — a card identical to .glass-panel, holding the
      in-page link list. */
   .folder-card {
-    @apply rounded-[1.75rem] border border-white/60 bg-paper/60 shadow-glass backdrop-blur-xl;
+    @apply rounded-2xl border border-border bg-surface shadow-card;
   }
   /* One rail link — the mono index number stays fixed weight; only the label and
      the left rule react to the active state set by rail-active.js. */
   .rail-link {
     @apply flex items-center gap-2.5 rounded-full border-l-2 border-transparent px-3 py-2.5
-           text-sm font-medium text-ink/60 transition-colors hover:bg-surface/70 hover:text-ink;
+           text-sm font-medium text-ink/60 transition-colors hover:bg-paper hover:text-ink;
   }
   .rail-link.is-active {
-    @apply border-brand bg-surface/70 text-ink;
+    @apply border-brand bg-brand/5 text-ink;
   }
 
   /* Metadata chip — sector, duration, audience. Never a button, never clickable. */
   .file-tag {
-    @apply inline-flex items-center gap-2 rounded-full bg-surface/80 px-3 py-1.5
-           font-mono text-xs text-ink/70;
+    @apply inline-flex items-center gap-2 rounded-full bg-brand/5 px-3 py-1.5
+           font-mono text-xs text-brand;
   }
   /* A nested, quieter well inside a glass panel — callouts, small print, form wells. */
   .file-inset {
-    @apply rounded-xl bg-surface/60 px-5 py-4;
+    @apply rounded-xl bg-paper px-5 py-4;
   }
 
-  /* ---- Forms. Glass inputs, brand focus ring, no dashed borders. ---- */
+  /* ---- Forms. Crisp inputs, brand focus ring, no dashed borders. ---- */
 
   .field-label {
-    @apply block font-mono text-[11px] uppercase tracking-widest text-ink/65;
+    @apply block font-mono text-xs uppercase tracking-widest text-ink/65;
   }
   .field {
-    @apply mt-1.5 w-full rounded-2xl border border-white/60 bg-paper/70 px-3.5 py-2.5
-           text-base text-ink placeholder:text-ink/40 backdrop-blur-xl
+    @apply mt-1.5 w-full rounded-xl border border-border bg-surface px-3.5 py-2.5
+           text-base text-ink placeholder:text-ink/40
            focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
   }
   .field-error {
-    @apply mt-1.5 font-mono text-[11px] uppercase tracking-widest text-accent-deep;
+    @apply mt-1.5 font-mono text-xs uppercase tracking-widest text-accent-deep;
   }
 
   /* ---- Disclosure, navigation, quotes, tables ---- */
@@ -234,7 +406,7 @@
 
   /* Breadcrumb — quiet muted mono trail. */
   .filepath {
-    @apply flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase
+    @apply flex flex-wrap items-center gap-2 font-mono text-xs uppercase
            tracking-widest text-ink/65;
   }
   .filepath a {
@@ -253,12 +425,12 @@
     @apply w-full border-collapse text-base;
   }
   .ledger thead th {
-    @apply border-b border-ink/10 pb-2 text-left font-mono text-[11px] font-normal
+    @apply border-b border-ink/10 pb-2 text-left font-mono text-xs font-normal
            uppercase tracking-widest text-ink/65;
   }
   .ledger tbody th {
     @apply border-b border-ink/10 py-3.5 pr-6 text-left align-top font-mono
-           text-[11px] font-normal uppercase tracking-widest text-ink/65;
+           text-xs font-normal uppercase tracking-widest text-ink/65;
   }
   .ledger tbody th[data-rowhead] {
     @apply align-middle font-grotesk text-lg font-semibold normal-case tracking-tight text-ink;
@@ -273,7 +445,7 @@
 
   /* Count-up stat numeral: big mono figure over a small muted mono label. */
   .stat-figure {
-    @apply font-mono text-2xl font-semibold tracking-tight text-ink sm:text-3xl;
+    @apply font-mono text-3xl font-semibold tracking-tight text-ink sm:text-4xl;
   }
   .stat-label {
     @apply meta mt-2;
@@ -284,6 +456,156 @@
   .trace-badge {
     @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink
            font-mono text-xs font-semibold text-paper;
+  }
+
+  /* ---- Growth table — one row per year, a proportional bar behind the figure.
+     A bar chart rather than a headline total, because a dated series can be checked
+     and a round number can't. The bar is decorative reinforcement only: the year and
+     the figure are both real text, so the section reads correctly with CSS off and to
+     a screen reader. Width is set inline from the data. ---- */
+
+  /* ---- The growth chart — one series, six columns, emphasis on one ----
+
+     One colour for every column, with the latest full year carried at full strength
+     and the rest held back. That is emphasis, not a value ramp: the columns are not
+     shaded darker-as-they-grow, because bar height already encodes magnitude and
+     spending hue on the same fact would waste the only free channel and leave the
+     reader decoding two things that say the same word.
+
+     Square at the baseline, 4px round on the data-end only. A fully rounded pill —
+     which this section used to draw — softens the exact point the reader is meant to
+     measure, and rounds the bottom away from the line the columns stand on.
+
+     Every value is labelled. Charts normally label selectively, but this section's
+     entire argument is that the figures can be checked, so hiding four of six behind
+     a hover would undo the reason it exists. That in turn is why there are no
+     gridlines: direct labels come before gridlines, and once every column is labelled
+     the grid is redundant furniture. */
+  .growth-chart {
+    @apply flex items-end gap-2 border-b border-ink/10 sm:gap-4;
+  }
+  .growth-col {
+    @apply flex flex-1 flex-col items-center gap-2;
+  }
+  /* <dt> is first in the source so the list reads year-then-figure with CSS off;
+     order-last puts it under its column on screen. */
+  .growth-year {
+    @apply order-last pt-3 text-center font-mono text-xs uppercase tracking-widest text-ink/65;
+  }
+  .growth-plot {
+    @apply flex h-40 w-full flex-col items-center justify-end gap-2 sm:h-56;
+  }
+  /* Values wear ink, never the series colour — the column beside them already carries
+     identity, and coloured numerals read as a second, non-existent category. */
+  .growth-value {
+    @apply font-mono text-xs font-semibold text-ink sm:text-sm;
+  }
+  .growth-bar {
+    @apply w-full max-w-[2.75rem] rounded-t-[4px] bg-brand/20
+           transition-colors duration-200 ease-out;
+  }
+  .growth-col:hover .growth-bar {
+    @apply bg-brand/40;
+  }
+  /* The one row the eye should land on. */
+  .growth-col[data-current] .growth-bar,
+  .growth-col[data-current]:hover .growth-bar {
+    @apply bg-brand;
+  }
+  /* Part-year columns are hatched as well as tagged. The texture is the redundant
+     encoding that keeps the caveat legible without colour — in print, under forced
+     colours, or for a reader who can't separate two tints of one blue. */
+  .growth-col[data-partial] .growth-bar {
+    background-color: rgb(var(--color-brand) / 0.08);
+    background-image: repeating-linear-gradient(45deg,
+      rgb(var(--color-brand) / 0.34) 0 4px, transparent 4px 9px);
+  }
+  /* ink/65 at 12px, matching .meta — this is the caveat on a part-year figure, so it
+     is the last label on the page that should be hard to read. */
+  .growth-tag {
+    @apply mt-1 block font-mono text-xs font-semibold uppercase tracking-widest text-ink/65;
+  }
+
+  /* The series' single answer, sized as a figure rather than a heading — mono, so it
+     sits with the rest of the machine-generated numbers on this page. */
+  .growth-headline {
+    @apply mt-2 font-mono text-5xl font-semibold leading-none tracking-tight text-ink;
+  }
+  .growth-delta {
+    @apply mt-3 inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1
+           font-mono text-xs font-semibold uppercase tracking-widest text-brand-dark;
+  }
+
+  /* ---- Vertical roll — the hero's rotating audience word.
+
+     One track of stacked words inside a one-line mask, moved up by exactly one line
+     height per step. Only `transform` animates, on one element, and nothing fades.
+
+     Why this and not a crossfade: a fade has a midpoint where both words sit at half
+     opacity and neither is legible. The eye has nothing to track across that gap, and
+     that ambiguity is what registers as sluggish no matter how short you make it. A
+     roll keeps one solid, fully-opaque word in view the entire time — the eye follows
+     a moving object, which is what actually reads as smooth.
+
+     And deliberately no `filter: blur()`. Any non-zero filter creates a stacking
+     context and forces the glyphs through GPU rasterisation, which resamples them —
+     so the type goes soft and loses precisely the crispness this design is built on.
+     Blur is the wrong instrument for type at display sizes; it reads as a rendering
+     fault rather than a decision.
+
+     Geometry is driven by one custom property, --roll-line, in em — so the mask, the
+     word boxes and the travel distance all stay locked together as the clamped display
+     size changes. The first word is duplicated at the end of the track, so wrapping
+     back to the start is a jump between two identical frames and therefore invisible. */
+
+  /* --roll-line must be at least the font's own content height (ascent + descent),
+     which for Space Grotesk is 1.278em — not the 1.1em a display heading would
+     normally take. Anything tighter gives the line box a NEGATIVE half-leading, the
+     glyphs overflow it, and `overflow: hidden` shaves the descenders off p, y and g.
+     At 1.1em the descender of "employers" landed 0.2px inside the box and antialiasing
+     ate the rest. 1.36em leaves ~0.04em of real clearance top and bottom while still
+     keeping the neighbouring words safely outside the window.
+
+     The negative margin pulls the extra half-leading back out of the layout, so the
+     two headline lines keep their optical spacing instead of drifting apart. */
+  .roll-mask {
+    --roll-line: 1.36em;
+    @apply block overflow-hidden;
+    height: var(--roll-line);
+    margin-top: -0.13em;
+  }
+  .roll-track {
+    @apply block;
+    transform: translateY(calc(var(--roll-index, 0) * -1 * var(--roll-line)));
+    /* Gentle in, strong settle — a physical reel starting and stopping, rather than a
+       UI element snapping. One property, one element, no repaint. */
+    transition: transform 560ms cubic-bezier(0.6, 0, 0.2, 1);
+  }
+  .roll-word {
+    @apply block text-brand;
+    height: var(--roll-line);
+    line-height: var(--roll-line);
+  }
+  /* Held for a single frame while the track jumps from the trailing duplicate back to
+     the real first word, so the reset never animates in view. */
+  .roll-track.no-anim {
+    transition: none !important;
+  }
+
+  /* ---- Tabs. Used for the job-seeker / employer process split: the same shape of
+     content twice over, where showing both at once would double the page height for
+     a reader who only needs one of them. Driven entirely off aria-selected /
+     [hidden] so the accessible state is the only state. ---- */
+
+  .tab-list {
+    @apply inline-flex gap-1 rounded-full border border-border bg-surface p-1 shadow-card;
+  }
+  .tab-button {
+    @apply rounded-full px-4 py-2.5 text-sm font-semibold text-ink/60 transition-colors
+           hover:text-ink sm:px-6;
+  }
+  .tab-button[aria-selected="true"] {
+    @apply bg-brand text-paper;
   }
 
   /* ---- Document types ---- */
@@ -388,8 +710,7 @@
      whole. `visibility` (not `display`) is what closes it, so both directions can be
      transitioned and the rows keep their stagger on the way in. */
   .mobile-menu {
-    @apply invisible fixed inset-0 top-16 z-40 overflow-y-auto bg-paper/90 opacity-0
-           backdrop-blur-xl lg:hidden;
+    @apply invisible fixed inset-0 top-16 z-40 overflow-y-auto bg-surface opacity-0 lg:hidden;
     transform: translateY(-8px);
     /* `visibility` is stepped, not interpolated, so it has to be held until the fade
        finishes — otherwise closing hides the panel on frame one and the exit animation
@@ -434,15 +755,8 @@
     transition-duration: 1ms !important;
     transition-delay: 0ms !important;
   }
-  .orb {
-    animation: none !important;
-  }
   .status-dot::before {
     animation: none !important;
     display: none;
-  }
-  .bg-grid-beam {
-    animation: none !important;
-    opacity: 0.35;
   }
 }

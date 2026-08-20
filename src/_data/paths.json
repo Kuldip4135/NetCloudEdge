@@ -1,0 +1,51 @@
+{
+  "note": "The two audience paths, used by the side-by-side benefits split and the tabbed process section on Home. `steps` are a real sequence, which is why they carry numbers; `benefits` are not a sequence and must never be numbered.",
+  "list": [
+    {
+      "slug": "seekers",
+      "label": "For job seekers",
+      "tabLabel": "I'm looking for a job",
+      "headline": "Someone whose job is getting you hired.",
+      "lead": "Not a job board with a login. A recruiter who reads your resume, knows which employers are actually hiring, and stays with you through the offer.",
+      "image": { "src": "/assets/images/home/interview-conversation.jpg", "alt": "A candidate in conversation with a recruiter" },
+      "cta": { "label": "Explore job placement", "href": "/services/job-placement/" },
+      "benefits": [
+        { "icon": "target", "title": "Matched, not blasted", "text": "Your profile goes to employers who are hiring for it — never sprayed across a hundred listings." },
+        { "icon": "users", "title": "Interview coaching", "text": "Prep before every conversation that matters, on the questions that role will actually ask." },
+        { "icon": "check", "title": "Offer and negotiation help", "text": "We stay in the room through the offer, and tell you plainly when one isn't worth taking." },
+        { "icon": "code", "title": "Training that leads somewhere", "text": "If a skills gap is the blocker, our IT tracks feed straight back into this pipeline." },
+        { "icon": "heart", "title": "Free for candidates", "text": "You are never invoiced. Employers pay our fee — that is the whole model, stated up front." }
+      ],
+      "steps": [
+        { "label": "Apply", "duration": "10 minutes", "description": "Tell us where you are and where you want to be. One form, no account to create." },
+        { "label": "Intake call", "duration": "Within 2 business days", "description": "A recruiter reads your resume properly, then calls to fill in what it left out." },
+        { "label": "Match", "duration": "Ongoing", "description": "We put you in front of employers hiring for your actual profile, and tell you who and why." },
+        { "label": "Interview", "duration": "Per conversation", "description": "Coaching before each round, and honest feedback after the ones that don't land." },
+        { "label": "Placement", "duration": "Offer to day 90", "description": "Negotiation support, then a check-in ninety days in to make sure it stuck." }
+      ]
+    },
+    {
+      "slug": "employers",
+      "label": "For employers",
+      "tabLabel": "I'm hiring",
+      "headline": "A shortlist you can act on this week.",
+      "lead": "Sourced, screened, and reference-checked against the brief you actually wrote — not a keyword-matched version of it.",
+      "image": { "src": "/assets/images/home/office-collaboration.jpg", "alt": "A hiring team reviewing candidates together" },
+      "cta": { "label": "Explore hiring services", "href": "/services/recruitment-staffing/" },
+      "benefits": [
+        { "icon": "briefcase", "title": "Screened before you see them", "text": "Every candidate is interviewed by a person against your brief before the resume reaches you." },
+        { "icon": "chart", "title": "Contract, temp, or permanent", "text": "One team across all three, so a role can change shape without restarting the search." },
+        { "icon": "shield", "title": "Verification built in", "text": "Employment, education, and reference checks handled before an offer becomes a hire." },
+        { "icon": "target", "title": "Specialist search when volume won't work", "text": "Senior and hard-to-fill roles move to Talent Acquisition, a different practice with a different method." },
+        { "icon": "support", "title": "Terms stated plainly", "text": "Engagement structure is on the page, not held back for a call. You know how we work before you enquire." }
+      ],
+      "steps": [
+        { "label": "Brief", "duration": "45 minutes", "description": "We take the role properly — the work, the team, the constraints, and what has failed before." },
+        { "label": "Source", "duration": "Days 1–5", "description": "Active search across our bench and the wider market, not a repost of your listing." },
+        { "label": "Screen", "duration": "Days 3–8", "description": "Human interviews against your brief. You receive a shortlist with notes, not a resume dump." },
+        { "label": "Interview", "duration": "Your schedule", "description": "We coordinate rounds, chase feedback, and keep candidates warm while you decide." },
+        { "label": "Verify and close", "duration": "Offer to start date", "description": "Background checks, offer management, and a follow-up once they're actually in the seat." }
+      ]
+    }
+  ]
+}

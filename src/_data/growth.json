@@ -1,0 +1,12 @@
+{
+  "note": "Year-by-year placement volume, printed as the growth table on Home. PLACEHOLDER DATA — every figure here must be real and auditable before launch. A dated, concrete series is the whole point of this section: it beats a single round headline number precisely because it can be checked. If the real numbers can't be produced, delete the section rather than rounding these into something plausible. 2026 is a part-year figure and must stay labelled as one.",
+  "unitLabel": "Candidates placed",
+  "list": [
+    { "year": "2021", "placed": 210, "note": "" },
+    { "year": "2022", "placed": 295, "note": "" },
+    { "year": "2023", "placed": 384, "note": "" },
+    { "year": "2024", "placed": 468, "note": "" },
+    { "year": "2025", "placed": 561, "note": "" },
+    { "year": "2026", "placed": 312, "note": "Year to date" }
+  ]
+}

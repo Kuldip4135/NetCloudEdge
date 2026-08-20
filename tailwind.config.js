@@ -47,33 +47,22 @@ module.exports = {
         content: "1280px",
       },
       boxShadow: {
-        // The glass panel's layered shadow (see .glass-panel in input.css).
-        glass: "0 1px 1px rgb(16 28 46 / 0.04), 0 12px 32px -12px rgb(16 28 46 / 0.12)",
-        // Colour-matched glow behind solid icon chips / primary buttons.
-        glow: "0 8px 24px -8px rgb(var(--color-brand) / 0.45)",
-        "glow-accent": "0 8px 24px -8px rgb(var(--color-accent) / 0.45)",
-        instrument: "0 8px 24px -8px rgb(var(--color-signal) / 0.45)",
+        // The card's resting elevation — a hairline plus a soft, wide ambient shadow.
+        // No colour in it; colour comes from .glass-panel's border instead.
+        card: "0 1px 2px rgb(15 23 42 / 0.04), 0 10px 28px -10px rgb(15 23 42 / 0.10)",
+        "card-hover": "0 2px 4px rgb(15 23 42 / 0.05), 0 20px 40px -14px rgb(15 23 42 / 0.16)",
+        // Restrained, colour-matched lift behind solid primary buttons only.
+        glow: "0 8px 20px -6px rgb(var(--color-brand) / 0.35)",
+        "glow-accent": "0 8px 20px -6px rgb(var(--color-accent) / 0.35)",
+        instrument: "0 8px 20px -6px rgb(var(--color-signal) / 0.35)",
       },
       keyframes: {
-        "orb-float": {
-          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
-          "50%": { transform: "translate(3%, -4%) scale(1.06)" },
-        },
-        "grid-sweep": {
-          "0%": { transform: "translateY(-10%)", opacity: "0" },
-          "12%": { opacity: "1" },
-          "88%": { opacity: "1" },
-          "100%": { transform: "translateY(110%)", opacity: "0" },
-        },
         marquee: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
       },
       animation: {
-        "orb-float-slow": "orb-float 12s ease-in-out infinite",
-        "orb-float-slower": "orb-float 14s ease-in-out infinite",
-        "grid-sweep-slow": "grid-sweep 9s ease-in-out infinite",
         marquee: "marquee 34s linear infinite",
         "marquee-fast": "marquee 22s linear infinite",
       },

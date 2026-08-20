@@ -34,7 +34,7 @@
         {% endfor %}
       </dl>
       {% if railCard.cta %}
-      <a href="{{ railCard.cta.href | url }}" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand transition-all hover:gap-2.5">
+      <a href="{{ railCard.cta.href | url }}" class="mt-4 link-arrow">
         {{ railCard.cta.label }} {{ icon("arrow-right", "w-4 h-4") }}
       </a>
       {% endif %}

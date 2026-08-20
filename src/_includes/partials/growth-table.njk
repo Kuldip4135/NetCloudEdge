@@ -1,0 +1,96 @@
+{#
+  Year-by-year placement volume, from _data/growth.json.
+
+  Why a chart and not a headline counter: a dated series can be checked, and a round
+  "2,400+ placed" can't. This is the one proof structure worth taking from the
+  competitor research wholesale (see PRD.md) — it out-performs a bigger number
+  precisely because it's smaller and specific.
+
+  Columns rather than the horizontal bars this section used to carry. The data's job
+  here is change-over-time, and a rising left-to-right silhouette states that in one
+  glance; stacked horizontal bars made the same numbers read as a settings list. The
+  headline stat to the left gives the series a single answer for the reader who won't
+  study six figures, and the chart is the evidence behind it.
+
+  The markup is still a <dl>: year is a term, figure is its definition, and both are
+  real text. With CSS off this degrades to a readable year/number list, which is the
+  whole point of a section whose argument is auditability. That also means the chart
+  needs no separate table view — the values are already text, and every one of them is
+  labelled rather than hidden behind a tooltip.
+#}
+{% set maxPlaced = 0 %}
+{% for row in growth.list %}
+  {% if row.placed > maxPlaced %}{% set maxPlaced = row.placed %}{% endif %}
+{% endfor %}
+
+{# The last complete year gets the solid fill; the year before it gives us the change.
+   Any row carrying a note (e.g. "Year to date") is a part-year and must never be
+   highlighted as a total or used as the basis of a comparison. #}
+{% set currentYear = null %}
+{% set currentPlaced = 0 %}
+{% set prevYear = null %}
+{% set prevPlaced = 0 %}
+{% for row in growth.list %}
+  {% if not row.note %}
+    {% set prevYear = currentYear %}
+    {% set prevPlaced = currentPlaced %}
+    {% set currentYear = row.year %}
+    {% set currentPlaced = row.placed %}
+  {% endif %}
+{% endfor %}
+
+<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div class="section-head">
+    <p class="eyebrow">By the year</p>
+    <h2 class="section-title">Placements, one year at a time.</h2>
+  </div>
+  <p class="meta max-w-xs leading-relaxed">
+    {{ growth.unitLabel }} · figures under review
+  </p>
+</div>
+
+<div class="glass-panel mt-8 p-6 sm:p-8">
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,14rem)_1fr] lg:items-end lg:gap-12">
+
+    {# The single answer, for the reader who won't read six numbers. Deliberately not
+       the part-year figure — this is the last year we can stand behind as a total. #}
+    <div class="lg:pb-10">
+      <p class="meta">Latest full year</p>
+      <p class="growth-headline">{{ currentPlaced }}</p>
+      {% if prevPlaced %}
+      <p class="growth-delta">
+        <span aria-hidden="true">↑</span>
+        {{ ((currentPlaced - prevPlaced) / prevPlaced * 100) | round }}%
+        <span class="sr-only">increase</span>
+        vs {{ prevYear }}
+      </p>
+      {% endif %}
+      <p class="body-copy mt-4 text-sm">
+        Every figure below is a counted placement, not an application or a shortlist.
+      </p>
+    </div>
+
+    <dl class="growth-chart">
+      {% for row in growth.list %}
+      <div class="growth-col"
+           {% if row.year == currentYear %}data-current{% endif %}
+           {% if row.note %}data-partial{% endif %}>
+        <dt class="growth-year">
+          {{ row.year }}
+          {# The part-year marker is text, not a lighter fill. A reader who can't
+             separate the hatched column from the solid ones still gets the caveat. #}
+          {% if row.note %}
+          <span class="growth-tag" title="{{ row.note }}">YTD</span>
+          <span class="sr-only">— {{ row.note }}</span>
+          {% endif %}
+        </dt>
+        <dd class="growth-plot">
+          <span class="growth-value">{{ row.placed }}</span>
+          <span class="growth-bar" style="height: {{ (row.placed / maxPlaced * 100) | round }}%"></span>
+        </dd>
+      </div>
+      {% endfor %}
+    </dl>
+
+  </div>
+</div>

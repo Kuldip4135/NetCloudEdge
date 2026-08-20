@@ -5,204 +5,269 @@ description: Recruiting and staffing for students starting out and professionals
 extraScripts:
   - /assets/js/count-up.js
   - /assets/js/logo-fallback.js
+  - /assets/js/tabs.js
+  - /assets/js/text-rotator.js
 ---
 {% from "partials/icons.njk" import icon %}
 
 {# ================================================================
-   HOME — per PRD.md's Home section list: hero, dual-path split,
-   services grid, why-choose-us, success metrics, employer network +
-   placement feed, testimonials, how-it-works, case study, final CTA.
+   HOME
+
+   Order is a funnel, not a feature list. It answers, in sequence, the
+   four questions a first-time visitor actually asks:
+
+     1. Who is this for?      hero → dual-path split
+     2. What do they do?      services grid → value proposition
+     3. Does it work?         growth table → case study → statements → feed
+     4. What happens next?    process tabs → CTA
+
+   Proof is deliberately held back until after the offer is understood —
+   numbers shown to someone who doesn't yet know what we sell are just
+   decoration. Structure per PRD.md; every claim tier per the same file.
    ================================================================ #}
 
-{# ---------- 0. Live activity ticker ---------- #}
-{% include "partials/activity-ticker.njk" %}
+{# ---------- 1. Hero — centred, full measure, image below.
 
-{# ---------- 1. Hero — one static headline (no carousel), per PRD.md ---------- #}
-{% set coverStamp = "Intake open" %}
-{% set coverTitle = "Recruiting, running live." %}
-{% set coverLead = "Every match, interview, and offer moves through one system — for you to watch, not just wait on." %}
-{% set coverNote = "Free for candidates — employers pay our fee." %}
-{% set coverPrimary = { label: "Find a Job", href: "/services/job-placement/" } %}
-{% set coverSecondary = { label: "Hire Talent", href: "/services/recruitment-staffing/" } %}
-{% set coverImage = { src: "/assets/images/home/hero-team-meeting.jpg", alt: "A recruiter and a candidate in conversation" } %}
-{% include "partials/cover-sheet.njk" %}
+     No ticker strip above it: the hero opens the page directly. The live-activity
+     signal it used to carry now sits in the placement feed further down, where a
+     reader who has been given a reason to care about it can actually read it
+     standing still. ---------- #}
+{% include "partials/home-hero.njk" %}
 
-{# ---------- 2. Referenced employers (full-bleed interlude) ---------- #}
+{# ---------- 2. Employer wall — immediately under the hero, where it does
+     the most work: recognisable names are the fastest credibility signal
+     on the page, and they cost the reader nothing to parse. ---------- #}
 {% set placedAtTitle = "Referenced employers" %}
 {% set placedAtLead = "Placements closed with these companies." %}
 {% include "partials/placed-at.njk" %}
 
-{# ---------- 3. Section stack — each block full width, PRD.md dictates the internal
-   grid per section rather than a shared bento pairing: the services grid needs its
-   own 1/2/3-column width to read as cards, testimonials needs its own row to swipe
-   correctly on mobile, and stats needs the full row PRD specifies. ---------- #}
-<section class="section-container py-14 sm:py-20">
+{# ---------- 3. The dual-path split — the page's thesis.
 
-  {# 3a — Dual path: two glass panels, each its own audience. #}
-  <div id="overview" class="scroll-mt-28">
+     Two full panels rather than two small cards: this is the single most
+     important choice the visitor makes, so it gets a photograph, five
+     concrete benefits, and its own CTA on each side. The two sides are
+     structurally identical — same shape, same count, same weight — because
+     the whole positioning is that we serve both properly, and any asymmetry
+     here would quietly contradict that. ---------- #}
+<section class="section-container py-16 sm:py-24">
+  <div class="section-head is-centered">
     <p class="eyebrow">Two doors</p>
-    <h2 class="mt-2 max-w-xl font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-      Two doors. One team behind both.
-    </h2>
-    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-      <div class="glass-panel card-lift p-6">
-        <div class="flex items-start justify-between">
-          <span class="icon-chip">{{ icon("users", "w-5 h-5") }}</span>
-          <span class="meta">Job seekers</span>
-        </div>
-        <h3 class="mt-4 font-grotesk text-xl font-semibold tracking-tight text-ink">For job seekers</h3>
-        <p class="mt-2 body-copy">
-          Personal matching, interview coaching, and offer support — from your first role to your next move.
-        </p>
-        <a href="{{ '/services/job-placement/' | url }}" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">
-          Explore job placement {{ icon("arrow-right", "w-4 h-4") }}
-        </a>
-      </div>
-      <div class="glass-panel card-lift p-6">
-        <div class="flex items-start justify-between">
-          <span class="icon-chip icon-chip-accent">{{ icon("briefcase", "w-5 h-5") }}</span>
-          <span class="meta">Employers</span>
-        </div>
-        <h3 class="mt-4 font-grotesk text-xl font-semibold tracking-tight text-ink">For employers</h3>
-        <p class="mt-2 body-copy">
-          Sourced, screened, and verified candidates — delivered faster than a job board could ever manage.
-        </p>
-        <a href="{{ '/services/recruitment-staffing/' | url }}" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all hover:gap-2.5">
-          Explore hiring services {{ icon("arrow-right", "w-4 h-4") }}
+    <h2 class="section-title">Which side of the table are you on?</h2>
+    <p class="lead-copy">
+      Both doors lead to the same team. What changes is who does the work for whom.
+    </p>
+  </div>
+
+  <div class="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
+    {% for path in paths.list %}
+    <div class="glass-panel flex flex-col overflow-hidden">
+      <img src="{{ path.image.src | url }}" alt="{{ path.image.alt }}"
+           width="1200" height="675" loading="lazy"
+           class="aspect-[16/9] w-full object-cover">
+
+      <div class="flex flex-1 flex-col p-6 sm:p-8">
+        <span class="file-tag w-fit">{{ path.label }}</span>
+        <h3 class="mt-4 font-grotesk text-2xl font-bold leading-tight tracking-tight text-ink">
+          {{ path.headline }}
+        </h3>
+        <p class="mt-3 body-copy">{{ path.lead }}</p>
+
+        {# Not numbered: these are five parallel benefits, not a sequence. #}
+        <ul class="mt-6 flex-1 space-y-4 border-t border-ink/10 pt-6">
+          {% for benefit in path.benefits %}
+          <li class="flex gap-3.5">
+            <span class="icon-chip-accent mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+              {{ icon(benefit.icon, "w-4 h-4") }}
+            </span>
+            <span>
+              <span class="block text-sm font-semibold text-ink">{{ benefit.title }}</span>
+              <span class="mt-1 block text-sm leading-relaxed text-ink/60">{{ benefit.text }}</span>
+            </span>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <a href="{{ path.cta.href | url }}" class="btn-primary mt-8 w-full sm:w-fit">
+          {{ path.cta.label }} {{ icon("arrow-right", "w-4 h-4") }}
         </a>
       </div>
     </div>
+    {% endfor %}
   </div>
+</section>
 
-  {# 3b — Services Grid, per PRD.md: five cards — icon, title, one-liner, audience
-     tag, "Learn more" — 1/2/3 columns across mobile/tablet/desktop. Not a table. #}
-  <div id="services" class="mt-14 scroll-mt-28">
-    <p class="eyebrow">What we do</p>
-    <h2 class="mt-2 max-w-xl font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-      Five services, one pipeline.
-    </h2>
-    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+{# ---------- 4. Services grid — six tiles on a paper band.
+
+     The tone shift to `paper` separates the catalogue from the argument
+     either side of it without introducing a new colour. Five services plus
+     a router tile, so the third row never ends on an orphan. ---------- #}
+<section class="border-y border-border bg-paper py-16 sm:py-24">
+  <div class="section-container">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2 class="section-title">Five services, one pipeline.</h2>
+      </div>
+      <p class="meta max-w-xs leading-relaxed">Source → vet → place → verify → upskill</p>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {% for service in services.list %}
-      <a href="{{ service.url | url }}" class="glass-panel card-lift group flex flex-col p-6">
-        <span class="icon-chip">{{ icon(service.icon, "w-5 h-5") }}</span>
-        <h3 class="mt-4 font-grotesk text-lg font-semibold tracking-tight text-ink">{{ service.title }}</h3>
+      <a href="{{ service.url | url }}" class="glass-panel card-lift group flex flex-col p-6 sm:p-7">
+        <div class="flex items-start justify-between gap-3">
+          <span class="icon-chip">{{ icon(service.icon, "w-5 h-5") }}</span>
+          {# ink/65, matching .meta — the ref reads as quiet detailing but is still real
+             text a screen reader will announce, so it holds the 4.5:1 body threshold
+             rather than the 3:1 decorative one. #}
+          <span class="font-mono text-xs text-ink/65">{{ service.ref }}</span>
+        </div>
+        <h3 class="card-title mt-5">{{ service.title }}</h3>
         <p class="mt-2 flex-1 body-copy">{{ service.shortDescription }}</p>
-        <span class="file-tag mt-4 w-fit">
-          {% if service.audience.students %}Students{% endif %}{% if service.audience.professionals %}{% if service.audience.students %} · {% endif %}Professionals{% endif %}{% if service.audience.employers %}{% if service.audience.students or service.audience.professionals %} · {% endif %}Employers{% endif %}
+        <span class="file-tag mt-5 w-fit">
+          {%- if service.audience.students %}Students{% endif -%}
+          {%- if service.audience.professionals %}{% if service.audience.students %} · {% endif %}Professionals{% endif -%}
+          {%- if service.audience.employers %}{% if service.audience.students or service.audience.professionals %} · {% endif %}Employers{% endif -%}
         </span>
-        <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all group-hover:gap-2.5">
+        <span class="mt-5 link-arrow">
           Learn more {{ icon("arrow-right", "w-4 h-4") }}
         </span>
       </a>
       {% endfor %}
-    </div>
-  </div>
 
-  {# 3c — Why us, four tiles, 2x2. #}
-  <div id="why-us" class="mt-14 scroll-mt-28">
-    <p class="eyebrow">Standing policy</p>
-    <h2 class="mt-2 max-w-xl font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-      Four things every placement follows.
-    </h2>
-    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-      {% set policies = [
-        { n: "01", t: "Personalised matching", d: "A recruiter who's actually read your resume, not a keyword filter." },
-        { n: "02", t: "Verified employers", d: "Every partner company is vetted before you're ever introduced." },
-        { n: "03", t: "One thread, one recruiter", d: "No chasing status across four job boards and three inboxes." },
-        { n: "04", t: "End-to-end support", d: "We stay involved through the offer, negotiation, and first 90 days." }
-      ] %}
-      {% for policy in policies %}
-      <div class="glass-panel card-lift p-5">
-        <span class="font-mono text-xs text-accent-deep">{{ policy.n }}</span>
-        <h3 class="mt-3 font-grotesk font-semibold tracking-tight text-ink">{{ policy.t }}</h3>
-        <p class="mt-2 body-copy">{{ policy.d }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-
-  {# 3d — One trace through the system. Same person as the spotlight quote, which is
-     why Priya is excluded from the statements row below. #}
-  <div id="case-study" class="mt-14 scroll-mt-28">
-    <div class="glass-panel p-6 sm:p-8">
-      <span class="status-chip"><span class="status-dot"></span>Placement closed</span>
-      <h2 class="mt-4 font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-        Forty applications, no replies. Sixteen days after her first call, an offer.
-      </h2>
-      <div class="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-5 sm:items-center">
-        <figure class="overflow-hidden rounded-2xl sm:col-span-2">
-          <img src="{{ '/assets/images/home/interview-conversation.jpg' | url }}"
-               alt="A candidate meeting a hiring manager"
-               width="1400" height="1050" loading="lazy" class="aspect-[4/3] w-full object-cover">
-        </figure>
-        <div class="sm:col-span-3">
-          <p class="leading-relaxed text-ink/65">
-            Priya's résumé buried a strong analytics background on page two. We rebuilt the profile, matched her to three employers who needed exactly that, and prepped her for every interview.
+      {# Router tile — fills the sixth slot and catches anyone still comparing,
+         pointing at the one thing no competitor builds cleanly: the matrix. #}
+      <a href="{{ '/services/' | url }}"
+         class="card-lift group flex flex-col justify-between rounded-2xl border border-brand/20 bg-brand/5 p-6 sm:p-7">
+        <div>
+          <span class="icon-chip">{{ icon("target", "w-5 h-5") }}</span>
+          <h3 class="card-title mt-5">Not sure which one?</h3>
+          <p class="mt-2 body-copy">
+            One table, all five services, mapped against who each is actually built for.
           </p>
-          <p class="highlight mt-5">The role fit better than anything I'd found on my own.</p>
-          <dl class="mt-5 grid grid-cols-4 gap-4 border-t border-ink/10 pt-5">
-            {% for fact in [
-              { k: "Day 0", v: "Applied" },
-              { k: "Day 4", v: "Matched" },
-              { k: "Day 11", v: "Interview" },
-              { k: "Day 16", v: "Offer" }
-            ] %}
-            <div>
-              <dt class="meta">{{ fact.k }}</dt>
-              <dd class="mt-1 font-grotesk text-sm font-semibold tracking-tight text-ink sm:text-base">{{ fact.v }}</dd>
-            </div>
-            {% endfor %}
-          </dl>
         </div>
-      </div>
-    </div>
-  </div>
-
-  {# 3e — How it works: four numbered steps, per PRD.md. #}
-  <div class="mt-14">
-    {% set steps = [
-      { label: "Apply", description: "Tell us where you are and where you want to be — takes ten minutes." },
-      { label: "Match", description: "We connect you with roles and employers that actually fit the brief." },
-      { label: "Interview", description: "Coaching and prep before every conversation that matters." },
-      { label: "Placement", description: "An offer, a negotiation assist, and a check-in 90 days in." }
-    ] %}
-    {% set sectionId = "procedure" %}
-    {% set sectionEyebrow = "Procedure" %}
-    {% set sectionTitle = "How a placement moves." %}
-    {% include "partials/process-timeline.njk" %}
-  </div>
-
-  {# 3f — Testimonials, per PRD.md: swipe horizontally on mobile, a row on desktop.
-     Priya is already the case study above, so she's excluded here. #}
-  <div id="statements" class="mt-14 scroll-mt-28">
-    <p class="eyebrow">Signed statements</p>
-    <h2 class="mt-2 max-w-xl font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-      On record, from the system.
-    </h2>
-    {% set featured = [] %}
-    {% for t in testimonials.list %}
-      {% if t.slug != "priya" and featured.length < 4 %}{% set _ = featured.push(t) %}{% endif %}
-    {% endfor %}
-    <div class="mt-6 -mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
-      {% for testimonial in featured %}
-      <div class="w-[82%] shrink-0 snap-start sm:w-auto">
-        {% include "partials/testimonial-card.njk" %}
-      </div>
-      {% endfor %}
+        <span class="mt-5 link-arrow">
+          Compare all five {{ icon("arrow-right", "w-4 h-4") }}
+        </span>
+      </a>
     </div>
   </div>
 </section>
 
-{# ---------- 4. Success metrics — four counters, per PRD.md: 2x2 on mobile, one row
-   on desktop. ---------- #}
-{% set statsEyebrow = "Live totals" %}
-{% set statsTitle = "What's running right now." %}
-{% include "partials/stat-counter.njk" %}
+{# ---------- 5. Value proposition — the standing policy.
 
-{# ---------- 5. Case log (full-bleed interlude) ---------- #}
+     Centred statement, then four mechanisms. Each tile names something we
+     actually do, not an adjective: "a recruiter who's read your resume"
+     rather than "personalised". Adjectives are what every competitor in this
+     market writes, which is exactly why they no longer signal anything. #}
+<section class="section-container py-16 sm:py-24">
+  <div class="section-head is-centered">
+    <p class="eyebrow">Standing policy</p>
+    <h2 class="section-title">Four things every placement follows.</h2>
+    <p class="lead-copy">
+      Not values on a wall. Four commitments that hold on every file we open, and that
+      you can hold us to.
+    </p>
+  </div>
+
+  {% set policies = [
+    { icon: "users", t: "Personalised matching", d: "A recruiter who has actually read your resume, not a keyword filter with a friendly name." },
+    { icon: "shield", t: "Verified employers", d: "Every partner company is vetted before you are ever introduced to it." },
+    { icon: "support", t: "One thread, one recruiter", d: "No chasing status across four job boards and three inboxes. One person owns your file." },
+    { icon: "heart", t: "End to end, past the offer", d: "We stay involved through negotiation and check in ninety days after you start." }
+  ] %}
+  <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    {% for policy in policies %}
+    <div class="glass-panel card-lift flex flex-col p-6">
+      <span class="icon-chip">{{ icon(policy.icon, "w-5 h-5") }}</span>
+      <h3 class="card-title mt-5">{{ policy.t }}</h3>
+      <p class="mt-2 body-copy">{{ policy.d }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{# ---------- 6. Proof, in descending order of how checkable it is:
+     a dated series, then one traced placement, then signed statements. ---------- #}
+<section class="border-y border-border bg-paper py-16 sm:py-24">
+  <div class="section-container">
+    {% include "partials/growth-table.njk" %}
+
+    {# 6b — One file traced end to end. The same person as the pull-quote, which is
+       why Priya is excluded from the statements row further down. #}
+    <div id="case-study" class="mt-12 scroll-mt-28 sm:mt-16">
+      <div class="glass-panel overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-5">
+          <figure class="lg:col-span-2">
+            <img src="{{ '/assets/images/home/interview-conversation.jpg' | url }}"
+                 alt="A candidate meeting a hiring manager"
+                 width="1400" height="1050" loading="lazy"
+                 class="h-full min-h-[16rem] w-full object-cover">
+          </figure>
+
+          <div class="p-6 sm:p-8 lg:col-span-3 lg:p-10">
+            <span class="status-chip"><span class="status-dot"></span>Placement closed</span>
+            <h2 class="mt-5 font-grotesk text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
+              Forty applications, no replies. Sixteen days after her first call, an offer.
+            </h2>
+            <p class="mt-4 body-copy">
+              Priya's résumé buried a strong analytics background on page two. We rebuilt the
+              profile, matched her to three employers who needed exactly that, and prepped her
+              for every interview.
+            </p>
+            <p class="highlight mt-6">The role fit better than anything I'd found on my own.</p>
+
+            <dl class="mt-8 grid grid-cols-4 gap-4 border-t border-ink/10 pt-6">
+              {% for fact in [
+                { k: "Day 0", v: "Applied" },
+                { k: "Day 4", v: "Matched" },
+                { k: "Day 11", v: "Interview" },
+                { k: "Day 16", v: "Offer" }
+              ] %}
+              <div>
+                <dt class="meta">{{ fact.k }}</dt>
+                <dd class="mt-1 font-grotesk text-sm font-semibold tracking-tight text-ink sm:text-base">{{ fact.v }}</dd>
+              </div>
+              {% endfor %}
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# 6c — Signed statements. Horizontal swipe on mobile, four across on desktop.
+       Initials avatars, not stock headshots: a stranger's face beside a real quote
+       is the exact move that costs a trust page its trust. #}
+    <div id="statements" class="mt-12 scroll-mt-28 sm:mt-16">
+      <div class="section-head">
+        <p class="eyebrow">Signed statements</p>
+        <h2 class="section-title">On record, from both sides.</h2>
+      </div>
+
+      {% set featured = [] %}
+      {% for t in testimonials.list %}
+        {% if t.slug != "priya" and featured.length < 4 %}{% set _ = featured.push(t) %}{% endif %}
+      {% endfor %}
+
+      <div class="mt-8 -mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
+        {% for testimonial in featured %}
+        <div class="w-[82%] shrink-0 snap-start sm:w-auto">
+          {% include "partials/testimonial-card.njk" %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ---------- 7. What happens next — the two processes, tabbed ---------- #}
+<section class="section-container py-16 sm:py-24">
+  {% include "partials/path-tabs.njk" %}
+</section>
+
+{# ---------- 8. The live feed — last piece of proof before the ask ---------- #}
 {% include "partials/placement-feed.njk" %}
 
-{# ---------- 6. Close the loop ---------- #}
+{# ---------- 9. Close the loop ---------- #}
 {% set ctaHeadline = "Ready to find your footing?" %}
 {% set ctaSubtext = "Whether you're job hunting or hiring, the first conversation is free — and it starts the system tracking your file." %}
 {% set ctaLabel = "Get Started" %}

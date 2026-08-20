@@ -1,0 +1,60 @@
+{#
+  The two paths' process steps, as tabs — from _data/paths.json.
+
+  Tabs rather than two columns: these are the same five-step shape twice over, and a
+  visitor is only ever on one side of the transaction. Printing both at once doubles
+  the page height to show a reader something they came here to ignore. The tab labels
+  are written in first person ("I'm hiring") so choosing is a statement about yourself
+  rather than a UI control.
+
+  Ships with the first tab selected and the second panel [hidden], so the section is
+  correct before tabs.js runs and if it never does. Requires /assets/js/tabs.js.
+#}
+<div class="section-head is-centered">
+  <p class="eyebrow">The process</p>
+  <h2 class="section-title">Two paths. Both mapped end to end.</h2>
+  <p class="lead-copy">
+    Every step below has a real time cost attached, because "it depends" is what
+    everyone else says.
+  </p>
+</div>
+
+<div data-tabs class="mt-8">
+  <div class="flex justify-center">
+    <div class="tab-list" role="tablist" aria-label="Choose your path">
+      {% for path in paths.list %}
+      <button type="button" data-tab class="tab-button"
+              role="tab" id="tab-{{ path.slug }}"
+              aria-controls="panel-{{ path.slug }}"
+              aria-selected="{{ 'true' if loop.first else 'false' }}"
+              tabindex="{{ '0' if loop.first else '-1' }}">
+        {{ path.tabLabel }}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% for path in paths.list %}
+  <div id="panel-{{ path.slug }}" role="tabpanel" aria-labelledby="tab-{{ path.slug }}"
+       tabindex="0" {% if not loop.first %}hidden{% endif %} class="mt-8 focus:outline-none">
+    <div class="glass-panel p-6 sm:p-8">
+      <ol class="relative grid grid-cols-1 gap-8 md:grid-cols-5 md:gap-5">
+        {# The connecting hairline sits behind the badges and only on the wide layout —
+           on mobile the steps stack, and a horizontal line between them would be
+           drawing a sequence that isn't there. #}
+        <div class="pointer-events-none absolute left-0 right-0 top-[1.125rem] hidden h-px bg-ink/10 md:block" aria-hidden="true"></div>
+        {% for step in path.steps %}
+        <li class="relative flex flex-col items-start gap-3 md:items-center md:text-center">
+          <span class="trace-badge relative z-10" aria-hidden="true">{{ loop.index }}</span>
+          <div>
+            <p class="card-title">{{ step.label }}</p>
+            <p class="meta mt-1">{{ step.duration }}</p>
+            <p class="mt-2 text-sm leading-relaxed text-ink/60">{{ step.description }}</p>
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  {% endfor %}
+</div>

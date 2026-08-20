@@ -11,11 +11,9 @@
 <section class="py-10 sm:py-14">
   <div class="section-container">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-      <div>
+      <div class="section-head">
         <p class="eyebrow">{{ placedAtTitle or "Candidates placed in" }}</p>
-        <h2 class="mt-2 font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-          {{ placedAtLead or "Our people work here now." }}
-        </h2>
+        <h2 class="section-title">{{ placedAtLead or "Our people work here now." }}</h2>
       </div>
       <p class="max-w-xs meta leading-relaxed">
         A sample of the employers who have hired candidates we placed.
@@ -27,7 +25,7 @@
         {% for pass in ["visible", "duplicate"] %}
         <ul class="flex shrink-0 items-stretch {% if pass == "duplicate" %}motion-reduce:hidden{% endif %}" {% if pass == "duplicate" %}aria-hidden="true"{% endif %}>
           {% for company in companies.list %}
-          <li class="group flex w-[170px] shrink-0 items-center justify-center border-r border-ink/10 px-6 py-8 transition-colors hover:bg-surface/50 sm:w-[210px]">
+          <li class="group flex w-[170px] shrink-0 items-center justify-center border-r border-ink/10 px-6 py-8 transition-colors hover:bg-paper sm:w-[210px]">
             {% if company.domain %}
             <img
               src="https://logo.clearbit.com/{{ company.domain }}?size=160"
