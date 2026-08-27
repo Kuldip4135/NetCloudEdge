@@ -90,8 +90,18 @@ extraScripts:
         Staffing fills a role you have. Search finds the person who was never going to apply.
       </h2>
     </div>
-    <div class="mt-10 overflow-x-auto">
-      <table class="ledger min-w-[40rem]">
+    {% set comparison = [
+      { k: "What it does", a: "Fills a defined role from an existing pool", b: "Builds a pipeline for a role that doesn't have one" },
+      { k: "Timeline", a: "Days to weeks", b: "6–10 weeks" },
+      { k: "Candidates", a: "Actively looking", b: "Usually not looking" },
+      { k: "Best for", a: "Volume, contract, defined roles", b: "Leadership, specialized, competitive roles" },
+      { k: "Terms", a: "Contingency", b: "Retained" }
+    ] %}
+
+    {# Desktop: a keyed ledger. Mobile: one card per dimension with both values
+       stacked and labelled — no horizontal scroll, comparison stays side by side. #}
+    <div class="mt-10 hidden sm:block">
+      <table class="ledger">
         <thead>
           <tr>
             <th scope="col"></th>
@@ -100,13 +110,6 @@ extraScripts:
           </tr>
         </thead>
         <tbody>
-          {% set comparison = [
-            { k: "What it does", a: "Fills a defined role from an existing pool", b: "Builds a pipeline for a role that doesn't have one" },
-            { k: "Timeline", a: "Days to weeks", b: "6–10 weeks" },
-            { k: "Candidates", a: "Actively looking", b: "Usually not looking" },
-            { k: "Best for", a: "Volume, contract, defined roles", b: "Leadership, specialized, competitive roles" },
-            { k: "Terms", a: "Contingency", b: "Retained" }
-          ] %}
           {% for row in comparison %}
           <tr>
             <th scope="row" data-rowhead>{{ row.k }}</th>
@@ -117,6 +120,20 @@ extraScripts:
         </tbody>
       </table>
     </div>
+
+    <dl class="mt-8 space-y-3 sm:hidden">
+      {% for row in comparison %}
+      <div class="file-inset">
+        <dt class="font-mono text-xs uppercase tracking-widest text-ink/65">{{ row.k }}</dt>
+        <dd class="mt-2 grid grid-cols-[8rem_1fr] gap-x-3 gap-y-1.5 text-sm">
+          <span class="text-ink/55">Staffing</span>
+          <span class="text-ink/75">{{ row.a }}</span>
+          <span class="text-ink/55">Talent Acq.</span>
+          <span class="font-medium text-ink">{{ row.b }}</span>
+        </dd>
+      </div>
+      {% endfor %}
+    </dl>
     <p class="mt-4 meta leading-relaxed">
       Filling a defined role quickly? <a href="{{ '/services/recruitment-staffing/' | url }}" class="text-brand hover:underline">Recruitment &amp; Staffing</a> is the faster route.
     </p>

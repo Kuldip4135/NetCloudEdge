@@ -147,8 +147,17 @@ extraScripts:
         someone already expecting it.
       </h2>
     </div>
-    <div class="mt-10 overflow-x-auto">
-      <table class="ledger min-w-[34rem]">
+    {% set contrasts = [
+      { a: "Applications into a void, no reply", b: "A named recruiter who tells you where each one stands" },
+      { a: "No idea why you were passed over", b: "Feedback after every interview" },
+      { a: "Competing with hundreds of applicants", b: "Introduced to employers already expecting your resume" },
+      { a: "Guessing what the interview will cover", b: "Prepped for the specific team you're meeting" }
+    ] %}
+
+    {# Desktop: a two-column ledger. Mobile: each row is a before→after contrast
+       card — the same numbers, but no horizontal scroll and a sharper argument. #}
+    <div class="mt-10 hidden sm:block">
+      <table class="ledger">
         <thead>
           <tr>
             <th scope="col">On your own</th>
@@ -156,12 +165,6 @@ extraScripts:
           </tr>
         </thead>
         <tbody>
-          {% set contrasts = [
-            { a: "Applications into a void, no reply", b: "A named recruiter who tells you where each one stands" },
-            { a: "No idea why you were passed over", b: "Feedback after every interview" },
-            { a: "Competing with hundreds of applicants", b: "Introduced to employers already expecting your resume" },
-            { a: "Guessing what the interview will cover", b: "Prepped for the specific team you're meeting" }
-          ] %}
           {% for row in contrasts %}
           <tr>
             <td class="w-1/2 pr-6">{{ row.a }}</td>
@@ -170,6 +173,21 @@ extraScripts:
           {% endfor %}
         </tbody>
       </table>
+    </div>
+
+    <div class="mt-8 space-y-4 sm:hidden">
+      {% for row in contrasts %}
+      <div class="file-inset">
+        <p class="flex gap-2 text-ink/50">
+          <span aria-hidden="true" class="text-ink/30">✕</span>
+          <span class="line-through decoration-ink/25">{{ row.a }}</span>
+        </p>
+        <p class="mt-2 flex gap-2 font-medium text-ink">
+          <span aria-hidden="true" class="text-brand">✓</span>
+          <span>{{ row.b }}</span>
+        </p>
+      </div>
+      {% endfor %}
     </div>
   </div>
 </section>
