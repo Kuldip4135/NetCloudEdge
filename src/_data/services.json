@@ -35,20 +35,9 @@
       "audience": { "students": false, "professionals": false, "employers": true }
     },
     {
-      "slug": "background-verification",
-      "url": "/services/background-verification/",
-      "ref": "04",
-      "title": "Background Verification",
-      "icon": "shield",
-      "shortDescription": "Thorough, compliant checks before an offer becomes a hire.",
-      "description": "Employment history, education, and reference verification handled quickly and correctly, so an offer becomes a hire with confidence.",
-      "notFor": "Available standalone, or bundled with any placement.",
-      "audience": { "students": true, "professionals": true, "employers": true }
-    },
-    {
       "slug": "it-training",
       "url": "/services/it-training/",
-      "ref": "05",
+      "ref": "04",
       "title": "IT Training",
       "icon": "code",
       "shortDescription": "Skill-building tracks that feed directly into our placement pipeline.",

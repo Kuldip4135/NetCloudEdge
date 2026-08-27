@@ -1,54 +1,60 @@
 {% from "partials/icons.njk" import icon %}
 {#
-  The console's top bar: a floating glass strip that firms up (more opaque, hairline
-  border) once scrolled (header-scroll.js), never a shadow-on-flat-paper look. The
-  services dropdown opens on hover AND on keyboard focus — group-focus-within is what
-  makes it keyboard-reachable.
-#}
-<header data-header class="sticky top-0 z-50 border-b border-transparent bg-paper/60 backdrop-blur-xl transition-colors">
-  <div class="section-container">
-    <div class="flex h-16 items-center justify-between lg:h-20">
-      <a href="{{ '/' | url }}" class="flex shrink-0 items-baseline gap-2.5">
-        <span class="font-grotesk text-xl font-bold tracking-tight text-ink lg:text-2xl">{{ site.shortName }}</span>
-      </a>
+  The console's top bar. At the very top of a page it is invisible chrome — no ground,
+  no border — so the hero's own bloom runs edge to edge behind it. Past the first few
+  pixels of scroll (header-scroll.js sets .is-scrolled) it detaches from the edge and
+  becomes a floating glass pill: frosted translucent ground, hairline light border, a
+  soft ambient shadow, and a shorter row. See .header-bar / .header-shell in input.css.
 
-      <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
-        {% for link in nav.links %}
-          {% if link.children %}
-          <div class="group relative">
-            <a href="{{ link.url | url }}" class="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium text-ink transition-colors hover:text-brand" aria-haspopup="true">
-              {{ link.label }}
-              {{ icon("chevron-down", "w-4 h-4") }}
-            </a>
-            <div class="invisible absolute left-1/2 top-full w-[420px] -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-              <div class="glass-panel grid grid-cols-2 gap-1 p-3">
-                {% for child in link.children %}
-                <a href="{{ child.url | url }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-ink transition-colors hover:bg-paper">
-                  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-paper text-brand">{{ icon(child.icon, "w-4 h-4") }}</span>
-                  {{ child.label }}
-                </a>
-                {% endfor %}
+  The services dropdown opens on hover AND on keyboard focus — group-focus-within is
+  what makes it keyboard-reachable.
+#}
+<header data-header class="header-bar">
+  <div class="section-container">
+    <div class="header-shell">
+      <div class="header-row flex items-center justify-between">
+        <a href="{{ '/' | url }}" class="flex shrink-0 items-baseline gap-2.5">
+          <span class="font-grotesk text-xl font-bold tracking-tight text-ink lg:text-2xl">{{ site.shortName }}</span>
+        </a>
+
+        <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
+          {% for link in nav.links %}
+            {% if link.children %}
+            <div class="group relative">
+              <a href="{{ link.url | url }}" class="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium text-ink transition-colors hover:text-brand" aria-haspopup="true">
+                {{ link.label }}
+                {{ icon("chevron-down", "w-4 h-4") }}
+              </a>
+              <div class="invisible absolute left-1/2 top-full w-[420px] -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <div class="glass-panel glass-frost grid grid-cols-2 gap-1 p-3">
+                  {% for child in link.children %}
+                  <a href="{{ child.url | url }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-ink transition-colors hover:bg-white/60">
+                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-paper text-brand">{{ icon(child.icon, "w-4 h-4") }}</span>
+                    {{ child.label }}
+                  </a>
+                  {% endfor %}
+                </div>
               </div>
             </div>
-          </div>
-          {% else %}
-          <a href="{{ link.url | url }}" class="rounded-full px-4 py-2 text-sm font-medium text-ink transition-colors hover:text-brand">{{ link.label }}</a>
-          {% endif %}
-        {% endfor %}
-      </nav>
+            {% else %}
+            <a href="{{ link.url | url }}" class="rounded-full px-4 py-2 text-sm font-medium text-ink transition-colors hover:text-brand">{{ link.label }}</a>
+            {% endif %}
+          {% endfor %}
+        </nav>
 
-      <div class="hidden shrink-0 lg:block">
-        <a href="{{ '/contact/' | url }}" class="btn-primary">Get Started</a>
-      </div>
+        <div class="hidden shrink-0 lg:block">
+          <a href="{{ '/contact/' | url }}" class="btn-primary">Get Started</a>
+        </div>
 
-      {# On mobile the header CTA becomes a click-to-call link. #}
-      <div class="flex items-center gap-3 lg:hidden">
-        <a href="{{ site.phoneHref }}" class="text-ink" aria-label="Call {{ site.companyName }}">{{ icon("phone", "w-5 h-5") }}</a>
-        {# Three bars that rotate into an X — see .nav-burger; state is driven off aria-expanded. #}
-        <button type="button" data-mobile-menu-toggle aria-expanded="false" aria-controls="mobile-menu" class="nav-burger">
-          <span class="nav-burger-bar"></span><span class="nav-burger-bar"></span><span class="nav-burger-bar"></span>
-          <span class="sr-only" data-mobile-menu-label>Open menu</span>
-        </button>
+        {# On mobile the header CTA becomes a click-to-call link. #}
+        <div class="flex items-center gap-3 lg:hidden">
+          <a href="{{ site.phoneHref }}" class="text-ink" aria-label="Call {{ site.companyName }}">{{ icon("phone", "w-5 h-5") }}</a>
+          {# Three bars that rotate into an X — see .nav-burger; state is driven off aria-expanded. #}
+          <button type="button" data-mobile-menu-toggle aria-expanded="false" aria-controls="mobile-menu" class="nav-burger">
+            <span class="nav-burger-bar"></span><span class="nav-burger-bar"></span><span class="nav-burger-bar"></span>
+            <span class="sr-only" data-mobile-menu-label>Open menu</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

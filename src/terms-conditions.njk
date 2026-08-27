@@ -3,8 +3,8 @@ layout: layouts/page.njk
 title: Terms & Conditions
 description: The terms you agree to by using this site, sending us a resume, engaging us to hire, or enrolling in a training program.
 effective: August 12, 2026
-extraScripts:
-  - /assets/js/rail-active.js
+glass: true
+extraScripts: []
 ---
 {% from "partials/icons.njk" import icon %}
 
@@ -24,6 +24,14 @@ extraScripts:
 
   Two content rules carried from the service pages: our fee is never paid by a job
   seeker, and nothing on this site — this page least of all — promises a placement.
+
+  Hallmark redesign — Centered Read (matches privacy-policy.njk). The old sticky 3/9
+  side-rail split is gone: one centered reading column (max-w-3xl, prose capped at
+  40rem via .legal-prose). The rail's function moves to a "Contents" jump-link grid in
+  a glass panel under the summary — same navigation, no permanent column, works on
+  mobile. Clauses are separated by a hairline rule. rail-active.js / section-rail.njk
+  are no longer used here. `glass: true` still carries the summary, contents and
+  contact panels; the header keeps the aurora/dots treatment.
 #}
 
 {% set rail = [
@@ -39,49 +47,69 @@ extraScripts:
   { id: "general",    label: "General",         n: "I"  }
 ] %}
 
-<section class="file-band">
+<section class="relative overflow-hidden">
+  <div class="hero-aurora" aria-hidden="true">
+    <span class="aurora-blob aurora-blob-1"></span>
+    <span class="aurora-blob aurora-blob-2"></span>
+    <span class="aurora-blob aurora-blob-3"></span>
+  </div>
+  <div class="hero-dots" aria-hidden="true"></div>
+
   <div class="section-container py-10 sm:py-14">
     {% set crumbs = [{ label: "Home", url: "/" }, { label: "Terms & Conditions" }] %}
     {% include "partials/breadcrumb.njk" %}
 
-    <div class="mt-6 flex flex-wrap items-center gap-3">
-      <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} On file</span>
-      <span class="font-mono text-xs uppercase tracking-widest text-ink/65">
-        Effective {{ effective }} · {{ site.legalEntity }}
-      </span>
+    <div class="mx-auto max-w-3xl">
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} On file</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-ink/65">
+          Effective {{ effective }} · {{ site.legalEntity }}
+        </span>
+      </div>
+      <h1 class="mt-6 font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+        Terms &amp; Conditions.
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-ink/75">
+        What you agree to by using this site, sending us a resume, engaging us to hire, or
+        enrolling in a program. Written to be read, not to be survived.
+      </p>
     </div>
-    <h1 class="mt-6 max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
-      Terms &amp; Conditions.
-    </h1>
-    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink/75">
-      What you agree to by using this site, sending us a resume, engaging us to hire, or
-      enrolling in a program. Written to be read, not to be survived.
-    </p>
   </div>
 </section>
 
-<section class="section-container py-14 sm:py-20">
-  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+<section class="section-container pb-16 pt-4 sm:pb-24 sm:pt-8">
+  <div class="mx-auto max-w-3xl">
 
-    {% include "partials/section-rail.njk" %}
-
-    <div class="lg:col-span-9">
-
-      <div class="file-inset">
-        <p class="meta">The short version</p>
-        <div class="legal-prose mt-3">
-          <p>
-            Tell us the truth about your experience or your vacancy, and we will do the same
-            about what we can deliver. We introduce people to employers; we do not employ the
-            candidates we place and we cannot promise anyone a job. Employers pay our fee, job
-            seekers never do. Where you have signed a separate engagement letter or enrolment
-            agreement with us, that document wins over this page.
-          </p>
-        </div>
+    <div class="glass-panel p-6 sm:p-7">
+      <p class="meta">The short version</p>
+      <div class="legal-prose mt-3">
+        <p>
+          Tell us the truth about your experience or your vacancy, and we will do the same
+          about what we can deliver. We introduce people to employers; we do not employ the
+          candidates we place and we cannot promise anyone a job. Employers pay our fee, job
+          seekers never do. Where you have signed a separate engagement letter or enrolment
+          agreement with us, that document wins over this page.
+        </p>
       </div>
+    </div>
 
-      {# ---- 00 The agreement ---- #}
-      <div id="agreement" class="mt-14 scroll-mt-28">
+    {# Contents — replaces the old sticky side rail. #}
+    <nav class="mt-5 glass-panel p-6 sm:p-7" aria-label="Contents">
+      <p class="meta">Contents</p>
+      <ol class="mt-4 grid grid-cols-1 gap-x-8 gap-y-0.5 sm:grid-cols-2">
+        {% for item in rail %}
+        <li>
+          <a href="#{{ item.id }}" class="flex items-baseline gap-3 border-t border-ink/10 py-2.5 text-sm text-ink/75 transition-colors hover:text-brand">
+            <span class="w-6 shrink-0 font-mono text-xs text-ink/50">{{ item.n }}</span>
+            {{ item.label }}
+          </a>
+        </li>
+        {% endfor %}
+      </ol>
+    </nav>
+
+    {# ---- 00 The agreement ---- #}
+      <div id="agreement" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">00 — Agreement</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           The agreement.
@@ -114,7 +142,7 @@ extraScripts:
       </div>
 
       {# ---- A Using the site ---- #}
-      <div id="site" class="mt-14 scroll-mt-28">
+      <div id="site" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">A — Site use</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Using this site.
@@ -148,7 +176,7 @@ extraScripts:
       {# ---- B Candidates. The fee sentence and the no-guarantee sentence are the two
              loadbearing lines on this page for a job seeker; both are stated plainly
              rather than buried in the disclaimer section. ---- #}
-      <div id="candidates" class="mt-14 scroll-mt-28">
+      <div id="candidates" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">B — Candidates</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           If you are a job seeker.
@@ -187,7 +215,7 @@ extraScripts:
 
       {# ---- C Employers. Rates stay off this page on purpose — they live in the
              engagement letter, per the same rule the service pages follow. ---- #}
-      <div id="employers" class="mt-14 scroll-mt-28">
+      <div id="employers" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">C — Employers</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           If you are hiring.
@@ -242,7 +270,7 @@ extraScripts:
       </div>
 
       {# ---- D Training ---- #}
-      <div id="training" class="mt-14 scroll-mt-28">
+      <div id="training" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">D — Training</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           If you are enrolling in a program.
@@ -272,7 +300,7 @@ extraScripts:
       </div>
 
       {# ---- E IP ---- #}
-      <div id="ip" class="mt-14 scroll-mt-28">
+      <div id="ip" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">E — Intellectual property</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Content and ownership.
@@ -298,7 +326,7 @@ extraScripts:
       </div>
 
       {# ---- F Disclaimers ---- #}
-      <div id="disclaimer" class="mt-14 scroll-mt-28">
+      <div id="disclaimer" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">F — Disclaimers</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           What we do not warrant.
@@ -331,7 +359,7 @@ extraScripts:
       </div>
 
       {# ---- G Liability and indemnity ---- #}
-      <div id="liability" class="mt-14 scroll-mt-28">
+      <div id="liability" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">G — Liability</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Limits on liability.
@@ -357,7 +385,7 @@ extraScripts:
       </div>
 
       {# ---- H Law and disputes ---- #}
-      <div id="law" class="mt-14 scroll-mt-28">
+      <div id="law" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">H — Jurisdiction</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Governing law and disputes.
@@ -381,7 +409,7 @@ extraScripts:
       </div>
 
       {# ---- I General ---- #}
-      <div id="general" class="mt-14 scroll-mt-28">
+      <div id="general" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
         <p class="eyebrow">I — General</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           The rest.
@@ -399,7 +427,7 @@ extraScripts:
           </ul>
         </div>
 
-        <div class="mt-6 folder-card p-6">
+        <div class="mt-6 glass-panel p-6">
           <p class="meta">Questions about these terms</p>
           <dl class="mt-4 space-y-5">
             <div class="flex items-start gap-3">
@@ -430,6 +458,5 @@ extraScripts:
         </div>
       </div>
 
-    </div>
   </div>
 </section>

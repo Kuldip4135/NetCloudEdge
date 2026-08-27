@@ -1,17 +1,13 @@
 {#
   Numbered trace sequence: circular mono badges connected by a hairline through their
-  centers, inside a glass panel.
+  centers, inside a glass panel. The calling section supplies its own heading and
+  anchor id — this partial renders the panel only.
 
-  Params: steps [{label, description, duration?}], sectionTitle, sectionEyebrow, sectionId.
+  Params: steps [{label, description, duration?}].
 #}
-<div id="{{ sectionId or 'procedure' }}" class="scroll-mt-28">
-  <p class="eyebrow">{{ sectionEyebrow or "The process" }}</p>
-  <h2 class="mt-2 max-w-xl font-grotesk text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-    {{ sectionTitle or "How a request moves." }}
-  </h2>
-  <div class="glass-panel mt-6 p-6 sm:p-8">
-    <ol class="relative grid grid-cols-1 gap-8 sm:grid-cols-4 sm:gap-6">
-      <div class="pointer-events-none absolute left-0 right-0 top-[1.125rem] hidden h-px bg-ink/10 sm:block" aria-hidden="true"></div>
+<div class="glass-panel p-6 sm:p-8">
+    <ol class="relative grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-5">
+      <div class="pointer-events-none absolute left-0 right-0 top-[1.125rem] hidden h-px bg-ink/10 lg:block" aria-hidden="true"></div>
       {% for step in steps %}
       <li class="relative flex flex-col items-start gap-3 sm:items-center sm:text-center">
         <span class="trace-badge relative z-10" aria-hidden="true">{{ loop.index }}</span>
@@ -22,6 +18,5 @@
         </div>
       </li>
       {% endfor %}
-    </ol>
-  </div>
+  </ol>
 </div>

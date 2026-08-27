@@ -57,16 +57,6 @@
         "height": 800
       }
     },
-    "background-verification": {
-      "cover": {
-        "url": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&h=1050&q=75",
-        "alt": "Printed forms and paperwork laid out on a desk",
-        "caption": "Exhibit A · Documents on file",
-        "credit": "unsplash photo-1554224155-6726b3ff858f",
-        "width": 1400,
-        "height": 1050
-      }
-    },
     "it-training": {
       "cover": {
         "url": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1400&h=1050&q=75",

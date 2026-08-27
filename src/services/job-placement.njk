@@ -2,158 +2,231 @@
 layout: layouts/page.njk
 title: Job Placement
 description: Hands-on support from resume to signed offer — matching, coaching, and negotiation help for candidates who want a job placed, not just applications sent.
+glass: true
 extraScripts:
+  - /assets/js/count-up.js
   - /assets/js/faq-accordion.js
-  - /assets/js/rail-active.js
 ---
 {% from "partials/icons.njk" import icon %}
 
-{% set rail = [
-  { id: "included",  label: "What's included", n: "00" },
-  { id: "changes",   label: "What changes",    n: "A"  },
-  { id: "procedure", label: "The process",     n: "B"  },
-  { id: "story",     label: "Success story",   n: "C"  },
-  { id: "faq",       label: "Questions",       n: "D"  }
-] %}
+{# ================================================================
+   JOB PLACEMENT — pilot redesign (Hallmark audit pass).
+
+   This page is the test case for pulling the site's stronger AI tells out of one
+   template before deciding whether to roll the same changes across the sibling
+   service pages. Changes made here and NOT yet elsewhere:
+
+   · Hero drops the aurora-blob + dot-field background — solid paper ground, the
+     glass photo panel and the floating $0 tag carry the depth on their own.
+   · Section heads are single-column: label (where it earns one) sits directly
+     above its heading in the same column. No more tag-left / heading-right grid,
+     no chapter-marker ghost index, no eyebrow on sections that aren't ordinal.
+   · "What's included" is a definition list with inline icons on hairline rules,
+     not a six-up grid of glass cards with stacked icon chips.
+   · Fabricated proof is gated: the success story, the candidate-quote grid, and
+     the employer logo wall are commented out until real, consented content exists.
+     See the TODO markers below.
+   ================================================================ #}
 
 {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Job Placement" }] %}
-{% set coverStamp = "File · 01" %}
-{% set coverTitle = "Get placed, not just applied." %}
-{% set coverLead = "Full support from resume to signed offer — because a job search shouldn't be something you do alone." %}
-{% set coverNote = "Free for candidates. Our fee is paid by the hiring employer, never by you." %}
-{% set coverPrimary = { label: "Start Your Job Search", href: "/contact/" } %}
-{% set coverSecondary = { label: "See all services", href: "/services/" } %}
-{% set coverImage = images.services["job-placement"].cover %}
-{% include "partials/cover-sheet.njk" %}
 
-<section class="section-container py-14 sm:py-20">
-  <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+{# ---------- Hero ----------
+   Answers the fee question in the first screen (PRD §4) as a floating tag on the
+   photograph, not small print under the buttons. ---------- #}
+<section class="relative overflow-hidden">
+  <div class="section-container pb-14 pt-8 sm:pb-20 sm:pt-12">
+    {% include "partials/breadcrumb.njk" %}
 
-    {% include "partials/section-rail.njk" %}
+    <div class="mt-8 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-7">
+        <p class="eyebrow">A named recruiter, start to finish</p>
 
-    {# The doc column runs a narrower measure than the employer pages: this one is
-       read top to bottom, not scanned, and photo bands break the run rather than
-       another grid of cards. #}
-    <div class="lg:col-span-9 lg:max-w-3xl">
+        <h1 class="mt-4 font-grotesk text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
+          Get placed, not just applied.
+        </h1>
+        <p class="lead-copy mt-5 max-w-xl">
+          A named recruiter works your search end to end — resume, matching,
+          interview prep, and negotiation — because a job search shouldn't be
+          something you do alone.
+        </p>
 
-      {# ---- 00 What's included ---- #}
-      <div id="included" class="scroll-mt-28">
-        <p class="eyebrow">00 — What's included</p>
-        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-          Support at every stage.
-        </h2>
-        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {% set included = [
-            { icon: "check", t: "Resume & profile optimization", d: "We rebuild your resume and profile around what actually gets noticed." },
-            { icon: "users", t: "Interview coaching", d: "Mock interviews and real feedback before it counts." },
-            { icon: "target", t: "Employer matching", d: "We only put you in front of roles that fit your background and goals." },
-            { icon: "chart", t: "Offer negotiation support", d: "We help you evaluate and negotiate before you sign anything." },
-            { icon: "clock", t: "Post-placement check-in", d: "We follow up at 30 and 90 days to make sure it's working out." },
-            { icon: "briefcase", t: "Application tracking", d: "One recruiter, one thread — no chasing status across job boards." }
-          ] %}
-          {% for item in included %}
-          <div class="folder-card p-5">
-            <span class="flex h-9 w-9 items-center justify-center rounded-sm bg-brand/10 text-brand">{{ icon(item.icon, "w-4 h-4") }}</span>
-            <h3 class="mt-3 font-display font-semibold tracking-tight text-ink">{{ item.t }}</h3>
-            <p class="mt-2 body-copy">{{ item.d }}</p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="{{ '/contact/' | url }}" class="btn-primary">
+            {{ icon("arrow-right", "w-4 h-4") }} Start your job search
+          </a>
+          <a href="{{ '/services/' | url }}" class="btn-outline">
+            See all services
+          </a>
+        </div>
+
+        {# TODO: confirm these figures with the client before launch — see stats.json.
+           Candidate-facing, so lead with the success rate, not the partner count. #}
+        {% set heroStats = [] %}
+        {% for s in stats.list %}
+          {% if s.label != "Partner Companies" %}{% set _ = heroStats.push(s) %}{% endif %}
+        {% endfor %}
+        <dl class="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-ink/10 pt-6">
+          {% for stat in heroStats.slice(0, 3) %}
+          <div>
+            <dd class="stat-figure text-xl sm:text-2xl"
+                data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
+            <dt class="stat-label">{{ stat.label }}</dt>
           </div>
           {% endfor %}
+        </dl>
+      </div>
+
+      <div class="relative lg:col-span-5">
+        {% set coverImage = images.services["job-placement"].cover %}
+        <div class="glass-panel p-3">
+          <img src="{{ coverImage.url }}"
+               alt="{{ coverImage.alt }}"
+               width="1400" height="1750" loading="eager" fetchpriority="high"
+               class="aspect-[4/5] w-full rounded-[1.1rem] object-cover">
         </div>
-      </div>
 
-      {# Exhibit band — breaks the run of text between sections. #}
-      {% set band = images.services["job-placement"].bands[0] %}
-      <figure class="exhibit-band mt-14">
-        <img src="{{ band.url }}" alt="{{ band.alt }}" width="{{ band.width }}" height="{{ band.height }}"
-             loading="lazy" class="aspect-[21/9]">
-        <figcaption class="border-t border-border px-4 py-3 meta">{{ band.caption }}</figcaption>
-      </figure>
-
-      {# ---- A What changes. Qualitative only: no salary figures, no timelines here. ---- #}
-      <div id="changes" class="mt-14 scroll-mt-28">
-        <p class="eyebrow">A — The difference</p>
-        <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-          What actually changes.
-        </h2>
-        <div class="mt-6 overflow-x-auto">
-          <table class="ledger min-w-[34rem]">
-            <thead>
-              <tr>
-                <th scope="col">On your own</th>
-                <th scope="col">With us</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% set contrasts = [
-                { a: "Applications into a void, no reply", b: "A named recruiter who tells you where each one stands" },
-                { a: "No idea why you were passed over", b: "Feedback after every interview" },
-                { a: "Competing with hundreds of applicants", b: "Introduced to employers already expecting your resume" },
-                { a: "Guessing what the interview will cover", b: "Prepped for the specific team you're meeting" }
-              ] %}
-              {% for row in contrasts %}
-              <tr>
-                <td class="w-1/2 pr-6">{{ row.a }}</td>
-                <td class="w-1/2 font-medium text-ink">{{ row.b }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {# ---- B The process ---- #}
-      <div class="mt-14">
-        {% set steps = [
-          { label: "Consultation", duration: "30 minutes", description: "A conversation about where you are and where you want to go." },
-          { label: "Profile build", duration: "3–5 days", description: "Resume, profile, and positioning built around your target roles." },
-          { label: "Matching", duration: "Ongoing", description: "Introductions only to employers that fit — no mass applications." },
-          { label: "Interviews", description: "Coaching before every conversation that matters." },
-          { label: "Offer", description: "Negotiation support and a check-in once you've started." }
-        ] %}
-        {% set sectionId = "procedure" %}
-        {% set sectionEyebrow = "B — The process" %}
-        {% set sectionTitle = "Five steps to an offer." %}
-        {% include "partials/process-timeline.njk" %}
-      </div>
-
-      {# Exhibit band — the offer, before the case study that describes one. #}
-      {% set band2 = images.services["job-placement"].bands[1] %}
-      <figure class="exhibit-band mt-14">
-        <img src="{{ band2.url }}" alt="{{ band2.alt }}" width="{{ band2.width }}" height="{{ band2.height }}"
-             loading="lazy" class="aspect-[21/9]">
-        <figcaption class="border-t border-border px-4 py-3 meta">{{ band2.caption }}</figcaption>
-      </figure>
-
-      {# ---- C Success story. Needs a real, consented candidate before launch. ---- #}
-      <div id="story" class="mt-14 scroll-mt-28">
-        <span class="stamp">{{ icon("check-badge", "w-3.5 h-3.5") }} File closed</span>
-        <h2 class="mt-4 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-          Real placement, real timeline.
-        </h2>
-        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-3">
-          {% set story = [
-            { k: "Situation", v: "Sofia had six months of unanswered applications for QA roles after a bootcamp." },
-            { k: "Approach", v: "We rebuilt her profile around testing frameworks employers were actually hiring for, and matched her to two fintech teams." },
-            { k: "Result", v: "Offer in hand four days after her first interview." }
-          ] %}
-          {% for part in story %}
-          <div class="folder-card p-5">
-            <p class="meta">{{ part.k }}</p>
-            <p class="mt-2 body-copy">{{ part.v }}</p>
-          </div>
-          {% endfor %}
+        {# Frost, not pane — it floats over the photograph. See THEME.md §3. #}
+        <div class="glass-frost absolute -bottom-4 left-6 rounded-2xl px-5 py-3.5 sm:-left-6">
+          <p class="meta">Cost to you</p>
+          <p class="font-grotesk text-2xl font-bold tracking-tight text-ink">$0</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+{# TODO — Employer wall gated. `placed-at.njk` hotlinks logo.clearbit.com for
+   Amazon / Microsoft / Accenture etc., which reads as a client list we can't
+   substantiate. Re-enable only with a real, permitted set of employer names.
+{% include "partials/placed-at.njk" %}
+#}
+
+{# ---------- What's included ---------- #}
+<section id="included" class="section-container scroll-mt-28 py-16 sm:py-24">
+  <div class="max-w-2xl">
+    <h2 class="section-title">Six things you get, from day one.</h2>
+    <p class="lead-copy mt-4">Support at every stage of the search, not just a stack of applications sent on your behalf.</p>
+  </div>
+
+  {% set included = [
+    { icon: "check", t: "Resume & profile optimization", d: "We rebuild your resume and profile around what actually gets noticed." },
+    { icon: "users", t: "Interview coaching", d: "Mock interviews and real feedback before it counts." },
+    { icon: "target", t: "Employer matching", d: "We only put you in front of roles that fit your background and goals." },
+    { icon: "chart", t: "Offer negotiation support", d: "We help you evaluate and negotiate before you sign anything." },
+    { icon: "clock", t: "Post-placement check-in", d: "We follow up at 30 and 90 days to make sure it's working out." },
+    { icon: "briefcase", t: "Application tracking", d: "One recruiter, one thread — no chasing status across job boards." }
+  ] %}
+  <dl class="mt-10 grid gap-x-12 gap-y-7 sm:grid-cols-2">
+    {% for item in included %}
+    <div class="flex gap-4 border-t border-ink/15 pt-5">
+      <span class="mt-0.5 shrink-0 text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
+      <div>
+        <dt class="card-title">{{ item.t }}</dt>
+        <dd class="mt-1.5 body-copy">{{ item.d }}</dd>
+      </div>
+    </div>
+    {% endfor %}
+  </dl>
+
+  {# We state our position on a placement that doesn't work out plainly, rather
+     than leaving it to the FAQ. #}
+  <p class="mt-10 file-inset meta max-w-2xl leading-relaxed">
+    No guarantee of an offer, and no promise on timeline — but if a placement
+    doesn't work out inside 90 days, we re-open your search at no additional cost.
+  </p>
+</section>
+
+{# ---------- What changes ----------
+   Qualitative only, per PRD §4 — no salary figures, no timelines. The assertion
+   does the work of a heading and a lead paragraph in one line. ---------- #}
+<section id="changes" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
+  <div class="section-container">
+    <div class="max-w-2xl">
+      <h2 class="assertion sm:text-3xl">
+        On your own, an application goes into a void. With us, it goes to
+        someone already expecting it.
+      </h2>
+    </div>
+    <div class="mt-10 overflow-x-auto">
+      <table class="ledger min-w-[34rem]">
+        <thead>
+          <tr>
+            <th scope="col">On your own</th>
+            <th scope="col">With us</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% set contrasts = [
+            { a: "Applications into a void, no reply", b: "A named recruiter who tells you where each one stands" },
+            { a: "No idea why you were passed over", b: "Feedback after every interview" },
+            { a: "Competing with hundreds of applicants", b: "Introduced to employers already expecting your resume" },
+            { a: "Guessing what the interview will cover", b: "Prepped for the specific team you're meeting" }
+          ] %}
+          {% for row in contrasts %}
+          <tr>
+            <td class="w-1/2 pr-6">{{ row.a }}</td>
+            <td class="w-1/2 font-medium text-ink">{{ row.b }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{# ---------- The process ----------
+   Genuinely ordinal, so it keeps step numbers — supplied by process-timeline.njk. #}
+<section id="procedure" class="section-container scroll-mt-28 py-16 sm:py-24">
+  <div class="max-w-2xl">
+    <p class="eyebrow">Step by step</p>
+    <h2 class="section-title mt-2">Five steps to an offer.</h2>
+  </div>
+  <div class="mt-10">
+    {% set steps = [
+      { label: "Consultation", duration: "30 minutes", description: "A conversation about where you are and where you want to go." },
+      { label: "Profile build", duration: "3–5 days", description: "Resume, profile, and positioning built around your target roles." },
+      { label: "Matching", duration: "Ongoing", description: "Introductions only to employers that fit — no mass applications." },
+      { label: "Interviews", description: "Coaching before every conversation that matters." },
+      { label: "Offer", description: "Negotiation support and a check-in once you've started." }
+    ] %}
+    {% include "partials/process-timeline.njk" %}
+  </div>
+</section>
+
+{# TODO — Success story gated. The previous version told a named, dated placement
+   ("Sofia", "offer in hand four days after her first interview") that was written,
+   not sourced. Restore this section only with a real placement the candidate has
+   consented to publish. Shape to reuse when it's ready: photo beside a
+   Situation / Approach / Result run, with the result carried as a pull quote.
+
+<section id="story" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
+  ...
+</section>
+#}
+
+{# TODO — Candidate voices gated. testimonials.json ships stock-photo placeholders
+   with real company names attached to the quotes (Amazon, Microsoft, …). Re-enable
+   the grid below once the quotes are real and attribution is permitted.
+
+<section id="voices" class="section-container scroll-mt-28 py-16 sm:py-24">
+  <h2 class="section-title">What candidates say, after.</h2>
+  {% set candidateQuotes = [] %}
+  {% for t in testimonials.list %}
+    {% if not t.employer and t.slug != "sofia" %}{% set _ = candidateQuotes.push(t) %}{% endif %}
+  {% endfor %}
+  <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+    {% for testimonial in candidateQuotes.slice(0, 4) %}
+      {% include "partials/testimonial-card.njk" %}
+    {% endfor %}
+  </div>
+</section>
+#}
+
 {% set faqKey = "job-placement" %}
-{% set faqEyebrow = "D — Standing questions" %}
-{% set faqTitle = "Before you open a file." %}
+{% set faqTitle = "Before you get started." %}
 {% include "partials/faq-accordion.njk" %}
 
-{% set ctaStamp = "Ready to open" %}
+{% set ctaStamp = "Ready when you are" %}
 {% set ctaHeadline = "Start your job search today." %}
 {% set ctaSubtext = "The first conversation is free, and there's no cost to you at any stage." %}
 {% set ctaLabel = "Get Started" %}

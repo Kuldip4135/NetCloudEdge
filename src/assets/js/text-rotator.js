@@ -31,7 +31,13 @@
   var count = track.querySelectorAll("[data-rotator-word]:not([data-rotator-clone])").length;
   if (count < 2) return;
 
-  var HOLD = 2800; // time a word stays still, transition excluded
+  /* How long a word sits still, in milliseconds — the transition itself is NOT
+     included, so a word is on screen for HOLD + the .roll-track transition (560ms by
+     default, set in input.css). Authored in the markup as data-hold on [data-rotator]
+     (see partials/home-hero.njk) so the pacing is editable next to the words it paces;
+     2800 is the fallback if the attribute is missing or not a number. */
+  var HOLD = parseInt(mask.getAttribute("data-hold"), 10);
+  if (!(HOLD > 0)) HOLD = 2800;
 
   var index = 0;
   /* Pointer and focus are tracked separately: sharing one flag lets a focusout clear

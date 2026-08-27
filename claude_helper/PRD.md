@@ -35,7 +35,7 @@ Reviewed for structure and positioning, not copied for content or claims:
   market on one axis: **breadth vs. specialization**. TEKsystems and Insight Global win on IT
   depth; Randstad and Adecco win on breadth across admin, operational, and light-industrial roles.
   Neither framing is stated loudly on their homepages — it shows up in how each site organizes its
-  service and industry pages. **What we borrow:** the same tension exists inside our own five
+  service and industry pages. **What we borrow:** the same tension exists inside our own four
   services, between Recruitment & Staffing (breadth, speed, volume roles) and Talent Acquisition
   (depth, seniority, executive search). It's why Talent Acquisition's most important section is a
   direct comparison table against Staffing, placed high on the page — without it, a visitor can't
@@ -47,18 +47,17 @@ out-publishes us. None of the three say plainly, on their own homepage, which of
 for whom — **we do, and it stays the differentiator.** The "Which service fits you?" matrix on the
 Services overview page is the thing none of them build cleanly, and it stays high on the page.
 
-## Sitemap (9 pages)
+## Sitemap (8 pages)
 
 1. Home
 2. About Us
-3. Services (overview — five cards linking to the detail pages; without it "Services" in the nav
-   has nowhere to land, and visitors comparing options need one page that shows all five)
+3. Services (overview — four cards linking to the detail pages; without it "Services" in the nav
+   has nowhere to land, and visitors comparing options need one page that shows all four)
 4. Services → Job Placement
 5. Services → Recruitment & Staffing
 6. Services → Talent Acquisition
-7. Services → Background Verification
-8. Services → IT Training
-9. Contact
+7. Services → IT Training
+8. Contact
 
 Plus Privacy Policy and Terms, required before the resume upload goes live.
 
@@ -78,7 +77,7 @@ credibility to employers.*
    validated opening move, not a guess.
 2. **Dual-Path Split** — two cards, "For Job Seekers" / "For Employers", each with an icon, a
    two-line pitch, and its own CTA. Two doors is the point; a third dilutes the choice.
-3. **Services Grid** — five cards: icon, title, one-liner, audience tag, "Learn more". 1 / 2 / 3
+3. **Services Grid** — four cards: icon, title, one-liner, audience tag, "Learn more". 1 / 2 / 3
    columns across mobile / tablet / desktop.
 4. **Why Choose Us** — four tiles, each naming a concrete mechanism rather than an adjective.
 5. **Success Metrics** — four counters in the numeric face, counting up on scroll. 2×2 on mobile,
@@ -114,12 +113,12 @@ credibility to employers.*
 
 *Goal: route the visitor. Nobody buys from this page — they pick a door.*
 
-1. **Page Header** — title plus an intro framing the five as one pipeline: source → vet → place →
-   verify → upskill.
+1. **Page Header** — title plus an intro framing the four as one pipeline: source → vet → place →
+   upskill.
 2. **Which Service Fits You?** — audience × service matrix. **Sits above the detail rows** — it's
    the fastest router on the site, and the thing none of the researched competitors build cleanly
    on their own homepage or overview page. Collapses to stacked label/value pairs on mobile.
-3. **Services Detail Rows** — five zig-zag rows, alternating image side, each with a 2–3 line
+3. **Services Detail Rows** — four zig-zag rows, alternating image side, each with a 2–3 line
    description, a "not for you if…" line pointing at the right alternative, and an "Explore" link.
 4. **CTA Band** — "Not sure which service fits? Book a free consultation."
 
@@ -171,22 +170,7 @@ seconds, both pages fail.*
 5. **FAQ Accordion.**
 6. **CTA Band.**
 
-## 7. Background Verification
-
-*Goal: reassure. The most legally sensitive page on the site — write conservatively.*
-
-1. **Hero** — shield/checkmark iconography in the brand colour, not the accent. Trust visuals
-   should read as steady, not urgent.
-2. **What We Verify** — icon grid, with *"where legally permitted"* on the criminal check.
-   That qualifier is not optional.
-3. **Compliance Note** — plain text, no badge iconography. Consent, data handling, retention,
-   and an explicit statement that we don't display badges we haven't earned — Netbounce's one
-   unearned certification badge is the specific mistake this rule exists to prevent.
-4. **Process Steps.**
-5. **FAQ Accordion.**
-6. **CTA Band.**
-
-## 8. IT Training
+## 7. IT Training
 
 *Goal: sell a program to an early-career learner. Reads more like a course catalogue than a
 service page.*
@@ -207,7 +191,7 @@ service page.*
 > If the tracks aren't real yet, this page ships as a single waitlist section instead — no
 > durations, no prices, no curriculum until they exist.
 
-## 9. Contact
+## 8. Contact
 
 *Goal: remove every reason not to send the form.*
 
@@ -229,7 +213,7 @@ No CTA band. The form on this page *is* the call to action.
 - **Header / Nav** — logo left; Home, About, Services ▾, Contact and a "Get Started" button
   right, becoming a click-to-call link on mobile. Sticky on scroll with a hairline bottom border,
   not a shadow.
-  - **Services dropdown** — opens on hover *and* keyboard focus, never hover alone. Panel of five
+  - **Services dropdown** — opens on hover *and* keyboard focus, never hover alone. Panel of four
     links on desktop, single column on tablet, an expandable row inside the slide-out menu on mobile.
   - **Mobile menu** — full-width slide-in, closes on outside click and on Escape, page behind it
     locked from scrolling.
@@ -237,7 +221,7 @@ No CTA band. The form on this page *is* the call to action.
     item leading to a thin page costs more than a missing one. (See Robert Half's insights hub
     above, deferred for the same reason.)
 - **Footer** — four columns on desktop, one on mobile: (1) logo, one-line pitch, social;
-  (2) all five services; (3) company links including Privacy Policy and Terms; (4) contact details.
+  (2) all four services; (3) company links including Privacy Policy and Terms; (4) contact details.
   Registered entity name in the copyright line. No newsletter signup unless someone genuinely
   sends a newsletter, and no second copy of the full nav.
 - **CTA Band** — one reusable band, different wording per page, one action per band, never two

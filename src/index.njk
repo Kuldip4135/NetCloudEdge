@@ -2,274 +2,226 @@
 layout: layouts/page.njk
 title: Net Cloud Edge — Recruiting & Staffing
 description: Recruiting and staffing for students starting out and professionals moving on — plus the employers who hire both.
+glass: true
 extraScripts:
-  - /assets/js/count-up.js
-  - /assets/js/logo-fallback.js
   - /assets/js/tabs.js
   - /assets/js/text-rotator.js
 ---
 {% from "partials/icons.njk" import icon %}
 
 {# ================================================================
-   HOME
+   HOME — Hallmark redesign pass (single-page, in-place; glass system kept).
+   Pre-emit critique: P5 H4 E4 S4 R4 V4
 
-   Order is a funnel, not a feature list. It answers, in sequence, the
-   four questions a first-time visitor actually asks:
+   The old page asked "which side are you on?" three times in a row — the hero
+   rotator, a dual-path benefits split, and a separate tabbed process section —
+   and ran four consecutive sections with an identical head + padding block.
 
-     1. Who is this for?      hero → dual-path split
-     2. What do they do?      services grid → value proposition
-     3. Does it work?         growth table → case study → statements → feed
-     4. What happens next?    process tabs → CTA
-
-   Proof is deliberately held back until after the offer is understood —
-   numbers shown to someone who doesn't yet know what we sell are just
-   decoration. Structure per PRD.md; every claim tier per the same file.
+   Changes:
+   · The dual-path split and the process tabs are now ONE stateful module: pick
+     your path once and that choice drives the benefits AND the timeline. Cuts a
+     whole redundant section and most of the page height.
+   · Section rhythm varies: the fork is a full-width tabbed panel with no section
+     head competing with it; services drop to a 2x2 card grid + one full-width
+     router row (no more orphaned 5th tile); the standing policy shrinks to a
+     quiet rule strip inside a single glass pane instead of a third big heading.
+   · Contrast fixes: body/step/benefit copy moved off ink/55-60 (fails AA at
+     these sizes per THEME.md) to ink/70; the audience line is now file-tag chips.
+   · Hero stat strip gated — stats.json is placeholder. Restore when the figures
+     are real and confirmed. count-up.js / logo-fallback.js dropped with it.
+   · Every proof block on placeholder data stays gated (employer wall, growth
+     table, traced case study, signed statements, live feed). See the TODOs.
    ================================================================ #}
 
-{# ---------- 1. Hero — centred, full measure, image below.
-
-     No ticker strip above it: the hero opens the page directly. The live-activity
-     signal it used to carry now sits in the placement feed further down, where a
-     reader who has been given a reason to care about it can actually read it
-     standing still. ---------- #}
+{# ---------- 1. Hero — centred, full measure, image below. ---------- #}
 {% include "partials/home-hero.njk" %}
 
-{# ---------- 2. Employer wall — immediately under the hero, where it does
-     the most work: recognisable names are the fastest credibility signal
-     on the page, and they cost the reader nothing to parse. ---------- #}
+{# TODO — Employer wall gated. companies.json: "Displayed only with genuine,
+   permission-cleared placements at each — confirm before launch."
 {% set placedAtTitle = "Referenced employers" %}
 {% set placedAtLead = "Placements closed with these companies." %}
 {% include "partials/placed-at.njk" %}
+#}
 
-{# ---------- 3. The dual-path split — the page's thesis.
-
-     Two full panels rather than two small cards: this is the single most
-     important choice the visitor makes, so it gets a photograph, five
-     concrete benefits, and its own CTA on each side. The two sides are
-     structurally identical — same shape, same count, same weight — because
-     the whole positioning is that we serve both properly, and any asymmetry
-     here would quietly contradict that. ---------- #}
+{# ---------- 2. The fork — one choice, benefits + process behind it.
+     The single most important decision the visitor makes. It is a tab, not two
+     columns: a visitor is only ever on one side of the transaction, and printing
+     both doubles the section to show someone what they came here to ignore.
+     Ships with the first tab selected and the second panel [hidden], so the
+     section is correct before tabs.js runs and if it never does. ---------- #}
 <section class="section-container py-16 sm:py-24">
-  <div class="section-head is-centered">
-    <p class="eyebrow">Two doors</p>
-    <h2 class="section-title">Which side of the table are you on?</h2>
-    <p class="lead-copy">
-      Both doors lead to the same team. What changes is who does the work for whom.
+  <div class="section-head max-w-2xl">
+    <h2 class="section-title">Two doors. One team behind both.</h2>
+    <p class="lead-copy mt-4">
+      Pick your side of the table. What changes is who does the work for whom —
+      the people doing it don't. Every step below has a real time cost attached.
     </p>
   </div>
 
-  <div class="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-    {% for path in paths.list %}
-    <div class="glass-panel flex flex-col overflow-hidden">
-      <img src="{{ path.image.src | url }}" alt="{{ path.image.alt }}"
-           width="1200" height="675" loading="lazy"
-           class="aspect-[16/9] w-full object-cover">
-
-      <div class="flex flex-1 flex-col p-6 sm:p-8">
-        <span class="file-tag w-fit">{{ path.label }}</span>
-        <h3 class="mt-4 font-grotesk text-2xl font-bold leading-tight tracking-tight text-ink">
-          {{ path.headline }}
-        </h3>
-        <p class="mt-3 body-copy">{{ path.lead }}</p>
-
-        {# Not numbered: these are five parallel benefits, not a sequence. #}
-        <ul class="mt-6 flex-1 space-y-4 border-t border-ink/10 pt-6">
-          {% for benefit in path.benefits %}
-          <li class="flex gap-3.5">
-            <span class="icon-chip-accent mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-              {{ icon(benefit.icon, "w-4 h-4") }}
-            </span>
-            <span>
-              <span class="block text-sm font-semibold text-ink">{{ benefit.title }}</span>
-              <span class="mt-1 block text-sm leading-relaxed text-ink/60">{{ benefit.text }}</span>
-            </span>
-          </li>
-          {% endfor %}
-        </ul>
-
-        <a href="{{ path.cta.href | url }}" class="btn-primary mt-8 w-full sm:w-fit">
-          {{ path.cta.label }} {{ icon("arrow-right", "w-4 h-4") }}
-        </a>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</section>
-
-{# ---------- 4. Services grid — six tiles on a paper band.
-
-     The tone shift to `paper` separates the catalogue from the argument
-     either side of it without introducing a new colour. Five services plus
-     a router tile, so the third row never ends on an orphan. ---------- #}
-<section class="border-y border-border bg-paper py-16 sm:py-24">
-  <div class="section-container">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div class="section-head">
-        <p class="eyebrow">What we do</p>
-        <h2 class="section-title">Five services, one pipeline.</h2>
-      </div>
-      <p class="meta max-w-xs leading-relaxed">Source → vet → place → verify → upskill</p>
-    </div>
-
-    <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {% for service in services.list %}
-      <a href="{{ service.url | url }}" class="glass-panel card-lift group flex flex-col p-6 sm:p-7">
-        <div class="flex items-start justify-between gap-3">
-          <span class="icon-chip">{{ icon(service.icon, "w-5 h-5") }}</span>
-          {# ink/65, matching .meta — the ref reads as quiet detailing but is still real
-             text a screen reader will announce, so it holds the 4.5:1 body threshold
-             rather than the 3:1 decorative one. #}
-          <span class="font-mono text-xs text-ink/65">{{ service.ref }}</span>
-        </div>
-        <h3 class="card-title mt-5">{{ service.title }}</h3>
-        <p class="mt-2 flex-1 body-copy">{{ service.shortDescription }}</p>
-        <span class="file-tag mt-5 w-fit">
-          {%- if service.audience.students %}Students{% endif -%}
-          {%- if service.audience.professionals %}{% if service.audience.students %} · {% endif %}Professionals{% endif -%}
-          {%- if service.audience.employers %}{% if service.audience.students or service.audience.professionals %} · {% endif %}Employers{% endif -%}
-        </span>
-        <span class="mt-5 link-arrow">
-          Learn more {{ icon("arrow-right", "w-4 h-4") }}
-        </span>
-      </a>
+  <div data-tabs class="mt-10">
+    <div class="tab-list flex w-full sm:inline-flex sm:w-auto" role="tablist" aria-label="Choose your path">
+      {% for path in paths.list %}
+      <button type="button" data-tab class="tab-button flex-1 sm:flex-none"
+              role="tab" id="tab-{{ path.slug }}"
+              aria-controls="panel-{{ path.slug }}"
+              aria-selected="{{ 'true' if loop.first else 'false' }}"
+              tabindex="{{ '0' if loop.first else '-1' }}">
+        {{ "I'm hiring" if path.slug == "employers" else "I'm job hunting" }}
+      </button>
       {% endfor %}
+    </div>
 
-      {# Router tile — fills the sixth slot and catches anyone still comparing,
-         pointing at the one thing no competitor builds cleanly: the matrix. #}
-      <a href="{{ '/services/' | url }}"
-         class="card-lift group flex flex-col justify-between rounded-2xl border border-brand/20 bg-brand/5 p-6 sm:p-7">
-        <div>
-          <span class="icon-chip">{{ icon("target", "w-5 h-5") }}</span>
-          <h3 class="card-title mt-5">Not sure which one?</h3>
-          <p class="mt-2 body-copy">
-            One table, all five services, mapped against who each is actually built for.
-          </p>
+    {% for path in paths.list %}
+    <div id="panel-{{ path.slug }}" role="tabpanel" aria-labelledby="tab-{{ path.slug }}"
+         tabindex="0" {% if not loop.first %}hidden{% endif %}
+         class="mt-8 focus:outline-none">
+      <div class="glass-panel p-6 sm:p-8 lg:p-10">
+
+        {# Positioning line — one row, no photo (the hero already carries one). #}
+        <div class="flex flex-col gap-5 border-b border-ink/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div class="max-w-xl">
+            <span class="file-tag">{{ path.label }}</span>
+            <h3 class="mt-3 font-grotesk text-2xl font-bold leading-tight tracking-tight text-ink">
+              {{ path.headline }}
+            </h3>
+            <p class="mt-2 body-copy">{{ path.lead }}</p>
+          </div>
+          <a href="{{ path.cta.href | url }}" class="btn-primary shrink-0">
+            {{ path.cta.label }} {{ icon("arrow-right", "w-4 h-4") }}
+          </a>
         </div>
-        <span class="mt-5 link-arrow">
-          Compare all five {{ icon("arrow-right", "w-4 h-4") }}
-        </span>
-      </a>
-    </div>
-  </div>
-</section>
 
-{# ---------- 5. Value proposition — the standing policy.
-
-     Centred statement, then four mechanisms. Each tile names something we
-     actually do, not an adjective: "a recruiter who's read your resume"
-     rather than "personalised". Adjectives are what every competitor in this
-     market writes, which is exactly why they no longer signal anything. #}
-<section class="section-container py-16 sm:py-24">
-  <div class="section-head is-centered">
-    <p class="eyebrow">Standing policy</p>
-    <h2 class="section-title">Four things every placement follows.</h2>
-    <p class="lead-copy">
-      Not values on a wall. Four commitments that hold on every file we open, and that
-      you can hold us to.
-    </p>
-  </div>
-
-  {% set policies = [
-    { icon: "users", t: "Personalised matching", d: "A recruiter who has actually read your resume, not a keyword filter with a friendly name." },
-    { icon: "shield", t: "Verified employers", d: "Every partner company is vetted before you are ever introduced to it." },
-    { icon: "support", t: "One thread, one recruiter", d: "No chasing status across four job boards and three inboxes. One person owns your file." },
-    { icon: "heart", t: "End to end, past the offer", d: "We stay involved through negotiation and check in ninety days after you start." }
-  ] %}
-  <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-    {% for policy in policies %}
-    <div class="glass-panel card-lift flex flex-col p-6">
-      <span class="icon-chip">{{ icon(policy.icon, "w-5 h-5") }}</span>
-      <h3 class="card-title mt-5">{{ policy.t }}</h3>
-      <p class="mt-2 body-copy">{{ policy.d }}</p>
-    </div>
-    {% endfor %}
-  </div>
-</section>
-
-{# ---------- 6. Proof, in descending order of how checkable it is:
-     a dated series, then one traced placement, then signed statements. ---------- #}
-<section class="border-y border-border bg-paper py-16 sm:py-24">
-  <div class="section-container">
-    {% include "partials/growth-table.njk" %}
-
-    {# 6b — One file traced end to end. The same person as the pull-quote, which is
-       why Priya is excluded from the statements row further down. #}
-    <div id="case-study" class="mt-12 scroll-mt-28 sm:mt-16">
-      <div class="glass-panel overflow-hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-5">
-          <figure class="lg:col-span-2">
-            <img src="{{ '/assets/images/home/interview-conversation.jpg' | url }}"
-                 alt="A candidate meeting a hiring manager"
-                 width="1400" height="1050" loading="lazy"
-                 class="h-full min-h-[16rem] w-full object-cover">
-          </figure>
-
-          <div class="p-6 sm:p-8 lg:col-span-3 lg:p-10">
-            <span class="status-chip"><span class="status-dot"></span>Placement closed</span>
-            <h2 class="mt-5 font-grotesk text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
-              Forty applications, no replies. Sixteen days after her first call, an offer.
-            </h2>
-            <p class="mt-4 body-copy">
-              Priya's résumé buried a strong analytics background on page two. We rebuilt the
-              profile, matched her to three employers who needed exactly that, and prepped her
-              for every interview.
-            </p>
-            <p class="highlight mt-6">The role fit better than anything I'd found on my own.</p>
-
-            <dl class="mt-8 grid grid-cols-4 gap-4 border-t border-ink/10 pt-6">
-              {% for fact in [
-                { k: "Day 0", v: "Applied" },
-                { k: "Day 4", v: "Matched" },
-                { k: "Day 11", v: "Interview" },
-                { k: "Day 16", v: "Offer" }
-              ] %}
-              <div>
-                <dt class="meta">{{ fact.k }}</dt>
-                <dd class="mt-1 font-grotesk text-sm font-semibold tracking-tight text-ink sm:text-base">{{ fact.v }}</dd>
-              </div>
+        {# Two balanced columns: what you get (parallel, unnumbered) beside how it
+           runs (a real sequence, so it carries numbers). #}
+        <div class="mt-8 grid gap-x-12 gap-y-10 lg:grid-cols-2">
+          <div>
+            <p class="meta">What you get</p>
+            <ul class="mt-5 space-y-4">
+              {% for benefit in path.benefits %}
+              <li class="flex gap-3.5">
+                <span class="mt-0.5 shrink-0 text-brand">{{ icon(benefit.icon, "w-4 h-4") }}</span>
+                <span>
+                  <span class="block text-sm font-semibold text-ink">{{ benefit.title }}</span>
+                  <span class="mt-1 block text-sm leading-relaxed text-ink/70">{{ benefit.text }}</span>
+                </span>
+              </li>
               {% endfor %}
-            </dl>
+            </ul>
+          </div>
+
+          <div>
+            <p class="meta">How it runs</p>
+            <ol class="mt-5 space-y-4">
+              {% for step in path.steps %}
+              <li class="flex gap-4">
+                <span class="trace-badge shrink-0" aria-hidden="true">{{ loop.index }}</span>
+                <div>
+                  <p class="text-sm font-semibold text-ink">
+                    {{ step.label }}
+                    <span class="ml-2 font-mono text-xs uppercase tracking-widest text-ink/60">{{ step.duration }}</span>
+                  </p>
+                  <p class="mt-1 text-sm leading-relaxed text-ink/70">{{ step.description }}</p>
+                </div>
+              </li>
+              {% endfor %}
+            </ol>
           </div>
         </div>
       </div>
     </div>
-
-    {# 6c — Signed statements. Horizontal swipe on mobile, four across on desktop.
-       Initials avatars, not stock headshots: a stranger's face beside a real quote
-       is the exact move that costs a trust page its trust. #}
-    <div id="statements" class="mt-12 scroll-mt-28 sm:mt-16">
-      <div class="section-head">
-        <p class="eyebrow">Signed statements</p>
-        <h2 class="section-title">On record, from both sides.</h2>
-      </div>
-
-      {% set featured = [] %}
-      {% for t in testimonials.list %}
-        {% if t.slug != "priya" and featured.length < 4 %}{% set _ = featured.push(t) %}{% endif %}
-      {% endfor %}
-
-      <div class="mt-8 -mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
-        {% for testimonial in featured %}
-        <div class="w-[82%] shrink-0 snap-start sm:w-auto">
-          {% include "partials/testimonial-card.njk" %}
-        </div>
-        {% endfor %}
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </section>
 
-{# ---------- 7. What happens next — the two processes, tabbed ---------- #}
-<section class="section-container py-16 sm:py-24">
-  {% include "partials/path-tabs.njk" %}
+{# ---------- 3. Services — 2x2 catalogue on a paper band, one router row.
+     The tone shift separates the catalogue from the argument either side. ---------- #}
+<section class="border-y border-white/60 bg-paper/50 py-16 sm:py-24">
+  <div class="section-container">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div class="section-head max-w-2xl">
+        <h2 class="section-title">Four services, one pipeline.</h2>
+      </div>
+      <p class="meta max-w-xs leading-relaxed">Source → vet → place → upskill</p>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+      {% for service in services.list %}
+      <a href="{{ service.url | url }}" class="glass-panel card-lift group flex flex-col p-6 sm:p-7">
+        <span class="icon-chip">{{ icon(service.icon, "w-5 h-5") }}</span>
+        <h3 class="card-title mt-5">{{ service.title }}</h3>
+        <p class="mt-2 flex-1 body-copy">{{ service.shortDescription }}</p>
+        <div class="mt-5 flex flex-wrap gap-1.5">
+          {% if service.audience.students %}<span class="file-tag">Students</span>{% endif %}
+          {% if service.audience.professionals %}<span class="file-tag">Professionals</span>{% endif %}
+          {% if service.audience.employers %}<span class="file-tag">Employers</span>{% endif %}
+        </div>
+        <span class="mt-4 link-arrow">Learn more {{ icon("arrow-right", "w-4 h-4") }}</span>
+      </a>
+      {% endfor %}
+    </div>
+
+    {# Router row — catches anyone still comparing, pointing at the matrix.
+       Frost density + a brand hairline so it reads as the odd one out. #}
+    <a href="{{ '/services/' | url }}"
+       class="glass-frost card-lift group mt-5 flex flex-col justify-between gap-5 rounded-2xl border border-brand/25 p-6 sm:flex-row sm:items-center sm:p-7">
+      <div class="flex items-start gap-4">
+        <span class="icon-chip icon-chip-accent shrink-0">{{ icon("target", "w-5 h-5") }}</span>
+        <div class="max-w-xl">
+          <h3 class="card-title">Not sure which one?</h3>
+          <p class="mt-2 body-copy">
+            One table, all four services, mapped against who each is actually built for.
+          </p>
+        </div>
+      </div>
+      <span class="link-arrow shrink-0">Compare all four {{ icon("arrow-right", "w-4 h-4") }}</span>
+    </a>
+  </div>
 </section>
 
-{# ---------- 8. The live feed — last piece of proof before the ask ---------- #}
-{% include "partials/placement-feed.njk" %}
+{# ---------- 4. Standing policy — a quiet rule strip, not a third headline.
+     Each item names something we actually do, not an adjective. ---------- #}
+<section class="section-container py-14 sm:py-16">
+  {% set policies = [
+    { n: "01", t: "Personalised matching", d: "A recruiter who has actually read your resume, not a keyword filter with a friendly name." },
+    { n: "02", t: "Verified employers", d: "Every partner company is vetted before you are ever introduced to it." },
+    { n: "03", t: "One thread, one recruiter", d: "No chasing status across four job boards and three inboxes. One person owns your search." },
+    { n: "04", t: "End to end, past the offer", d: "We stay involved through negotiation and check in ninety days after you start." }
+  ] %}
+  <div class="glass-panel p-8 sm:p-10">
+    <p class="meta">Four things every placement follows</p>
+    <dl class="mt-6 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+      {% for policy in policies %}
+      <div class="border-t border-ink/15 pt-4">
+        <span class="value-index">{{ policy.n }}</span>
+        <dt class="card-title mt-2 text-base">{{ policy.t }}</dt>
+        <dd class="mt-1.5 text-sm leading-relaxed text-ink/70">{{ policy.d }}</dd>
+      </div>
+      {% endfor %}
+    </dl>
+  </div>
+</section>
 
-{# ---------- 9. Close the loop ---------- #}
+{# TODO — Proof section gated. growth-table.njk / growth.json, the traced case
+   study ("Priya — sixteen days to an offer"), and testimonials.json all ship on
+   placeholder / stock data. Restore each block once the data behind it is real
+   and consented.
+
+<section class="border-y border-white/60 bg-paper/50 py-16 sm:py-24">
+  <div class="section-container">
+    {% include "partials/growth-table.njk" %}
+    <div id="case-study" class="mt-12 scroll-mt-28 sm:mt-16"> ... </div>
+    <div id="statements" class="mt-12 scroll-mt-28 sm:mt-16"> ... </div>
+  </div>
+</section>
+#}
+
+{# TODO — Live placement feed gated. placements.json: "PLACEHOLDER DATA."
+{% include "partials/placement-feed.njk" %}
+#}
+
+{# ---------- 5. Close the loop ---------- #}
 {% set ctaHeadline = "Ready to find your footing?" %}
-{% set ctaSubtext = "Whether you're job hunting or hiring, the first conversation is free — and it starts the system tracking your file." %}
-{% set ctaLabel = "Get Started" %}
+{% set ctaSubtext = "Whether you're job hunting or hiring, the first conversation is free." %}
+{% set ctaLabel = "Get started" %}
 {% set ctaHref = "/contact/" %}
 {% include "partials/cta-section.njk" %}

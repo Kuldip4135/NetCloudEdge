@@ -14,7 +14,7 @@ All photos sourced from [Unsplash](https://unsplash.com) under the Unsplash Lice
 | `workspace-open-office.jpg` | `1497032628192-86f99bcd76bc` |
 
 These five back the Home, About, and Services-overview covers. They used to back the
-five service detail pages too — four photos across five pages, one of them used twice.
+four service detail pages too — four photos across four pages, one per page.
 
 ## Service-page photos — not in this folder
 

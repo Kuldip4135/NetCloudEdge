@@ -1,8 +1,10 @@
 ---
 layout: layouts/page.njk
 title: Services
-description: Five services, one connected pipeline — from sourcing candidates to verifying them to placing them.
+description: Four services, one connected pipeline — from sourcing candidates to placing and upskilling them.
+glass: true
 extraScripts:
+  - /assets/js/count-up.js
   - /assets/js/rail-active.js
   - /assets/js/logo-fallback.js
 ---
@@ -10,14 +12,14 @@ extraScripts:
 
 {% set rail = [
   { id: "router",   label: "Which service fits", n: "00" },
-  { id: "index",    label: "The five files",     n: "A"  },
+  { id: "index",    label: "The four files",     n: "A"  },
   { id: "pipeline", label: "One pipeline",       n: "B"  }
 ] %}
 
 {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services" }] %}
-{% set coverStamp = "Five on file" %}
-{% set coverTitle = "Source, vet, place, verify, upskill." %}
-{% set coverLead = "Five services that work as one connected pipeline, whichever end you're starting from." %}
+{% set coverStamp = "Four on file" %}
+{% set coverTitle = "Source, vet, place, upskill." %}
+{% set coverLead = "Four services that work as one connected pipeline, whichever end you're starting from." %}
 {% set coverPrimary = { label: "Book a consultation", href: "/contact/" } %}
 {% set coverSecondary = { label: "Find a job", href: "/services/job-placement/" } %}
 {% set coverImage = {
@@ -42,6 +44,11 @@ extraScripts:
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Which service fits you?
         </h2>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-ink/75">
+          Most staffing sites route every visitor toward the same contact form. Every
+          row below names who each service isn't for, and points at the file that is —
+          so you can rule yourself out as fast as you can rule yourself in.
+        </p>
 
         {# Desktop: a ledger. Mobile: stacked label-and-value pairs rather than a
            shrunken table — see the responsive rules in PRD.md. #}
@@ -92,10 +99,10 @@ extraScripts:
         </div>
       </div>
 
-      {# ---- A The five files. Each row carries the redirect line that prevents the
+      {# ---- A The four files. Each row carries the redirect line that prevents the
              wrong-service enquiry. ---- #}
       <div id="index" class="mt-14 scroll-mt-28">
-        <p class="eyebrow">A — The five files</p>
+        <p class="eyebrow">A — The four files</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Opened one at a time.
         </h2>
@@ -132,13 +139,13 @@ extraScripts:
       <div id="pipeline" class="mt-14 scroll-mt-28">
         <p class="eyebrow">B — One pipeline</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
-          They're five folders in one file.
+          They're four folders in one file.
         </h2>
         <p class="mt-4 max-w-xl text-lg leading-relaxed text-ink/75">
-          Most engagements use two or three of these together — a training graduate handed to placement, a shortlist handed to verification. You never have to pick the whole sequence up front.
+          Most engagements use two or three of these together — a training graduate handed to placement, a shortlist built for an employer already deep in Talent Acquisition. You never have to pick the whole sequence up front.
         </p>
         <div class="mt-5 flex flex-wrap gap-3">
-          {% for stage in ["Source", "Vet", "Place", "Verify", "Upskill"] %}
+          {% for stage in ["Source", "Vet", "Place", "Upskill"] %}
           <span class="file-tag">
             <span class="font-semibold {% if loop.last %}text-accent-deep{% endif %}">{{ loop.index }}</span> {{ stage }}
           </span>

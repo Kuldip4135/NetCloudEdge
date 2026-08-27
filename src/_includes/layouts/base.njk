@@ -20,7 +20,11 @@
 
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
 </head>
-<body class="bg-paper font-body text-ink antialiased">
+{# `is-glass` switches on the glass system (claude_helper/THEME.md): the ambient colour
+   field plus pane density for every .glass-panel on the page. A page opts in with
+   `glass: true` in its front matter, so the rollout is one line per page and a page
+   that has not been converted keeps the solid-card theme untouched. #}
+<body class="bg-paper font-body text-ink antialiased{% if glass %} is-glass{% endif %}">
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-paper">
     Skip to content
   </a>

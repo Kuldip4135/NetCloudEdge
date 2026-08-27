@@ -1,7 +1,7 @@
 {
   "job-placement": [
     { "q": "Does this cost anything as a candidate?", "a": "No — our fee is paid by the hiring employer, never by the candidate. There's no cost to you at any stage." },
-    { "q": "How long does placement usually take?", "a": "Most candidates interview within 2–3 weeks of onboarding and receive an offer within 4–8 weeks, depending on role and industry." },
+    { "q": "How long does placement usually take?", "a": "It depends on your field, your target roles, and how the market's moving. Your recruiter gives you a realistic read after the first conversation — we don't promise a fixed timeline." },
     { "q": "What if the placement doesn't work out?", "a": "We stay involved for 90 days post-placement. If a role isn't the right fit in that window, we re-open your search at no additional cost." },
     { "q": "What industries do you cover?", "a": "Technology, finance, healthcare administration, and professional services, with new industries added as employer demand grows." }
   ],
@@ -17,12 +17,6 @@
     { "q": "How long does a search typically take?", "a": "6–10 weeks on average, depending on how narrow the specification is and how competitive the market is for that role." },
     { "q": "Do you offer a replacement guarantee?", "a": "Yes — a 6-month replacement guarantee is standard on every retained search." }
   ],
-  "background-verification": [
-    { "q": "How long does a check take?", "a": "Most standard reports are delivered within 3–5 business days of candidate consent." },
-    { "q": "What does a standard check include?", "a": "Employment history, education verification, reference checks, and criminal record screening where legally permitted." },
-    { "q": "How is candidate data handled?", "a": "Consent is collected before any check begins, data is encrypted in transit and at rest, and reports are retained only as long as required by law." },
-    { "q": "Can checks be customized per role?", "a": "Yes — scope can be adjusted for role sensitivity, from a basic employment check to a full compliance-grade report." }
-  ],
   "contact": [
     { "q": "How soon will I hear back?", "a": "Within one business day — most inquiries get a reply the same day they're submitted." },
     { "q": "Do I need to pick a service before reaching out?", "a": "No — tell us your situation in the message and we'll point you to the right service, or a combination of them." },
@@ -31,7 +25,7 @@
   "it-training": [
     { "q": "How long is each program?", "a": "Tracks run 8–14 weeks depending on subject, with both full-time and evening/weekend formats available." },
     { "q": "Is training online, in-person, or both?", "a": "Both — live online cohorts run continuously, with in-person sessions at our Chicago location for select tracks." },
-    { "q": "What does it cost?", "a": "Pricing varies by track; payment plans are available, and a placement-linked deferral option applies to select programs." },
+    { "q": "What does it cost?", "a": "Pricing varies by track. You can pay in full, split it into installments, use employer tuition reimbursement, or on select tracks, defer part of the cost until you're placed." },
     { "q": "Do I need prior experience?", "a": "No prior industry experience required. Each track starts from fundamentals and builds to a portfolio-ready project." },
     { "q": "Is placement guaranteed after graduation?", "a": "Graduates get direct, priority access to our Job Placement pipeline — not a guarantee, but a real head start over an open application." }
   ]

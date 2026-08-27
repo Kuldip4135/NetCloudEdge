@@ -25,6 +25,22 @@
   --color-border: 224 230 240;
   --color-signal: 21 71 196;
   --color-signal-dark: 14 51 148;
+
+  /* ---- Glass tokens (claude_helper/THEME.md) ----
+     Every frosted surface on the site derives from these five numbers, so the whole
+     theme's density is tuned here rather than in a dozen rules. Alphas are unitless
+     because they are consumed inside rgb(… / <alpha>).
+
+     --glass-ground is the *default* density, for panes sitting on the ambient colour
+     field. Floating surfaces raise it to --glass-ground-frost by setting the variable
+     on themselves (see .glass-frost) — the appearance rules never change, only the
+     input does. */
+  --glass-blur: 18px;
+  --glass-saturate: 180%;
+  --glass-ground: 0.55;
+  --glass-ground-frost: 0.82;
+  --glass-rim: 0.7;
+  --glass-hairline: 0.6;
 }
 
 /* Three drifts, deliberately unequal in distance and direction as well as duration, so
@@ -137,8 +153,49 @@
   .text-balance {
     text-wrap: balance;
   }
+  /* ---- The top bar: invisible at rest, a floating glass pill once scrolled ----
+
+     Two states, one element. At scrollY 0 the header is pure chrome: no ground, no
+     border, nothing — so the hero's bloom passes underneath it and the page opens on
+     an uninterrupted field of colour. Past 8px, header-scroll.js adds .is-scrolled and
+     the bar lifts off the viewport edge: the shell gains top padding, pulls in from the
+     full content measure, rounds into a pill, and picks up a frosted translucent ground
+     with a light hairline and a soft ambient shadow.
+
+     backdrop-filter is what makes this read as glass rather than as a pale panel:
+     saturate() before blur() keeps whatever passes behind — the aurora, a photograph,
+     a logo — chromatic instead of washing it to grey. The inset white highlight along
+     the top edge is the "lit rim" that separates real glass from a translucent box.
+
+     Only compositor-cheap properties animate; the blur itself is static, so scrolling
+     under the bar is a composite, not a re-filter. */
+  .header-bar {
+    @apply sticky top-0 z-50 transition-[padding] duration-300 ease-out;
+  }
+  .header-row {
+    @apply h-16 transition-[height] duration-300 ease-out lg:h-20;
+  }
+  /* The pill lives inside .section-container rather than being it: a component class
+     cannot outrank the container's own max-width/padding utilities, so the two stay
+     separate elements and the shell owns only what it animates. */
+  .header-shell {
+    @apply mx-auto rounded-full border border-transparent px-0
+           transition-[background-color,border-color,box-shadow,max-width,padding]
+           duration-300 ease-out;
+    max-width: 100%;
+  }
   [data-header].is-scrolled {
-    @apply border-border bg-surface/90;
+    @apply pt-2 sm:pt-3;
+  }
+  [data-header].is-scrolled .header-row {
+    @apply h-14 lg:h-16;
+  }
+  /* The bar is a floating surface, so it runs at frost density and takes its shadow
+     from the shared glass rules further down (see GLASS SYSTEM). Only geometry lives
+     here. */
+  [data-header].is-scrolled .header-shell {
+    @apply px-4 sm:px-5 lg:px-6;
+    max-width: 1120px;
   }
 
   /* ---- The background — a fixed, near-silent texture, not a light source ---- */
@@ -342,6 +399,13 @@
     @apply bg-brand/60;
   }
 
+  /* A closed-file stamp — quieter than .status-chip, tinted rather than bordered white,
+     for marking a record as settled ("File closed", "On file") rather than live. */
+  .stamp {
+    @apply inline-flex items-center gap-2 rounded-full bg-brand/10 px-3 py-1.5
+           font-mono text-xs font-semibold uppercase tracking-widest text-brand;
+  }
+
   /* Manifest / ledger row — a live-feed record inside a glass panel: grid-cols-12,
      hairline between rows, no border on the last one. */
   .manifest-row {
@@ -352,10 +416,71 @@
            font-mono text-xs uppercase tracking-widest text-ink/65;
   }
 
+  /* Docket row/head — the same grid-cols-12 record shape as .manifest-row, on a
+     dashed rule instead of a solid one: a docket is browsed (a sector, an industry),
+     a manifest is confirmed fact. Used by the industries table on Recruitment &
+     Staffing. */
+  .docket-head {
+    @apply grid grid-cols-12 items-center gap-3 border-b border-border pb-2
+           font-mono text-xs uppercase tracking-widest text-ink/65;
+  }
+  .docket-row {
+    @apply grid grid-cols-12 items-center gap-3 border-b border-dashed border-border
+           py-4 last:border-b-0;
+  }
+
+  /* Docket disclosure — one FAQ row. The trigger is a full-width flex button so the
+     whole row is the hit target, not just the chevron; the dashed rule matches
+     .docket-row since a question list is the same "browse, don't confirm" shape. */
+  .docket-disclosure {
+    @apply border-b border-dashed border-border;
+  }
+  .docket-disclosure > button {
+    @apply flex w-full items-center justify-between gap-4 py-5 text-left
+           font-display text-base font-semibold tracking-tight text-ink
+           transition-colors hover:text-brand sm:text-lg;
+  }
+
+  /* ---- Chapter marker — the About page's replacement for the sticky rail ----
+
+     A ghosted index number and a label that hold position beside their section while
+     it scrolls past. The rail card is still the right answer on the service and legal
+     pages, where a reader arrives hunting one clause and wants a list of them; on a
+     page that is read top to bottom it was a table of contents for a document nobody
+     indexes. The number is decorative — the eyebrow beside it carries the meaning —
+     so it can sit at brand/25 without owing anyone a contrast ratio. */
+  .chapter-marker {
+    @apply lg:sticky lg:top-28;
+  }
+  .chapter-index {
+    @apply block font-mono text-4xl font-semibold leading-none tracking-tight text-brand/25;
+  }
+  /* The value tile's index. Quieter than .chapter-index and on the accent, because
+     here the number is a count the reader follows, not a section address. */
+  .value-index {
+    @apply font-mono text-xs font-semibold uppercase tracking-widest text-accent-deep;
+  }
+  /* One row of the registered-particulars manifest: label left, value right on a wide
+     screen, stacked on a narrow one. Same hairline rhythm as .manifest-row. */
+  .fact-row {
+    @apply flex flex-col gap-1 border-b border-ink/10 py-4 last:border-b-0
+           sm:flex-row sm:items-baseline sm:justify-between sm:gap-6;
+  }
+  .fact-row dd {
+    @apply sm:text-right;
+  }
+
   /* Sticky section rail — a card identical to .glass-panel, holding the
      in-page link list. */
   .folder-card {
     @apply rounded-2xl border border-border bg-surface shadow-card;
+  }
+  /* A folder-card called out as the thing being sold on the page — Talent
+     Acquisition's market map, Services overview's featured Job Placement row. Brand
+     border only; the ground stays with the base rule so glass conversion still applies
+     through one selector. */
+  .folder-card-accent {
+    @apply border-brand/25;
   }
   /* One rail link — the mono index number stays fixed weight; only the label and
      the left rule react to the active state set by rail-active.js. */
@@ -414,10 +539,18 @@
   }
 
   /* Pull quote / highlight. One consolidated component (replaces the old separate
-     "statement"/"assertion" split) — a vertical accent rule stands in for quote marks. */
+     "statement" split) — a vertical accent rule stands in for quote marks. Use inside
+     body copy, never as a page's H2. */
   .highlight {
     @apply border-l-2 border-accent pl-5 font-grotesk text-xl font-semibold leading-snug
            tracking-tight text-ink sm:text-2xl;
+  }
+  /* A section's H2 doing double duty as its own thesis statement — no border rule,
+     larger than .highlight, sized to stand in for a normal section-heading + lead
+     pair in one line (Talent Acquisition's "staffing vs. search" distinction, IT
+     Training's placement-pipeline pitch). */
+  .assertion {
+    @apply font-grotesk text-2xl font-bold leading-tight tracking-tight text-ink;
   }
 
   /* Data table — hairline rules, mono headers. */
@@ -579,7 +712,7 @@
     transform: translateY(calc(var(--roll-index, 0) * -1 * var(--roll-line)));
     /* Gentle in, strong settle — a physical reel starting and stopping, rather than a
        UI element snapping. One property, one element, no repaint. */
-    transition: transform 560ms cubic-bezier(0.6, 0, 0.2, 1);
+    transition: transform 400ms cubic-bezier(0.6, 0, 0.2, 1);
   }
   .roll-word {
     @apply block text-brand;
@@ -611,7 +744,7 @@
   /* ---- Document types ---- */
 
   /* A labelled section: eyebrow-led heading beside its content, used where a page
-     wants to read as a filled-in form (Background Verification). */
+     wants to read as a filled-in form. */
   .form-row {
     @apply grid gap-4 border-t border-ink/10 pt-8 md:grid-cols-[10rem_1fr] md:gap-10;
   }
@@ -620,7 +753,13 @@
   }
 
   /* Legal clause prose — Privacy Policy / Terms run to plain paragraphs and lists with
-     no cards between them; this sets what plain tags need inside a glass panel. */
+     no cards between them; this sets what plain tags need inside a glass panel.
+     Capped measure: the document column is ~9/12 of a 1280px shell, and legal prose
+     set the full width of it runs past 120 characters a line. 40rem holds it near
+     70ch at 17px. Tables live outside .legal-prose and keep the full column. */
+  .legal-prose {
+    max-width: 40rem;
+  }
   .legal-prose > * + * {
     @apply mt-4;
   }
@@ -758,5 +897,222 @@
   .status-dot::before {
     animation: none !important;
     display: none;
+  }
+}
+
+/* ================================================================
+   THE GLASS SYSTEM
+
+   Full rationale, rollout order and guardrails: claude_helper/THEME.md.
+
+   Three densities, one appearance rule. Everything below reads its numbers from the
+   --glass-* tokens in :root, so a surface changes density by setting a variable on
+   itself rather than by redeclaring how glass looks:
+
+     .glass-pane   default ground — in-page panels sitting on the ambient colour field
+     .glass-frost  raised ground  — anything floating over content it cannot predict:
+                                    the top bar, the nav dropdown, the mobile sheet
+     .glass-dark   inverted       — chips and cards inside the ink bands
+
+   A page opts in with `glass: true` in its front matter (see layouts/base.njk); pages
+   that have not been converted keep the solid card theme.
+   ================================================================ */
+
+@layer components {
+
+  /* ---- The one appearance rule ----
+
+     Three things have to stack for this to read as glass rather than as a pale box:
+     a chromatic field behind it (.bg-orbs, below), a translucent blurred ground, and
+     a lit rim along the top edge. saturate() runs before blur() so whatever passes
+     behind — the aurora, a photograph, a logo — stays chromatic instead of washing
+     out to grey. */
+  .glass-pane,
+  .glass-frost,
+  .is-glass .glass-panel,
+  .is-glass .folder-card,
+  [data-header].is-scrolled .header-shell {
+    border-color: rgb(255 255 255 / var(--glass-hairline));
+    background-color: rgb(var(--color-surface) / var(--glass-ground));
+    -webkit-backdrop-filter: saturate(var(--glass-saturate)) blur(var(--glass-blur));
+    backdrop-filter: saturate(var(--glass-saturate)) blur(var(--glass-blur));
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / var(--glass-rim)),
+      0 1px 2px rgb(15 23 42 / 0.04),
+      0 16px 36px -18px rgb(15 23 42 / 0.22);
+  }
+
+  /* .folder-card runs at frost density everywhere: it's the sticky section rail on the
+     service and legal pages (permanently floating over scrolling content) and the file
+     index rows on the Services overview — both unpredictable-background cases per
+     THEME.md §3, never a plain in-flow pane. */
+  .is-glass .folder-card {
+    --glass-ground: var(--glass-ground-frost);
+  }
+
+  /* Density is set as a variable, never as another background-color — so it composes
+     with .glass-panel on home without a specificity fight. */
+  .glass-frost,
+  [data-header].is-scrolled .header-shell {
+    --glass-ground: var(--glass-ground-frost);
+    --glass-blur: 20px;
+    --glass-rim: 0.75;
+  }
+
+  /* Inverted, for the ink bands. Same three ingredients, read the other way up.
+     The compound selectors are there so this beats the light-ground overrides further
+     down (.is-glass .status-chip) when both land on the same element. */
+  .glass-dark,
+  .is-glass .glass-dark,
+  .is-glass .status-chip.glass-dark {
+    @apply border-white/20;
+    background-color: rgb(255 255 255 / 0.10);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    backdrop-filter: saturate(140%) blur(14px);
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.14);
+  }
+
+  /* Where backdrop-filter is unavailable the ground has to carry the contrast alone,
+     or ink text ends up sitting on whatever happens to be behind the panel. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass-pane,
+    .glass-frost,
+    .is-glass .glass-panel,
+    .is-glass .folder-card,
+    [data-header].is-scrolled .header-shell {
+      background-color: rgb(var(--color-surface) / 0.95);
+    }
+    .glass-dark {
+      background-color: rgb(255 255 255 / 0.16);
+    }
+  }
+
+  /* ---- The ambient field the glass refracts ----
+
+     Two fixed, heavily-blurred brand fields behind everything. Fixed rather than
+     scrolled, so panes slide across them and the refraction shifts as the page moves.
+     This layer is not decoration you can skip: without something chromatic behind it,
+     glass over paper white is just a pale card. Any page converted to this theme needs
+     it turned on. */
+  .is-glass .bg-orbs::before,
+  .is-glass .bg-orbs::after {
+    content: "";
+    @apply pointer-events-none absolute rounded-full;
+    filter: blur(100px);
+  }
+  .is-glass .bg-orbs::before {
+    @apply h-[34rem] w-[34rem];
+    top: -8%;
+    right: -6%;
+    background: radial-gradient(circle, rgb(var(--color-accent) / 0.22), transparent 70%);
+  }
+  .is-glass .bg-orbs::after {
+    @apply h-[30rem] w-[30rem];
+    bottom: -10%;
+    left: -8%;
+    background: radial-gradient(circle, rgb(var(--color-brand) / 0.18), transparent 70%);
+  }
+  /* blur() is the expensive part of this layer and these are mostly off-canvas on a
+     phone, where fill rate costs most. */
+  @media (max-width: 640px) {
+    .is-glass .bg-orbs::before,
+    .is-glass .bg-orbs::after {
+      filter: blur(70px);
+    }
+  }
+
+  /* ---- Home surfaces that are not .glass-panel ---- */
+
+  /* The process tab pill: a floating control on the bloom, structurally the same
+     object as the top bar, so it runs at the same density. */
+  .is-glass .tab-list {
+    --glass-ground: var(--glass-ground-frost);
+    border-color: rgb(255 255 255 / var(--glass-hairline));
+    background-color: rgb(var(--color-surface) / var(--glass-ground));
+    -webkit-backdrop-filter: saturate(var(--glass-saturate)) blur(var(--glass-blur));
+    backdrop-filter: saturate(var(--glass-saturate)) blur(var(--glass-blur));
+  }
+  /* The secondary hero button. Solid white on a colour field reads as a hole punched
+     in the bloom; frosted, it becomes the glass counterpart to the solid brand button
+     beside it. The hover border is restated because .btn-outline:hover and this rule
+     carry equal specificity — without it, the later rule would win and the hover
+     accent would never appear. */
+  .is-glass .btn-outline {
+    border-color: rgb(255 255 255 / 0.7);
+    background-color: rgb(var(--color-surface) / 0.62);
+    -webkit-backdrop-filter: saturate(var(--glass-saturate)) blur(14px);
+    backdrop-filter: saturate(var(--glass-saturate)) blur(14px);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.75),
+      0 1px 2px rgb(15 23 42 / 0.04),
+      0 10px 24px -14px rgb(15 23 42 / 0.20);
+  }
+  .is-glass .btn-outline:hover {
+    border-color: rgb(var(--color-brand));
+  }
+  /* Employer wall: the wordmarks fade out at both ends instead of being cut by the
+     panel's edge — a hard clip is what makes a marquee read as a cropped list rather
+     than as a tape running behind glass. */
+  .is-glass .marquee-wrap {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+
+  /* ---- Opaque fills that would cancel the blur underneath them ----
+     The effect only shows where the pane's own background is what you see through, so
+     anything solid sitting inside one has to come down with it. */
+  .is-glass .file-inset {
+    @apply bg-white/45;
+  }
+  .is-glass .status-chip {
+    @apply border-white/60;
+    background-color: rgb(var(--color-surface) / var(--glass-ground));
+    -webkit-backdrop-filter: saturate(160%) blur(12px);
+    backdrop-filter: saturate(160%) blur(12px);
+  }
+  /* …but only where the chip sits on the page ground. Inside a pane it is glass on
+     glass: the second backdrop-filter re-blurs an already blurred result, which goes
+     grey, and costs a filtered layer per chip for nothing. Same resolution as
+     .file-inset — a flat translucent well, no filter of its own. */
+  .is-glass .glass-panel .status-chip {
+    background-color: rgb(255 255 255 / 0.55);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .is-glass .marquee-wrap li:hover {
+    background-color: rgb(255 255 255 / 0.45);
+  }
+  /* Hero stat strip: gap-px over bg-border with solid cells. Both the gap rule and the
+     cells go translucent so the photograph reads through the whole strip. The cells
+     run denser than a normal pane because they are the only glass on the page sitting
+     directly over a dark photograph. */
+  .is-glass .hero-stat-strip {
+    background-color: rgb(var(--color-border) / 0.45);
+  }
+  .is-glass .hero-stat-strip > div {
+    background-color: rgb(255 255 255 / 0.55);
+  }
+  /* Deeper hover shadow for panes — the resting one is defined above. */
+  .is-glass .card-lift:hover::after {
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.8),
+      0 2px 4px rgb(15 23 42 / 0.05),
+      0 24px 48px -18px rgb(15 23 42 / 0.28);
+  }
+
+  /* ---- The mobile sheet, on every page ----
+     It covers the viewport over whatever was scrolled behind it, so it is frost
+     density by definition. */
+  .mobile-menu {
+    --glass-ground: 0.80;
+    @apply border-t border-white/50;
+    background-color: rgb(var(--color-surface) / var(--glass-ground));
+    -webkit-backdrop-filter: saturate(var(--glass-saturate)) blur(24px);
+    backdrop-filter: saturate(var(--glass-saturate)) blur(24px);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .mobile-menu {
+      @apply bg-surface;
+    }
   }
 }

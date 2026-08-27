@@ -1,56 +1,44 @@
 {#
   Home hero — centred, full-width, image beneath rather than beside.
 
-  Distinct from partials/cover-sheet.njk, which the five service pages use: those are
+  Distinct from partials/cover-sheet.njk, which the four service pages use: those are
   left-text / right-image splits, because a service page opens mid-conversation with a
   reader who already chose a door. Home opens before that choice is made, so the
   headline gets the full measure of the page and both doors sit side by side under it,
-  neither one visually favoured. Keeping the two heroes as separate partials is
-  deliberate — merging them would mean a flag that changes the entire layout.
+  neither one visually favoured.
+
+  The ground is a scoped exception to THE LEDGER's no-glow rule (see the .hero-aurora
+  note in input.css): three soft brand fields drift on offset loops behind the copy,
+  with a crisp centre-lit dot field over the top. This is the ONE screen allowed the
+  bloom — it has no component on it to stay consistent with. Every other page keeps
+  the flat .bg-orbs texture. Motion is transform-only and collapses under
+  prefers-reduced-motion to a static hold.
 
   The image sits below the fold-line copy as a wide band, so the hero's first screen is
-  headline + CTAs on mobile and desktop alike, with the photograph as reward for the
-  first scroll rather than competition for the headline.
+  headline + CTAs on mobile and desktop alike.
 #}
 {% from "partials/icons.njk" import icon %}
 {# data-rotator-scope marks the region whose hover / keyboard focus pauses the rotator. #}
 <section data-rotator-scope class="relative overflow-hidden">
 
-  {# The hero's own ground — three soft brand-coloured fields drifting on long, offset
-     loops. Decorative only, and the one place on the site where colour blur is allowed
-     to carry depth; see .hero-aurora in input.css for why the exception is scoped here. #}
+  {# Decorative ground. aria-hidden — it carries no information. #}
   <div class="hero-aurora" aria-hidden="true">
     <span class="aurora-blob aurora-blob-1"></span>
     <span class="aurora-blob aurora-blob-2"></span>
     <span class="aurora-blob aurora-blob-3"></span>
   </div>
-
-  {# The dot field, deliberately after the bloom in the markup — both layers sit at
-     -z-10, so DOM order is what keeps the dots crisp on top of the colour. #}
   <div class="hero-dots" aria-hidden="true"></div>
 
   <div class="section-container pb-12 pt-14 sm:pb-16 sm:pt-20 lg:pt-24">
 
     <div class="section-head is-centered max-w-4xl">
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <span class="status-chip"><span class="status-dot"></span>Intake open</span>
-        <span class="meta">{{ site.address.line1 }} · {{ site.address.line2 }}</span>
-      </div>
+      <p class="meta">{{ site.address.line1 }} · {{ site.address.line2 }}</p>
 
-      {# The rotating audience word.
-
-         The <h1>'s accessible text is the complete sentence, held in a visually-hidden
-         span — a screen reader and a crawler get one coherent heading rather than a
-         word that mutates under them. The visible half is aria-hidden presentation of
-         that same sentence.
-
-         The track renders with the first word already in the mask, so the hero is
-         correct before text-rotator.js runs and if it never does. Single words only:
-         anything long enough to wrap would break the one-line mask the roll depends on.
-
-         The first word is repeated at the end of the track — the roll wraps onto that
-         duplicate and then snaps back to index 0, a jump between two identical frames
-         that cannot be seen. #}
+      {# The rotating audience word. The <h1>'s accessible text is the complete
+         sentence in a visually-hidden span; the visible half is aria-hidden
+         presentation of that same sentence. The track renders with the first word
+         already in the mask, so the hero is correct before text-rotator.js runs and
+         if it never does. #}
       {% set rotatorWords = ["students", "professionals", "employers"] %}
 
       <h1 class="mt-3">
@@ -61,7 +49,10 @@
         <span aria-hidden="true" class="display-title block">
           <span class="block">Recruiting for</span>
 
-          <span data-rotator class="roll-mask">
+          {# data-hold — milliseconds each word holds still before the next rolls up.
+             The roll itself takes another 400ms (.roll-track in input.css).
+             hold 1800 + roll 400 ≈ 2200ms per word. #}
+          <span data-rotator data-hold="1800" class="roll-mask">
             <span data-rotator-track class="roll-track">
               {% for word in rotatorWords %}
               <span data-rotator-word class="roll-word">{{ word }}</span>
@@ -79,19 +70,16 @@
       </p>
 
       {# Two doors, equal weight. The solid/outline pairing distinguishes them without
-         ranking them: both are primary paths, and the page's whole premise is that the
-         visitor picks one. #}
+         ranking them. #}
       <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         <a href="{{ '/services/job-placement/' | url }}" class="btn-primary">
-          {{ icon("users", "w-4 h-4") }} Find a Job
+          {{ icon("users", "w-4 h-4") }} Find a job
         </a>
         <a href="{{ '/services/recruitment-staffing/' | url }}" class="btn-outline">
-          {{ icon("briefcase", "w-4 h-4") }} Hire Talent
+          {{ icon("briefcase", "w-4 h-4") }} Hire talent
         </a>
       </div>
 
-      {# The fee model belongs in the hero, not the FAQ — it's the first question every
-         candidate has, and it's a policy claim we control, so it's safe to state. #}
       <p class="meta mt-6">Free for candidates — employers pay our fee.</p>
     </div>
 
@@ -101,11 +89,11 @@
            width="2400" height="1000" loading="eager" fetchpriority="high"
            class="aspect-[16/10] w-full rounded-2xl object-cover shadow-card sm:aspect-[21/9]">
 
-      {# Stat strip overlapping the image's lower edge on desktop, stacked beneath it on
-         mobile — one element tying the photograph to the numbers instead of leaving a
-         dead gap between two full-width blocks. Figures come from _data/stats.json, the
-         same source About reads, so the two pages can never disagree. #}
-      <figcaption class="glass-panel relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 gap-px overflow-hidden bg-border p-0 sm:-mt-12 md:grid-cols-4 lg:-mt-16">
+      {# TODO — Hero stat strip gated. stats.json is placeholder ("confirm every
+         figure with the client before launch"). Restore the figcaption below, and
+         add /assets/js/count-up.js back to index.njk's extraScripts, once the
+         numbers are real and confirmed.
+      <figcaption class="glass-panel hero-stat-strip relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 gap-px overflow-hidden bg-border p-0 sm:-mt-12 md:grid-cols-4 lg:-mt-16">
         {% for stat in stats.list %}
         <div class="bg-surface px-5 py-6 text-center sm:px-6 sm:py-7">
           <p class="stat-figure text-2xl sm:text-3xl"
@@ -114,8 +102,7 @@
         </div>
         {% endfor %}
       </figcaption>
+      #}
     </figure>
-
-    <p class="meta mt-5 text-center">Figures under review · updated quarterly</p>
   </div>
 </section>
