@@ -1,3 +1,37 @@
+# dependencies
 node_modules/
+
+# build output
 dist/
+_site/
+
+# os / editor
 .DS_Store
+*.swp
+.idea/
+.vscode/
+
+# logs & env
+*.log
+npm-debug.log*
+.env
+.env.*
+!.env.example
+
+# caches
+.cache/
+.eleventy-cache/
+.npm/
+
+# claude code / AI tooling (local, not shipped)
+.agents/
+.hallmark/
+.claude/skills/
+.claude/settings.local.json
+skills-lock.json
+
+# scratch / screenshots
+screenshots/
+shot*.js
+shot*.mjs
+*.tmp
