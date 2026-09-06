@@ -6,50 +6,51 @@ glass: true
 extraScripts:
   - /assets/js/count-up.js
   - /assets/js/faq-accordion.js
+  - /assets/js/candidate-route.js
 ---
 {% from "partials/icons.njk" import icon %}
 
-{#
-  This page assumes the four tracks in _data/programs.json are real, with real curricula
-  and instructors. If they are not, it ships the waitlist version instead — no durations,
-  no prices, no curriculum until they exist. See PRD.md §7.
+{# ================================================================
+   IT TRAINING — creative redesign (see claude_helper/IT-TRAINING-PAGE.md).
 
-  Never "guaranteed placement" anywhere on this page. Always "direct" or "priority
-  access" to the placement pipeline.
+   The learner / early-funnel page. Same IA:
+     Hero → Journey → Tracks → Why → Outcomes → Cost → Process → FAQ → CTA
+   The recurring device is a LEARNING ROUTE — Skill → Project → Certification →
+   Placement — built from the shared candidate-route.njk. Drawn incomplete in the
+   hero; candidate-route.js advances it and the process route on scroll.
 
-  ================================================================
-  Hallmark audit pass, matching job-placement.njk: hero drops the aurora/dot
-  background; section heads are single-column with the label directly above the
-  heading (no chapter-marker ghost index, no eyebrow on non-ordinal sections);
-  the certificate grid is a definition list with inline icons on hairline rules.
-  The track panels stay full-width panels — a learner comparing programs needs
-  curriculum, format and prerequisites side by side. The one accent-coloured
-  button (PRD §7) stays.
-  ================================================================
-#}
+   Content rules unchanged: NEVER "guaranteed placement" — always "direct" /
+   "priority access". Track curricula (programs.json) stay gated; ship the
+   waitlist variant if they are not real. One accent CTA only (the hero demo
+   button). Stats stay confirmation-gated.
+   ================================================================ #}
 
 {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "IT Training" }] %}
+{% set routeNodes = [
+  { label: "Learn" }, { label: "Build" }, { label: "Certify" },
+  { label: "Get ready" }, { label: "Placement" }
+] %}
 
-{# ---------- Hero ---------- #}
-<section class="relative overflow-hidden">
+{# ---------- 1. Hero — 12-column, a learning route over the photo ---------- #}
+<section data-route-step="1" class="relative overflow-hidden">
   <div class="section-container pb-14 pt-8 sm:pb-20 sm:pt-12">
     {% include "partials/breadcrumb.njk" %}
 
-    <div class="mt-8 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
-      <div class="lg:col-span-7">
+    <div class="mt-10 grid grid-cols-1 gap-y-12 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-7 lg:pr-8">
         <p class="eyebrow">Four tracks, one placement pipeline</p>
 
-        <h1 class="mt-4 font-grotesk text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
-          Train. Certify. Get placed.
+        <h1 class="mt-4 font-grotesk text-[2.75rem] font-bold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+          Train. Certify.<br>Get placed.
         </h1>
-        <p class="lead-copy mt-5 max-w-xl">
+        <p class="lead-copy mt-6 max-w-xl">
           Structured programs that build real skills — and feed straight into our
           placement pipeline when you're done.
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           {# The one accent-coloured button on the site — this audience is earlier
-             in the funnel and more exploratory than the other three, per PRD §7. #}
+             in the funnel and more exploratory (PRD §7). #}
           <a href="{{ '/contact/?role=training' | url }}"
              class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5
                     font-semibold text-paper shadow-card duration-200 ease-out
@@ -57,15 +58,22 @@ extraScripts:
             {{ icon("arrow-right", "w-4 h-4") }} Book a free demo class
           </a>
           <a href="{{ '/services/job-placement/' | url }}" class="btn-outline">
-            See job placement
+            See job placement {{ icon("arrow-right", "w-4 h-4") }}
           </a>
         </div>
 
-        {# TODO: confirm these figures with the client before launch — see stats.json. #}
-        <dl class="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-ink/10 pt-6">
+        {# The learning route, drawn at its first node. #}
+        {% set routeActive = 1 %}
+        {% set routeProgress = true %}
+        <div class="mt-12 max-w-lg">
+          {% include "partials/candidate-route.njk" %}
+        </div>
+
+        {# TODO — confirm every figure with the client before launch (stats.json). #}
+        <dl class="mt-10 flex flex-wrap gap-x-12 gap-y-5 border-t border-ink/10 pt-6">
           {% for stat in stats.list.slice(0, 3) %}
           <div>
-            <dd class="stat-figure text-xl sm:text-2xl"
+            <dd class="font-mono text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
                 data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
             <dt class="stat-label">{{ stat.label }}</dt>
           </div>
@@ -73,50 +81,93 @@ extraScripts:
         </dl>
       </div>
 
-      <div class="relative lg:col-span-5">
+      <div class="lg:col-span-5">
         {% set coverImage = images.services["it-training"].cover %}
-        <div class="glass-panel p-3">
-          <img src="{{ coverImage.url }}"
-               alt="{{ coverImage.alt }}"
-               width="1400" height="933" loading="eager" fetchpriority="high"
-               class="aspect-[4/5] w-full rounded-[1.1rem] object-cover">
-        </div>
+        <figure class="jp-frame">
+          <span class="jp-frame-num" aria-hidden="true">01</span>
+          <div class="jp-frame-media jp-reveal">
+            <img src="{{ coverImage.url }}"
+                 alt="{{ coverImage.alt }}"
+                 width="1400" height="1750" loading="eager" fetchpriority="high"
+                 class="aspect-[4/5] w-full object-cover">
+          </div>
 
-        {# Frost, not pane — it floats over the photograph. See THEME.md §3. #}
-        <div class="glass-frost absolute -bottom-4 left-6 rounded-2xl px-5 py-3.5 sm:-left-6">
-          <p class="meta">Placement pipeline</p>
-          <p class="font-grotesk text-2xl font-bold tracking-tight text-ink">Direct access</p>
-        </div>
+          {# A four-stage learning route over the photo — conceptual, never implies a
+             guaranteed job. #}
+          <ol class="it-route-chip" aria-hidden="true">
+            {% for stage in ["Skill", "Project", "Certify", "Placement"] %}
+            <li class="it-route-chip-node{% if loop.first %} is-lit{% endif %}">
+              <span class="it-route-chip-dot"></span>{{ stage }}
+            </li>
+            {% endfor %}
+          </ol>
+
+          <figcaption class="jp-frame-caption">Cohort in session</figcaption>
+
+          <div class="glass-frost jp-fee">
+            <p class="meta">Placement pipeline</p>
+            <p class="font-grotesk text-2xl font-bold tracking-tight text-ink">Direct access</p>
+          </div>
+        </figure>
       </div>
     </div>
   </div>
 </section>
 
-{# ---------- Programs offered ----------
-   Duration, format and prerequisites are the three things a learner filters on
-   first, so they're on the panel, not in the FAQ. Each track stays a full panel
-   rather than a grid tile. ---------- #}
-<section id="programs" class="section-container scroll-mt-28 py-16 sm:py-24">
+{# ---------- 2. The journey — learning should lead somewhere ----------
+   The mental model for everything that follows: a course is worth it when you can
+   point to what you built and what happens next. ---------- #}
+<section class="border-y border-white/60 bg-paper/50 py-14 sm:py-20">
+  <div class="section-container">
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
+      <div class="lg:col-span-7">
+        <p class="assertion text-2xl sm:text-3xl">Learning should lead somewhere.</p>
+        <p class="body-copy mt-4 max-w-xl">
+          A course is useful when you can point to what you built, what you
+          learned, and what happens next.
+        </p>
+      </div>
+
+      <div class="lg:col-span-5">
+        {% set journeyNodes = [
+          { label: "Learn" }, { label: "Build" }, { label: "Certify" },
+          { label: "Get ready" }, { label: "Placement" }
+        ] %}
+        <ol class="candidate-route candidate-route-y mx-auto max-w-[14rem] lg:mx-0" aria-hidden="true">
+          {% for node in journeyNodes %}
+          <li class="candidate-route-node is-lit"><span class="candidate-route-dot"></span><span class="candidate-route-label">{{ node.label }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ---------- 3. Tracks offered — full-width panels, a route through them ----------
+   Duration, format and prerequisites stay on the panel (a learner filters on
+   these first). Each panel is one route to the same next stage. ---------- #}
+<section id="programs" data-route-step="2" class="section-container scroll-mt-28 py-16 sm:py-24">
   <div class="max-w-2xl">
     <h2 class="section-title">Tracks offered.</h2>
     <p class="lead-copy mt-4">Four programs, each ending at the same place — a portfolio project and a handoff to placement.</p>
   </div>
 
-  <div class="mt-10 space-y-5">
+  <div class="it-tracks mt-12">
     {% for program in programs.list %}
     {% set shot = images.services["it-training"].tracks[program.title] %}
-    {# !pt-0 because glass-panel's top padding would otherwise print a strip of
-       surface above the image; the text cell carries its own padding instead. #}
-    <article class="glass-panel overflow-hidden !pt-0 md:grid md:grid-cols-12">
+    <article class="it-track glass-panel overflow-hidden !pt-0 md:grid md:grid-cols-12">
       {% if shot %}
-      <img src="{{ shot.url }}" alt="{{ shot.alt }}" width="{{ shot.width }}" height="{{ shot.height }}"
-           loading="lazy"
-           class="h-44 w-full object-cover md:col-span-4 md:h-full {% if loop.index is even %}md:order-last{% endif %}">
+      <div class="it-track-media md:col-span-4 {% if loop.index is even %}md:order-last{% endif %}">
+        <img src="{{ shot.url }}" alt="{{ shot.alt }}" width="{{ shot.width }}" height="{{ shot.height }}"
+             loading="lazy" class="h-44 w-full object-cover md:h-full">
+      </div>
       {% endif %}
-      <div class="p-5 sm:p-6 {% if shot %}md:col-span-8{% else %}md:col-span-12{% endif %}">
-        <div class="flex items-start justify-between gap-3">
-          <span class="text-brand">{{ icon(program.icon, "w-5 h-5") }}</span>
-          <span class="meta">{{ program.duration }}</span>
+      <div class="p-5 sm:p-7 {% if shot %}md:col-span-8{% else %}md:col-span-12{% endif %}">
+        <div class="flex items-center gap-3">
+          <span class="it-track-num">0{{ loop.index }}</span>
+          <span class="it-track-node" aria-hidden="true"></span>
+          <span class="text-ink/30">{{ icon(program.icon, "w-4 h-4") }}</span>
+          <span class="meta ml-auto">{{ program.duration }}</span>
         </div>
         <h3 class="mt-4 font-display text-xl font-semibold tracking-tight text-ink">{{ program.title }}</h3>
         <p class="mt-2 body-copy">{{ program.description }}</p>
@@ -136,26 +187,28 @@ extraScripts:
   </div>
 </section>
 
-{# ---------- Why train with us ----------
-   The placement-pipeline link, as a pull quote — always "priority access", never
-   "guaranteed placement". ---------- #}
+{# ---------- 4. Why train with us — the file is already open ----------
+   Priority access, never a guarantee. ---------- #}
 <section id="why" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
   <div class="section-container">
-    <div class="max-w-2xl">
-      <p class="assertion sm:text-3xl">
-        Graduates get <span class="text-brand">direct access to our placement pipeline</span> — the file is already open on the day you certify.
-      </p>
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink/75">
-        That's priority access, not a guarantee. It's the difference between an
-        open application and a recruiter who already knows your work.
-      </p>
+    <div class="grid gap-8 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-2">
+        <p class="it-file-tag">Placement file<span>Open</span></p>
+      </div>
+      <div class="lg:col-span-10 max-w-3xl">
+        <p class="assertion text-2xl sm:text-3xl">
+          Graduates get <span class="text-brand">direct access to our placement pipeline</span> — the file is already open on the day you certify.
+        </p>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink/75">
+          That's priority access, not a guarantee. It's the difference between an
+          open application and a recruiter who already knows your work.
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
-{# ---------- What certification means ----------
-   Vague certification claims are the most common complaint about training
-   providers. ---------- #}
+{# ---------- 5. What you get at the end — three milestone artifacts ---------- #}
 <section id="credential" class="section-container scroll-mt-28 py-16 sm:py-24">
   <div class="max-w-2xl">
     <h2 class="section-title">What you get at the end.</h2>
@@ -166,77 +219,92 @@ extraScripts:
     { icon: "code", t: "A portfolio project", d: "Something you can show an employer, not a printable PDF." },
     { icon: "briefcase", t: "A handoff to placement", d: "A direct introduction into our Job Placement pipeline." }
   ] %}
-  <dl class="mt-10 grid gap-x-12 gap-y-7 sm:grid-cols-3">
+  <ol class="it-artifacts mt-12">
     {% for item in outcomes %}
-    <div class="flex gap-4 border-t border-ink/15 pt-5">
-      <span class="mt-0.5 shrink-0 text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
-      <div>
-        <dt class="card-title">{{ item.t }}</dt>
-        <dd class="mt-1.5 body-copy">{{ item.d }}</dd>
-      </div>
-    </div>
+    <li class="it-artifact">
+      <span class="it-artifact-num">0{{ loop.index }}</span>
+      <span class="it-artifact-icon">{{ icon(item.icon, "w-5 h-5") }}</span>
+      <h3 class="card-title mt-4">{{ item.t }}</h3>
+      <p class="body-copy mt-1.5">{{ item.d }}</p>
+    </li>
     {% endfor %}
-  </dl>
-  <p class="mt-8 file-inset meta max-w-2xl leading-relaxed">
-    Where a track prepares you for a vendor exam, we say which one and whether the exam fee is included — ask us for the track you're considering.
+  </ol>
+
+  <p class="jp-note mt-12 max-w-2xl">
+    Where a track prepares you for a vendor exam, we say which one and whether the
+    exam fee is included — ask us for the track you're considering.
   </p>
 </section>
 
-{# ---------- Pricing ----------
-   A page with no price signal loses price-sensitive readers entirely, so at
-   minimum state that plans exist and how to get exact figures. ---------- #}
+{# ---------- 6. What it costs — four payment paths ---------- #}
 <section id="pricing" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
   <div class="section-container">
     <div class="max-w-2xl">
       <h2 class="section-title">What it costs.</h2>
       <p class="lead-copy mt-4">
-        Fees vary by track and format — ask for your track and we'll send exact figures. However you pay, it works one of these ways:
+        Fees vary by track and format — ask for your track and we'll send exact
+        figures. However you pay, it works one of these ways:
       </p>
     </div>
-    <div class="mt-10">
-      {% set paymentOptions = [
-        { t: "Pay in full", d: "One payment at enrollment." },
-        { t: "Installment plan", d: "A deposit at enrollment, the balance split across the program." },
-        { t: "Employer reimbursement", d: "We provide the documentation your employer's tuition-assistance program needs." },
-        { t: "Placement-linked deferral", d: "On select tracks — reduced cost at enrollment, the balance due after you're placed." }
-      ] %}
+
+    {% set paymentOptions = [
+      { t: "Pay in full", d: "One payment at enrollment." },
+      { t: "Installment plan", d: "A deposit at enrollment, the balance split across the program." },
+      { t: "Employer reimbursement", d: "We provide the documentation your employer's tuition-assistance program needs." },
+      { t: "Placement-linked deferral", d: "On select tracks — reduced cost at enrollment, the balance due after you're placed." }
+    ] %}
+    <ol class="it-pay mt-10">
       {% for option in paymentOptions %}
-      <div class="docket-row">
-        <p class="col-span-12 font-display font-semibold tracking-tight text-ink sm:col-span-4">{{ option.t }}</p>
-        <p class="col-span-12 body-copy sm:col-span-8">{{ option.d }}</p>
-      </div>
+      <li class="it-pay-row">
+        <span class="it-pay-num">0{{ loop.index }}</span>
+        <div>
+          <p class="font-display font-semibold tracking-tight text-ink">{{ option.t }}</p>
+          <p class="body-copy mt-1">{{ option.d }}</p>
+        </div>
+      </li>
       {% endfor %}
-    </div>
-    <a href="{{ '/contact/?role=training' | url }}" class="mt-6 link-arrow">
+    </ol>
+
+    <a href="{{ '/contact/?role=training' | url }}" class="mt-8 link-arrow">
       Tell us your track and we'll send exact pricing {{ icon("arrow-right", "w-4 h-4") }}
     </a>
   </div>
 </section>
 
-{# ---------- Curriculum ----------
-   The clearest literal run of the pipeline: it ends at the same Job Placement
-   file. ---------- #}
-<section id="procedure" class="section-container scroll-mt-28 py-16 sm:py-24">
+{# ---------- 7. The process — the learning pipeline ----------
+   Ends at the same Job Placement file. Horizontal route / vertical on mobile;
+   the current stage lights as the reader scrolls. No durations. ---------- #}
+<section id="procedure" data-route-step="3" class="section-container scroll-mt-28 py-16 sm:py-24">
+  {% set steps = [
+    { label: "Enroll", description: "Pick a track and a format — online, in-person, or both." },
+    { label: "Learn", description: "Structured curriculum built around real job requirements." },
+    { label: "Practice", description: "A portfolio-ready project you can show employers." },
+    { label: "Certification", description: "A credential that signals real, tested skill." },
+    { label: "Placement support", description: "Direct handoff into our Job Placement pipeline." }
+  ] %}
   <div class="max-w-2xl">
     <p class="eyebrow">Step by step</p>
     <h2 class="section-title mt-2">From enrollment to placement.</h2>
   </div>
-  <div class="mt-10">
-    {% set steps = [
-      { label: "Enroll", description: "Pick a track and a format — online, in-person, or both." },
-      { label: "Learn", description: "Structured curriculum built around real job requirements." },
-      { label: "Practice", description: "A portfolio-ready project you can show employers." },
-      { label: "Certification", description: "A credential that signals real, tested skill." },
-      { label: "Placement support", description: "Direct handoff into our Job Placement pipeline." }
-    ] %}
-    {% include "partials/process-timeline.njk" %}
-  </div>
+
+  <ol class="jp-journey mt-14" data-jp-journey>
+    {% for step in steps %}
+    <li class="jp-journey-step{% if loop.first %} is-current{% endif %}" data-jp-node>
+      <span class="jp-journey-num">0{{ loop.index }}</span>
+      <span class="jp-journey-dot" aria-hidden="true"></span>
+      <p class="jp-journey-label">{{ step.label }}</p>
+      <p class="jp-journey-desc">{{ step.description }}</p>
+    </li>
+    {% endfor %}
+  </ol>
 </section>
 
+{# ---------- 8. FAQ — the learner's checklist ---------- #}
 {% set faqKey = "it-training" %}
 {% set faqTitle = "Before you enroll." %}
-{% include "partials/faq-accordion.njk" %}
+{% include "partials/faq-route.njk" %}
 
+{# ---------- 9. Closing CTA ---------- #}
 {% set ctaStamp = "Ready when you are" %}
 {% set ctaHeadline = "Ready to build a new skill set?" %}
 {% set ctaSubtext = "Sit in on a demo class first — there's no cost and no commitment." %}

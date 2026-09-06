@@ -1,0 +1,17 @@
+{#
+  Decorative pipeline rail above the service grid: the four services are one
+  sequence — source, vet, place, upskill — not four unrelated products. Structural,
+  not ornamental: each node sits above its card, and hovering a card lights its node
+  (CSS :has() on [data-service-system], no JS). aria-hidden — the cards below carry
+  the real links and headings; stage order follows services.list.
+#}
+{% set stages = ["Source", "Vet", "Place", "Upskill"] %}
+<ol class="pipeline-rail" aria-hidden="true">
+  {% for service in services.list %}
+  <li class="pipeline-step" data-node="{{ loop.index0 }}">
+    <span class="pipeline-marker">0{{ loop.index }}</span>
+    <span class="pipeline-stage">{{ stages[loop.index0] }}</span>
+    <span class="pipeline-of">{{ service.title }}</span>
+  </li>
+  {% endfor %}
+</ol>

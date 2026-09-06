@@ -1,0 +1,17 @@
+{#
+  Talent Acquisition's signature motif — a market of candidate nodes with one
+  found. Conceptual only: no labels, no numbers, nothing that implies real
+  candidate data. aria-hidden, decorative; the sections it sits in state the same
+  idea ("market map", "passive candidates") in real text. Inline SVG so the
+  connecting paths can run at real diagonals; it scales with its container.
+#}
+<svg class="search-cluster" viewBox="0 0 200 150" fill="none" aria-hidden="true" role="presentation">
+  <path class="search-cluster-link"
+        d="M34 34 L96 26 M96 26 L158 52 M34 34 L60 104 M60 104 L128 118 M128 118 L158 52 M96 26 L104 74 M104 74 L60 104 M104 74 L128 118" />
+  <circle class="search-cluster-node" cx="34" cy="34" r="4.5" />
+  <circle class="search-cluster-node" cx="96" cy="26" r="4.5" />
+  <circle class="search-cluster-node" cx="158" cy="52" r="4.5" />
+  <circle class="search-cluster-node" cx="60" cy="104" r="4.5" />
+  <circle class="search-cluster-node" cx="128" cy="118" r="4.5" />
+  <circle class="search-cluster-found" cx="104" cy="74" r="6" />
+</svg>

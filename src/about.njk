@@ -84,7 +84,21 @@ extraScripts:
    above already carries one, and the note is meant to read as words, not a spread. #}
 <section id="story" class="section-container scroll-mt-28 py-16 sm:py-24">
   <div class="mx-auto max-w-4xl">
-    <div class="glass-panel grid gap-8 p-8 sm:p-10 md:grid-cols-[1.4fr_1fr] md:items-center md:gap-10 lg:gap-12 lg:p-12">
+    <div class="glass-panel grid gap-8 p-8 sm:p-10 md:grid-cols-[8rem_1.3fr_1fr] md:items-start md:gap-10 lg:gap-12 lg:p-12">
+      {# A three-beat rail — problem, realization, decision. The founders' note beside
+         it is unchanged; this only signposts its shape. #}
+      <ol class="flex gap-6 md:flex-col md:gap-0" aria-hidden="true">
+        {% for beat in ["The problem", "The realization", "The decision"] %}
+        <li class="relative flex-1 md:pb-9 md:last:pb-0">
+          <span class="font-mono text-xs font-semibold text-brand">0{{ loop.index }}</span>
+          <p class="mt-1 font-mono text-[11px] uppercase leading-tight tracking-widest text-ink/55">{{ beat }}</p>
+          {% if not loop.last %}
+          <span class="absolute left-[3px] top-7 hidden h-[calc(100%-1.75rem)] w-px bg-border md:block"></span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+
       <div>
         <p class="eyebrow">Our story</p>
 
@@ -135,13 +149,13 @@ extraScripts:
       { n: "03", t: "Speed", d: "Good process shouldn't be slow — we move quickly without cutting corners." },
       { n: "04", t: "Long-term partnerships", d: "We measure success by who's still placed a year later, not just the offer." }
     ] %}
-    <dl class="mt-10 grid gap-x-12 gap-y-7 sm:grid-cols-2">
+    <dl class="mt-10 border-t border-ink/15">
       {% for value in values %}
-      <div class="flex gap-4 border-t border-ink/15 pt-5">
-        <span class="value-index mt-1 shrink-0">{{ value.n }}</span>
-        <div>
-          <dt class="card-title">{{ value.t }}</dt>
-          <dd class="mt-1.5 body-copy">{{ value.d }}</dd>
+      <div class="flex flex-col gap-2 border-b border-ink/15 py-7 sm:flex-row sm:gap-10 sm:py-8">
+        <span class="font-mono text-4xl font-bold leading-none text-brand/30 sm:w-24 sm:shrink-0 sm:text-5xl">{{ value.n }}</span>
+        <div class="sm:max-w-xl">
+          <dt class="card-title text-xl sm:text-2xl">{{ value.t }}</dt>
+          <dd class="mt-2 body-copy">{{ value.d }}</dd>
         </div>
       </div>
       {% endfor %}
@@ -155,6 +169,16 @@ extraScripts:
 <section id="trust" class="section-container scroll-mt-28 py-16 sm:py-24">
   <div class="max-w-2xl">
     <h2 class="section-title">Why students &amp; professionals trust us.</h2>
+    <p class="lead-copy mt-4">One team on both sides of the gap — the same understanding, the same standard for a match.</p>
+    <div class="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-widest text-ink/50" aria-hidden="true">
+      <span>Students &amp; professionals</span>
+      <span class="h-px w-6 bg-border"></span>
+      <span class="text-brand">Understand</span>
+      <span class="h-px w-6 bg-border"></span>
+      <span class="text-brand">Match</span>
+      <span class="h-px w-6 bg-border"></span>
+      <span>Employers</span>
+    </div>
   </div>
 
   {% set trust = [

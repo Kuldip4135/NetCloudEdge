@@ -89,6 +89,18 @@
            width="2400" height="1000" loading="eager" fetchpriority="high"
            class="aspect-[16/10] w-full rounded-2xl object-cover shadow-card sm:aspect-[21/9]">
 
+      {# Editorial annotations — a measurement scale under the photo, naming what the
+         team actually does. Decorative: a compact stacked list on mobile, one hairline
+         rule with three ticks on sm+. aria-hidden — it restates the process below. #}
+      <div class="hero-notes" aria-hidden="true">
+        {% for note in ["Read the brief", "Find the fit", "Stay through the offer"] %}
+        <span class="hero-note">
+          <span class="hero-note-index">0{{ loop.index }}</span>
+          <span class="hero-note-label">{{ note }}</span>
+        </span>
+        {% endfor %}
+      </div>
+
       {# TODO — Hero stat strip gated. stats.json is placeholder ("confirm every
          figure with the client before launch"). Restore the figcaption below, and
          add /assets/js/count-up.js back to index.njk's extraScripts, once the

@@ -1,0 +1,26 @@
+{#
+  The candidate route — this page's recurring device. START → PROFILE → MATCH →
+  INTERVIEW → OFFER as a hairline of nodes; the first `routeActive` of them are lit,
+  the rest outlined, so the same component reads as "just begun" in the hero and
+  "arrived" at the CTA. Decorative — aria-hidden — every section it appears in
+  states the same progression in real text. When it carries data-progress,
+  candidate-route.js lights further nodes as the reader scrolls; that is a state
+  change, not motion, and collapses cleanly under prefers-reduced-motion.
+
+  Params:
+    routeNodes   — [{ label }]
+    routeActive  — nodes lit on load (default 1)
+    routeAxis    — "x" (default) or "y"
+    routeProgress — truthy to let the script advance it on scroll
+#}
+{# Full class names are written out (not interpolated) so Tailwind keeps both rules. #}
+<ol class="candidate-route {{ 'candidate-route-y' if routeAxis == 'y' else 'candidate-route-x' }}"
+    data-candidate-route{% if routeProgress %} data-progress{% endif %} aria-hidden="true">
+  {% for node in routeNodes %}
+  <li class="candidate-route-node{% if loop.index <= (routeActive or 1) %} is-lit{% endif %}"
+      data-node="{{ loop.index }}">
+    <span class="candidate-route-dot"></span>
+    <span class="candidate-route-label">{{ node.label }}</span>
+  </li>
+  {% endfor %}
+</ol>

@@ -1,0 +1,25 @@
+{#
+  The "what happens next" trail — the one route graphic on the Contact page
+  (claude_helper/CONTACT-PAGE.md §09). Three nodes on a hairline; no dates, no
+  progress bar, no invented SLA metric. Reused verbatim in the post-submit
+  confirmation state, so the copy lives here once.
+
+  Params:
+    trailNodes — optional [{ label, text }]; defaults to the pre-submit wording.
+#}
+{% set trailNodes = trailNodes or [
+  { label: "You send this", text: "Your enquiry reaches the team." },
+  { label: "We read it", text: "A person reviews it — usually the same day." },
+  { label: "We reply", text: "You hear from us within one business day." }
+] %}
+<ol>
+  {% for node in trailNodes %}
+  <li class="handoff-node">
+    <span class="handoff-dot" aria-hidden="true"></span>
+    <div>
+      <p class="font-grotesk text-sm font-semibold tracking-tight text-ink">{{ node.label }}</p>
+      <p class="mt-0.5 text-sm leading-relaxed text-ink/60">{{ node.text }}</p>
+    </div>
+  </li>
+  {% endfor %}
+</ol>

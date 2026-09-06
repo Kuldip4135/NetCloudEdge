@@ -6,45 +6,45 @@ glass: true
 extraScripts:
   - /assets/js/count-up.js
   - /assets/js/faq-accordion.js
+  - /assets/js/candidate-route.js
 ---
 {% from "partials/icons.njk" import icon %}
 
 {# ================================================================
-   JOB PLACEMENT — pilot redesign (Hallmark audit pass).
+   JOB PLACEMENT — creative redesign (see claude_helper/JOB-PLACEMENT-PAGE.md).
 
-   This page is the test case for pulling the site's stronger AI tells out of one
-   template before deciding whether to roll the same changes across the sibling
-   service pages. Changes made here and NOT yet elsewhere:
+   Same information architecture as the pilot pass:
+     Hero → Bridge → Included → What changes → Process → FAQ → CTA
+   What changed is how the sections occupy the screen. One recurring device runs
+   through the page — THE CANDIDATE ROUTE (partials/candidate-route.njk):
+   START → PROFILE → MATCH → INTERVIEW → OFFER. It is drawn incomplete in the hero
+   and resolves at the CTA; candidate-route.js lights further nodes on scroll.
 
-   · Hero drops the aurora-blob + dot-field background — solid paper ground, the
-     glass photo panel and the floating $0 tag carry the depth on their own.
-   · Section heads are single-column: label (where it earns one) sits directly
-     above its heading in the same column. No more tag-left / heading-right grid,
-     no chapter-marker ghost index, no eyebrow on sections that aren't ordinal.
-   · "What's included" is a definition list with inline icons on hairline rules,
-     not a six-up grid of glass cards with stacked icon chips.
-   · Fabricated proof is gated: the success story, the candidate-quote grid, and
-     the employer logo wall are commented out until real, consented content exists.
-     See the TODO markers below.
+   Discipline unchanged: stats, the success story, candidate voices and the
+   employer wall stay gated until real, consented content exists. See the TODOs.
    ================================================================ #}
 
 {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Job Placement" }] %}
+{% set routeNodes = [
+  { label: "Start" }, { label: "Profile" }, { label: "Match" },
+  { label: "Interview" }, { label: "Offer" }
+] %}
 
-{# ---------- Hero ----------
-   Answers the fee question in the first screen (PRD §4) as a floating tag on the
-   photograph, not small print under the buttons. ---------- #}
-<section class="relative overflow-hidden">
+{# ---------- 1. Hero — 12-column editorial composition ----------
+   The fee answer ($0) is a marker on the photo, not small print. The candidate
+   route starts here, deliberately incomplete. ---------- #}
+<section data-route-step="1" class="relative overflow-hidden">
   <div class="section-container pb-14 pt-8 sm:pb-20 sm:pt-12">
     {% include "partials/breadcrumb.njk" %}
 
-    <div class="mt-8 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
-      <div class="lg:col-span-7">
+    <div class="mt-10 grid grid-cols-1 gap-y-12 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-7 lg:pr-8">
         <p class="eyebrow">A named recruiter, start to finish</p>
 
-        <h1 class="mt-4 font-grotesk text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
-          Get placed, not just applied.
+        <h1 class="mt-4 font-grotesk text-[2.75rem] font-bold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+          Get placed,<br>not just applied.
         </h1>
-        <p class="lead-copy mt-5 max-w-xl">
+        <p class="lead-copy mt-6 max-w-xl">
           A named recruiter works your search end to end — resume, matching,
           interview prep, and negotiation — because a job search shouldn't be
           something you do alone.
@@ -55,20 +55,27 @@ extraScripts:
             {{ icon("arrow-right", "w-4 h-4") }} Start your job search
           </a>
           <a href="{{ '/services/' | url }}" class="btn-outline">
-            See all services
+            See all services {{ icon("arrow-right", "w-4 h-4") }}
           </a>
         </div>
 
-        {# TODO: confirm these figures with the client before launch — see stats.json.
-           Candidate-facing, so lead with the success rate, not the partner count. #}
+        {# The recurring device, drawn at its first node. #}
+        {% set routeActive = 1 %}
+        {% set routeProgress = true %}
+        <div class="mt-12 max-w-lg">
+          {% include "partials/candidate-route.njk" %}
+        </div>
+
+        {# TODO — confirm every figure with the client before launch (stats.json).
+           Candidate-facing order: success rate last, partner count dropped. #}
         {% set heroStats = [] %}
         {% for s in stats.list %}
           {% if s.label != "Partner Companies" %}{% set _ = heroStats.push(s) %}{% endif %}
         {% endfor %}
-        <dl class="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-ink/10 pt-6">
+        <dl class="mt-10 flex flex-wrap gap-x-12 gap-y-5 border-t border-ink/12 pt-6">
           {% for stat in heroStats.slice(0, 3) %}
           <div>
-            <dd class="stat-figure text-xl sm:text-2xl"
+            <dd class="font-mono text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
                 data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
             <dt class="stat-label">{{ stat.label }}</dt>
           </div>
@@ -76,38 +83,56 @@ extraScripts:
         </dl>
       </div>
 
-      <div class="relative lg:col-span-5">
+      <div class="lg:col-span-5">
         {% set coverImage = images.services["job-placement"].cover %}
-        <div class="glass-panel p-3">
-          <img src="{{ coverImage.url }}"
-               alt="{{ coverImage.alt }}"
-               width="1400" height="1750" loading="eager" fetchpriority="high"
-               class="aspect-[4/5] w-full rounded-[1.1rem] object-cover">
-        </div>
+        <figure class="jp-frame">
+          <span class="jp-frame-num" aria-hidden="true">01</span>
+          <div class="jp-frame-media jp-reveal">
+            <img src="{{ coverImage.url }}"
+                 alt="{{ coverImage.alt }}"
+                 width="1400" height="1750" loading="eager" fetchpriority="high"
+                 class="aspect-[4/5] w-full object-cover">
+          </div>
+          <figcaption class="jp-frame-caption">The first conversation</figcaption>
 
-        {# Frost, not pane — it floats over the photograph. See THEME.md §3. #}
-        <div class="glass-frost absolute -bottom-4 left-6 rounded-2xl px-5 py-3.5 sm:-left-6">
-          <p class="meta">Cost to you</p>
-          <p class="font-grotesk text-2xl font-bold tracking-tight text-ink">$0</p>
-        </div>
+          {# Frost — it floats over the photograph (THEME.md §3). #}
+          <div class="glass-frost jp-fee">
+            <p class="meta">Cost to you</p>
+            <p class="font-grotesk text-2xl font-bold tracking-tight text-ink">$0</p>
+          </div>
+        </figure>
       </div>
     </div>
   </div>
 </section>
 
-{# TODO — Employer wall gated. `placed-at.njk` hotlinks logo.clearbit.com for
-   Amazon / Microsoft / Accenture etc., which reads as a client list we can't
-   substantiate. Re-enable only with a real, permitted set of employer names.
+{# TODO — Employer wall gated. placed-at.njk hotlinks logo.clearbit.com for
+   Amazon / Microsoft / Accenture etc. — a client list we can't substantiate.
+   Re-enable only with a real, permitted set of employer names.
 {% include "partials/placed-at.njk" %}
 #}
 
-{# ---------- What's included ---------- #}
-<section id="included" class="section-container scroll-mt-28 py-16 sm:py-24">
-  <div class="max-w-2xl">
-    <h2 class="section-title">Six things you get, from day one.</h2>
-    <p class="lead-copy mt-4">Support at every stage of the search, not just a stack of applications sent on your behalf.</p>
+{# ---------- 2. The bridge — application becomes a conversation ----------
+   Deliberately short: a breath between the hero and the feature list. ---------- #}
+<section class="border-y border-white/60 bg-paper/50 py-14 sm:py-20">
+  <div class="section-container">
+    <div class="grid gap-6 lg:grid-cols-12 lg:items-baseline lg:gap-12">
+      <p class="eyebrow lg:col-span-3">The difference</p>
+      <div class="lg:col-span-9">
+        <p class="assertion text-2xl sm:text-3xl">Your application should go somewhere.</p>
+        <p class="body-copy mt-4 max-w-xl">
+          With a named recruiter behind it, your search has context, follow-up, and
+          a person accountable for what happens next.
+        </p>
+      </div>
+    </div>
   </div>
+</section>
 
+{# ---------- 3. What's included — vertical editorial index ----------
+   Sticky heading on lg, the six items scroll past; the reader's current item
+   takes the route node. ---------- #}
+<section id="included" data-route-step="2" class="section-container scroll-mt-28 py-16 sm:py-24">
   {% set included = [
     { icon: "check", t: "Resume & profile optimization", d: "We rebuild your resume and profile around what actually gets noticed." },
     { icon: "users", t: "Interview coaching", d: "Mock interviews and real feedback before it counts." },
@@ -116,37 +141,41 @@ extraScripts:
     { icon: "clock", t: "Post-placement check-in", d: "We follow up at 30 and 90 days to make sure it's working out." },
     { icon: "briefcase", t: "Application tracking", d: "One recruiter, one thread — no chasing status across job boards." }
   ] %}
-  <dl class="mt-10 grid gap-x-12 gap-y-7 sm:grid-cols-2">
-    {% for item in included %}
-    <div class="flex gap-4 border-t border-ink/15 pt-5">
-      <span class="mt-0.5 shrink-0 text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
-      <div>
-        <dt class="card-title">{{ item.t }}</dt>
-        <dd class="mt-1.5 body-copy">{{ item.d }}</dd>
-      </div>
-    </div>
-    {% endfor %}
-  </dl>
 
-  {# We state our position on a placement that doesn't work out plainly, rather
-     than leaving it to the FAQ. #}
-  <p class="mt-10 file-inset meta max-w-2xl leading-relaxed">
+  <div class="grid gap-y-10 lg:grid-cols-[17rem_1fr] lg:gap-x-16">
+    <div class="lg:sticky lg:top-28 lg:self-start">
+      <h2 class="section-title">Six things you get, from day one.</h2>
+      <p class="lead-copy mt-4">
+        Support at every stage of the search, not just a stack of applications sent
+        on your behalf.
+      </p>
+    </div>
+
+    <ol class="jp-index" data-jp-index>
+      {% for item in included %}
+      <li class="jp-index-row" data-jp-item>
+        <div class="jp-index-head">
+          <span class="jp-index-num">0{{ loop.index }}</span>
+          <span class="jp-index-node" aria-hidden="true"></span>
+          <span class="jp-index-icon">{{ icon(item.icon, "w-4 h-4") }}</span>
+        </div>
+        <h3 class="card-title mt-3">{{ item.t }}</h3>
+        <p class="body-copy mt-1.5">{{ item.d }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+
+  <p class="jp-note mt-14 max-w-2xl">
     No guarantee of an offer, and no promise on timeline — but if a placement
     doesn't work out inside 90 days, we re-open your search at no additional cost.
   </p>
 </section>
 
-{# ---------- What changes ----------
-   Qualitative only, per PRD §4 — no salary figures, no timelines. The assertion
-   does the work of a heading and a lead paragraph in one line. ---------- #}
-<section id="changes" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
+{# ---------- 4. What changes — uncertainty becoming a route ----------
+   Each row draws its link to a filled node as it enters view. ---------- #}
+<section id="changes" data-route-step="3" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
   <div class="section-container">
-    <div class="max-w-2xl">
-      <h2 class="assertion sm:text-3xl">
-        On your own, an application goes into a void. With us, it goes to
-        someone already expecting it.
-      </h2>
-    </div>
     {% set contrasts = [
       { a: "Applications into a void, no reply", b: "A named recruiter who tells you where each one stands" },
       { a: "No idea why you were passed over", b: "Feedback after every interview" },
@@ -154,96 +183,83 @@ extraScripts:
       { a: "Guessing what the interview will cover", b: "Prepped for the specific team you're meeting" }
     ] %}
 
-    {# Desktop: a two-column ledger. Mobile: each row is a before→after contrast
-       card — the same numbers, but no horizontal scroll and a sharper argument. #}
-    <div class="mt-10 hidden sm:block">
-      <table class="ledger">
-        <thead>
-          <tr>
-            <th scope="col">On your own</th>
-            <th scope="col">With us</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in contrasts %}
-          <tr>
-            <td class="w-1/2 pr-6">{{ row.a }}</td>
-            <td class="w-1/2 font-medium text-ink">{{ row.b }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="max-w-2xl">
+      <h2 class="assertion sm:text-3xl">
+        On your own, an application goes into a void. With us, it goes to
+        someone already expecting it.
+      </h2>
     </div>
 
-    <div class="mt-8 space-y-4 sm:hidden">
-      {% for row in contrasts %}
-      <div class="file-inset">
-        <p class="flex gap-2 text-ink/50">
-          <span aria-hidden="true" class="text-ink/30">✕</span>
-          <span class="line-through decoration-ink/25">{{ row.a }}</span>
-        </p>
-        <p class="mt-2 flex gap-2 font-medium text-ink">
-          <span aria-hidden="true" class="text-brand">✓</span>
-          <span>{{ row.b }}</span>
-        </p>
+    <div class="mt-12" data-jp-split>
+      <div class="jp-change-head" aria-hidden="true">
+        <span>On your own</span>
+        <span></span>
+        <span class="text-brand">With us</span>
       </div>
-      {% endfor %}
+      <ul>
+        {% for row in contrasts %}
+        <li class="jp-change" data-jp-row>
+          <span class="jp-change-old">{{ row.a }}</span>
+          <span class="jp-change-link" aria-hidden="true"></span>
+          <span class="jp-change-new">{{ row.b }}</span>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
 </section>
 
-{# ---------- The process ----------
-   Genuinely ordinal, so it keeps step numbers — supplied by process-timeline.njk. #}
-<section id="procedure" class="section-container scroll-mt-28 py-16 sm:py-24">
+{# ---------- 5. The process — a horizontal journey map (vertical route on mobile).
+   Genuinely ordinal; the node the reader is level with is the current step,
+   earlier nodes read as completed. Durations and copy unchanged. ---------- #}
+<section id="procedure" data-route-step="4" class="section-container scroll-mt-28 py-16 sm:py-24">
+  {% set steps = [
+    { label: "Consultation", duration: "30 minutes", description: "A conversation about where you are and where you want to go." },
+    { label: "Profile build", duration: "3–5 days", description: "Resume, profile, and positioning built around your target roles." },
+    { label: "Matching", duration: "Ongoing", description: "Introductions only to employers that fit — no mass applications." },
+    { label: "Interviews", duration: "", description: "Coaching before every conversation that matters." },
+    { label: "Offer", duration: "", description: "Negotiation support and a check-in once you've started." }
+  ] %}
   <div class="max-w-2xl">
     <p class="eyebrow">Step by step</p>
     <h2 class="section-title mt-2">Five steps to an offer.</h2>
   </div>
-  <div class="mt-10">
-    {% set steps = [
-      { label: "Consultation", duration: "30 minutes", description: "A conversation about where you are and where you want to go." },
-      { label: "Profile build", duration: "3–5 days", description: "Resume, profile, and positioning built around your target roles." },
-      { label: "Matching", duration: "Ongoing", description: "Introductions only to employers that fit — no mass applications." },
-      { label: "Interviews", description: "Coaching before every conversation that matters." },
-      { label: "Offer", description: "Negotiation support and a check-in once you've started." }
-    ] %}
-    {% include "partials/process-timeline.njk" %}
-  </div>
+
+  <ol class="jp-journey mt-14" data-jp-journey>
+    {% for step in steps %}
+    <li class="jp-journey-step{% if loop.first %} is-current{% endif %}" data-jp-node>
+      <span class="jp-journey-num">0{{ loop.index }}</span>
+      <span class="jp-journey-dot" aria-hidden="true"></span>
+      <p class="jp-journey-label">{{ step.label }}</p>
+      <p class="jp-journey-meta">{{ step.duration or "—" }}</p>
+      <p class="jp-journey-desc">{{ step.description }}</p>
+    </li>
+    {% endfor %}
+  </ol>
 </section>
 
-{# TODO — Success story gated. The previous version told a named, dated placement
-   ("Sofia", "offer in hand four days after her first interview") that was written,
-   not sourced. Restore this section only with a real placement the candidate has
-   consented to publish. Shape to reuse when it's ready: photo beside a
-   Situation / Approach / Result run, with the result carried as a pull quote.
+{# TODO — Success story gated. When a real, consented placement exists, render it as
+   a CASE FILE / dossier composition (off-white paper panel, document marks, an
+   oversized result figure only when verified, candidate image only with
+   permission) — NOT a generic case-study card. Stays hidden until then.
 
-<section id="story" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
-  ...
-</section>
+<section id="story" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24"> ... </section>
 #}
 
 {# TODO — Candidate voices gated. testimonials.json ships stock-photo placeholders
-   with real company names attached to the quotes (Amazon, Microsoft, …). Re-enable
-   the grid below once the quotes are real and attribution is permitted.
+   with real company names attached. When real, permission-cleared quotes exist,
+   render an editorial quote wall (oversized quotation marks, factual attribution)
+   — NOT a 2x2 card grid.
 
-<section id="voices" class="section-container scroll-mt-28 py-16 sm:py-24">
-  <h2 class="section-title">What candidates say, after.</h2>
-  {% set candidateQuotes = [] %}
-  {% for t in testimonials.list %}
-    {% if not t.employer and t.slug != "sofia" %}{% set _ = candidateQuotes.push(t) %}{% endif %}
-  {% endfor %}
-  <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
-    {% for testimonial in candidateQuotes.slice(0, 4) %}
-      {% include "partials/testimonial-card.njk" %}
-    {% endfor %}
-  </div>
-</section>
+<section id="voices" class="section-container scroll-mt-28 py-16 sm:py-24"> ... </section>
 #}
 
+{# ---------- 6. FAQ — the docket, numbered, answers on a route elbow ---------- #}
 {% set faqKey = "job-placement" %}
 {% set faqTitle = "Before you get started." %}
-{% include "partials/faq-accordion.njk" %}
+{% include "partials/faq-route.njk" %}
 
+{# ---------- 7. Closing CTA ---------- #}
 {% set ctaStamp = "Ready when you are" %}
 {% set ctaHeadline = "Start your job search today." %}
 {% set ctaSubtext = "The first conversation is free, and there's no cost to you at any stage." %}

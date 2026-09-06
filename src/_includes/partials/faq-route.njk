@@ -1,0 +1,34 @@
+{#
+  Job Placement's FAQ — the shared docket disclosure (faq-accordion.js drives it via
+  the same data-accordion-* hooks) redressed as a numbered file index: each row leads
+  with its number, and the open answer drops on a short route elbow, keeping the
+  section in the page's route language. Params: faqKey, faqTitle, faqEyebrow.
+#}
+{% from "partials/icons.njk" import icon %}
+<section id="faq" class="scroll-mt-28 py-14 sm:py-20">
+  <div class="section-container">
+    <div class="mx-auto max-w-3xl">
+      <p class="eyebrow">{{ faqEyebrow or "Standing questions" }}</p>
+      <h2 class="mt-2 font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
+        {{ faqTitle or "On the record" }}
+      </h2>
+
+      <div class="mt-8 border-t border-border">
+        {% for item in faqs[faqKey] %}
+        <div data-accordion-item class="jp-faq docket-disclosure">
+          <button type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-{{ faqKey }}-{{ loop.index }}">
+            <span class="jp-faq-num">0{{ loop.index }}</span>
+            <span class="jp-faq-q mr-auto">{{ item.q }}</span>
+            <span class="jp-faq-sign shrink-0 text-ink/50 transition-transform" data-accordion-icon aria-hidden="true">
+              {{ icon("chevron-down", "w-5 h-5") }}
+            </span>
+          </button>
+          <div id="faq-{{ faqKey }}-{{ loop.index }}" data-accordion-panel class="hidden pb-5 pl-9">
+            <p class="jp-faq-answer body-copy">{{ item.a }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>

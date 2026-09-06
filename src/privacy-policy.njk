@@ -81,14 +81,22 @@ extraScripts: []
        only this box; it has to be true on its own, not a gloss the clauses contradict. #}
     <div class="glass-panel p-6 sm:p-7">
       <p class="meta">The short version</p>
-      <div class="legal-prose mt-3">
+      <div class="legal-prose mt-3 border-l-2 border-accent pl-5">
         <p>
           We collect what you send us — contact details, a resume, a hiring brief — and use
-          it to do the one job you asked for. We share a candidate's details with an employer
-          only after that candidate agrees to that specific introduction. We run background
-          checks only with written consent. We do not sell personal information, and we never
-          charge a job seeker to be placed. You can ask us to delete your file at any time and
-          we will, unless the law requires us to keep a record.
+          it to do the one job you asked for.
+        </p>
+        <p>
+          We share a candidate's details with an employer only after that candidate agrees to
+          that specific introduction.
+        </p>
+        <p>We run background checks only with written consent.</p>
+        <p>
+          We do not sell personal information, and we never charge a job seeker to be placed.
+        </p>
+        <p>
+          You can ask us to delete your file at any time and we will, unless the law requires
+          us to keep a record.
         </p>
       </div>
     </div>
@@ -96,12 +104,12 @@ extraScripts: []
     {# Contents — replaces the old sticky side rail. A reader here is hunting one
        clause; a jump-link grid at the top does that without a permanent column. #}
     <nav class="mt-5 glass-panel p-6 sm:p-7" aria-label="Contents">
-      <p class="meta">Contents</p>
-      <ol class="mt-4 grid grid-cols-1 gap-x-8 gap-y-0.5 sm:grid-cols-2">
+      <p class="meta">Follow the data</p>
+      <ol class="mt-4 grid grid-cols-1 gap-x-8 gap-y-0 sm:grid-cols-2">
         {% for item in rail %}
         <li>
-          <a href="#{{ item.id }}" class="flex items-baseline gap-3 border-t border-ink/10 py-2.5 text-sm text-ink/75 transition-colors hover:text-brand">
-            <span class="w-6 shrink-0 font-mono text-xs text-ink/50">{{ item.n }}</span>
+          <a href="#{{ item.id }}" class="clause-link">
+            <span class="clause-link-n">{{ item.n }}</span>
             {{ item.label }}
           </a>
         </li>
@@ -111,7 +119,8 @@ extraScripts: []
 
     {# ---- 00 Scope ---- #}
       <div id="scope" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
-        <p class="eyebrow">00 — Scope</p>
+        <span class="clause-index" aria-hidden="true">00</span>
+        <p class="eyebrow mt-3">00 — Scope</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Who this covers.
         </h2>
@@ -296,6 +305,14 @@ extraScripts: []
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Background checks.
         </h2>
+        {% set keyTitle = "How a check runs" %}
+        {% set keyRows = [
+          { term: "1 · Consent", value: "In writing, given separately" },
+          { term: "2 · Vendor", value: "Named to you before it begins" },
+          { term: "3 · Scope", value: "Only what the role justifies" },
+          { term: "4 · Report", value: "Copy on request, chance to dispute" }
+        ] %}
+        {% include "partials/legal-key.njk" %}
         <div class="legal-prose mt-6">
           <p>
             Background verification is checking we run in connection with a placement, and it is
@@ -323,6 +340,16 @@ extraScripts: []
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Cookies and tracking.
         </h2>
+        {% set keyTitle = "What the site loads today" %}
+        {% set keyRows = [
+          { term: "Ad cookies", value: "None" },
+          { term: "Cross-site tracking", value: "None" },
+          { term: "Aggregate analytics", value: "If enabled, IP-anonymised" },
+          { term: "Google Fonts", value: "IP only, no cookie" },
+          { term: "Server logs", value: "Yes — security and troubleshooting" },
+          { term: "Global Privacy Control", value: "Honoured as an opt-out" }
+        ] %}
+        {% include "partials/legal-key.njk" %}
         <div class="legal-prose mt-6">
           <p>
             This site is deliberately light. We set no advertising cookies and we do not track
@@ -437,6 +464,14 @@ extraScripts: []
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Your rights.
         </h2>
+        {% set keyTitle = "Making a request" %}
+        {% set keyRows = [
+          { term: "Where", value: "Email " + site.email },
+          { term: "Identity", value: "Verified before we release a file" },
+          { term: "Agent", value: "Allowed with written permission" },
+          { term: "Response", value: "Within 45 days" }
+        ] %}
+        {% include "partials/legal-key.njk" %}
         <div class="legal-prose mt-6">
           <p>
             Depending on where you live, you have some or all of the rights below. We extend all

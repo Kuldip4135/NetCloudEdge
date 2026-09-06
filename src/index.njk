@@ -6,6 +6,7 @@ glass: true
 extraScripts:
   - /assets/js/tabs.js
   - /assets/js/text-rotator.js
+  - /assets/js/recruiter-desk.js
 ---
 {% from "partials/icons.njk" import icon %}
 
@@ -133,7 +134,29 @@ extraScripts:
   </div>
 </section>
 
-{# ---------- 3. Services — 2x2 catalogue on a paper band, one router row.
+{# ---------- 3. The human equation — a full-width typographic interstitial.
+     No card, no glass, no image: after the fork's dense panel this section is a
+     breath, and it states the one belief the rest of the page is built on. Copy is
+     asymmetric — the claim runs wide-left, the measurement labels sit narrow-right —
+     so it doesn't read as another centred section head. ---------- #}
+<section class="section-container py-20 sm:py-28">
+  <div class="grid gap-y-10 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-x-16">
+    <div class="max-w-3xl">
+      <p class="meta">The human equation</p>
+      <p class="mt-6 font-grotesk text-3xl font-bold leading-[1.15] tracking-tight text-ink sm:text-4xl lg:text-[2.75rem]">
+        A résumé tells you what someone has done. A conversation tells you what they
+        can do next. <span class="text-brand">We hire for the second one.</span>
+      </p>
+    </div>
+    <ul class="flex flex-col gap-3 border-l border-ink/15 pl-6 lg:pl-8" aria-hidden="true">
+      {% for label in ["Read, don't filter", "Call, don't queue", "Stay, don't close"] %}
+      <li class="font-mono text-xs uppercase tracking-widest text-ink/55">{{ label }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{# ---------- 4. Services — 2x2 catalogue on a paper band, one router row.
      The tone shift separates the catalogue from the argument either side. ---------- #}
 <section class="border-y border-white/60 bg-paper/50 py-16 sm:py-24">
   <div class="section-container">
@@ -141,13 +164,21 @@ extraScripts:
       <div class="section-head max-w-2xl">
         <h2 class="section-title">Four services, one pipeline.</h2>
       </div>
-      <p class="meta max-w-xs leading-relaxed">Source → vet → place → upskill</p>
+      <p class="meta max-w-xs leading-relaxed">One pipeline · four entry points</p>
     </div>
 
-    <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+    {# The grid and the pipeline rail share a wrapper so a card hover can light its
+       matching rail node through CSS :has(). #}
+    <div data-service-system>
+      {% include "partials/pipeline-rail.njk" %}
+
+      <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
       {% for service in services.list %}
-      <a href="{{ service.url | url }}" class="glass-panel card-lift group flex flex-col p-6 sm:p-7">
-        <span class="icon-chip">{{ icon(service.icon, "w-5 h-5") }}</span>
+      <a href="{{ service.url | url }}" data-svc="{{ loop.index0 }}" class="glass-panel card-lift group flex flex-col p-6 sm:p-7">
+        <div class="flex items-start justify-between">
+          <span class="icon-chip">{{ icon(service.icon, "w-5 h-5") }}</span>
+          <span class="meta">0{{ loop.index }}</span>
+        </div>
         <h3 class="card-title mt-5">{{ service.title }}</h3>
         <p class="mt-2 flex-1 body-copy">{{ service.shortDescription }}</p>
         <div class="mt-5 flex flex-wrap gap-1.5">
@@ -175,25 +206,109 @@ extraScripts:
       </div>
       <span class="link-arrow shrink-0">Compare all four {{ icon("arrow-right", "w-4 h-4") }}</span>
     </a>
+    </div>
   </div>
 </section>
 
-{# ---------- 4. Standing policy — a quiet rule strip, not a third headline.
+{# ---------- 5. The recruiter's desk — pinned photo, chapters scrolling past it.
+     The human process, shown rather than listed. The image is position:sticky on
+     lg+ (a plain stacked block below it), and recruiter-desk.js lights whichever
+     chapter the reader is level with — a class toggle only, never a scroll hijack.
+     Chapters live inline here, the same way the policy strip's list does. ---------- #}
+<section class="section-container py-16 sm:py-24">
+  {% set chapters = [
+    { n: "01", i: "users", t: "You talk to a person first", d: "Before anything is submitted anywhere, a recruiter reads your history and calls you. Fifteen minutes, no form-letter questions." },
+    { n: "02", i: "target", t: "We only send you where you fit", d: "Your profile goes to employers hiring for it. You are told who, and why, before an introduction is made." },
+    { n: "03", i: "check", t: "You walk in prepared", d: "Coaching before each round on what that team actually asks, and an honest read after the conversations that don't land." },
+    { n: "04", i: "support", t: "We're still here after you start", d: "Negotiation support through the offer, then a check-in ninety days in to make sure it stuck." }
+  ] %}
+  <div class="section-head max-w-2xl">
+    <h2 class="section-title">Less résumé shuffling. More real conversations.</h2>
+    <p class="lead-copy mt-4">
+      Every search is one recruiter and one candidate, talking. Here is how that goes.
+    </p>
+  </div>
+
+  <div class="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-16">
+    <figure class="lg:sticky lg:top-28 lg:self-start">
+      <img src="{{ '/assets/images/home/interview-conversation.jpg' | url }}"
+           alt="A recruiter and a candidate in conversation across a desk"
+           width="1600" height="1200" loading="lazy"
+           class="aspect-[4/5] w-full rounded-2xl object-cover shadow-card sm:aspect-square lg:aspect-[4/5]">
+      <figcaption class="meta mt-3">Chicago, IL · intake room</figcaption>
+    </figure>
+
+    <ol class="flex flex-col">
+      {% for chapter in chapters %}
+      <li data-desk-chapter class="desk-chapter border-t border-ink/15 py-8 first:border-t-0 first:pt-0 lg:py-12">
+        <div class="flex items-center gap-3">
+          <span class="icon-chip icon-chip-accent shrink-0">{{ icon(chapter.i, "w-5 h-5") }}</span>
+          <span class="desk-chapter-index">{{ chapter.n }}</span>
+        </div>
+        <h3 class="card-title mt-4">{{ chapter.t }}</h3>
+        <p class="mt-2 body-copy">{{ chapter.d }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+{# ---------- 6. Who you actually work with — asymmetric, no card, real photos only.
+     Not a portrait wall of named individuals: the only person photos in the repo are
+     stock placeholders (see testimonials.json / CREDITS.md), and inventing a team is
+     exactly what the rest of the page refuses to do. This humanises with the real
+     workplace images and a plain claim about how the work is structured. ---------- #}
+<section class="section-container py-16 sm:py-24">
+  <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+    <div class="lg:col-span-7">
+      <div class="grid grid-cols-5 gap-4">
+        <img src="{{ '/assets/images/home/team-at-desk.jpg' | url }}"
+             alt="Recruiters working together at a shared desk"
+             width="1400" height="1050" loading="lazy"
+             class="col-span-3 aspect-[4/3] w-full rounded-2xl object-cover shadow-card">
+        <img src="{{ '/assets/images/home/office-collaboration.jpg' | url }}"
+             alt="Two colleagues reviewing candidate notes"
+             width="900" height="1100" loading="lazy"
+             class="col-span-2 mt-10 aspect-[3/4] w-full rounded-2xl object-cover shadow-card">
+      </div>
+    </div>
+    <div class="lg:col-span-5">
+      <p class="meta">Who you actually work with</p>
+      <h2 class="section-title mt-3">One recruiter. Not a call centre.</h2>
+      <p class="body-copy mt-4">
+        Every search is owned by one person who specialises in your field — data,
+        cloud, QA, development — and stays your single point of contact from the first
+        call to day ninety. No ticket queue, no handoffs, no explaining your situation
+        twice.
+      </p>
+      <ul class="mt-6 flex flex-wrap gap-2" aria-hidden="true">
+        {% for tag in ["Specialists by field", "One point of contact", "Chicago, IL"] %}
+        <li class="file-tag">{{ tag }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{# ---------- 7. Standing policy — a quiet rule strip, not a third headline.
      Each item names something we actually do, not an adjective. ---------- #}
 <section class="section-container py-14 sm:py-16">
   {% set policies = [
-    { n: "01", t: "Personalised matching", d: "A recruiter who has actually read your resume, not a keyword filter with a friendly name." },
-    { n: "02", t: "Verified employers", d: "Every partner company is vetted before you are ever introduced to it." },
-    { n: "03", t: "One thread, one recruiter", d: "No chasing status across four job boards and three inboxes. One person owns your search." },
-    { n: "04", t: "End to end, past the offer", d: "We stay involved through negotiation and check in ninety days after you start." }
+    { n: "01", i: "target", t: "Personalised matching", d: "A recruiter who has actually read your resume, not a keyword filter with a friendly name." },
+    { n: "02", i: "shield", t: "Verified employers", d: "Every partner company is vetted before you are ever introduced to it." },
+    { n: "03", i: "support", t: "One thread, one recruiter", d: "No chasing status across four job boards and three inboxes. One person owns your search." },
+    { n: "04", i: "check-badge", t: "End to end, past the offer", d: "We stay involved through negotiation and check in ninety days after you start." }
   ] %}
   <div class="glass-panel p-8 sm:p-10">
     <p class="meta">Four things every placement follows</p>
-    <dl class="mt-6 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+    <dl class="mt-6 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
       {% for policy in policies %}
       <div class="border-t border-ink/15 pt-4">
-        <span class="value-index">{{ policy.n }}</span>
-        <dt class="card-title mt-2 text-base">{{ policy.t }}</dt>
+        <div class="flex items-center gap-3">
+          <span class="icon-chip icon-chip-accent shrink-0">{{ icon(policy.i, "w-5 h-5") }}</span>
+          <span class="value-index">{{ policy.n }}</span>
+        </div>
+        <dt class="card-title mt-3 text-base">{{ policy.t }}</dt>
         <dd class="mt-1.5 text-sm leading-relaxed text-ink/70">{{ policy.d }}</dd>
       </div>
       {% endfor %}
@@ -219,7 +334,10 @@ extraScripts:
 {% include "partials/placement-feed.njk" %}
 #}
 
-{# ---------- 5. Close the loop ---------- #}
+{# ---------- 8. Close the loop — the hero's route map, arriving. ---------- #}
+<div class="section-container py-16 sm:py-20">
+  {% include "partials/cta-route.njk" %}
+</div>
 {% set ctaHeadline = "Ready to find your footing?" %}
 {% set ctaSubtext = "Whether you're job hunting or hiring, the first conversation is free." %}
 {% set ctaLabel = "Get started" %}

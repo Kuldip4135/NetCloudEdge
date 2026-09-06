@@ -1,0 +1,20 @@
+{#
+  Key-facts strip — a compact term/value list pulled from the clause it sits above,
+  for scanning only (claude_helper/TERMS-CONDITIONS-PAGE.md §05, §09–14). It adds no
+  legal meaning; the full prose always follows it.
+
+  Params:
+    keyTitle — mono label above the list
+    keyRows  — [{ term, value }]
+#}
+<div class="legal-key" role="presentation">
+  <p class="meta">{{ keyTitle }}</p>
+  <dl class="mt-3">
+    {% for row in keyRows %}
+    <div class="legal-key-row">
+      <dt class="legal-key-term">{{ row.term }}</dt>
+      <dd class="legal-key-val">{{ row.value }}</dd>
+    </div>
+    {% endfor %}
+  </dl>
+</div>

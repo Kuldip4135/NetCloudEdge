@@ -61,7 +61,7 @@
 </header>
 
 <div id="mobile-menu" data-mobile-menu class="mobile-menu">
-  <nav class="flex flex-col gap-1 px-4 py-6" aria-label="Mobile">
+  <nav class="flex min-h-full flex-col gap-1 px-6 pb-[calc(2.5rem+env(safe-area-inset-bottom))] pt-24" aria-label="Mobile">
     {% for link in nav.links %}
       {% if link.children %}
       <div data-mobile-accordion>

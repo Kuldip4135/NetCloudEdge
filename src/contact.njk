@@ -10,23 +10,28 @@ extraScripts:
 {% from "partials/icons.njk" import icon %}
 
 {#
-  Hallmark redesign — Paired Panels.
+  Hallmark redesign — "The hand-off" (claude_helper/CONTACT-PAGE.md).
 
-  The previous version made the form the page spine as a bare "intake sheet": one
-  .form-row per step with a sticky mono label in a 10rem left rail. It read cold, the
-  sticky labels did nothing on a form this short, and the page ran at two different
-  widths (a 12-col header, then a narrow left-aligned form) so it never settled.
+  This is the shared endpoint every service-page CTA routes into with a ?role=
+  already chosen, so the page's whole job is to make finishing the form feel like a
+  conversation already in motion — not a cold front door.
 
-  This version is a single, consistent two-column shell that holds from `lg` up:
-  · Left  — the form inside one glass panel, field groups divided by hairlines with
-    the step label sitting directly above each group (no rail, no sticky).
-  · Right — a sticky sidebar: direct lines + a short "what happens next" pane, so the
-    no-form route stays visible the whole way down a long form.
+  · Intro stays quiet and narrow — no hero photo. If ?role= is present,
+    contact-form.js writes one small "Continuing from · …" meta line under the lead.
+  · One consistent 7 / 5 two-column shell from `lg` up. Left: the form in one glass
+    panel, steps divided by hairlines. Right: a sticky sidebar — direct lines, the
+    "a person, not a queue" note, and the three-node "what happens next" trail — so
+    the no-form route stays visible the whole way down.
+  · Step 1 router is three intake-route cards over real radio inputs. The JS contract
+    is fixed: data-contact-form, data-role-option, data-role-field and every field
+    name are unchanged; contact-form.js reads ?role= and reveals only that group.
+  · On a valid submit the form panel is replaced in place by the confirmation state
+    (the same trail) — no redirect to a bare thank-you page.
 
-  Kept: front matter, the router JS contract (data-contact-form, data-role-option,
-  data-role-field), every field name, the privacy note, the FAQ, the copy intent.
-  Form inputs stay on their solid bg-surface fill — THEME.md §5 Contact exception.
-  Map block still absent until the office is confirmed visitable (CONTENT.md item 15).
+  Kept: front matter, the router JS contract, every field name, the privacy note +
+  /privacy-policy/ link, the FAQ. Inputs stay on their solid bg-surface fill
+  (THEME.md §5 Contact exception). No map block until the office is confirmed
+  visitable (CONTENT.md item 15).
 #}
 
 <section class="section-container py-10 sm:py-14">
@@ -42,29 +47,38 @@ extraScripts:
       Whether you're looking for a job or looking to hire, we're here to help.
       Fill in the form, or reach us directly — either way the same team picks it up.
     </p>
+    {# Presentational only — set by contact-form.js from ?role=, never changes which
+       fields are required. #}
+    <p class="meta mt-5" data-role-ack hidden></p>
   </div>
 
   <div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
 
-    {# ---- The form ---- #}
+    {# ---- Left — the form ---- #}
     <div class="lg:col-span-7">
       <form data-contact-form novalidate class="glass-panel divide-y divide-ink/10 p-6 sm:p-8">
 
-        {# Step 1 — the router. Shared fields stay at name/email/message; each choice
-           swaps in only what it needs, because every extra field costs submissions. #}
+        {# Step 1 — the router. Three intake routes; each choice swaps in only the
+           fields it needs, because every extra field costs submissions. #}
         <fieldset class="pb-7">
           <legend class="meta">Who's asking</legend>
-          <div class="mt-4 flex flex-wrap gap-2.5">
-            {% set roles = [
-              { value: "job-seeker", label: "Job Seeker" },
-              { value: "employer", label: "Employer" },
-              { value: "training", label: "Training Applicant" }
-            ] %}
+          {% set roles = [
+            { value: "job-seeker", label: "Job Seeker", hint: "Resume" },
+            { value: "employer", label: "Employer", hint: "Hiring role" },
+            { value: "training", label: "Training Applicant", hint: "Choose a track" }
+          ] %}
+          <div class="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-3">
             {% for role in roles %}
-            <label class="cursor-pointer">
-              <input type="radio" name="role" value="{{ role.value }}" data-role-option class="peer sr-only" {% if loop.first %}checked{% endif %} required>
-              <span class="inline-block rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-ink/70 transition-colors peer-checked:border-brand peer-checked:bg-brand peer-checked:text-paper peer-hover:border-brand/50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent">
-                {{ role.label }}
+            <label class="block">
+              <input type="radio" name="role" value="{{ role.value }}" data-role-option
+                     class="peer sr-only" {% if loop.first %}checked{% endif %} required>
+              <span class="route-card">
+                <span class="route-card-index">
+                  0{{ loop.index }}
+                  <span class="route-card-dot" aria-hidden="true"></span>
+                </span>
+                <span class="route-card-label">{{ role.label }}</span>
+                <span class="route-card-hint">{{ role.hint }}</span>
               </span>
             </label>
             {% endfor %}
@@ -132,9 +146,29 @@ extraScripts:
           </p>
         </div>
       </form>
+
+      {# Post-submit confirmation — contact-form.js swaps this in place of the form. #}
+      <div data-contact-success hidden class="glass-panel p-6 sm:p-8">
+        <p class="eyebrow">Handoff complete</p>
+        <h2 class="mt-2 font-display text-2xl font-semibold tracking-tight text-ink">
+          Your enquiry is with the team now.
+        </h2>
+        <div class="mt-6">
+          {% set trailNodes = [
+            { label: "You sent this", text: "Your enquiry reached the team." },
+            { label: "A person has it", text: "Someone reviews it — usually the same day." },
+            { label: "We'll reply", text: "You hear from us within one business day." }
+          ] %}
+          {% include "partials/handoff-trail.njk" %}
+        </div>
+        <p class="mt-6 body-copy text-sm">
+          If your question is urgent, you can also reach us directly at
+          <a href="{{ site.phoneHref }}" class="font-medium text-brand hover:underline">{{ site.phone }}</a>.
+        </p>
+      </div>
     </div>
 
-    {# ---- Sticky sidebar: the no-form route, kept in view ---- #}
+    {# ---- Right — the person, kept in view ---- #}
     <div class="lg:col-span-5 lg:sticky lg:top-28">
       <div class="space-y-6">
 
@@ -177,6 +211,14 @@ extraScripts:
           </div>
         </div>
 
+        <div class="glass-panel p-6 sm:p-7">
+          <p class="meta">What happens next</p>
+          <div class="mt-4">
+            {% set trailNodes = false %}
+            {% include "partials/handoff-trail.njk" %}
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -184,4 +226,5 @@ extraScripts:
 
 {% set faqKey = "contact" %}
 {% set faqTitle = "Three quick answers." %}
+{% set faqNumbered = true %}
 {% include "partials/faq-accordion.njk" %}

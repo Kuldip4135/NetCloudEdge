@@ -6,52 +6,71 @@ glass: true
 extraScripts:
   - /assets/js/count-up.js
   - /assets/js/faq-accordion.js
+  - /assets/js/candidate-route.js
 ---
 {% from "partials/icons.njk" import icon %}
 
 {# ================================================================
-   RECRUITMENT & STAFFING — Hallmark audit pass, matching job-placement.njk.
+   RECRUITMENT & STAFFING — creative redesign
+   (see claude_helper/RECRUITMENT-STAFFING-PAGE.md).
 
-   Hero drops the aurora/dot background; section heads are single-column with the
-   label directly above the heading (no chapter-marker ghost index, no eyebrow on
-   non-ordinal sections); the "what's included" grid is a definition list with
-   inline icons on hairline rules, not glass cards with stacked icon chips.
-   Fabricated proof (employer quote wall, logo marquee) is gated — see TODOs.
+   The employer-side hiring experience. Same IA as before:
+     Hero → Transition → Included → Sectors → Terms → Process → FAQ → CTA
+   What changed is composition and storytelling. The recurring device is THE
+   HIRING ROUTE (partials/candidate-route.njk, shared with Job Placement):
+   BRIEF → SOURCE → SCREEN → INTERVIEW → ONBOARD. Drawn incomplete in the hero;
+   candidate-route.js advances it and the process trace as the reader scrolls.
+
+   Discipline unchanged: stats, the employer wall and employer quotes stay gated
+   until real, consented content exists. See the TODOs.
    ================================================================ #}
 
 {% set crumbs = [{ label: "Home", url: "/" }, { label: "Services", url: "/services/" }, { label: "Recruitment & Staffing" }] %}
+{% set routeNodes = [
+  { label: "Brief" }, { label: "Source" }, { label: "Screen" },
+  { label: "Interview" }, { label: "Onboard" }
+] %}
 
-{# ---------- Hero ---------- #}
-<section class="relative overflow-hidden">
+{# ---------- 1. Hero — 7/5 asymmetric editorial split ----------
+   The "15 min" marker reads as a starting point, not a badge. The hiring route
+   starts here, deliberately incomplete. ---------- #}
+<section data-route-step="1" class="relative overflow-hidden">
   <div class="section-container pb-14 pt-8 sm:pb-20 sm:pt-12">
     {% include "partials/breadcrumb.njk" %}
 
-    <div class="mt-8 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
-      <div class="lg:col-span-7">
+    <div class="mt-10 grid grid-cols-1 gap-y-12 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-7 lg:pr-8">
         <p class="eyebrow">Contingency — you pay on placement</p>
 
-        <h1 class="mt-4 font-grotesk text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
-          Hire faster, hire right.
+        <h1 class="mt-4 font-grotesk text-[2.75rem] font-bold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+          Hire faster,<br>hire right.
         </h1>
-        <p class="lead-copy mt-5 max-w-xl">
+        <p class="lead-copy mt-6 max-w-xl">
           Vetted candidates for contract, temp, or full-time roles — delivered
           faster than sifting through a job board yourself.
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a href="{{ '/contact/' | url }}" class="btn-primary">
+          <a href="{{ '/contact/?role=employer' | url }}" class="btn-primary">
             {{ icon("arrow-right", "w-4 h-4") }} Tell us your hiring need
           </a>
           <a href="{{ '/services/talent-acquisition/' | url }}" class="btn-outline">
-            Compare with search
+            Compare with search {{ icon("arrow-right", "w-4 h-4") }}
           </a>
         </div>
 
-        {# TODO: confirm these figures with the client before launch — see stats.json. #}
-        <dl class="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-ink/10 pt-6">
+        {# The recurring device, drawn at its first node. #}
+        {% set routeActive = 1 %}
+        {% set routeProgress = true %}
+        <div class="mt-12 max-w-lg">
+          {% include "partials/candidate-route.njk" %}
+        </div>
+
+        {# TODO — confirm every figure with the client before launch (stats.json). #}
+        <dl class="mt-10 flex flex-wrap gap-x-12 gap-y-5 border-t border-ink/10 pt-6">
           {% for stat in stats.list.slice(0, 3) %}
           <div>
-            <dd class="stat-figure text-xl sm:text-2xl"
+            <dd class="font-mono text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
                 data-count-up data-target="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
             <dt class="stat-label">{{ stat.label }}</dt>
           </div>
@@ -59,92 +78,137 @@ extraScripts:
         </dl>
       </div>
 
-      <div class="relative lg:col-span-5">
+      <div class="lg:col-span-5">
         {% set coverImage = images.services["recruitment-staffing"].cover %}
-        <div class="glass-panel p-3">
-          <img src="{{ coverImage.url }}"
-               alt="{{ coverImage.alt }}"
-               width="1400" height="933" loading="eager" fetchpriority="high"
-               class="aspect-[4/5] w-full rounded-[1.1rem] object-cover">
-        </div>
+        <figure class="jp-frame">
+          <span class="jp-frame-num" aria-hidden="true">01</span>
+          <div class="jp-frame-media jp-reveal">
+            <img src="{{ coverImage.url }}"
+                 alt="{{ coverImage.alt }}"
+                 width="1400" height="1750" loading="eager" fetchpriority="high"
+                 class="aspect-[4/5] w-full object-cover">
+          </div>
+          <figcaption class="jp-frame-caption">Requirement intake</figcaption>
 
-        {# Frost, not pane — it floats over the photograph. See THEME.md §3. #}
-        <div class="glass-frost absolute -bottom-4 left-6 rounded-2xl px-5 py-3.5 sm:-left-6">
-          <p class="meta">To start</p>
-          <p class="font-grotesk text-2xl font-bold tracking-tight text-ink">15 min</p>
+          {# Frost — it floats over the photograph (THEME.md §3). #}
+          <div class="glass-frost jp-fee">
+            <p class="meta">To start</p>
+            <p class="font-grotesk text-2xl font-bold tracking-tight text-ink">15 min</p>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# TODO — Employer wall gated. placed-at.njk hotlinks logo.clearbit.com for named
+   companies — a client list we can't substantiate. When real placements exist,
+   render a HIRING LEDGER (role filled / industry, on hairlines) before any logos.
+{% set placedAtTitle = "Hired through us" %}
+{% set placedAtLead = "Teams that filled a role this way." %}
+{% include "partials/placed-at.njk" %}
+#}
+
+{# ---------- 2. The transition — a role shouldn't sit still ----------
+   A visual bridge from the problem to the recruitment system. Deliberately short;
+   the brief card on the right is a decorative document, not a claim. ---------- #}
+<section class="border-y border-white/60 bg-paper/50 py-14 sm:py-20">
+  <div class="section-container">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-12">
+      <div class="lg:col-span-7">
+        <p class="assertion text-2xl sm:text-3xl">A role shouldn't sit still.</p>
+        <p class="body-copy mt-4 max-w-xl">
+          When a position needs the right person, the work starts before the first
+          resume reaches your inbox.
+        </p>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="jp-brief" aria-hidden="true">
+          <p class="meta">Open role</p>
+          <dl class="mt-3 divide-y divide-ink/10 border-y border-ink/10">
+            <div class="jp-brief-row"><dt>Team</dt><dd>Product</dd></div>
+            <div class="jp-brief-row"><dt>Type</dt><dd>Permanent</dd></div>
+            <div class="jp-brief-row"><dt>Priority</dt><dd>High</dd></div>
+          </dl>
+          <p class="jp-brief-status"><span class="jp-brief-dot"></span> Sourcing</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-{# TODO — Employer wall gated. `placed-at.njk` hotlinks logo.clearbit.com for named
-   companies, which reads as a verified client list. Re-enable only with a real,
-   permitted set of employer names.
-{% set placedAtTitle = "Hired through us" %}
-{% set placedAtLead = "Teams that filled a role this way." %}
-{% include "partials/placed-at.njk" %}
-#}
-
-{# ---------- What's included ---------- #}
-<section id="included" class="section-container scroll-mt-28 py-16 sm:py-24">
-  <div class="max-w-2xl">
-    <h2 class="section-title">Four things every engagement gets.</h2>
-    <p class="lead-copy mt-4">Built for how you actually hire, whatever the role structure.</p>
-  </div>
-
+{# ---------- 3. What's included — vertical editorial index ----------
+   Sticky heading on lg; the four capabilities scroll past and the reader's
+   current one takes the route node. ---------- #}
+<section id="included" data-route-step="2" class="section-container scroll-mt-28 py-16 sm:py-24">
   {% set included = [
     { icon: "target", t: "Candidate sourcing", d: "Active and passive candidate networks built specifically for your role, not a job-board repost." },
     { icon: "shield", t: "Screening & vetting", d: "Skills, references, and fit assessed before a candidate ever reaches your inbox." },
     { icon: "briefcase", t: "Staffing models", d: "Contract, temp-to-hire, or permanent — whichever structure fits the role." },
     { icon: "users", t: "Industry specializations", d: "Dedicated sourcing pipelines in technology, finance, healthcare, and more." }
   ] %}
-  <dl class="mt-10 grid gap-x-12 gap-y-7 sm:grid-cols-2">
-    {% for item in included %}
-    <div class="flex gap-4 border-t border-ink/15 pt-5">
-      <span class="mt-0.5 shrink-0 text-brand">{{ icon(item.icon, "w-5 h-5") }}</span>
-      <div>
-        <dt class="card-title">{{ item.t }}</dt>
-        <dd class="mt-1.5 body-copy">{{ item.d }}</dd>
-      </div>
+
+  <div class="grid gap-y-10 lg:grid-cols-[17rem_1fr] lg:gap-x-16">
+    <div class="lg:sticky lg:top-28 lg:self-start">
+      <h2 class="section-title">Four things every engagement gets.</h2>
+      <p class="lead-copy mt-4">
+        Built for how you actually hire, whatever the role structure.
+      </p>
     </div>
-    {% endfor %}
-  </dl>
+
+    <ol class="jp-index" data-jp-index>
+      {% for item in included %}
+      <li class="jp-index-row" data-jp-item>
+        <div class="jp-index-head">
+          <span class="jp-index-num">0{{ loop.index }}</span>
+          <span class="jp-index-node" aria-hidden="true"></span>
+          <span class="jp-index-icon">{{ icon(item.icon, "w-4 h-4") }}</span>
+        </div>
+        <h3 class="card-title mt-3">{{ item.t }}</h3>
+        <p class="body-copy mt-1.5">{{ item.d }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
 </section>
 
-{# ---------- Where we place ----------
-   Employers scan for their own sector before reading anything else, so this sits
-   high. Shares come from _data/industries.json. ---------- #}
-<section id="sectors" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
+{# ---------- 4. Where we place — the hiring landscape ----------
+   A numbered sector index, not a card grid. Employers scan for their own sector
+   first, so this sits high. Hovering a sector lights its node. ---------- #}
+<section id="sectors" data-route-step="3" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
   <div class="section-container">
     <div class="max-w-2xl">
       <h2 class="section-title">Where we place.</h2>
       <p class="lead-copy mt-4">Employers scan for their own sector first. Here's ours.</p>
     </div>
-    <ul class="mt-10 grid gap-x-12 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+
+    <ol class="jp-sectors">
       {% for industry in industries.list %}
-      <li class="flex gap-4 border-t border-ink/15 pt-5">
-        <span class="mt-0.5 shrink-0 text-brand">{{ icon(industry.icon, "w-5 h-5") }}</span>
-        <div>
-          <p class="card-title">{{ industry.name }}</p>
-          <p class="mt-1.5 body-copy">{{ industry.roles }}</p>
+      <li class="jp-sector">
+        <div class="jp-sector-head">
+          <span class="jp-sector-num">0{{ loop.index }}</span>
+          <span class="jp-sector-node" aria-hidden="true"></span>
+          <span class="jp-sector-icon">{{ icon(industry.icon, "w-4 h-4") }}</span>
         </div>
+        <p class="jp-sector-name">{{ industry.name }}</p>
+        <p class="jp-sector-roles">{{ industry.roles }}</p>
       </li>
       {% endfor %}
-    </ul>
+    </ol>
   </div>
 </section>
 
-{# ---------- How engagements work ----------
-   Structure, not rates — an employer who can't find terms assumes they're bad.
-   The terms live in their own accent panel beside the prose. ---------- #}
-<section id="terms" class="section-container scroll-mt-28 py-16 sm:py-24">
+{# ---------- 5. How engagements work — the hiring contract ----------
+   Structure, not rates. The terms prose runs wide-left; the "at a glance" panel
+   is the quick-reference beside it. ---------- #}
+<section id="terms" data-route-step="4" class="section-container scroll-mt-28 py-16 sm:py-24">
   <div class="max-w-2xl">
     <h2 class="section-title">How engagements work.</h2>
   </div>
 
-  <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-start">
-    <ul class="space-y-5 lg:col-span-3">
+  <div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-5 lg:items-start lg:gap-12">
+    <dl class="jp-terms lg:col-span-3">
       {% set terms = [
         { t: "Permanent placements", d: "Contingency-based. You pay when someone starts, not before." },
         { t: "Contract & temp", d: "A flat markup on hourly billing, quoted upfront." },
@@ -152,14 +216,14 @@ extraScripts:
         { t: "Ongoing partnerships", d: "Move to a dedicated account structure once volume picks up." }
       ] %}
       {% for term in terms %}
-      <li class="grid grid-cols-1 gap-1 sm:grid-cols-12 sm:gap-4">
-        <p class="font-display font-semibold tracking-tight text-ink sm:col-span-4">{{ term.t }}</p>
-        <p class="body-copy sm:col-span-8">{{ term.d }}</p>
-      </li>
+      <div class="jp-term">
+        <dt class="jp-term-t">{{ term.t }}</dt>
+        <dd class="jp-term-d">{{ term.d }}</dd>
+      </div>
       {% endfor %}
-    </ul>
+    </dl>
 
-    <div class="rounded-2xl border border-brand/25 bg-brand/10 p-6 sm:p-7 lg:col-span-2">
+    <div class="jp-glance lg:col-span-2">
       <p class="meta">Terms at a glance</p>
       <dl class="mt-4 space-y-4">
         <div class="flex flex-col-reverse">
@@ -175,59 +239,61 @@ extraScripts:
           <dd class="text-sm font-medium leading-snug text-ink">A role brief and 15 minutes</dd>
         </div>
       </dl>
-      <a href="{{ '/contact/' | url }}" class="mt-5 link-arrow">
+      <a href="{{ '/contact/?role=employer' | url }}" class="mt-5 link-arrow">
         Tell us your hiring need {{ icon("arrow-right", "w-4 h-4") }}
       </a>
     </div>
   </div>
 
-  <p class="mt-8 file-inset meta max-w-2xl leading-relaxed">
+  <p class="jp-note mt-10 max-w-2xl">
     Rates depend on role and seniority — we'll quote before any work begins.
   </p>
 </section>
 
-{# ---------- The process ---------- #}
-<section id="procedure" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
+{# ---------- 6. The process — a horizontal recruitment trace ----------
+   Ordinal; the node the reader is level with is the current step, earlier nodes
+   read as completed. Vertical trace on mobile. ---------- #}
+<section id="procedure" data-route-step="5" class="scroll-mt-28 border-y border-white/60 bg-paper/50 py-16 sm:py-24">
   <div class="section-container">
+    {% set steps = [
+      { label: "Requirement analysis", description: "We start with the role, the team, and what \"right\" actually looks like." },
+      { label: "Sourcing", description: "Active outreach across our network, not a passive posting." },
+      { label: "Screening", description: "Skills and reference checks before you see a single resume." },
+      { label: "Client interviews", description: "A shortlist you can actually choose from." },
+      { label: "Onboarding", description: "Support through the offer and the first day." }
+    ] %}
     <div class="max-w-2xl">
       <p class="eyebrow">Step by step</p>
       <h2 class="section-title mt-2">From requirement to onboarding.</h2>
     </div>
-    <div class="mt-10">
-      {% set steps = [
-        { label: "Requirement analysis", description: "We start with the role, the team, and what \"right\" actually looks like." },
-        { label: "Sourcing", description: "Active outreach across our network, not a passive posting." },
-        { label: "Screening", description: "Skills and reference checks before you see a single resume." },
-        { label: "Client interviews", description: "A shortlist you can actually choose from." },
-        { label: "Onboarding", description: "Support through the offer and the first day." }
-      ] %}
-      {% include "partials/process-timeline.njk" %}
-    </div>
+
+    <ol class="jp-journey mt-14" data-jp-journey>
+      {% for step in steps %}
+      <li class="jp-journey-step{% if loop.first %} is-current{% endif %}" data-jp-node>
+        <span class="jp-journey-num">0{{ loop.index }}</span>
+        <span class="jp-journey-dot" aria-hidden="true"></span>
+        <p class="jp-journey-label">{{ step.label }}</p>
+        <p class="jp-journey-desc">{{ step.description }}</p>
+      </li>
+      {% endfor %}
+    </ol>
   </div>
 </section>
 
 {# TODO — Employer quotes gated. testimonials.json ships stock-photo placeholders
-   with company names attached to the quotes. Re-enable once the quotes are real
-   and attribution is permitted.
+   with company names attached to the quotes. When real, permission-cleared quotes
+   exist, render an editorial quote wall (oversized quotation marks, factual
+   attribution) — NOT a 2x2 card grid.
 
-<section id="statements" class="section-container scroll-mt-28 py-16 sm:py-24">
-  <h2 class="section-title">On record, from the hiring side.</h2>
-  {% set employerQuotes = [] %}
-  {% for t in testimonials.list %}
-    {% if t.employer %}{% set _ = employerQuotes.push(t) %}{% endif %}
-  {% endfor %}
-  <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
-    {% for testimonial in employerQuotes %}
-      {% include "partials/testimonial-card.njk" %}
-    {% endfor %}
-  </div>
-</section>
+<section id="statements" class="section-container scroll-mt-28 py-16 sm:py-24"> ... </section>
 #}
 
+{# ---------- 7. FAQ — the hiring docket, numbered, answers on a route elbow ---------- #}
 {% set faqKey = "recruitment-staffing" %}
 {% set faqTitle = "Before you brief us." %}
-{% include "partials/faq-accordion.njk" %}
+{% include "partials/faq-route.njk" %}
 
+{# ---------- 8. Closing CTA ---------- #}
 {% set ctaStamp = "Ready when you are" %}
 {% set ctaHeadline = "Tell us your hiring need." %}
 {% set ctaSubtext = "Describe the role and we'll come back with how we'd fill it, and what it would cost." %}

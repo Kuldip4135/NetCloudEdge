@@ -82,25 +82,31 @@ extraScripts: []
 
     <div class="glass-panel p-6 sm:p-7">
       <p class="meta">The short version</p>
-      <div class="legal-prose mt-3">
+      <div class="legal-prose mt-3 border-l-2 border-accent pl-5">
         <p>
           Tell us the truth about your experience or your vacancy, and we will do the same
-          about what we can deliver. We introduce people to employers; we do not employ the
-          candidates we place and we cannot promise anyone a job. Employers pay our fee, job
-          seekers never do. Where you have signed a separate engagement letter or enrolment
-          agreement with us, that document wins over this page.
+          about what we can deliver.
+        </p>
+        <p>
+          We introduce people to employers; we do not employ the candidates we place and we
+          cannot promise anyone a job.
+        </p>
+        <p>Employers pay our fee. Job seekers never do.</p>
+        <p>
+          Where you have signed a separate engagement letter or enrolment agreement with us,
+          that document wins over this page.
         </p>
       </div>
     </div>
 
     {# Contents — replaces the old sticky side rail. #}
     <nav class="mt-5 glass-panel p-6 sm:p-7" aria-label="Contents">
-      <p class="meta">Contents</p>
-      <ol class="mt-4 grid grid-cols-1 gap-x-8 gap-y-0.5 sm:grid-cols-2">
+      <p class="meta">Find the clause</p>
+      <ol class="mt-4 grid grid-cols-1 gap-x-8 gap-y-0 sm:grid-cols-2">
         {% for item in rail %}
         <li>
-          <a href="#{{ item.id }}" class="flex items-baseline gap-3 border-t border-ink/10 py-2.5 text-sm text-ink/75 transition-colors hover:text-brand">
-            <span class="w-6 shrink-0 font-mono text-xs text-ink/50">{{ item.n }}</span>
+          <a href="#{{ item.id }}" class="clause-link">
+            <span class="clause-link-n">{{ item.n }}</span>
             {{ item.label }}
           </a>
         </li>
@@ -110,7 +116,8 @@ extraScripts: []
 
     {# ---- 00 The agreement ---- #}
       <div id="agreement" class="mt-12 scroll-mt-28 border-t border-ink/10 pt-12">
-        <p class="eyebrow">00 — Agreement</p>
+        <span class="clause-index" aria-hidden="true">00</span>
+        <p class="eyebrow mt-3">00 — Agreement</p>
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           The agreement.
         </h2>
@@ -220,6 +227,15 @@ extraScripts: []
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           If you are hiring.
         </h2>
+        {% set keyTitle = "Employer terms" %}
+        {% set keyRows = [
+          { term: "Introduction", value: "Fee payable on engagement" },
+          { term: "Direct-hire restriction", value: "12 months" },
+          { term: "Replacement period", value: "90 days" },
+          { term: "Departure notice", value: "In writing within 14 days" },
+          { term: "Engagement confirmed", value: "Within 7 days of an accepted offer" }
+        ] %}
+        {% include "partials/legal-key.njk" %}
         <div class="legal-prose mt-6">
           <h3>Introductions and fees</h3>
           <p>
@@ -275,6 +291,15 @@ extraScripts: []
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           If you are enrolling in a program.
         </h2>
+        {% set keyTitle = "Learner agreement" %}
+        {% set keyRows = [
+          { term: "Place confirmed", value: "On first cleared payment" },
+          { term: "Withdrawal window", value: "7 days from the start date" },
+          { term: "After the window", value: "Non-refundable for the term" },
+          { term: "Deferral", value: "Normally one, to a later cohort" },
+          { term: "If we cancel outright", value: "Full refund of the unused portion" }
+        ] %}
+        {% include "partials/legal-key.njk" %}
         <div class="legal-prose mt-6">
           <p>
             <a href="{{ '/services/it-training/' | url }}">IT Training</a> programs are sold under
@@ -364,6 +389,13 @@ extraScripts: []
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Limits on liability.
         </h2>
+        {% set keyTitle = "Limits on liability" %}
+        {% set keyRows = [
+          { term: "Placement or program", value: "Capped at fees paid in the prior 12 months" },
+          { term: "No-fee user", value: "Capped at USD 100" },
+          { term: "Excluded", value: "Indirect loss, lost profits, wasted time, reputation" }
+        ] %}
+        {% include "partials/legal-key.njk" %}
         <div class="legal-prose mt-6">
           <p>
             Subject to the paragraph above, we are not liable for indirect or consequential loss,
@@ -390,6 +422,14 @@ extraScripts: []
         <h2 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
           Governing law and disputes.
         </h2>
+        {% set keyTitle = "Governing law" %}
+        {% set keyRows = [
+          { term: "Governing law", value: "State of Illinois" },
+          { term: "Exclusive venue", value: "Cook County, Illinois" },
+          { term: "Consumers elsewhere", value: "Keep mandatory local protections" },
+          { term: "Before filing", value: "30-day resolution attempt by email" }
+        ] %}
+        {% include "partials/legal-key.njk" %}
         <div class="legal-prose mt-6">
           <p>
             These terms are governed by the laws of the State of Illinois, without regard to its

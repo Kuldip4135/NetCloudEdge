@@ -1,0 +1,16 @@
+{#
+  The route map returning home: the three audiences the hero opened on, arriving at
+  one endpoint just above the closing CTA. Decorative bookend — aria-hidden, no
+  motion — that closes the loop the hero wayfinding line started.
+#}
+{% from "partials/icons.njk" import icon %}
+<div class="cta-route" aria-hidden="true">
+  <span class="cta-route-group">
+    {% for node in ["Students", "Professionals", "Employers"] %}
+    {% if not loop.first %}<span class="cta-route-tick"></span>{% endif %}
+    <span class="cta-route-node">{{ node }}</span>
+    {% endfor %}
+  </span>
+  <span class="cta-route-arrow">{{ icon("arrow-right", "w-4 h-4") }}</span>
+  <span class="cta-route-end">One team</span>
+</div>

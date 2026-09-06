@@ -849,7 +849,7 @@
      whole. `visibility` (not `display`) is what closes it, so both directions can be
      transitioned and the rows keep their stagger on the way in. */
   .mobile-menu {
-    @apply invisible fixed inset-0 top-16 z-40 overflow-y-auto bg-surface opacity-0 lg:hidden;
+    @apply invisible fixed inset-0 z-40 overflow-y-auto opacity-0 lg:hidden;
     transform: translateY(-8px);
     /* `visibility` is stepped, not interpolated, so it has to be held until the fade
        finishes — otherwise closing hides the panel on frame one and the exit animation
@@ -1101,18 +1101,774 @@
   }
 
   /* ---- The mobile sheet, on every page ----
-     It covers the viewport over whatever was scrolled behind it, so it is frost
-     density by definition. */
+     A full-viewport panel on an opaque theme gradient — brand bloom off the top
+     edge settling into the paper/surface tones. Nothing shows through. */
   .mobile-menu {
-    --glass-ground: 0.80;
-    @apply border-t border-white/50;
-    background-color: rgb(var(--color-surface) / var(--glass-ground));
-    -webkit-backdrop-filter: saturate(var(--glass-saturate)) blur(24px);
-    backdrop-filter: saturate(var(--glass-saturate)) blur(24px);
+    background-color: rgb(var(--color-paper));
+    background-image:
+      radial-gradient(120% 55% at 50% 0%, rgb(var(--color-brand) / 0.16), transparent 70%),
+      linear-gradient(180deg, rgb(var(--color-paper)), rgb(var(--color-surface)) 55%);
   }
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .mobile-menu {
-      @apply bg-surface;
+}
+
+/* ================================================================
+   HOME — GRAPHIC LANGUAGE
+
+   Three decorative diagrams that answer WHO / HOW / WHERE, built from the same
+   vocabulary: hairline routes, small numbered nodes, mono measurement labels. Each
+   is aria-hidden — the real headings, links and tab controls sit next to it. Motion
+   is transform/opacity/position only and is governed by the global reduced-motion
+   block in @layer base.
+   ================================================================ */
+@layer components {
+
+  /* ---- Hero editorial annotations — a measurement scale under the photo ---- */
+  .hero-notes {
+    @apply mt-4 flex flex-wrap gap-x-6 gap-y-2 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-6
+           sm:border-t sm:border-border sm:pt-0;
+  }
+  .hero-note {
+    @apply relative inline-flex items-baseline gap-2 sm:pt-4;
+  }
+  /* The tick that joins each label up to the photo edge — sm+ only. */
+  .hero-note::before {
+    @apply hidden sm:block;
+    content: "";
+    @apply absolute left-0 top-0 h-3 w-px bg-brand/40;
+  }
+  .hero-note-index {
+    @apply font-mono text-xs font-semibold text-brand;
+  }
+  .hero-note-label {
+    @apply font-mono text-[11px] uppercase tracking-widest text-ink/60;
+  }
+
+  /* ---- Services pipeline rail ---- */
+  .pipeline-rail {
+    @apply mt-8 grid grid-cols-2 gap-x-4 gap-y-6 border-t border-border pt-7 sm:grid-cols-4;
+  }
+  .pipeline-step {
+    @apply relative flex flex-col gap-1;
+  }
+  /* Node tick rising to the rule above. */
+  .pipeline-step::before {
+    content: "";
+    @apply absolute -top-7 left-0 h-3.5 w-px bg-border transition-colors duration-200 ease-out;
+  }
+  .pipeline-marker {
+    @apply font-mono text-xs font-semibold text-brand transition-colors duration-200 ease-out;
+  }
+  .pipeline-stage {
+    @apply font-grotesk text-sm font-semibold tracking-tight text-ink;
+  }
+  .pipeline-of {
+    @apply font-mono text-[11px] uppercase tracking-widest text-ink/45;
+  }
+  /* A card hover lights its matching rail node. :has() is baseline in current
+     browsers; where it is absent the rail simply stays static, which is fine. */
+  [data-service-system]:has([data-svc="0"]:hover) .pipeline-step[data-node="0"]::before,
+  [data-service-system]:has([data-svc="1"]:hover) .pipeline-step[data-node="1"]::before,
+  [data-service-system]:has([data-svc="2"]:hover) .pipeline-step[data-node="2"]::before,
+  [data-service-system]:has([data-svc="3"]:hover) .pipeline-step[data-node="3"]::before {
+    @apply bg-brand;
+  }
+  [data-service-system]:has([data-svc="0"]:hover) .pipeline-step[data-node="0"] .pipeline-marker,
+  [data-service-system]:has([data-svc="1"]:hover) .pipeline-step[data-node="1"] .pipeline-marker,
+  [data-service-system]:has([data-svc="2"]:hover) .pipeline-step[data-node="2"] .pipeline-marker,
+  [data-service-system]:has([data-svc="3"]:hover) .pipeline-step[data-node="3"] .pipeline-marker {
+    @apply text-brand-dark;
+  }
+
+  /* ---- Recruiter's desk — chapters beside the pinned photo ----
+     At rest a chapter's index number is held back; recruiter-desk.js adds .is-active
+     to whichever one the reader is level with and it comes forward. The copy never
+     dims — only the number moves — so the section reads correctly with JS off. */
+  .desk-chapter-index {
+    @apply block font-mono text-sm font-semibold tracking-widest text-ink/30
+           transition-colors duration-300 ease-out;
+  }
+  .desk-chapter.is-active .desk-chapter-index {
+    @apply text-brand;
+  }
+
+  /* ---- Closing route map — the hero's three audiences, arriving as one ---- */
+  .cta-route {
+    @apply mx-auto flex max-w-xl flex-col items-center gap-3 font-mono text-[11px]
+           uppercase tracking-widest sm:flex-row sm:justify-center sm:gap-4;
+  }
+  .cta-route-group {
+    @apply flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-ink/40;
+  }
+  .cta-route-tick {
+    @apply h-px w-4 shrink-0 bg-border;
+  }
+  .cta-route-arrow {
+    @apply flex shrink-0 items-center text-ink/30;
+  }
+  .cta-route-end {
+    @apply inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/5
+           px-3 py-1 text-brand;
+  }
+  .cta-route-end::before {
+    content: "";
+    @apply h-1.5 w-1.5 rounded-full bg-brand;
+  }
+}
+
+/* Hero photo frame reveal on load — opacity + a short rise. The global
+   reduced-motion rule collapses this to an instant, so the image simply appears. */
+@keyframes jp-reveal {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================================
+   JOB PLACEMENT — THE CANDIDATE ROUTE
+
+   One device threaded through the page (claude_helper/JOB-PLACEMENT-PAGE.md):
+   START → PROFILE → MATCH → INTERVIEW → OFFER. Drawn incomplete in the hero,
+   resolved at the CTA; candidate-route.js lights nodes as the reader scrolls.
+   Every graphic here is aria-hidden and additive — the sections read in full
+   with the script absent and under prefers-reduced-motion.
+   ================================================================ */
+@layer components {
+
+  /* ---- The route component ---- */
+  .candidate-route {
+    @apply flex list-none p-0;
+  }
+  .candidate-route-x {
+    @apply w-full;
+  }
+  .candidate-route-x .candidate-route-node {
+    @apply relative flex flex-1 flex-col items-center gap-2.5;
+  }
+  .candidate-route-x .candidate-route-node::before {
+    content: "";
+    @apply absolute right-1/2 top-[6px] h-px w-full bg-border transition-colors duration-500 ease-out;
+  }
+  .candidate-route-x .candidate-route-node:first-child::before {
+    @apply hidden;
+  }
+  .candidate-route-y {
+    @apply flex-col;
+  }
+  .candidate-route-y .candidate-route-node {
+    @apply relative flex items-center gap-3 pb-7 last:pb-0;
+  }
+  .candidate-route-y .candidate-route-node::before {
+    content: "";
+    @apply absolute left-[6px] top-4 w-px bg-border transition-colors duration-500 ease-out;
+    height: calc(100% + 0.25rem);
+  }
+  .candidate-route-y .candidate-route-node:last-child::before {
+    @apply hidden;
+  }
+  .candidate-route-dot {
+    @apply relative z-10 h-3.5 w-3.5 shrink-0 rounded-full border border-border bg-surface
+           transition-colors duration-500 ease-out;
+  }
+  .candidate-route-label {
+    @apply font-mono text-[11px] uppercase tracking-widest text-ink/40 transition-colors duration-500 ease-out;
+  }
+  .candidate-route-node.is-lit .candidate-route-dot {
+    @apply border-brand bg-brand;
+  }
+  .candidate-route-node.is-lit .candidate-route-label {
+    @apply text-ink/70;
+  }
+  .candidate-route-node.is-lit::before {
+    @apply bg-brand;
+  }
+
+  /* ---- Static sequential pulse ----
+     Replaces the old scroll-driven progression on the hero route. Every node
+     sits grayed; one lights and settles at a time, on a loop. Decorative only
+     (the route is aria-hidden) and disabled under prefers-reduced-motion. */
+  .candidate-route[data-progress] .candidate-route-dot {
+    animation: candidate-route-pulse 5s ease-in-out infinite;
+  }
+  .candidate-route[data-progress] .candidate-route-node:nth-child(1) .candidate-route-dot { animation-delay: 0s; }
+  .candidate-route[data-progress] .candidate-route-node:nth-child(2) .candidate-route-dot { animation-delay: 1s; }
+  .candidate-route[data-progress] .candidate-route-node:nth-child(3) .candidate-route-dot { animation-delay: 2s; }
+  .candidate-route[data-progress] .candidate-route-node:nth-child(4) .candidate-route-dot { animation-delay: 3s; }
+  .candidate-route[data-progress] .candidate-route-node:nth-child(5) .candidate-route-dot { animation-delay: 4s; }
+
+  @keyframes candidate-route-pulse {
+    0%, 100% {
+      border-color: rgb(var(--color-border));
+      background-color: rgb(var(--color-surface));
+      box-shadow: 0 0 0 0 rgb(var(--color-brand) / 0);
     }
+    7% {
+      border-color: rgb(var(--color-brand));
+      background-color: rgb(var(--color-brand));
+      box-shadow: 0 0 0 4px rgb(var(--color-brand) / 0.18);
+    }
+    18% {
+      border-color: rgb(var(--color-brand));
+      background-color: rgb(var(--color-brand));
+      box-shadow: 0 0 0 0 rgb(var(--color-brand) / 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .candidate-route[data-progress] .candidate-route-dot { animation: none; }
+  }
+
+  /* ---- Hero — editorial photo frame ---- */
+  .jp-frame {
+    @apply relative mx-auto max-w-sm lg:mr-0;
+  }
+  .jp-frame-num {
+    @apply pointer-events-none absolute -left-3 -top-8 z-0 font-grotesk text-[5.5rem] font-bold
+           leading-none text-ink/[0.07] sm:-left-6 sm:-top-12 sm:text-[8rem];
+  }
+  .jp-frame-media {
+    @apply relative z-10 overflow-hidden rounded-lg border border-ink/15 bg-surface p-2;
+  }
+  .jp-frame-media img {
+    @apply block rounded-[0.35rem];
+  }
+  .jp-reveal {
+    animation: jp-reveal 800ms cubic-bezier(0.2, 0, 0.1, 1) both;
+  }
+  .jp-frame-caption {
+    @apply relative z-10 mt-3 font-mono text-xs uppercase tracking-widest text-ink/50;
+  }
+  .jp-fee {
+    @apply absolute -bottom-5 -left-4 z-20 rounded-xl px-4 py-3 sm:-left-8;
+  }
+
+  /* ---- "What's included" — vertical editorial index ---- */
+  .jp-index {
+    @apply border-t border-ink/15;
+  }
+  .jp-index-row {
+    @apply relative border-b border-ink/10 py-7;
+  }
+  .jp-index-row::before {
+    content: "";
+    @apply absolute -left-6 top-7 hidden h-0 w-px bg-brand transition-[height] duration-300 ease-out lg:block;
+  }
+  .jp-index-row.is-active::before {
+    @apply h-10;
+  }
+  .jp-index-head {
+    @apply flex items-center gap-3;
+  }
+  .jp-index-num {
+    @apply font-mono text-sm font-semibold text-ink/30 transition-colors duration-300 ease-out;
+  }
+  .jp-index-node {
+    @apply h-2 w-2 shrink-0 rounded-full bg-border transition-colors duration-300 ease-out;
+  }
+  .jp-index-icon {
+    @apply text-ink/30 transition-colors duration-300 ease-out;
+  }
+  .jp-index-row.is-active .jp-index-num,
+  .jp-index-row.is-active .jp-index-icon {
+    @apply text-brand;
+  }
+  .jp-index-row.is-active .jp-index-node {
+    @apply bg-brand;
+  }
+  .jp-note {
+    @apply rounded-xl bg-paper px-5 py-4 font-mono text-xs uppercase leading-relaxed
+           tracking-widest text-ink/65;
+  }
+
+  /* ---- "What changes" — uncertainty becoming a route ---- */
+  .jp-change-head {
+    @apply hidden grid-cols-[1fr_5rem_1fr] gap-x-6 border-b border-ink/10 pb-2
+           font-mono text-xs uppercase tracking-widest text-ink/50 lg:grid;
+  }
+  .jp-change {
+    @apply grid grid-cols-1 items-center gap-x-6 gap-y-1.5 border-b border-ink/10 py-6
+           last:border-b-0 lg:grid-cols-[1fr_5rem_1fr];
+  }
+  .jp-change-old {
+    @apply text-ink/45 line-through decoration-ink/20;
+  }
+  .jp-change-new {
+    @apply font-medium text-ink;
+  }
+  .jp-change-link {
+    @apply relative hidden h-px w-full bg-border transition-colors duration-500 ease-out lg:block;
+  }
+  .jp-change-link::after {
+    content: "";
+    @apply absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full border border-border
+           bg-surface transition-colors duration-500 ease-out;
+  }
+  .jp-change.is-drawn .jp-change-link {
+    @apply bg-brand/40;
+  }
+  .jp-change.is-drawn .jp-change-link::after {
+    @apply border-brand bg-brand;
+  }
+
+  /* ---- The process — horizontal journey map / vertical route on mobile ---- */
+  .jp-journey {
+    @apply relative grid grid-cols-1 gap-y-8 sm:grid-cols-5 sm:gap-x-5;
+  }
+  .jp-journey-step {
+    @apply relative flex flex-col items-start gap-1.5 pl-9 sm:items-center sm:pl-0 sm:text-center;
+  }
+  .jp-journey-step::before {
+    content: "";
+    @apply absolute left-[6px] top-9 w-px bg-border sm:hidden;
+    height: calc(100% + 2rem);
+  }
+  .jp-journey-step:last-child::before {
+    @apply hidden;
+  }
+  .jp-journey-step::after {
+    content: "";
+    @apply absolute right-1/2 top-[7px] hidden h-px w-full bg-border sm:block;
+  }
+  .jp-journey-step:first-child::after {
+    @apply sm:hidden;
+  }
+  .jp-journey-step.is-current::after,
+  .jp-journey-step.is-done::after {
+    @apply sm:bg-brand;
+  }
+  .jp-journey-num {
+    @apply font-mono text-xs font-semibold text-ink/40 transition-colors duration-300 ease-out;
+  }
+  .jp-journey-dot {
+    @apply absolute left-0 top-6 h-3.5 w-3.5 shrink-0 rounded-full border border-border bg-surface
+           transition-all duration-300 ease-out
+           sm:relative sm:left-auto sm:top-auto sm:order-first sm:mb-2;
+  }
+  .jp-journey-label {
+    @apply font-grotesk font-semibold tracking-tight text-ink;
+  }
+  .jp-journey-meta {
+    @apply font-mono text-[11px] uppercase tracking-widest text-ink/55;
+  }
+  .jp-journey-desc {
+    @apply mt-1 text-sm leading-relaxed text-ink/60;
+  }
+  .jp-journey-step.is-done .jp-journey-dot {
+    @apply border-brand bg-brand/30;
+  }
+  .jp-journey-step.is-current .jp-journey-dot {
+    @apply border-brand bg-brand sm:scale-125;
+  }
+  .jp-journey-step.is-current .jp-journey-num,
+  .jp-journey-step.is-done .jp-journey-num {
+    @apply text-brand;
+  }
+
+  /* ---- FAQ — numbered docket, answer on a route elbow ---- */
+  .jp-faq-num {
+    @apply mr-3 shrink-0 font-mono text-xs font-semibold text-ink/40 transition-colors duration-200 ease-out;
+  }
+  .jp-faq [data-accordion-trigger][aria-expanded="true"] .jp-faq-num {
+    @apply text-brand;
+  }
+  .jp-faq-answer {
+    @apply relative;
+  }
+  .jp-faq-answer::before {
+    content: "";
+    @apply absolute -left-5 top-0 h-full w-px bg-brand/30;
+  }
+  .jp-faq-answer::after {
+    content: "";
+    @apply absolute -left-5 top-[0.7em] h-px w-3 bg-brand/30;
+  }
+}
+
+/* ================================================================
+   RECRUITMENT & STAFFING — additions to the hiring-route language
+   (claude_helper/RECRUITMENT-STAFFING-PAGE.md). Reuses .jp-frame, .jp-index,
+   .jp-journey, .jp-note, .candidate-route and .jp-faq from the block above.
+   ================================================================ */
+@layer components {
+
+  /* ---- Transition — the "open role" brief card ---- */
+  .jp-brief {
+    @apply mx-auto max-w-xs rounded-lg border border-ink/15 bg-surface p-5 shadow-card lg:mx-0;
+  }
+  .jp-brief-row {
+    @apply flex items-center justify-between py-2 font-mono text-xs uppercase tracking-widest text-ink/50;
+  }
+  .jp-brief-row dd {
+    @apply text-ink;
+  }
+  .jp-brief-status {
+    @apply mt-3 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-brand;
+  }
+  .jp-brief-dot {
+    @apply h-2 w-2 rounded-full bg-brand;
+  }
+
+  /* ---- "Where we place" — numbered sector index ---- */
+  .jp-sectors {
+    @apply mt-12 grid grid-cols-1 gap-x-10 border-t border-ink/10 sm:grid-cols-2 lg:grid-cols-3;
+  }
+  .jp-sector {
+    @apply border-b border-ink/10 py-6 transition-transform duration-200 ease-out;
+  }
+  .jp-sector:hover {
+    @apply -translate-y-1;
+  }
+  .jp-sector-head {
+    @apply flex items-center gap-3;
+  }
+  .jp-sector-num {
+    @apply font-mono text-xs font-semibold text-ink/30 transition-colors duration-200 ease-out;
+  }
+  .jp-sector-node {
+    @apply h-2 w-2 shrink-0 rounded-full bg-border transition-colors duration-200 ease-out;
+  }
+  .jp-sector-icon {
+    @apply text-ink/30 transition-colors duration-200 ease-out;
+  }
+  .jp-sector:hover .jp-sector-num,
+  .jp-sector:hover .jp-sector-icon {
+    @apply text-brand;
+  }
+  .jp-sector:hover .jp-sector-node {
+    @apply bg-brand;
+  }
+  .jp-sector-name {
+    @apply mt-2.5 font-grotesk text-base font-semibold tracking-tight text-ink;
+  }
+  .jp-sector-roles {
+    @apply mt-1 font-mono text-[11px] uppercase tracking-widest text-ink/45;
+  }
+
+  /* ---- "How engagements work" — terms list + glance panel ---- */
+  .jp-terms {
+    @apply divide-y divide-ink/10 border-y border-ink/10;
+  }
+  .jp-term {
+    @apply grid grid-cols-1 gap-1 py-5 sm:grid-cols-12 sm:gap-4;
+  }
+  .jp-term-t {
+    @apply font-display font-semibold tracking-tight text-ink sm:col-span-4;
+  }
+  .jp-term-d {
+    @apply body-copy sm:col-span-8;
+  }
+  .jp-glance {
+    @apply rounded-2xl border border-brand/25 bg-brand/10 p-6 sm:p-7;
+  }
+}
+
+/* ================================================================
+   TALENT ACQUISITION — market-intelligence language
+   (claude_helper/TALENT-ACQUISITION-PAGE.md). Reuses .jp-frame, .jp-reveal,
+   .jp-index, .jp-journey, .candidate-route and .jp-faq. Adds the candidate-map
+   motif and the search ledger. Everything here is aria-hidden and additive.
+   ================================================================ */
+@layer components {
+
+  /* ---- The candidate map (partials/search-cluster.njk) ---- */
+  .search-cluster {
+    @apply block h-auto w-full;
+  }
+  .search-cluster-link {
+    stroke: rgb(var(--color-ink) / 0.18);
+    stroke-width: 1;
+  }
+  .search-cluster-node {
+    fill: rgb(var(--color-surface));
+    stroke: rgb(var(--color-ink) / 0.35);
+    stroke-width: 1.25;
+  }
+  .search-cluster-found {
+    fill: rgb(var(--color-brand));
+    stroke: rgb(var(--color-brand) / 0.25);
+    stroke-width: 4;
+  }
+
+  /* Frosted chip carrying the map over the hero photo. */
+  .ta-cluster-chip {
+    @apply glass-frost absolute right-4 top-4 z-20 w-28 rounded-xl p-3 sm:w-32;
+  }
+  .ta-cluster-chip .search-cluster {
+    @apply mt-2;
+  }
+
+  /* Map overlaid on the market-map photo. */
+  .ta-map-frame {
+    @apply relative overflow-hidden rounded-lg border border-ink/15 bg-surface;
+  }
+  .ta-map-overlay {
+    @apply pointer-events-none absolute inset-x-0 top-0 p-6 opacity-70 mix-blend-multiply;
+  }
+
+  /* ---- The search ledger (Difference section) — two aligned panels ---- */
+  .ta-compare {
+    @apply mx-auto grid max-w-4xl grid-cols-1 gap-y-5 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-0;
+  }
+  .ta-compare-col {
+    @apply border-t border-ink/10 pt-4 sm:pr-4;
+  }
+  /* The Talent Acquisition panel carries the visual weight: brand left rule, a
+     faint tint, and real inner padding so the values aren't crowding the rule. */
+  .ta-compare-col-strong {
+    @apply border-brand sm:border-l-2 sm:border-t-0 sm:rounded-r-lg sm:bg-brand/[0.04]
+           sm:py-4 sm:pl-6 sm:pr-5;
+  }
+  .ta-compare-h {
+    @apply font-mono text-xs uppercase tracking-widest text-ink/50;
+  }
+  .ta-compare-col-strong .ta-compare-h {
+    @apply text-brand;
+  }
+  .ta-compare-item {
+    @apply flex flex-col gap-1 border-b border-ink/10 py-3.5 last:border-b-0
+           sm:flex-row sm:items-baseline sm:justify-between sm:gap-6;
+  }
+  .ta-compare-item dt {
+    @apply font-mono text-[11px] uppercase tracking-widest text-ink/45 sm:w-24 sm:shrink-0;
+  }
+  .ta-compare-item dd {
+    @apply text-sm leading-snug text-ink/70 sm:text-right;
+  }
+  .ta-compare-col-strong .ta-compare-item dd {
+    @apply font-medium text-ink;
+  }
+}
+
+/* ================================================================
+   IT TRAINING — the learning-route language
+   (claude_helper/IT-TRAINING-PAGE.md). Reuses .jp-frame, .jp-reveal, .jp-journey,
+   .jp-note, .jp-faq and .candidate-route. Adds the track route, the milestone
+   artifacts and the payment list. aria-hidden / additive throughout.
+   ================================================================ */
+@layer components {
+
+  /* ---- Hero — four-stage learning route over the photo ---- */
+  .it-route-chip {
+    @apply glass-frost absolute bottom-4 left-4 z-20 flex flex-col gap-2 rounded-xl p-3.5;
+  }
+  .it-route-chip-node {
+    @apply relative flex items-center gap-2 pl-0 font-mono text-[11px] uppercase tracking-widest text-ink/45;
+  }
+  .it-route-chip-node:not(:last-child)::before {
+    content: "";
+    @apply absolute left-[3.5px] top-[14px] h-3 w-px bg-border;
+  }
+  .it-route-chip-dot {
+    @apply h-2 w-2 shrink-0 rounded-full border border-border bg-surface;
+  }
+  .it-route-chip-node.is-lit .it-route-chip-dot {
+    @apply border-brand bg-brand;
+  }
+  .it-route-chip-node.is-lit {
+    @apply text-ink/70;
+  }
+
+  /* ---- Tracks — full-width panels threaded by a route ---- */
+  .it-tracks {
+    @apply space-y-5;
+  }
+  .it-track {
+    @apply relative;
+  }
+  /* the connector between consecutive panels */
+  .it-track:not(:last-child)::after {
+    content: "";
+    @apply absolute -bottom-5 left-8 h-5 w-px bg-border sm:left-10;
+  }
+  .it-track-media {
+    @apply overflow-hidden;
+  }
+  .it-track-media img {
+    @apply transition-transform duration-300 ease-out;
+  }
+  .it-track:hover .it-track-media img {
+    @apply scale-[1.04];
+  }
+  .it-track-num {
+    @apply font-mono text-xs font-semibold text-brand;
+  }
+  .it-track-node {
+    @apply h-2 w-2 shrink-0 rounded-full bg-brand/40;
+  }
+
+  /* ---- Why — the placement-file tag ---- */
+  .it-file-tag {
+    @apply inline-flex flex-col items-start gap-1 rounded-lg border border-brand/25 bg-brand/5 px-3 py-2
+           font-mono text-[11px] uppercase tracking-widest text-ink/50;
+  }
+  .it-file-tag span {
+    @apply inline-flex items-center gap-1.5 font-semibold text-brand;
+  }
+  .it-file-tag span::before {
+    content: "";
+    @apply h-1.5 w-1.5 rounded-full bg-brand;
+  }
+
+  /* ---- Outcomes — three offset milestone artifacts ---- */
+  .it-artifacts {
+    @apply grid gap-6 sm:grid-cols-3;
+  }
+  .it-artifact {
+    @apply rounded-lg border border-ink/10 bg-surface p-6;
+  }
+  .it-artifact:nth-child(2) {
+    @apply sm:mt-8;
+  }
+  .it-artifact:nth-child(3) {
+    @apply sm:mt-16;
+  }
+  .it-artifact-num {
+    @apply block font-mono text-xs font-semibold text-ink/30;
+  }
+  .it-artifact-icon {
+    @apply mt-3 inline-flex text-brand;
+  }
+
+  /* ---- Pricing — four numbered payment paths ---- */
+  .it-pay {
+    @apply border-t border-ink/10;
+  }
+  .it-pay-row {
+    @apply flex gap-4 border-b border-ink/10 py-5 transition-colors duration-200 ease-out
+           sm:gap-6;
+  }
+  .it-pay-row:hover {
+    @apply bg-surface;
+  }
+  .it-pay-num {
+    @apply shrink-0 font-mono text-xs font-semibold text-ink/30 transition-colors duration-200 ease-out;
+  }
+  .it-pay-row:hover .it-pay-num {
+    @apply text-accent-deep;
+  }
+}
+
+/* ================================================================
+   CONTACT — THE HAND-OFF
+
+   claude_helper/CONTACT-PAGE.md. The page's job is to make finishing the form feel
+   like a conversation already in motion: the router reads as three intake routes,
+   the swapped field group reveals rather than snapping in, and a three-node trail
+   ("what happens next") is the only route graphic — reused verbatim in the
+   post-submit confirmation state. Motion is opacity/transform only and collapses
+   under prefers-reduced-motion.
+   ================================================================ */
+@layer components {
+
+  /* ---- Router — three intake-route cards, real radios underneath ----
+     The card is a sibling of its `peer` radio, so its own checked styling uses
+     peer-checked:; the text inside is a descendant, not a sibling, so those colour
+     swaps are written as explicit `.peer:checked ~ .route-card …` rules. */
+  .route-card {
+    @apply flex h-full cursor-pointer flex-col gap-1.5 rounded-xl border border-border
+           bg-surface px-4 py-3.5 transition-colors
+           peer-hover:border-brand/50
+           peer-checked:border-brand peer-checked:bg-brand
+           peer-focus-visible:outline peer-focus-visible:outline-2
+           peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent;
+  }
+  .route-card-index {
+    @apply flex items-center justify-between font-mono text-xs font-semibold
+           uppercase tracking-widest text-ink/45;
+  }
+  /* The active marker — hidden until its radio is checked. */
+  .route-card-dot {
+    @apply h-1.5 w-1.5 rounded-full bg-paper opacity-0 transition-opacity;
+  }
+  .route-card-label {
+    @apply font-grotesk text-sm font-semibold leading-snug tracking-tight text-ink;
+  }
+  .route-card-hint {
+    @apply font-mono text-[11px] uppercase tracking-widest text-ink/45;
+  }
+  .peer:checked ~ .route-card .route-card-dot {
+    @apply opacity-100;
+  }
+  .peer:checked ~ .route-card .route-card-index,
+  .peer:checked ~ .route-card .route-card-hint {
+    color: rgb(var(--color-paper) / 0.7);
+  }
+  .peer:checked ~ .route-card .route-card-label {
+    color: rgb(var(--color-paper));
+  }
+
+  /* ---- Swapped field group reveal — never runs on load, only on a role change ---- */
+  @keyframes contact-field-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  [data-role-field].is-revealing {
+    animation: contact-field-in 0.24s ease-out;
+  }
+
+  /* ---- What-happens-next trail — three nodes, hairline rule between ---- */
+  .handoff-node {
+    @apply relative flex gap-3.5 pb-5 last:pb-0;
+  }
+  .handoff-node::before {
+    content: "";
+    @apply absolute left-[5px] top-3.5 h-full w-px bg-brand/25;
+  }
+  .handoff-node:last-child::before {
+    @apply hidden;
+  }
+  .handoff-dot {
+    @apply relative z-10 mt-1 h-3 w-3 shrink-0 rounded-full bg-brand;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-role-field].is-revealing {
+      animation: none !important;
+    }
+  }
+}
+
+/* ================================================================
+   LEGAL — TERMS & PRIVACY NAVIGATION AIDS
+
+   claude_helper/TERMS-CONDITIONS-PAGE.md · PRIVACY-POLICY-PAGE.md.
+   "A contract you can actually navigate." The centered reading model and the legal
+   prose are unchanged — these are scan aids only: a stronger contents index, a big
+   marker on the opening clause, and a compact term/value strip that pulls the
+   high-consequence numbers out of a clause for scanning. The full wording always
+   follows. Static; hover-opacity only.
+   ================================================================ */
+@layer components {
+
+  /* Contents index — one jump link. Generous hit area, hairline top, quiet hover. */
+  .clause-link {
+    @apply flex items-baseline gap-3 rounded-lg border-t border-ink/10 px-2 py-3
+           text-sm text-ink/75 transition-colors hover:bg-brand/5 hover:text-brand;
+  }
+  .clause-link-n {
+    @apply w-6 shrink-0 font-mono text-xs font-semibold text-ink/50;
+  }
+
+  /* The opening clause's oversized ghost marker (§00 only). */
+  .clause-index {
+    @apply pointer-events-none block font-display text-6xl font-bold leading-none
+           text-ink/[0.08] sm:text-7xl;
+  }
+
+  /* Key-facts strip — mono label + short value, extracted from a clause for
+     navigation only. Sits between the H2 and the legal prose. */
+  .legal-key {
+    @apply mt-6 rounded-xl border border-border bg-paper/70 p-5 sm:p-6;
+  }
+  .legal-key-row {
+    @apply flex flex-col gap-0.5 border-b border-ink/10 py-3 first:pt-0 last:border-b-0
+           last:pb-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6;
+  }
+  .legal-key-term {
+    @apply font-mono text-xs uppercase tracking-widest text-ink/65;
+  }
+  .legal-key-val {
+    @apply text-sm font-semibold text-ink sm:text-right;
+  }
+  .is-glass .legal-key {
+    @apply border-white/50 bg-white/45;
   }
 }
